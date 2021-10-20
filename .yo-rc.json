@@ -1,7 +1,17 @@
 {
   "generator-jhipster": {
-    "blueprints": [],
-    "otherModules": [],
+    "blueprints": [
+      {
+        "name": "generator-jhipster-react-native",
+        "version": "4.2.0"
+      }
+    ],
+    "otherModules": [
+      {
+        "name": "generator-jhipster-react-native",
+        "version": "4.2.0"
+      }
+    ],
     "skipClient": false,
     "reactNative": {
       "reactNativeAppName": "CatinyApp",
@@ -84,7 +94,7 @@
       "ClassInfo",
       "HistoryUpdate"
     ],
-    "lastLiquibaseTimestamp": 1626624224000,
+    "lastLiquibaseTimestamp": 1634705027000,
     "withGeneratedFlag": true,
     "incrementalChangelog": true,
     "devServerPort": 9060,

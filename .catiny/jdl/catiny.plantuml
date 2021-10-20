@@ -1,0 +1,359 @@
+@startuml
+	!pragma syntax class
+	enum StatusName {
+		ONLINE,
+		OFFLINE,
+		BUSY,
+		TEMPORARILY_ABSENT
+	}
+	enum DeviceType {
+		MOBILE,
+		TABLE,
+		DESKTOP,
+		LAPTOP,
+		OTHER_DEVICE
+	}
+	enum NotifyType {
+		SYSTEM,
+		MANAGER,
+		ADMIN,
+		USER,
+		ANONYMOUS
+	}
+	enum PostInType {
+		GROUP,
+		USER,
+		PAGE
+	}
+	enum PostType {
+		SIMPLE,
+		ADVANCE,
+		FROALA
+	}
+	enum FriendType {
+		FRIEND,
+		BEST_FRIEND,
+		FAMILY,
+		BLOCK
+	}
+	enum ProcessStatus {
+		NOT_PROCESSED,
+		PROCESSING,
+		PROCESSED,
+		NEED_PROCESS,
+		NEED_PROCESS_NOW,
+		NEED_HANDLE,
+		NEED_HANDLE_NOW,
+		ERROR,
+		DONE
+	}
+	enum EventType {
+		DAY,
+		MONTH,
+		YEAR,
+		ONLY_ONE
+	}
+	class HanhChinhVN <<Option {Filter,Service,Dto,Paginate,Search}>> {
+		String name
+		String slug
+		String type
+		String nameWithType
+		String code
+		String parentCode
+		String path
+		String pathWithType
+	}
+	class MasterUser <<Option {Filter,Service,Dto,Paginate,Search}>> {
+		UUID uuid
+		String fullName
+		String nickname
+		TextBlob avatar
+		TextBlob quickInfo
+	}
+	class UserProfile <<Option {Filter,Service,Dto,Paginate,Search}>> {
+		UUID uuid
+		TextBlob work
+		TextBlob education
+		TextBlob placesLived
+		TextBlob contactInfo
+		TextBlob webSocialLinks
+		TextBlob basicInfo
+		TextBlob relationshipInfo
+		TextBlob family
+		TextBlob detailAbout
+		TextBlob lifeEvents
+		TextBlob hobbies
+		TextBlob featured
+	}
+	class AccountStatus <<Option {Filter,Service,Dto,Paginate,Search}>> {
+		UUID uuid
+		StatusName accountStatus
+		Instant lastVisited
+		String statusComment
+	}
+	AccountStatus ..> StatusName
+	class Album <<Option {Filter,Service,Dto,Paginate,Search}>> {
+		UUID uuid
+		String name
+		String note
+		TextBlob avatar
+	}
+	class DeviceStatus <<Option {Filter,Service,Dto,Paginate,Search}>> {
+		UUID uuid
+		String deviceName
+		DeviceType deviceType
+		StatusName deviceStatus
+		Instant lastVisited
+		String statusComment
+	}
+	DeviceStatus ..> DeviceType
+	DeviceStatus ..> StatusName
+	class Event <<Option {Filter,Service,Dto,Paginate,Search}>> {
+		UUID uuid
+		String title
+		TextBlob avatar
+		TextBlob content
+		EventType type
+		TextBlob description
+		Instant startTime
+		Instant endTime
+		String tagLine
+		TextBlob imageCollection
+		TextBlob videoCollection
+	}
+	Event ..> EventType
+	class Friend <<Option {Filter,Service,Dto,Paginate,Search}>> {
+		UUID uuid
+		FriendType friendType
+	}
+	Friend ..> FriendType
+	class FollowUser <<Option {Filter,Service,Dto,Paginate,Search}>> {
+		UUID uuid
+	}
+	class FollowGroup <<Option {Filter,Service,Dto,Paginate,Search}>> {
+		UUID uuid
+	}
+	class FollowPage <<Option {Filter,Service,Dto,Paginate,Search}>> {
+		UUID uuid
+	}
+	class FileInfo <<Option {Filter,Service,Dto,Paginate,Search}>> {
+		UUID uuid
+		String nameFile
+		String typeFile
+		String path
+		Long dataSize
+	}
+	class GroupPost <<Option {Filter,Service,Dto,Paginate,Search}>> {
+		UUID uuid
+		String name
+		TextBlob avatar
+		TextBlob quickInfo
+	}
+	class GroupProfile <<Option {Filter,Service,Dto,Paginate,Search}>> {
+		UUID uuid
+	}
+	class Image <<Option {Filter,Service,Dto,Paginate,Search}>> {
+		UUID uuid
+		String name
+		Integer width
+		Integer height
+		Float quality
+		Integer pixelSize
+		Long priorityIndex
+		Long dataSize
+	}
+	class NewsFeed <<Option {Filter,Service,Dto,Paginate,Search}>> {
+		UUID uuid
+		Long priorityIndex
+	}
+	class NotificationModal <<Option {Filter,Service,Dto,Paginate,Search}>> {
+		UUID uuid
+		NotifyType notifyType
+		String title
+		TextBlob content
+	}
+	NotificationModal ..> NotifyType
+	class MessageGroup <<Option {Filter,Service,Dto,Paginate,Search}>> {
+		UUID uuid
+		String groupName
+		TextBlob avatar
+		String addBy
+	}
+	class MessageContent <<Option {Filter,Service,Dto,Paginate,Search}>> {
+		UUID uuid
+		String senderName
+		TextBlob attach
+		TextBlob content
+		TextBlob status
+		TextBlob searchField
+	}
+	class PagePost <<Option {Filter,Service,Dto,Paginate,Search}>> {
+		UUID uuid
+		String name
+		TextBlob avatar
+		TextBlob quickInfo
+	}
+	class PageProfile <<Option {Filter,Service,Dto,Paginate,Search}>> {
+		UUID uuid
+	}
+	class Post <<Option {Filter,Service,Dto,Paginate,Search}>> {
+		UUID uuid
+		PostInType postInType
+		PostType postType
+		TextBlob content
+		TextBlob searchField
+	}
+	Post ..> PostInType
+	Post ..> PostType
+	class PostComment <<Option {Filter,Service,Dto,Paginate,Search}>> {
+		UUID uuid
+		TextBlob content
+	}
+	class PostLike <<Option {Filter,Service,Dto,Paginate,Search}>> {
+		UUID uuid
+	}
+	class RankUser <<Option {Filter,Service,Dto,Paginate,Search}>> {
+		UUID uuid
+		Float ratingPoints
+	}
+	class RankGroup <<Option {Filter,Service,Dto,Paginate,Search}>> {
+		UUID uuid
+	}
+	class Video <<Option {Filter,Service,Dto,Paginate,Search}>> {
+		UUID uuid
+		String name
+		Integer width
+		Integer height
+		Float qualityImage
+		Float qualityAudio
+		Float quality
+		Integer pixelSize
+		Long priorityIndex
+		Long dataSize
+	}
+	class VideoStream <<Option {Filter,Service,Dto,Paginate,Search}>> {
+		UUID uuid
+	}
+	class VideoLiveStreamBuffer <<Option {Filter,Service,Dto,Paginate,Search}>> {
+		UUID uuid
+		AnyBlob bufferData
+	}
+	class TopicInterest <<Option {Filter,Service,Dto,Paginate,Search}>> {
+		UUID uuid
+		String title
+		TextBlob content
+	}
+	class TodoList <<Option {Filter,Service,Dto,Paginate,Search}>> {
+		UUID uuid
+		String title
+		TextBlob content
+	}
+	GroupPost  "profile 0..1 " -- "group 0..1 "  GroupProfile
+	PagePost  "profile 0..1 " -- "page 0..1 "  PageProfile
+	VideoStream  "video 0..1 " -- "videoStream 0..1 "  Video
+	Image  "fileInfo 0..1 " -- "0..1 "  FileInfo
+	Video  "fileInfo 0..1 " -- "0..1 "  FileInfo
+	FollowGroup  "groupDetails 0..* " o-- "followed 0..1 "  GroupPost
+	FollowPage  "pageDetails 0..* " o-- "followed 0..1 "  PagePost
+	NewsFeed  "0..* " o-- "0..1 "  Post
+	RankUser  "0..* " o-- "0..1 "  RankGroup
+	AccountStatus  "0..1 " --o "0..* "  DeviceStatus
+	GroupPost  "post 0..1 " --o "group 0..* "  Post
+	PagePost  "post 0..1 " --o "page 0..* "  Post
+	MessageGroup  "content 0..1 " --o "group 0..* "  MessageContent
+	Image  "processed 0..1 " --o "original 0..* "  Image
+	Video  "processed 0..1 " --o "original 0..* "  Video
+	Post  "comment 0..1 " --o "post 0..* "  PostComment
+	Post  "like 0..1 " --o "post 0..* "  PostLike
+	PostComment  "like 0..1 " --o "comment 0..* "  PostLike
+	Post  "children 0..1 " --o "parent 0..* "  Post
+	PostComment  "reply 0..1 " --o "parent 0..* "  PostComment
+	VideoStream  "0..1 " --o "0..* "  VideoLiveStreamBuffer
+	Album  "0..* " o--o "0..* "  Image
+	TopicInterest  "0..* " o--o "0..* "  Post
+	TopicInterest  "0..* " o--o "0..* "  PagePost
+	TopicInterest  "0..* " o--o "0..* "  GroupPost
+	MasterUser  "0..* " o--o "0..* "  TopicInterest
+	MasterUser  "0..1 " -- "0..1 "  User
+	MasterUser  "myRank 0..1 " -- "owner 0..1 "  RankUser
+	MasterUser  "permission 0..1 " --o "owner 0..* "  Permission
+	BaseInfo  "createdBy 0..* " o-- "0..1 "  MasterUser
+	BaseInfo  "modifiedBy 0..* " o-- "0..1 "  MasterUser
+	BaseInfo  "owner 0..* " o-- "owned 0..1 "  MasterUser
+	Friend  "friend 0..* " o-- "0..1 "  MasterUser
+	FollowUser  "follow 0..* " o-- "0..1 "  MasterUser
+	class BaseInfo <<Option {Filter,Service,Dto,Paginate,Search}>> {
+		UUID uuid
+		ProcessStatus processStatus
+		String modifiedClass
+		Instant createdDate
+		Instant modifiedDate
+		TextBlob notes
+		Boolean deleted
+		Long priorityIndex
+		Long countUse
+	}
+	BaseInfo ..> ProcessStatus
+	class ClassInfo <<Option {Filter,Service,Dto,Paginate,Search}>> {
+		UUID uuid
+		String namePackage
+		String fullName
+		String className
+	}
+	class Permission <<Option {Filter,Service,Dto,Paginate,Search}>> {
+		UUID uuid
+		Boolean read
+		Boolean write
+		Boolean share
+		Boolean delete
+		Boolean add
+		Integer level
+	}
+	class HistoryUpdate <<Option {Filter,Service,Dto,Paginate,Search}>> {
+		UUID uuid
+		Integer version
+		TextBlob content
+	}
+	MasterUser  "info 0..1 " -- "0..1 "  BaseInfo
+	UserProfile  "info 0..1 " -- "0..1 "  BaseInfo
+	AccountStatus  "info 0..1 " -- "0..1 "  BaseInfo
+	DeviceStatus  "info 0..1 " -- "0..1 "  BaseInfo
+	Friend  "info 0..1 " -- "0..1 "  BaseInfo
+	FollowUser  "info 0..1 " -- "0..1 "  BaseInfo
+	FollowGroup  "info 0..1 " -- "0..1 "  BaseInfo
+	FollowPage  "info 0..1 " -- "0..1 "  BaseInfo
+	FileInfo  "info 0..1 " -- "0..1 "  BaseInfo
+	PagePost  "info 0..1 " -- "0..1 "  BaseInfo
+	PageProfile  "info 0..1 " -- "0..1 "  BaseInfo
+	GroupPost  "info 0..1 " -- "0..1 "  BaseInfo
+	Post  "info 0..1 " -- "0..1 "  BaseInfo
+	PostComment  "info 0..1 " -- "0..1 "  BaseInfo
+	PostLike  "info 0..1 " -- "0..1 "  BaseInfo
+	GroupProfile  "info 0..1 " -- "0..1 "  BaseInfo
+	NewsFeed  "info 0..1 " -- "0..1 "  BaseInfo
+	MessageGroup  "info 0..1 " -- "0..1 "  BaseInfo
+	MessageContent  "info 0..1 " -- "0..1 "  BaseInfo
+	RankUser  "info 0..1 " -- "0..1 "  BaseInfo
+	RankGroup  "info 0..1 " -- "0..1 "  BaseInfo
+	NotificationModal  "info 0..1 " -- "0..1 "  BaseInfo
+	Album  "info 0..1 " -- "0..1 "  BaseInfo
+	Video  "info 0..1 " -- "0..1 "  BaseInfo
+	Image  "info 0..1 " -- "0..1 "  BaseInfo
+	VideoStream  "info 0..1 " -- "0..1 "  BaseInfo
+	VideoLiveStreamBuffer  "info 0..1 " -- "0..1 "  BaseInfo
+	TopicInterest  "info 0..1 " -- "0..1 "  BaseInfo
+	TodoList  "info 0..1 " -- "0..1 "  BaseInfo
+	Event  "info 0..1 " -- "0..1 "  BaseInfo
+	Permission  "0..* " o-- "0..1 "  BaseInfo
+	BaseInfo  "0..* " o-- "0..1 "  ClassInfo
+	BaseInfo  "history 0..1 " --o "baseInfo 0..* "  HistoryUpdate
+	class User <<Option {Filter,Service,Dto,Paginate,Search}>> {
+		String firstName
+		String lastName
+		String login
+		String email
+		String imageUrl
+		String authorities
+	}
+@enduml
+

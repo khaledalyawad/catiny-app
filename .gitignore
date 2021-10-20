@@ -21,3 +21,5 @@ ios/Pods
 .artifacts
 e2e/Exponent.app
 .yo-repository
+
+.idea

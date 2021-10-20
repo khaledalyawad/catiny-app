@@ -1,0 +1,924 @@
+DEFAULT_MIN_LENGTH = 64
+DEFAULT_MAX_LENGTH = 2048
+
+dto * with mapstruct
+paginate * with  infinite-scroll
+search * with elasticsearch
+service * with serviceImpl
+filter *
+
+
+enum StatusName
+{
+  ONLINE
+  OFFLINE
+  BUSY
+  TEMPORARILY_ABSENT
+}
+
+enum DeviceType
+{
+  MOBILE
+  TABLE
+  DESKTOP
+  LAPTOP
+  OTHER_DEVICE
+}
+
+enum NotifyType
+{
+  SYSTEM
+  MANAGER
+  ADMIN
+  USER
+  ANONYMOUS
+}
+
+enum PostInType
+{
+  GROUP
+  USER
+  PAGE
+}
+
+enum PostType
+{
+  SIMPLE
+  ADVANCE
+  FROALA
+}
+
+enum FriendType
+{
+  FRIEND
+  BEST_FRIEND
+  FAMILY
+  BLOCK
+}
+enum ProcessStatus
+{
+  NOT_PROCESSED
+  PROCESSING
+  PROCESSED
+  NEED_PROCESS
+  NEED_PROCESS_NOW
+  NEED_HANDLE
+  NEED_HANDLE_NOW
+  ERROR
+  DONE
+}
+enum EventType
+{
+  DAY
+  MONTH
+  YEAR
+  ONLY_ONE
+}
+
+
+
+
+//enum ServerType
+//{
+//
+//}
+//
+//// phần cấu hình Server
+///**
+//* <p>@what?            -> The ServerConfig entity.
+//* <p>@why?             ->
+//* <p>@use-to           -> Chứa thông tin của một cụm máy chủ database , app ...
+//* <p>@commonly-used-in ->
+//*
+//* <p>@describe         ->
+//*/
+//entity ServerConfig
+//{
+//    serverType ServerType
+//}
+///**
+//* <p>@what?            -> The ServerDetails entity.
+//* <p>@why?             ->
+//* <p>@use-to           -> Thông tin chi tiết của từng máy chủ
+//* <p>@commonly-used-in ->
+//*
+//* <p>@describe         -> ví dụ có một cụm app docker swarm front end sẽ được chia đều các kết nối đến máy chủ này giảm tải lưu lượng mạng
+//*/
+//entity ServerDetails
+//relationship OneToOne
+//{
+//	ServerConfig to ServerDetails
+//}
+
+entity HanhChinhVN
+{
+    /** name Example("Ninh Kiều")*/
+    name String required
+    /** slug Example("ninh-kieu")*/
+    slug String required
+    /** type Example("quan")*/
+    type String required
+    /** nameWithType Example("Quận Ninh Kiều") */
+    nameWithType String  required
+    /** code Example("916") */
+    code String required unique
+    /** parentCode Example("92") , equal to 0 is the city*/
+    parentCode String required
+    /** path Example("Ninh Kiều, Cần Thơ")*/
+    path String
+    /** pathWithType Example("Quận Ninh Kiều, Thành phố Cần Thơ")*/
+    pathWithType String
+}
+
+/**
+* <p>@what?            -> The MasterUser entity.
+* <p>@why?             -> User (mặc định của jhipster) không cho thêm cột (nếu thêm thì sau khó update)
+* <p>@use-to:          -> Lưu thông tin cơ bản của một người dùng
+* <p>@commonly-used-in -> Thường sử dụng khi thao tác với tài khoản trong service trên server
+*
+* <p>@describe      	  -> Những dữ liệu của tài khoản và thương xuyên sử dụng (trong service) sẽ được lưu ở đây
+*/
+entity MasterUser
+{
+    /** uuid *         : this is reference key (client) .primary key được sử dụng trong các service còn uuid này để định danh giao tiếp với client(frontend) */
+    uuid UUID required unique
+    /** fullName : tên hiển thị . thực ra chỉ là firstName + lastName . nhưng sẽ rất bất tiện */
+    fullName String required
+    /** nickname : biệt danh của người dùng */
+    nickname String
+    /** avatar : @type Json -> ảnh đại diện của người dùng */
+    avatar TextBlob
+    /** quickInfo      : @type Json -> thông tin nhanh về người dùng này dùng trong giới thiệu sơ khi chỉ chuột vào người dùng */
+    quickInfo TextBlob
+}
+/**
+* @what?         	  -> The UserProfile entity .
+* @why?          	  ->
+* @use-to:       	  -> Lưu thông tin mở rộng của người dùng (trường học cơ quan làm việc ...)
+* @commonly-used-in -> Trang cá nhân (trang giới thiệu)
+*
+* @describe      	  -> Đây là bảng NoSQL một số trường ở dưới dạng JSON ,NoSQL vì dữ liệu mỗi trường học , cơ quan ,nới sống ... đôi khikhông giống nhau
+*/
+entity UserProfile
+{
+    /** uuid *         : this is reference key (client) .primary key được sử dụng trong các service còn uuid này để định danh giao tiếp với client(frontend) */
+    uuid UUID required unique
+
+    /** work : nơi làm việc
+     * @data-type : Json
+     * @describe : những nơi, công ty đã từng làm việc , khoảng thời gian vị trí ...
+     * @example :
+     *  -companyName
+     *  -companyAddress
+     *  -companyContact
+     * @author           -> yuvytung.
+     */
+   	work TextBlob
+    /** education : học vấn
+     * @data-type : Json
+     * @describe : học vấn thế nào tốt nghiệp trường nào học tại đâu khoảng thời gian nào , bằng cấp chứng chỉ ra sao  ... */
+    education TextBlob
+    /** placesLived : những nơi đã từng sống
+     * @data-type : Json
+     * @describe : sống ở đâu khoảng thời gian nào có gì tại nơi sống ... */
+    placesLived TextBlob
+    /** contactInfo : những thông in liên hệ cơ bản
+     * @data-type : Json
+     * @describe : số điện thoại email , địa chỉ ... */
+    contactInfo TextBlob
+    /** webSocialLinks : các mạng xã hội sử dụng . trang web ...
+     * @data-type : Json
+     * @describe : thông tin về mạng xã hội sử dụng ... */
+    webSocialLinks TextBlob
+    /** basicInfo : thông tin cơ bản của người dùng
+     * @data-type : Json
+     * @describe : những thông tin tóm tắt để giới thiệu nổi bật */
+    basicInfo TextBlob
+    /** relationshipInfo : những mối liên hệ với ai đó
+     * @data-type : Json
+     * @describe : ví dụ như đã kết hôn với ai ... */
+    relationshipInfo TextBlob
+    /** family : những người trong gia đình
+     * @data-type : Json
+     * @describe : anh em bạn bè người thân trong gia đình */
+    family	TextBlob
+    /** detailAbout : chi tiết về bản thân mình
+     * @data-type : Json
+     * @describe : những thôn tin chi tết về bản thân như ngày tháng năm sinh nơi ở ... */
+    detailAbout TextBlob
+    /** lifeEvents : sự kiên lớn trong cuộc đời
+     * @data-type : Json
+     * @describe : những sự kiện như sinh , tốt nghiệp . lấy vợ chồng , có con ... */
+    lifeEvents TextBlob
+    /** hobbies : sở thích của bản thân
+     * @data-type : Json
+     * @describe : sở thích của ban thân là gì , phim , nhạc , sách , ... */
+    hobbies TextBlob
+    /** featured : điểm nổi bật của bản thân
+     * @data-type : Json
+     * @describe : cá tính thế nào , đã làm nhứng gì rất đặc sắc .... */
+    featured TextBlob
+}
+/**
+* @what?         	-> The AccountStatus entity.
+* @why?          	->
+* @use-to:       	-> Lưu , quản lý trạng thái của tài khoản đang on hay off ...
+* @commonly-used-in -> Những nghiệp vũ nhắn tin,thông báo cần biết trạng thái của tài khoản ...
+*
+* @describe      	->
+*/
+entity AccountStatus
+{
+    /** uuid *         : this is reference key (client) .primary key được sử dụng trong các service còn uuid này để định danh giao tiếp với client(frontend) */
+    uuid UUID required unique
+    /** accountStatus  : thạng thái hiện tại của người dùng*/
+    accountStatus StatusName
+    /** lastVisited    : thời gian truy cập cuối cùng gần nhất  */
+    lastVisited Instant
+    /** statusComment  : người dùng comment lại trạng thái để hiển thị ra nếu muốn */
+    statusComment String
+}
+/**
+* <p>@what?            -> The Album entity
+* <p>@why?             ->
+* <p>@use-to           -> Lưu thông tin về một bộ album của người dùng
+* <p>@commonly-used-in -> Người dùng nhóm một bộ ảnh vào một album
+*
+* <p>@describe         ->
+*/
+entity Album
+{
+    /** uuid *         : this is reference key (client) .primary key được sử dụng trong các service còn uuid này để định danh giao tiếp với client(frontend) */
+    uuid UUID required unique
+    /** name           : tên của album */
+    name String required
+    /** note           : trú thích của album (ví dụ album đại học) */
+    note String
+    /** avatar         : @type Json -> ảnh đại diện của Album */
+    avatar TextBlob
+}
+/**
+* <p>@what?            -> The DeviceStatus entity.
+* <p>@why?             ->
+* <p>@use-to           -> Những thiết bị đang truy cập thông tin chi tiết về chúng ...
+* <p>@commonly-used-in -> Những nghiệp vụ cần biết chi tiết trang thái của các thiết bị
+*
+* <p>@describe         ->
+*/
+entity DeviceStatus
+{
+    /** uuid *         : this is reference key (client) .primary key được sử dụng trong các service còn uuid này để định danh giao tiếp với client(frontend) */
+    uuid UUID required unique
+    /** deviceName     : tên của thiết bị nếu có */
+    deviceName String
+    /** deviceName     : loại thiết bị */
+    deviceType DeviceType
+    /** deviceStatus   : trạng thái hiện tại của thiết bị là gì*/
+	deviceStatus StatusName
+	/** lastVisited    : thời gian truy cập lần cuối cùng của thiết bị này */
+    lastVisited Instant
+    /** statusComment  : người dùng comment lại trạng thái nếu muốn */
+    statusComment String
+}
+/**
+* <p>@what?            -> The Event entity.
+* <p>@why?             ->
+* <p>@use-to           -> Lưu những sự kiện
+* <p>@commonly-used-in -> Tạo Sự kiện
+*
+* <p>@describe         ->
+*/
+entity Event
+{
+    /** uuid *         : this is reference key (client) .primary key được sử dụng trong các service còn uuid này để định danh giao tiếp với client(frontend) */
+    uuid UUID required unique
+    /** title          : tiêu đề event */
+    title String
+    /** avatar         : @type Json -> ảnh đại diện event */
+    avatar TextBlob
+    /** content        : nội dung event */
+    content TextBlob
+    /** type           :loại event */
+    type EventType
+    /** description    : mô tả chi tết về event */
+    description TextBlob
+    /** startTime      : thời gian bắt đầu */
+    startTime Instant
+    /** endTime        : thời gian kết thúc */
+    endTime Instant
+    /** tagLine        : thẻ cho event */
+    tagLine String
+    /** imageCollection: @type Json -> tập ảnh của event */
+    imageCollection TextBlob
+    /** videoCollection: @type Json -> tập video của event */
+    videoCollection TextBlob
+}
+/**
+* <p>@what?            -> The Friend entity.
+* <p>@why?             ->
+* <p>@use-to           -> Quản lý phần kết bạn, các mối liên hệ bạn bè ...
+* <p>@commonly-used-in -> Bạn bè và các liên kết bạn bè ...
+*
+* <p>@describe         ->
+*/
+entity Friend
+{
+    /** uuid *         : this is reference key (client) .primary key được sử dụng trong các service còn uuid này để định danh giao tiếp với client(frontend) */
+    uuid UUID required unique
+    friendType FriendType
+}
+/**
+* <p>@what?            -> The FollowUser entity.
+* <p>@why?             ->
+* <p>@use-to           -> Quản lý những người mà người dùng đăng ký theo dõi
+* <p>@commonly-used-in -> Chủ đề mà người dùng theo dõi
+*
+* <p>@describe         ->
+*/
+entity FollowUser
+{
+    /** uuid *         : this is reference key (client) .primary key được sử dụng trong các service còn uuid này để định danh giao tiếp với client(frontend) */
+    uuid UUID required unique
+}
+/**
+* <p>@what?            -> The FollowGroup entity.
+* <p>@why?             ->
+* <p>@use-to           -> Quản lý các nhóm mà người dùng đăng ký theo dõi
+* <p>@commonly-used-in -> Chủ đề mà người dùng theo dõi
+*
+* <p>@describe         ->
+*/
+entity FollowGroup
+{
+    /** uuid *         : this is reference key (client) .primary key được sử dụng trong các service còn uuid này để định danh giao tiếp với client(frontend) */
+    uuid UUID required unique
+}
+/**
+* <p>@what?            -> The FollowPage entity.
+* <p>@why?             ->
+* <p>@use-to           -> Quản lý các trang mà người dùng đăng ký theo dõi
+* <p>@commonly-used-in -> Chủ đề mà người dùng theo dõi
+*
+* <p>@describe         ->
+*/
+entity FollowPage
+{
+    /** uuid *         : this is reference key (client) .primary key được sử dụng trong các service còn uuid này để định danh giao tiếp với client(frontend) */
+    uuid UUID required unique
+}
+/**
+* <p>@what?            -> The FileInfo entity.
+* <p>@why?             ->
+* <p>@use-to           -> Quản lý thông tin về file, vị trí file ...
+* <p>@commonly-used-in -> Những file mà người dùng upload (ảnh video ...)
+*
+* <p>@describe         ->
+*/
+entity FileInfo
+{
+    /** uuid *         : this is reference key (client) .primary key được sử dụng trong các service còn uuid này để định danh giao tiếp với client(frontend) */
+    uuid UUID required unique
+    /** nameFile       : tên của file nếu có */
+    nameFile String
+    /** typeFile       : loại file */
+    typeFile String
+    /** path           : đường dẫn file trên server */
+    path String maxlength(1024)
+    /** dataSize       : kích thước file theo byte */
+    dataSize Long
+}
+/**
+* <p>@what?            -> The GroupPost entity
+* <p>@why?             -> mọi người cần tạo ra một nhóm riêng hoặc chung để có thể trao đổi
+* <p>@use-to           -> quản lý nhóm
+* <p>@commonly-used-in -> các nhóm
+*
+* <p>@describe         ->
+*/
+entity GroupPost
+{
+    /** uuid *         : this is reference key (client) .primary key được sử dụng trong các service còn uuid này để định danh giao tiếp với client(frontend) */
+    uuid UUID required unique
+    /** name           : tên của group này */
+    name String required
+    /** avatar : @type Json -> ảnh đại diện của Group */
+    avatar TextBlob
+    /** quickInfo      : @type Json -> thông tin giới thiệu sơ qua của group này */
+    quickInfo TextBlob
+}
+/**
+* <p>@what?            -> The GroupProfile entity.
+* <p>@why?             ->
+* <p>@use-to           -> Những thông tin trong phần giới thiệu của nhóm được lưu tại đây
+* <p>@commonly-used-in -> Thường thấy trong phần giới thiệu của nhóm
+*
+* <p>@describe         -> Đây là một bảng NoSQL dữ liệu một số field ở dưới dạng Json
+*/
+entity GroupProfile
+{
+    /** uuid *         : this is reference key (client) .primary key được sử dụng trong các service còn uuid này để định danh giao tiếp với client(frontend) */
+    uuid UUID required unique
+}
+/**
+* <p>@what?            -> The Image entity.
+* <p>@why?             ->
+* <p>@use-to           -> Lưu thông tin Ảnh mà người dùng upload lên
+* <p>@commonly-used-in ->
+*
+* <p>@describe         ->
+*/
+entity Image
+{
+    /** uuid *         : this is reference key (client) .primary key được sử dụng trong các service còn uuid này để định danh giao tiếp với client(frontend) */
+    uuid UUID required unique
+    /** name           : tên của ảnh . muốn lấy ảnh sẽ gọi theo tên này. sẽ ra một danh sách các anh gồm (ảnh nguyên gốc , các ảnh đã tối ưu , cắt ... từ ảnh gốc đó)*/
+    name String
+    /** width          : chiều rộng ảnh */
+    width Integer
+    /** height         : chiều cao ảnh */
+    height Integer
+    /** quality        : chất lượng sau khi xử lý */
+    quality Float min(0) max(1)
+    /** pixelSize      : kích thước của ảnh */
+    pixelSize Integer
+    /** priorityIndex  : chỉ số ưu tiên (số lớn nhỏ ưu tiên càng cao)*/
+    priorityIndex Long
+    /** dataSize       : kích thước file theo byte */
+    dataSize Long
+}
+/**
+* <p>@what?            -> The NewsFeed entity.
+* <p>@why?             -> người dùng mà xem trực tiếp các Post thì một số bài đăng sẽ không phù hợp dễ gây chán khi xem
+* <p>@use-to           -> Ở đây chứa thông tin của những Post hiển thị cho người dùng xem
+* <p>@commonly-used-in -> Được sử dụng trong phần hiển thị các bài đăng trên news feed
+*
+* <p>@describe         -> trong phần bản tin thay vì hiển thị trực tiếp các Post cho người dùng xem
+*  ta sẽ tính toán độ phù hợp và add vào bảng này sau đó cho người dùng xem
+*/
+entity NewsFeed
+{
+    /** uuid *         : this is reference key (client) .primary key được sử dụng trong các service còn uuid này để định danh giao tiếp với client(frontend) */
+    uuid UUID required unique
+    /** priorityIndex  : chỉ số ưu tiên (số lớn nhỏ ưu tiên càng cao)*/
+    priorityIndex Long
+}
+/**
+* <p>@what?            -> The Notification entity.
+* <p>@why?             ->
+* <p>@use-to           -> Chứa những thông báo đến người dùng
+* <p>@commonly-used-in -> Thường xuất hiện trong chức năng thông báo của người dùng
+*
+* <p>@describe         ->
+*/
+entity Notification
+{
+    /** uuid *         : this is reference key (client) .primary key được sử dụng trong các service còn uuid này để định danh giao tiếp với client(frontend) */
+    uuid UUID required unique
+    /** notifyType     : loại thông báo */
+    notifyType NotifyType
+    title String
+    content TextBlob
+}
+/**
+* <p>@what?            -> The MessageGroup entity.
+* <p>@why?             ->
+* <p>@use-to           -> Chứa thông tin các nhóm mà hiện tại người dùng đang ở trong đó (phần nhắn tin)
+* <p>@commonly-used-in -> Hiển thị các tin nhắn
+*
+* <p>@describe         -> một nhóm tạo ra sẽ là một uuid . nếu nhắn tin cặp thì sẽ sắp xếp login sau đó hash md5 rồi chuyển thành định dạng uuid
+*/
+entity MessageGroup
+{
+    /** uuid *         : this is reference key (client) .primary key được sử dụng trong các service còn uuid này để định danh giao tiếp với client(frontend) */
+    uuid UUID required unique
+    /** groupName */
+    groupName String
+    /** avatar : @type Json -> ảnh đại diện của MessageGroup */
+    avatar TextBlob
+    /** addBy */
+    addBy String
+}
+/**
+* <p>@what?            -> The MessageContent entity.
+* <p>@why?             ->
+* <p>@use-to           -> Chứa Những tin nhắn trong các nhóm cụ thể
+* <p>@commonly-used-in ->
+*
+* <p>@describe         ->
+*/
+entity MessageContent
+{
+    /** uuid *         : this is reference key (client) .primary key được sử dụng trong các service còn uuid này để định danh giao tiếp với client(frontend) */
+    uuid UUID required unique
+    /** senderName     : tên người gửi */
+    senderName String
+
+    /** attachInfo     : đính kèm tệp ảnh video ... */
+    attach TextBlob
+    /** content        : nội dung tin nhắn */
+    content TextBlob
+    /** status         : trạng thái của tin nhắn này, đã gửi chưa , ai đã nhận được , đã xem chưa đã thu hồi hay đã xóa... */
+    status TextBlob
+    /** searchField    : lưu content tin nhắn lọc dấu ... để sau này search */
+    searchField TextBlob
+}
+/**
+* <p>@what?            -> The PagePost entity.
+* <p>@why?             ->
+* <p>@use-to           -> Lưu các Trang người dùng tạo ra
+* <p>@commonly-used-in -> Cũng tương tự như bài đăng của một người dùng những sẽ chuyên biệt về  một chủ đề
+*
+* <p>@describe         ->
+*/
+entity PagePost
+{
+    /** uuid *         : this is reference key (client) .primary key được sử dụng trong các service còn uuid này để định danh giao tiếp với client(frontend) */
+    uuid UUID required unique
+    /** name           : tên của page này*/
+    name String required
+    /** avatar : @type Json -> ảnh đại diện của Page */
+    avatar TextBlob
+    /** quickInfo      : @type Json ->thông tin nổi bật giới thiệu sơ qua về page */
+    quickInfo TextBlob
+}
+/**
+* <p>@what?            -> The PageProfile entity
+* <p>@why?             ->
+* <p>@use-to           -> Lưu phần giới thiệu của các trang
+* <p>@commonly-used-in -> hiển thị giới thiệu của các trang
+*
+* <p>@describe         ->
+*/
+entity PageProfile
+{
+    /** uuid *         : this is reference key (client) .primary key được sử dụng trong các service còn uuid này để định danh giao tiếp với client(frontend) */
+    uuid UUID required unique
+}
+
+/**
+* <p>@what?            -> The Post entity
+* <p>@why?             ->
+* <p>@use-to           -> lưu các bài viết của người dùng
+* <p>@commonly-used-in -> đăng và xem các bài viết
+*
+* <p>@describe         ->
+*/
+entity Post
+{
+    /** uuid *         : this is reference key (client) .primary key được sử dụng trong các service còn uuid này để định danh giao tiếp với client(frontend) */
+    uuid UUID required unique
+    /** postInType     : bài đăng này đăng ở đâu : người dùng , nhóm hay trang */
+    postInType PostInType
+    /** postType       : bài đăng này đơn giản , phức tạp hay dùng froala */
+    postType PostType
+    /** content        : @type Json -> nội dùng bài đăng dữ liệu tùy theo postType */
+    content TextBlob
+    searchField TextBlob
+}
+/**
+* <p>@what?            -> The PostComment entity.
+* <p>@why?             ->
+* <p>@use-to           -> Lưu những bình luận của người dùng trong một bài đăng cụ thể
+* <p>@commonly-used-in -> được biết dưới dạng bình luận của các bài đăng
+*
+* <p>@describe         ->
+*/
+entity PostComment
+{
+    /** uuid *         : this is reference key (client) .primary key được sử dụng trong các service còn uuid này để định danh giao tiếp với client(frontend) */
+    uuid UUID required unique
+    content TextBlob
+}
+/**
+* <p>@what?            -> The PostLike entity.
+* <p>@why?             ->
+* <p>@use-to           -> Lưu thông tin về những lượt like của bài đăng
+* <p>@commonly-used-in ->
+*
+* <p>@describe         ->
+*/
+entity PostLike
+{
+    /** uuid *         : this is reference key (client) .primary key được sử dụng trong các service còn uuid này để định danh giao tiếp với client(frontend) */
+    uuid UUID required unique
+}
+
+/**
+* <p>@what?            -> The RankUser entity.
+* <p>@why?             ->
+* <p>@use-to           -> Xếp hạng của bản thân Trong toàn mạng , trong khu vực , trong nhóm người
+* <p>@commonly-used-in -> thường thấy trong phần
+*
+* <p>@describe         ->
+*/
+entity RankUser
+{
+    /** uuid *         : this is reference key (client) .primary key được sử dụng trong các service còn uuid này để định danh giao tiếp với client(frontend) */
+    uuid UUID required unique
+    ratingPoints Float
+}
+/**
+* <p>@what?            -> The RankGroup entity.
+* <p>@why?             ->
+* <p>@use-to           -> Xếp hạng theo nhóm : toàn mạng ,khu vực , nhóm người (khoảng 30-100 người)
+* <p>@commonly-used-in ->
+*
+* <p>@describe         ->
+*/
+entity RankGroup
+{
+    /** uuid *         : this is reference key (client) .primary key được sử dụng trong các service còn uuid này để định danh giao tiếp với client(frontend) */
+    uuid UUID required unique
+}
+/**
+* <p>@what?            -> The Video entity.
+* <p>@why?             ->
+* <p>@use-to           -> Lưu thông tin video mà người dùng upload lên
+* <p>@commonly-used-in ->
+*
+* <p>@describe         ->
+*/
+entity Video
+{
+    /** uuid *         : this is reference key (client) .primary key được sử dụng trong các service còn uuid này để định danh giao tiếp với client(frontend) */
+    uuid UUID required unique
+    name String
+    /** width          : chiều rộng video */
+    width Integer
+    /** height         : chiều cao video */
+    height Integer
+    /** qualityImage   : chất lượng ảnh sau khi xử lý */
+    qualityImage Float min(0) max(1)
+    /** qualityAudio   : chất lượng âm thanh sau khi xử lý */
+    qualityAudio Float min(0) max(1)
+    /** quality        : chất lượng chung sau khi xử lý */
+    quality Float min(0) max(1)
+    /** pixelSize      : kích thước của ảnh */
+    pixelSize Integer
+    /** priorityIndex  : chỉ số ưu tiên (số lớn nhỏ ưu tiên càng cao)*/
+    priorityIndex Long
+    /** dataSize       : kích thước file theo byte */
+    dataSize Long
+}
+
+/**
+* <p>@what?            -> The VideoStream entity.
+* <p>@why?             ->
+* <p>@use-to           -> Lưu thông tin video ... khi đã kết thúc stream
+* <p>@commonly-used-in -> Sau khi kết thức stream thì video lưu lai cũng chỉ tương tự như một video thông thường
+*
+* <p>@describe         ->
+*/
+entity VideoStream
+{
+    /** uuid *         : this is reference key (client) .primary key được sử dụng trong các service còn uuid này để định danh giao tiếp với client(frontend) */
+    uuid UUID required unique
+    isLivestreaming Boolean
+}
+/**
+* <p>@what?            -> The VideoLiveStreamBuffer entity.
+* <p>@why?             ->
+* <p>@use-to           -> Lưu từng phần video dưới dạng base64 khi đang stream video
+* <p>@commonly-used-in -> thường sử dụng khi đang live stream
+*
+* <p>@describe         -> stream xong và xử lý xong không cân thì xóa (đây chỉ là bảng tạm)
+*/
+entity VideoLiveStreamBuffer
+{
+    /** uuid *         : this is reference key (client) .primary key được sử dụng trong các service còn uuid này để định danh giao tiếp với client(frontend) */
+    uuid UUID required unique
+    bufferData AnyBlob
+    bufferNumber Integer
+    path String
+}
+/**
+* <p>@what?            -> The TopicInterest entity.
+* <p>@why?             ->
+* <p>@use-to           -> Lưu những chủ đề mà người dùng quan tâm
+* <p>@commonly-used-in -> chủ đề quan tâm để lọc ra cho người dùng xem
+*
+* <p>@describe         ->
+*/
+entity TopicInterest
+{
+    /** uuid *         : this is reference key (client) .primary key được sử dụng trong các service còn uuid này để định danh giao tiếp với client(frontend) */
+    uuid UUID required unique
+    title String
+    content TextBlob
+}
+/**
+* <p>@what?            -> The TodoList entity.
+* <p>@why?             ->
+* <p>@use-to           -> Lưu danh sách công việc gợi ý cho người dùng thực hiện
+* <p>@commonly-used-in -> Hiển thị bảng TodoList cho người dùng thực hiện
+*
+* <p>@describe         ->
+*/
+entity TodoList
+{
+    /** uuid *         : this is reference key (client) .primary key được sử dụng trong các service còn uuid này để định danh giao tiếp với client(frontend) */
+    uuid UUID required unique
+    title String
+    content TextBlob
+}
+
+//entity Badge //{}
+//entity Story //{}
+//entity ChallengesMapDetails  //{}
+//entity MyChallengesMap //{}
+
+
+
+
+relationship OneToOne
+{
+    GroupPost{profile} to GroupProfile{group}
+    PagePost{profile} to PageProfile{page}
+    VideoStream{video} to Video{videoStream}
+    Image{fileInfo} to FileInfo
+    Video{fileInfo} to FileInfo
+//    MasterUser to MyChallengesMap
+}
+
+relationship ManyToOne
+{
+    FollowGroup{groupDetails} to GroupPost{followed}
+    FollowPage{pageDetails} to PagePost{followed}
+    NewsFeed to Post
+    RankUser to RankGroup
+}
+relationship OneToMany
+{
+    AccountStatus to DeviceStatus
+//    MyChallengesMap to ChallengesMapDetails
+    GroupPost{post} to Post{group}
+    PagePost{post} to Post{page}
+    MessageGroup{content} to MessageContent{group}
+    Image{processed} to Image{original}
+    Video{processed} to Video{original}
+    Post{comment} to PostComment{post}
+    Post{like} to PostLike{post}
+    PostComment{like} to PostLike{comment}
+    Post{children} to Post{parent}
+    PostComment{reply} to PostComment{parent}
+    VideoStream to VideoLiveStreamBuffer
+}
+
+relationship ManyToMany
+{
+    Album to Image
+    TopicInterest to Post
+    TopicInterest to PagePost
+    TopicInterest to GroupPost
+
+    MasterUser to TopicInterest
+}
+/** relationship with MasterUser */
+relationship OneToOne
+{
+    MasterUser to User with jpaDerivedIdentifier
+//    MasterUser{myProfile} to UserProfile
+//    MasterUser{myAccountStatus} to AccountStatus
+    MasterUser{myRank} to RankUser{owner}
+}
+relationship OneToMany
+{
+//    MasterUser{myPage} to PagePost
+//    MasterUser{myFile} to FileInfo
+//    MasterUser{myNotification} to Notification
+//    MasterUser{myFriend} to Friend{masterUser}
+//    MasterUser{myFollowUser} to FollowUser{masterUser}
+//    MasterUser{myFollowGroup} to FollowGroup{masterUser}
+//    MasterUser{myFollowPage} to FollowPage{masterUser}
+//    MasterUser{myNewsFeed} to NewsFeed
+//    MasterUser{myTodoList} to TodoList
+//    MasterUser{myPost} to Post{poster}
+//  with  BaseInfo
+
+
+    MasterUser{permission} to Permission{owner}
+}
+relationship ManyToOne
+{
+    BaseInfo{createdBy} to MasterUser
+    BaseInfo{modifiedBy} to MasterUser
+    BaseInfo{owner} to MasterUser{owned}
+
+    Friend{friend} to MasterUser
+    FollowUser{follow} to MasterUser
+//    MessageContent{sender} to MasterUser
+//    PostLike{userLike} to MasterUser{myLike}
+//    PostComment{userComment} to MasterUser{myComment}
+}
+//relationship ManyToMany
+//{
+////    MasterUser{myGroupPost} to GroupPost{userInGroup}
+////    MasterUser to MessageGroup
+//
+//}
+
+/** BaseInfo */
+entity BaseInfo
+{
+	  /** uuid *         : this is reference key (client) .primary key được sử dụng trong các service còn uuid này để định danh giao tiếp với client(frontend) */
+    uuid UUID required unique
+    /** processStatus *: @defaultValue( DONE ) -> tình trạng xử lý sử dụng trong phê duyệt */
+    processStatus ProcessStatus
+    /** modifiedClass *: thực hiện sửa đổi bản ghi này ở service class nào */
+    modifiedClass String
+    /** createdDate *  : thời gian tạo ra bản ghi này (lần đầu tiên) */
+    createdDate  Instant
+    /** modifiedDate * : thời gian sửa bản ghi này */
+    modifiedDate  Instant
+    /** notes *        : @type Json -> chú thích thêm hoặc những lưu ý cho bản ghi này ở dưới dạng Json" */
+    notes TextBlob
+    /** deleted *      : @defaultValue( false ) -> đánh dấu là đã xóa */
+    deleted Boolean
+    /** priorityIndex *: chỉ số ưu tiên (số lớn nhỏ ưu tiên càng cao) */
+    priorityIndex Long
+    /** countUse *     : đếm số lần truy cập vào bản ghi này để xem sửa xóa **/
+    countUse Long
+}
+entity ClassInfo
+{
+    /** uuid *         : this is reference key (client) .primary key được sử dụng trong các service còn uuid này để định danh giao tiếp với client(frontend) */
+    uuid UUID required unique
+    /** packageName *  : tên package */
+    namePackage String
+    /** fullName *     : tên đầy đủ của class . package+ClassName */
+    fullName String required unique
+    /** classname *    : tên của class */
+    className String
+}
+entity Permission
+{
+	 /** uuid *         : this is reference key (client) .primary key được sử dụng trong các service còn uuid này để định danh giao tiếp với client(frontend) */
+    uuid UUID required unique
+    /** quyền đọc */
+    read Boolean
+    /** quyền ghi và sửa*/
+    write Boolean
+    /** quyền chia sẻ */
+    share Boolean
+    /** quyền xóa */
+    delete Boolean
+    /** quyền trao quyền cho user khác*/
+    add Boolean
+    /** cấp độ 0->* số nhỏ hơn sẽ có quyền lớn hơn */
+    level Integer
+}
+entity HistoryUpdate
+{
+	  /** uuid *         : this is reference key (client) .primary key được sử dụng trong các service còn uuid này để định danh giao tiếp với client(frontend) */
+    uuid UUID required unique
+    /** version        : phiên bản (bắt đầu từ 0)*/
+    version Integer
+    /** content        : @type Json -> lịch sử cập nhật bản ghi này, những bản ghi cũ sẽ được lưu lại ở đây dưới dạng json */
+    content TextBlob
+}
+relationship OneToOne
+{
+    MasterUser{info} to BaseInfo
+    UserProfile{info} to BaseInfo
+    AccountStatus{info} to BaseInfo
+    DeviceStatus{info} to BaseInfo
+    Friend{info} to BaseInfo
+    FollowUser{info} to BaseInfo
+    FollowGroup{info} to BaseInfo
+    FollowPage{info} to BaseInfo
+    FileInfo{info} to BaseInfo
+    PagePost{info} to BaseInfo
+    PageProfile{info} to BaseInfo
+    GroupPost{info} to BaseInfo
+    Post{info} to BaseInfo
+    PostComment{info} to BaseInfo
+    PostLike{info} to BaseInfo
+    GroupProfile{info} to BaseInfo
+    NewsFeed{info} to BaseInfo
+    MessageGroup{info} to BaseInfo
+    MessageContent{info} to BaseInfo
+    RankUser{info} to BaseInfo
+    RankGroup{info} to BaseInfo
+    Notification{info} to BaseInfo
+    Album{info} to BaseInfo
+    Video{info} to BaseInfo
+    Image{info} to BaseInfo
+    VideoStream{info} to BaseInfo
+    VideoLiveStreamBuffer{info} to BaseInfo
+    TopicInterest{info} to BaseInfo
+    TodoList{info} to BaseInfo
+    Event{info} to BaseInfo
+    //Badge{info} to BaseInfo
+    //Story{info} to BaseInfo
+    //ChallengesMapDetails{info} to BaseInfo
+    //MyChallengesMap{info} to BaseInfo
+}
+relationship ManyToOne
+{
+    Permission to BaseInfo
+    BaseInfo to ClassInfo
+}
+relationship OneToMany
+{
+    BaseInfo{history} to HistoryUpdate{baseInfo}
+}

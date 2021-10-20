@@ -1,0 +1,101 @@
+DEFAULT_MIN_LENGTH = 1
+DEFAULT_MAX_LENGTH = 2048
+MAX_STRING=16383
+DEFAULT_MIN_BYTES = 1
+DEFAULT_MAX_BYTES = 52428800
+DEFAULT_MIN = 0
+DEFAULT_MAX = 63
+
+
+/**
+ * The PostDetails entity.
+ * @author A true hipster
+ */
+entity MessageGroup {
+    /** uuid */
+    uuid UUID required unique
+    userId Long required
+    groupId String required
+    groupName String
+    addBy String
+    /** số người đang online (hiện tại) này */
+    onlineMember Integer
+    /**tổng số người trong group này*/
+    member Integer
+    /** nội dung tin nhắn cuối cùng */
+    lastContent TextBlob
+    /** id của tin nhắn cuối cùng đọc */
+    lastContentId UUID
+    /** số tin nhắn mới chưa đọc */
+    messageUnread Integer
+
+    /** searchField */
+    searchField TextBlob
+    /** role */
+    role String
+    /** createdDate */
+    createdDate  Instant
+    /** modifiedDate */
+    modifiedDate  Instant
+    /** createdBy */
+    createdBy String
+    /** modifiedBy */
+    modifiedBy String
+    /** comment */
+    comment String
+}
+
+/**
+ * The PostDetails entity.
+ * @author A true hipster
+ */
+entity MessageContent {
+    /** uuid */
+    uuid UUID required unique
+    groupId String required
+    content TextBlob
+    sender String
+    status String
+
+    /** searchField */
+    searchField TextBlob
+    /** role */
+    role String
+    /** createdDate */
+    createdDate  Instant
+    /** modifiedDate */
+    modifiedDate  Instant
+    /** createdBy */
+    createdBy String
+    /** modifiedBy */
+    modifiedBy String
+    /** comment */
+    comment String
+}
+
+/**
+  * The UserStatus entity.
+  * @author a true jhipster
+  */
+entity UserStatus
+{
+    userId Long
+    isOnline Boolean
+
+
+
+    /** createdDate */
+    createdDate  Instant
+    /** modifiedDate */
+    modifiedDate  Instant
+    /** createdBy */
+    createdBy String
+    /** modifiedBy */
+    modifiedBy String
+}
+
+dto * with mapstruct
+paginate * with  infinite-scroll
+search * with elasticsearch
+service * with serviceImpl
+filter *
