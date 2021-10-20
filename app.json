@@ -1,4 +1,8 @@
 {
+  "name": "SocialNetwork",
+  "displayName": "SocialNetwork",
+  "facebookDisplayName": "Compatriot",
+  "facebookAppId": "834318260403282",
   "expo": {
     "name": "CatinyApp",
     "slug": "CatinyApp",
