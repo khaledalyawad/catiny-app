@@ -1,119 +1,112 @@
-import React, { useState, useEffect, useRef, useContext } from 'react'
-import { Share, View } from 'react-native'
-import { connect, ReactReduxContext } from 'react-redux'
-import { useColorScheme } from 'react-native-appearance'
-import SearchBar from '../../Core/ui/SearchBar/SearchBar'
-import { Feed } from '../../components'
-import {
-  postAPIManager,
-  commentAPIManager,
-  FeedManager,
-} from '../../Core/socialgraph/feed/api'
-import dynamicStyles from './styles'
-import AppStyles from '../../AppStyles'
-import { IMLocalized } from '../../Core/localization/IMLocalization'
+import React, { useState, useEffect, useRef, useContext } from 'react';
+import { Share, View } from 'react-native';
+import { connect, ReactReduxContext } from 'react-redux';
+import { useColorScheme } from 'react-native-appearance';
+import SearchBar from '../../Core/ui/SearchBar/SearchBar';
+import { Feed } from '../../components';
+import { postAPIManager, commentAPIManager, FeedManager } from '../../Core/socialgraph/feed/api';
+import dynamicStyles from './styles';
+import AppStyles from '../../AppStyles';
+import { IMLocalized } from '../../Core/localization/IMLocalization';
 
 const emptyStateConfig = {
   title: IMLocalized('No Posts'),
   description: IMLocalized(''),
-}
+};
 
 function FeedSearchScreen(props) {
-  const colorScheme = useColorScheme()
-  const styles = dynamicStyles(AppStyles, colorScheme)
-  const hashtag = props.route.params.hashtag
+  const colorScheme = useColorScheme();
+  const styles = dynamicStyles(AppStyles, colorScheme);
+  const hashtag = props.route.params.hashtag;
 
-  const { store } = useContext(ReactReduxContext)
+  const { store } = useContext(ReactReduxContext);
 
-  const [isMediaViewerOpen, setIsMediaViewerOpen] = useState(false)
-  const [feed, setFeed] = useState(null)
-  const [selectedFeedItems, setSelectedFeedItems] = useState([])
-  const [selectedMediaIndex, setSelectedMediaIndex] = useState(null)
-  const [isFetching, setIsFetching] = useState(false)
-  const [willBlur, setWillBlur] = useState(false)
+  const [isMediaViewerOpen, setIsMediaViewerOpen] = useState(false);
+  const [feed, setFeed] = useState(null);
+  const [selectedFeedItems, setSelectedFeedItems] = useState([]);
+  const [selectedMediaIndex, setSelectedMediaIndex] = useState(null);
+  const [isFetching, setIsFetching] = useState(false);
+  const [willBlur, setWillBlur] = useState(false);
 
-  const feedManager = useRef(new FeedManager(store, props.user.id))
-  const searchBarRef = useRef(null)
-  const unsubscribeFeed = useRef(null)
-  const willBlurSubscription = useRef(null)
+  const feedManager = useRef(new FeedManager(store, props.user.id));
+  const searchBarRef = useRef(null);
+  const unsubscribeFeed = useRef(null);
+  const willBlurSubscription = useRef(null);
   const didFocusSubscription = useRef(
-    props.navigation.addListener('focus', payload => {
-      setWillBlur(false)
+    props.navigation.addListener('focus', (payload) => {
+      setWillBlur(false);
     }),
-  )
+  );
 
   useEffect(() => {
     setTimeout(() => {
-      searchBarRef.current?.focus(hashtag)
-    }, 1500)
-    willBlurSubscription.current = props.navigation.addListener(
-      'blur',
-      payload => {
-        setWillBlur(true)
-      },
-    )
+      searchBarRef.current?.focus(hashtag);
+    }, 1500);
+    willBlurSubscription.current = props.navigation.addListener('blur', (payload) => {
+      setWillBlur(true);
+    });
     props.navigation.setParams({
       openDrawer: openDrawer,
-    })
-    feedManager.current.subscribeUserFeedRelatedActions()
-    feedManager.current.subscribeHashtagFeedPosts(hashtag, posts => {
-      setFeed(posts)
-    })
+    });
+    feedManager.current.subscribeUserFeedRelatedActions();
+    feedManager.current.subscribeHashtagFeedPosts(hashtag, (posts) => {
+      setFeed(posts);
+    });
 
     return () => {
-      feedManager.current.unsubscribeHashtagFeedPosts()
-      feedManager.current.unsubscribe()
-      willBlurSubscription.current && willBlurSubscription.current()
-      didFocusSubscription.current && didFocusSubscription.current()
-    }
-  }, [])
+      feedManager.current.unsubscribeHashtagFeedPosts();
+      feedManager.current.unsubscribe();
+      willBlurSubscription.current && willBlurSubscription.current();
+      didFocusSubscription.current && didFocusSubscription.current();
+    };
+  }, []);
 
   const openDrawer = () => {
-    props.navigation.openDrawer()
-  }
+    props.navigation.openDrawer();
+  };
 
-  const onCommentPress = item => {
-    let copyItem = { ...item }
+  const onCommentPress = (item) => {
+    let copyItem = { ...item };
     props.navigation.navigate('MainDetailPost', {
       item: { ...copyItem },
       lastScreenTitle: 'Main',
-    })
-  }
+    });
+  };
 
-  const onFeedUserItemPress = async author => {
+  const onFeedUserItemPress = async (author) => {
     if (author.id === props.user.id) {
       props.navigation.navigate('MainProfile', {
         stackKeyTitle: 'MainProfile',
         lastScreenTitle: 'MainProfile',
-      })
+      });
     } else {
       props.navigation.navigate('MainProfile', {
         user: author,
         stackKeyTitle: 'MainProfile',
         lastScreenTitle: 'MainProfile',
-      })
+      });
     }
-  }
+  };
 
   const onMediaClose = () => {
-    setIsMediaViewerOpen(false)
-  }
+    setIsMediaViewerOpen(false);
+  };
 
   const onMediaPress = (media, mediaIndex) => {
-    setSelectedFeedItems(media)
-    setSelectedMediaIndex(mediaIndex)
-    setIsMediaViewerOpen(true)
-  }
+    setSelectedFeedItems(media);
+    setSelectedMediaIndex(mediaIndex);
+    setIsMediaViewerOpen(true);
+  };
 
   const onReaction = async (reaction, item) => {
-    feedManager.applyReaction(reaction, item, false)
-    commentAPIManager.handleReaction(reaction, props.user, item, false)
-  }
+    feedManager.applyReaction(reaction, item, false);
+    commentAPIManager.handleReaction(reaction, props.user, item, false);
+  };
 
-  const onSharePost = async item => {
-    let url = ''
+  const onSharePost = async (item) => {
+    let url = '';
     if (item.postMedia?.length > 0) {
-      url = item.postMedia[0]?.url || item.postMedia[0]
+      url = item.postMedia[0]?.url || item.postMedia[0];
     }
     try {
       const result = await Share.share(
@@ -125,36 +118,36 @@ function FeedSearchScreen(props) {
         {
           dialogTitle: 'Share SocialNetwork post.',
         },
-      )
+      );
     } catch (error) {
-      alert(error.message)
+      alert(error.message);
     }
-  }
+  };
 
-  const onDeletePost = async item => {
-    const res = await postAPIManager.deletePost(item, true)
+  const onDeletePost = async (item) => {
+    const res = await postAPIManager.deletePost(item, true);
     if (res.error) {
-      alert(res.error)
+      alert(res.error);
     }
-  }
+  };
 
-  const onSearchTextChange = text => {}
+  const onSearchTextChange = (text) => {};
 
   const onSearchBarCancel = () => {
-    props.navigation.goBack()
-  }
+    props.navigation.goBack();
+  };
 
-  const onSearch = text => {
-    setFeed(null)
-    feedManager.current.unsubscribeHashtagFeedPosts()
-    feedManager.current.subscribeHashtagFeedPosts(text, posts => {
-      setFeed(posts)
-    })
-  }
+  const onSearch = (text) => {
+    setFeed(null);
+    feedManager.current.unsubscribeHashtagFeedPosts();
+    feedManager.current.subscribeHashtagFeedPosts(text, (posts) => {
+      setFeed(posts);
+    });
+  };
 
-  const onSearchClear = () => {}
+  const onSearchClear = () => {};
 
-  const handleOnEndReached = distanceFromEnd => {
+  const handleOnEndReached = (distanceFromEnd) => {
     // if (!flatlistReady) {
     //   return;
     // }
@@ -164,20 +157,19 @@ function FeedSearchScreen(props) {
     // if (fetchCallCount > 1) {
     //   return;
     // }
-  }
+  };
 
   const onFeedScroll = () => {
     // flatlistReady = true;
-  }
+  };
 
-  const filterOutRelatedPosts = posts => {
+  const filterOutRelatedPosts = (posts) => {
     // we filter out posts with no media from self & friends
     if (!posts) {
-      return posts
+      return posts;
     }
-    const defaultAvatar =
-      'https://www.iosapptemplates.com/wp-content/uploads/2019/06/empty-avatar.jpg'
-    return posts.filter(post => {
+    const defaultAvatar = 'https://www.iosapptemplates.com/wp-content/uploads/2019/06/empty-avatar.jpg';
+    return posts.filter((post) => {
       return (
         post &&
         // post.authorID != props.user.id &&
@@ -186,11 +178,10 @@ function FeedSearchScreen(props) {
         post.author.profilePictureURL != defaultAvatar &&
         post.postMedia &&
         post.postMedia.length > 0 &&
-        (!props.friends ||
-          !props.friends.find(friend => friend.id == post.authorID))
-      )
-    })
-  }
+        (!props.friends || !props.friends.find((friend) => friend.id == post.authorID))
+      );
+    });
+  };
 
   return (
     <View style={styles.container}>
@@ -228,7 +219,7 @@ function FeedSearchScreen(props) {
         isCameraOpen={false}
       />
     </View>
-  )
+  );
 }
 
 const mapStateToProps = ({ feed, auth, friends }) => {
@@ -236,7 +227,7 @@ const mapStateToProps = ({ feed, auth, friends }) => {
     discoverFeedPosts: feed.discoverFeedPosts,
     user: auth.user,
     friends: friends.friends,
-  }
-}
+  };
+};
 
-export default connect(mapStateToProps)(FeedSearchScreen)
+export default connect(mapStateToProps)(FeedSearchScreen);

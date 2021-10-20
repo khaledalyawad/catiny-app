@@ -1,52 +1,45 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import { View, Text } from 'react-native'
-import { useColorScheme } from 'react-native-appearance'
-import FacePileCircleItem from './FacePileCircleItem'
-import dynamicStyles from './styles'
+import React from 'react';
+import PropTypes from 'prop-types';
+import { View, Text } from 'react-native';
+import { useColorScheme } from 'react-native-appearance';
+import FacePileCircleItem from './FacePileCircleItem';
+import dynamicStyles from './styles';
 
 export function renderFacePile(faces = [], numFaces) {
-  const entities = [...faces.reverse()]
+  const entities = [...faces.reverse()];
   if (!entities.length)
     return {
       facesToRender: [],
       overflow: 0,
-    }
+    };
 
-  const facesWithImageUrls = entities.filter(e => e.profilePictureURL)
+  const facesWithImageUrls = entities.filter((e) => e.profilePictureURL);
   if (!facesWithImageUrls.length)
     return {
       facesToRender: [],
       overflow: 0,
-    }
+    };
 
-  const facesToRender = facesWithImageUrls.slice(0, numFaces)
-  const overflow = entities.length - facesToRender.length
+  const facesToRender = facesWithImageUrls.slice(0, numFaces);
+  const overflow = entities.length - facesToRender.length;
 
   return {
     facesToRender,
     overflow,
-  }
+  };
 }
 
 export default function FacePile(props) {
-  const { render, faces, numFaces, hideOverflow, containerStyle, appStyles } =
-    props
+  const { render, faces, numFaces, hideOverflow, containerStyle, appStyles } = props;
 
-  const colorScheme = useColorScheme()
-  const styles = dynamicStyles(appStyles, colorScheme)
+  const colorScheme = useColorScheme();
+  const styles = dynamicStyles(appStyles, colorScheme);
 
-  const renderOverflowCircle = overflow => {
-    const {
-      circleStyle,
-      overflowStyle,
-      overflowLabelStyle,
-      circleSize,
-      offset,
-    } = props
+  const renderOverflowCircle = (overflow) => {
+    const { circleStyle, overflowStyle, overflowLabelStyle, circleSize, offset } = props;
 
-    const innerCircleSize = circleSize * 1.8
-    const marginLeft = circleSize * offset - circleSize / 1.6
+    const innerCircleSize = circleSize * 1.8;
+    const marginLeft = circleSize * offset - circleSize / 1.6;
 
     return (
       <View style={[circleStyle]}>
@@ -73,12 +66,12 @@ export default function FacePile(props) {
           </Text>
         </View>
       </View>
-    )
-  }
+    );
+  };
 
   const renderFace = (face, index) => {
-    const { circleStyle, imageStyle, circleSize, offset } = props
-    if (face && !face.profilePictureURL) return null
+    const { circleStyle, imageStyle, circleSize, offset } = props;
+    if (face && !face.profilePictureURL) return null;
 
     return (
       <FacePileCircleItem
@@ -90,17 +83,17 @@ export default function FacePile(props) {
         circleSize={circleSize}
         offset={offset}
       />
-    )
-  }
+    );
+  };
 
-  const { facesToRender, overflow } = renderFacePile(faces, numFaces)
+  const { facesToRender, overflow } = renderFacePile(faces, numFaces);
 
   return (
     <View style={[styles.facePileContainer, containerStyle]}>
       {overflow > 0 && !hideOverflow && renderOverflowCircle(overflow)}
       {Array.isArray(facesToRender) && facesToRender.map(renderFace)}
     </View>
-  )
+  );
 }
 
 FacePile.defaultProps = {
@@ -108,4 +101,4 @@ FacePile.defaultProps = {
   numFaces: 4,
   offset: 1,
   hideOverflow: false,
-}
+};

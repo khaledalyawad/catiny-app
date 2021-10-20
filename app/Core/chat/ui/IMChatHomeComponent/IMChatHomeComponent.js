@@ -1,13 +1,13 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import { ScrollView, View } from 'react-native'
+import React from 'react';
+import PropTypes from 'prop-types';
+import { ScrollView, View } from 'react-native';
 
-import { SearchBarAlternate } from '../../..'
-import { TNStoriesTray } from '../../../truly-native'
-import dynamicStyles from './styles'
-import { useColorScheme } from 'react-native-appearance'
-import { IMConversationListView } from '../..'
-import { IMLocalized } from '../../../localization/IMLocalization'
+import { SearchBarAlternate } from '../../..';
+import { TNStoriesTray } from '../../../truly-native';
+import dynamicStyles from './styles';
+import { useColorScheme } from 'react-native-appearance';
+import { IMConversationListView } from '../..';
+import { IMLocalized } from '../../../localization/IMLocalization';
 
 function IMChatHomeComponent(props) {
   const {
@@ -21,18 +21,16 @@ function IMChatHomeComponent(props) {
     searchBarplaceholderTitle,
     emptyStateConfig,
     followEnabled,
-  } = props
-  const colorScheme = useColorScheme()
-  const styles = dynamicStyles(appStyles, colorScheme)
+  } = props;
+  const colorScheme = useColorScheme();
+  const styles = dynamicStyles(appStyles, colorScheme);
 
   const defaultEmptyStateConfig = {
     title: IMLocalized('No Conversations'),
-    description: IMLocalized(
-      'Add some friends and start chatting with them. Your conversations will show up here.',
-    ),
+    description: IMLocalized('Add some friends and start chatting with them. Your conversations will show up here.'),
     buttonName: IMLocalized('Add friends'),
     onPress: onEmptyStatePress,
-  }
+  };
 
   return (
     <View style={styles.container}>
@@ -46,10 +44,7 @@ function IMChatHomeComponent(props) {
               <View style={styles.searchBarContainer}>
                 <SearchBarAlternate
                   onPress={onSearchBarPress}
-                  placeholderTitle={
-                    searchBarplaceholderTitle ??
-                    IMLocalized('Search for friends')
-                  }
+                  placeholderTitle={searchBarplaceholderTitle ?? IMLocalized('Search for friends')}
                   appStyles={appStyles}
                 />
               </View>
@@ -68,7 +63,7 @@ function IMChatHomeComponent(props) {
         />
       </View>
     </View>
-  )
+  );
 }
 
 IMChatHomeComponent.propTypes = {
@@ -77,6 +72,6 @@ IMChatHomeComponent.propTypes = {
   onFriendAction: PropTypes.func,
   onSearchBarPress: PropTypes.func,
   channels: PropTypes.array,
-}
+};
 
-export default IMChatHomeComponent
+export default IMChatHomeComponent;

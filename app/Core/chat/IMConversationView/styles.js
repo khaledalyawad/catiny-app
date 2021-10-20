@@ -1,4 +1,4 @@
-import { StyleSheet } from 'react-native'
+import { StyleSheet } from 'react-native';
 
 const dynamicStyles = (appStyles, colorScheme) => {
   return StyleSheet.create({
@@ -40,7 +40,7 @@ const dynamicStyles = (appStyles, colorScheme) => {
       fontWeight: 'bold',
       color: appStyles.colorSet[colorScheme].mainTextColor,
     },
-  })
-}
+  });
+};
 
-export default dynamicStyles
+export default dynamicStyles;

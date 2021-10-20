@@ -1,1 +1,1 @@
-export { default } from './TNActivityIndicator'
+export { default } from './TNActivityIndicator';

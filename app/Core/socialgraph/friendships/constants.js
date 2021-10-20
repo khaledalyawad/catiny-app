@@ -1,42 +1,42 @@
-import { IMLocalized } from '../../localization/IMLocalization'
+import { IMLocalized } from '../../localization/IMLocalization';
 
 const FriendshipType = {
   none: 'none',
   inbound: 'inbound',
   outbound: 'outbound',
   reciprocal: 'reciprocal',
-}
+};
 
-const localizedActionTitle = friendshipType => {
+const localizedActionTitle = (friendshipType) => {
   switch (friendshipType) {
     case FriendshipType.none:
-      return IMLocalized('Add')
+      return IMLocalized('Add');
     case FriendshipType.inbound:
-      return IMLocalized('Accept')
+      return IMLocalized('Accept');
     case FriendshipType.outbound:
-      return IMLocalized('Cancel')
+      return IMLocalized('Cancel');
     case FriendshipType.reciprocal:
-      return IMLocalized('Unfriend')
+      return IMLocalized('Unfriend');
   }
-  return null
-}
+  return null;
+};
 
-const localizedFollowActionTitle = friendshipType => {
+const localizedFollowActionTitle = (friendshipType) => {
   switch (friendshipType) {
     case FriendshipType.none:
-      return IMLocalized('Follow')
+      return IMLocalized('Follow');
     case FriendshipType.inbound:
-      return IMLocalized('Follow back')
+      return IMLocalized('Follow back');
     case FriendshipType.outbound:
-      return IMLocalized('Unfollow')
+      return IMLocalized('Unfollow');
     case FriendshipType.reciprocal:
-      return IMLocalized('Unfollow')
+      return IMLocalized('Unfollow');
   }
-  return null
-}
+  return null;
+};
 
 export const FriendshipConstants = {
   localizedActionTitle,
   localizedFollowActionTitle,
   FriendshipType,
-}
+};

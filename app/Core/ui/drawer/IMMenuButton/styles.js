@@ -1,8 +1,8 @@
-import { StyleSheet } from 'react-native'
+import { StyleSheet } from 'react-native';
 
 const dynamicStyles = (appStyles, colorScheme) => {
-  const colorSet = appStyles.colorSet[colorScheme]
-  const fontSet = appStyles.fontFamily
+  const colorSet = appStyles.colorSet[colorScheme];
+  const fontSet = appStyles.fontFamily;
   return new StyleSheet.create({
     btnClickContain: {
       flexDirection: 'row',
@@ -30,7 +30,7 @@ const dynamicStyles = (appStyles, colorScheme) => {
       marginTop: 5,
       color: colorSet.mainTextColor,
     },
-  })
-}
+  });
+};
 
-export default dynamicStyles
+export default dynamicStyles;

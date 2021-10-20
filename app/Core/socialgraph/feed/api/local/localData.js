@@ -1,5 +1,5 @@
-import { mockData as mockUserData } from '../../../../onboarding/utils/api/local/localData'
-const dummyPhoneNumber = 22323232323
+import { mockData as mockUserData } from '../../../../onboarding/utils/api/local/localData';
+const dummyPhoneNumber = 22323232323;
 
 const mockStoriesData = [
   {
@@ -12,15 +12,13 @@ const mockStoriesData = [
       firstName: 'John ',
       lastName: 'James',
       postsCount: 2,
-      profilePictureURL:
-        'https://i.pinimg.com/originals/fb/d7/2a/fbd72a1440f9b17f09d1fb9cc5ffcef6.jpg',
+      profilePictureURL: 'https://i.pinimg.com/originals/fb/d7/2a/fbd72a1440f9b17f09d1fb9cc5ffcef6.jpg',
     },
     authorID: '113311313',
     createdAt: { seconds: Date.now() / 1000, nanoseconds: 884000000 },
     idx: '122',
     storyID: '122',
-    storyMediaURL:
-      'https://i.pinimg.com/originals/f0/15/d5/f015d58b2f4e5947180d23ac2d84fd2e.png',
+    storyMediaURL: 'https://i.pinimg.com/originals/f0/15/d5/f015d58b2f4e5947180d23ac2d84fd2e.png',
     storyType: 'image',
   },
   {
@@ -46,15 +44,13 @@ const mockStoriesData = [
       firstName: 'Bic',
       lastName: 'Mitchum',
       postsCount: 2,
-      profilePictureURL:
-        'https://upload.wikimedia.org/wikipedia/en/e/e0/Iron_Man_bleeding_edge.jpg',
+      profilePictureURL: 'https://upload.wikimedia.org/wikipedia/en/e/e0/Iron_Man_bleeding_edge.jpg',
     },
     authorID: '113311313bw',
     storyID: '1KDSXVA1RLSyy67vLPgqa',
     idx: '1KDSXVA1RLSyy67vLPgqa',
     storyType: 'video',
-    storyMediaURL:
-      'https://www.arq.ro/html/media/photos/0/9/385/big/teren-fotbal.jpg',
+    storyMediaURL: 'https://www.arq.ro/html/media/photos/0/9/385/big/teren-fotbal.jpg',
     storyAuthorID: '0dvNKmihUtZsdHIttJS3yRdNYyG3adda',
     createdAt: { seconds: Date.now() / 1000, nanoseconds: 884000000 },
   },
@@ -68,8 +64,7 @@ const mockStoriesData = [
       firstName: 'Rita ',
       lastName: 'Hades',
       postsCount: 2,
-      profilePictureURL:
-        'http://cdn.chaihezi.com/wp-content/uploads/2017/07/SHF-Justice-League-2.jpg',
+      profilePictureURL: 'http://cdn.chaihezi.com/wp-content/uploads/2017/07/SHF-Justice-League-2.jpg',
     },
     authorID: '113311313b',
     storyID: '1KDSXVA1RLSyy67vLPgq',
@@ -80,7 +75,7 @@ const mockStoriesData = [
     storyAuthorID: '0dvNKmihUtZsdHIttJS3yRdNYyG3',
     createdAt: { seconds: Date.now() / 1000, nanoseconds: 884000000 },
   },
-]
+];
 
 const mockPostsData = [
   {
@@ -93,8 +88,7 @@ const mockPostsData = [
       firstName: 'John ',
       lastName: 'James',
       postsCount: 2,
-      profilePictureURL:
-        'https://i.pinimg.com/originals/fb/d7/2a/fbd72a1440f9b17f09d1fb9cc5ffcef6.jpg',
+      profilePictureURL: 'https://i.pinimg.com/originals/fb/d7/2a/fbd72a1440f9b17f09d1fb9cc5ffcef6.jpg',
     },
     authorID: mockUserData.id,
     commentCount: 0,
@@ -130,8 +124,7 @@ const mockPostsData = [
       firstName: 'John ',
       lastName: 'James',
       postsCount: 2,
-      profilePictureURL:
-        'https://i.pinimg.com/originals/fb/d7/2a/fbd72a1440f9b17f09d1fb9cc5ffcef6.jpg',
+      profilePictureURL: 'https://i.pinimg.com/originals/fb/d7/2a/fbd72a1440f9b17f09d1fb9cc5ffcef6.jpg',
     },
     authorID: mockUserData.id,
     commentCount: 0,
@@ -196,8 +189,7 @@ const mockPostsData = [
       firstName: 'Rita ',
       lastName: 'Hades',
       postsCount: 2,
-      profilePictureURL:
-        'http://cdn.chaihezi.com/wp-content/uploads/2017/07/SHF-Justice-League-2.jpg',
+      profilePictureURL: 'http://cdn.chaihezi.com/wp-content/uploads/2017/07/SHF-Justice-League-2.jpg',
     },
     authorID: mockUserData.id,
     commentCount: 0,
@@ -349,8 +341,7 @@ const mockPostsData = [
       firstName: 'John ',
       lastName: 'James',
       postsCount: 2,
-      profilePictureURL:
-        'https://i.pinimg.com/originals/fb/d7/2a/fbd72a1440f9b17f09d1fb9cc5ffcef6.jpg',
+      profilePictureURL: 'https://i.pinimg.com/originals/fb/d7/2a/fbd72a1440f9b17f09d1fb9cc5ffcef6.jpg',
     },
     authorID: mockUserData.id,
     commentCount: 0,
@@ -376,6 +367,6 @@ const mockPostsData = [
     },
     reactionsCount: 2,
   },
-]
+];
 
-export { mockPostsData, mockStoriesData }
+export { mockPostsData, mockStoriesData };

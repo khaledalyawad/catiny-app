@@ -1,108 +1,87 @@
-import React, { useState, useRef, useEffect } from 'react'
-import PropTypes from 'prop-types'
-import {
-  Alert,
-  View,
-  Text,
-  TouchableOpacity,
-  ScrollView,
-  Platform,
-  KeyboardAvoidingView,
-} from 'react-native'
-import ImagePicker from 'react-native-image-crop-picker'
-import ActionSheet from 'react-native-actionsheet'
-import { Video } from 'expo-av'
-import { Camera } from 'expo-camera'
-import { useColorScheme } from 'react-native-appearance'
-import FastImage from 'react-native-fast-image'
-import { createImageProgress } from 'react-native-image-progress'
-import { extractSourceFromFile } from '../../../Core/helpers/retrieveSource'
-import { TNStoryItem, TNTouchableIcon } from '../../../Core/truly-native'
-import IMLocationSelectorModal from '../../../Core/location/IMLocationSelectorModal/IMLocationSelectorModal'
-import { IMRichTextInput, IMMentionList, EU } from '../../../Core/mentions'
-import IMCameraModal from '../../../Core/camera/IMCameraModal'
-import { IMLocalized } from '../../../Core/localization/IMLocalization'
-import dynamicStyles from './styles'
-import AppStyles from '../../../AppStyles'
+import React, { useState, useRef, useEffect } from 'react';
+import PropTypes from 'prop-types';
+import { Alert, View, Text, TouchableOpacity, ScrollView, Platform, KeyboardAvoidingView } from 'react-native';
+import ImagePicker from 'react-native-image-crop-picker';
+import ActionSheet from 'react-native-actionsheet';
+import { Video } from 'expo-av';
+import { Camera } from 'expo-camera';
+import { useColorScheme } from 'react-native-appearance';
+import FastImage from 'react-native-fast-image';
+import { createImageProgress } from 'react-native-image-progress';
+import { extractSourceFromFile } from '../../../Core/helpers/retrieveSource';
+import { TNStoryItem, TNTouchableIcon } from '../../../Core/truly-native';
+import IMLocationSelectorModal from '../../../Core/location/IMLocationSelectorModal/IMLocationSelectorModal';
+import { IMRichTextInput, IMMentionList, EU } from '../../../Core/mentions';
+import IMCameraModal from '../../../Core/camera/IMCameraModal';
+import { IMLocalized } from '../../../Core/localization/IMLocalization';
+import dynamicStyles from './styles';
+import AppStyles from '../../../AppStyles';
 
-const Image = createImageProgress(FastImage)
+const Image = createImageProgress(FastImage);
 
 function CreatePost(props) {
-  const {
-    onPostDidChange,
-    onSetMedia,
-    onLocationDidChange,
-    user,
-    inputRef,
-    blurInput,
-    friends,
-  } = props
-  const colorScheme = useColorScheme()
-  const styles = dynamicStyles(colorScheme)
+  const { onPostDidChange, onSetMedia, onLocationDidChange, user, inputRef, blurInput, friends } = props;
+  const colorScheme = useColorScheme();
+  const styles = dynamicStyles(colorScheme);
 
-  const [address, setAddress] = useState('')
-  const [locationSelectorVisible, setLocationSelectorVisible] = useState(false)
-  const [media, setMedia] = useState([])
-  const [mediaSources, setMediaSources] = useState([])
-  const [isCameralContainer, setIsCameralContainer] = useState(true)
-  const [isCameraOpen, setIsCameraOpen] = useState(false)
-  const [showUsersMention, setShowUsersMention] = useState(false)
-  const [selectedIndex, setSelectedIndex] = useState(null)
-  const [keyword, setKeyword] = useState('')
-  const [isTrackingStarted, setIsTrackingStarted] = useState(false)
-  const [friendshipData, setFriendshipData] = useState([])
-  const photoUploadDialogRef = useRef()
-  const removePhotoDialogRef = useRef()
-  const editorRef = useRef()
+  const [address, setAddress] = useState('');
+  const [locationSelectorVisible, setLocationSelectorVisible] = useState(false);
+  const [media, setMedia] = useState([]);
+  const [mediaSources, setMediaSources] = useState([]);
+  const [isCameralContainer, setIsCameralContainer] = useState(true);
+  const [isCameraOpen, setIsCameraOpen] = useState(false);
+  const [showUsersMention, setShowUsersMention] = useState(false);
+  const [selectedIndex, setSelectedIndex] = useState(null);
+  const [keyword, setKeyword] = useState('');
+  const [isTrackingStarted, setIsTrackingStarted] = useState(false);
+  const [friendshipData, setFriendshipData] = useState([]);
+  const photoUploadDialogRef = useRef();
+  const removePhotoDialogRef = useRef();
+  const editorRef = useRef();
 
   const androidAddPhotoOptions = [
     IMLocalized('Import from Library'),
     IMLocalized('Take Photo'),
     IMLocalized('Record Video'),
     IMLocalized('Cancel'),
-  ]
+  ];
 
-  const iosAddPhotoOptions = [
-    IMLocalized('Import from Library'),
-    IMLocalized('Open Camera'),
-    IMLocalized('Cancel'),
-  ]
+  const iosAddPhotoOptions = [IMLocalized('Import from Library'), IMLocalized('Open Camera'), IMLocalized('Cancel')];
 
   const addPhotoCancelButtonIndex = {
     ios: 2,
     android: 3,
-  }
+  };
 
-  const addPhotoOptions =
-    Platform.OS === 'android' ? androidAddPhotoOptions : iosAddPhotoOptions
+  const addPhotoOptions = Platform.OS === 'android' ? androidAddPhotoOptions : iosAddPhotoOptions;
 
   useEffect(() => {
-    const formattedFriends = friends.map(friend => {
-      const name = `${friend.firstName} ${friend.lastName}`
-      const username = `${friend.firstName}.${friend.lastName}`
-      const id = friend.id || friend.userID
+    const formattedFriends = friends.map((friend) => {
+      const name = `${friend.firstName} ${friend.lastName}`;
+      const username = `${friend.firstName}.${friend.lastName}`;
+      const id = friend.id || friend.userID;
 
-      return { id, name, username, ...friend }
-    })
-    setFriendshipData(formattedFriends)
-  }, [])
+      return { id, name, username, ...friend };
+    });
+    setFriendshipData(formattedFriends);
+  }, []);
 
   const onLocationSelectorPress = () => {
-    setLocationSelectorVisible(!locationSelectorVisible)
-  }
+    setLocationSelectorVisible(!locationSelectorVisible);
+  };
 
-  const onLocationSelectorDone = address => {
-    setLocationSelectorVisible(!locationSelectorVisible)
-    setAddress(address)
-  }
+  const onLocationSelectorDone = (address) => {
+    setLocationSelectorVisible(!locationSelectorVisible);
+    setAddress(address);
+  };
 
-  const onChangeLocation = address => {
-    setAddress(address)
-    onLocationDidChange(address)
-  }
+  const onChangeLocation = (address) => {
+    setAddress(address);
+    onLocationDidChange(address);
+  };
 
   const onChangeText = ({ displayText, text }) => {
-    const mentions = EU.findMentions(text)
+    const mentions = EU.findMentions(text);
     const post = {
       postText: text,
       commentCount: 0,
@@ -117,165 +96,157 @@ function CreatePost(props) {
         love: 0,
       },
       mentions,
-    }
-    onPostDidChange(post)
-  }
+    };
+    onPostDidChange(post);
+  };
 
-  const runIfCameraPermissionGranted = async callback => {
-    const { status } = await Camera.requestPermissionsAsync()
+  const runIfCameraPermissionGranted = async (callback) => {
+    const { status } = await Camera.requestPermissionsAsync();
 
     if (status === 'granted') {
-      callback && callback()
+      callback && callback();
     } else {
-      Alert.alert(
-        IMLocalized('Camera permission denied'),
-        IMLocalized(
-          'You must enable camera permissions in order to take photos.',
-        ),
-      )
+      Alert.alert(IMLocalized('Camera permission denied'), IMLocalized('You must enable camera permissions in order to take photos.'));
     }
-  }
+  };
 
   const onCameraIconPress = () => {
     runIfCameraPermissionGranted(() => {
       if (Platform.OS === 'ios') {
-        setIsCameraOpen(true)
+        setIsCameraOpen(true);
       } else {
-        photoUploadDialogRef.current.show()
+        photoUploadDialogRef.current.show();
       }
-    })
-  }
+    });
+  };
 
-  const onPhotoUploadDialogDoneIOS = index => {
+  const onPhotoUploadDialogDoneIOS = (index) => {
     if (index == 1) {
-      onLaunchCamera()
+      onLaunchCamera();
     }
 
     if (index == 0) {
-      onOpenPhotos()
+      onOpenPhotos();
     }
-  }
+  };
 
-  const onPhotoUploadDialogDoneAndroid = index => {
+  const onPhotoUploadDialogDoneAndroid = (index) => {
     if (index == 2) {
-      onLaunchVideoCamera()
+      onLaunchVideoCamera();
     }
 
     if (index == 1) {
-      onLaunchCamera()
+      onLaunchCamera();
     }
 
     if (index == 0) {
-      onOpenPhotos()
+      onOpenPhotos();
     }
-  }
+  };
 
-  const onPhotoUploadDialogDone = index => {
+  const onPhotoUploadDialogDone = (index) => {
     const onPhotoUploadDialogDoneSetter = {
       ios: () => onPhotoUploadDialogDoneIOS(index),
       android: () => onPhotoUploadDialogDoneAndroid(index),
-    }
+    };
 
-    onPhotoUploadDialogDoneSetter[Platform.OS]()
-  }
+    onPhotoUploadDialogDoneSetter[Platform.OS]();
+  };
 
   const onLaunchCamera = () => {
     ImagePicker.openCamera({
       cropping: false,
       compressImageMaxHeight: 1100,
       compressImageMaxWidth: 1100,
-    }).then(image => {
-      handleMediaFile(image)
-    })
-  }
+    }).then((image) => {
+      handleMediaFile(image);
+    });
+  };
 
   const onLaunchVideoCamera = () => {
     ImagePicker.openCamera({
       cropping: false,
       mediaType: 'video',
-    }).then(image => {
-      handleMediaFile(image)
-    })
-  }
+    }).then((image) => {
+      handleMediaFile(image);
+    });
+  };
 
   const onOpenPhotos = () => {
     ImagePicker.openPicker({
       cropping: false,
       multiple: false,
-    }).then(image => {
-      handleMediaFile(image)
-    })
-  }
+    }).then((image) => {
+      handleMediaFile(image);
+    });
+  };
 
-  const onRemovePhotoDialogDone = index => {
+  const onRemovePhotoDialogDone = (index) => {
     if (index === 0) {
-      removePhoto()
+      removePhoto();
     } else {
-      setSelectedIndex(null)
+      setSelectedIndex(null);
     }
-  }
+  };
 
-  const onMediaPress = async index => {
-    await setSelectedIndex(index)
-    removePhotoDialogRef.current.show()
-  }
+  const onMediaPress = async (index) => {
+    await setSelectedIndex(index);
+    removePhotoDialogRef.current.show();
+  };
 
   const onCameraClose = () => {
-    setIsCameraOpen(false)
-  }
+    setIsCameraOpen(false);
+  };
 
-  const onImagePost = item => {
-    handleMediaFile(item)
-  }
+  const onImagePost = (item) => {
+    handleMediaFile(item);
+  };
 
-  const handleMediaFile = mediaFile => {
-    setIsCameraOpen(false)
+  const handleMediaFile = (mediaFile) => {
+    setIsCameraOpen(false);
 
-    const { source, mime, filename, uri } = extractSourceFromFile(mediaFile)
+    const { source, mime, filename, uri } = extractSourceFromFile(mediaFile);
 
-    setMedia([...media, { source, mime }])
-    setMediaSources([...mediaSources, { filename, uri, mime }])
-    onSetMedia([...mediaSources, mediaFile])
-  }
+    setMedia([...media, { source, mime }]);
+    setMediaSources([...mediaSources, { filename, uri, mime }]);
+    onSetMedia([...mediaSources, mediaFile]);
+  };
 
   const removePhoto = async () => {
-    const slicedMedia = [...media]
-    const slicedMediaSources = [...mediaSources]
-    await slicedMedia.splice(selectedIndex, 1)
-    await slicedMediaSources.splice(selectedIndex, 1)
-    setMedia([...slicedMedia])
-    setMediaSources([...slicedMediaSources])
-    onSetMedia([...slicedMediaSources])
-  }
+    const slicedMedia = [...media];
+    const slicedMediaSources = [...mediaSources];
+    await slicedMedia.splice(selectedIndex, 1);
+    await slicedMediaSources.splice(selectedIndex, 1);
+    setMedia([...slicedMedia]);
+    setMediaSources([...slicedMediaSources]);
+    onSetMedia([...slicedMediaSources]);
+  };
 
   const onTextFocus = () => {
     // setIsCameralContainer(false);
-  }
+  };
 
   const onToggleImagesContainer = () => {
     // blurInput();
-    toggleImagesContainer()
-  }
+    toggleImagesContainer();
+  };
 
   const toggleImagesContainer = () => {
-    setIsCameralContainer(!isCameralContainer)
-  }
+    setIsCameralContainer(!isCameralContainer);
+  };
 
-  const onStoryItemPress = item => {
-    console.log('')
-  }
+  const onStoryItemPress = (item) => {
+    console.log('');
+  };
 
   const editorStyles = {
     input: {
       color: AppStyles.colorSet[colorScheme].mainTextColor,
     },
-  }
+  };
 
   return (
-    <KeyboardAvoidingView
-      behavior={'height'}
-      enabled={false}
-      style={styles.container}>
+    <KeyboardAvoidingView behavior={'height'} enabled={false} style={styles.container}>
       <View style={styles.topContainer}>
         <View style={styles.headerContainer}>
           <TNStoryItem
@@ -311,38 +282,23 @@ function CreatePost(props) {
         </View>
       </View>
       <View style={[styles.bottomContainer]}>
-        <View
-          style={[
-            styles.postImageAndLocationContainer,
-            isTrackingStarted && { height: '100%' },
-          ]}>
+        <View style={[styles.postImageAndLocationContainer, isTrackingStarted && { height: '100%' }]}>
           <ScrollView
             horizontal={true}
             showsHorizontalScrollIndicator={false}
-            style={[
-              styles.imagesContainer,
-              isCameralContainer ? { display: 'flex' } : { display: 'none' },
-            ]}>
+            style={[styles.imagesContainer, isCameralContainer ? { display: 'flex' } : { display: 'none' }]}>
             {media.map((singleMedia, index) => {
-              const { source, mime } = singleMedia
+              const { source, mime } = singleMedia;
 
               if (mime.startsWith('image')) {
                 return (
-                  <TouchableOpacity
-                    key={source}
-                    activeOpacity={0.9}
-                    onPress={() => onMediaPress(index)}
-                    style={styles.imageItemcontainer}>
+                  <TouchableOpacity key={source} activeOpacity={0.9} onPress={() => onMediaPress(index)} style={styles.imageItemcontainer}>
                     <Image style={styles.imageItem} source={{ uri: source }} />
                   </TouchableOpacity>
-                )
+                );
               } else {
                 return (
-                  <TouchableOpacity
-                    key={source}
-                    activeOpacity={0.9}
-                    onPress={() => onMediaPress(index)}
-                    style={styles.imageItemcontainer}>
+                  <TouchableOpacity key={source} activeOpacity={0.9} onPress={() => onMediaPress(index)} style={styles.imageItemcontainer}>
                     <Video
                       source={{
                         uri: source,
@@ -353,36 +309,24 @@ function CreatePost(props) {
                       style={styles.imageItem}
                     />
                   </TouchableOpacity>
-                )
+                );
               }
             })}
-            <TouchableOpacity
-              onPress={onCameraIconPress}
-              style={[styles.imageItemcontainer, styles.imageBackground]}>
-              <Image
-                style={styles.addImageIcon}
-                source={AppStyles.iconSet.cameraFilled}
-              />
+            <TouchableOpacity onPress={onCameraIconPress} style={[styles.imageItemcontainer, styles.imageBackground]}>
+              <Image style={styles.addImageIcon} source={AppStyles.iconSet.cameraFilled} />
             </TouchableOpacity>
           </ScrollView>
           <View style={styles.addTitleAndlocationIconContainer}>
             <View style={styles.addTitleContainer}>
               <Text style={styles.addTitle}>
-                {!isCameralContainer
-                  ? IMLocalized('Add to your post')
-                  : IMLocalized('Add photos to your post')}
+                {!isCameralContainer ? IMLocalized('Add to your post') : IMLocalized('Add photos to your post')}
               </Text>
             </View>
             <View style={styles.iconsContainer}>
               <TNTouchableIcon
                 onPress={onToggleImagesContainer}
                 containerStyle={styles.iconContainer}
-                imageStyle={[
-                  styles.icon,
-                  isCameralContainer
-                    ? styles.cameraFocusTintColor
-                    : styles.cameraUnfocusTintColor,
-                ]}
+                imageStyle={[styles.icon, isCameralContainer ? styles.cameraFocusTintColor : styles.cameraUnfocusTintColor]}
                 iconSource={AppStyles.iconSet.cameraFilled}
                 appStyles={AppStyles}
               />
@@ -428,13 +372,9 @@ function CreatePost(props) {
         cancelButtonIndex={1}
         onPress={onRemovePhotoDialogDone}
       />
-      <IMCameraModal
-        isCameraOpen={isCameraOpen}
-        onImagePost={onImagePost}
-        onCameraClose={onCameraClose}
-      />
+      <IMCameraModal isCameraOpen={isCameraOpen} onImagePost={onImagePost} onCameraClose={onCameraClose} />
     </KeyboardAvoidingView>
-  )
+  );
 }
 
 CreatePost.propTypes = {
@@ -444,6 +384,6 @@ CreatePost.propTypes = {
   onLocationDidChange: PropTypes.func,
   blurInput: PropTypes.func,
   inputRef: PropTypes.any,
-}
+};
 
-export default CreatePost
+export default CreatePost;

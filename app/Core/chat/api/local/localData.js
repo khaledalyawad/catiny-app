@@ -55,8 +55,7 @@ export const mockChannelsData = [
         lastName: 'Doe',
         userId: 'advvwdv2v2v22v1',
         username: 'Jane Doe',
-        profilePictureURL:
-          'http://cdn.home-designing.com/wp-content/uploads/2011/12/annkos-work-space1.jpg',
+        profilePictureURL: 'http://cdn.home-designing.com/wp-content/uploads/2011/12/annkos-work-space1.jpg',
       },
       {
         createdAt: '2020-10-01T11:53:44.598Z',
@@ -66,8 +65,7 @@ export const mockChannelsData = [
         lastName: 'Doe',
         userId: 'advvwdv2v2v22v',
         username: 'John Doe',
-        profilePictureURL:
-          'http://cdn.home-designing.com/wp-content/uploads/2017/07/sunny-home-work-space.jpg',
+        profilePictureURL: 'http://cdn.home-designing.com/wp-content/uploads/2017/07/sunny-home-work-space.jpg',
       },
     ],
     participantProfilePictureURLs: [], // array of string
@@ -95,8 +93,7 @@ export const mockChannelsData = [
         lastName: 'Doe',
         userId: 'advvwdv2v2v22v1',
         username: 'Jane Doe',
-        profilePictureURL:
-          'https://static2.thethingsimages.com/wordpress/wp-content/uploads/2020/05/15-Sickest-Concept-Cars-In-2020-1.jpg',
+        profilePictureURL: 'https://static2.thethingsimages.com/wordpress/wp-content/uploads/2020/05/15-Sickest-Concept-Cars-In-2020-1.jpg',
       },
       {
         createdAt: '2020-10-01T11:53:44.598Z',
@@ -163,8 +160,7 @@ export const mockChannelsData = [
         lastName: 'Doe',
         userId: 'advvwdv2v2v22v',
         username: 'John Doe',
-        profilePictureURL:
-          'http://www.luckygoldenretriever.com/wp-content/uploads/2016/12/Cleaning_Your_Dogs_Ears.jpg',
+        profilePictureURL: 'http://www.luckygoldenretriever.com/wp-content/uploads/2016/12/Cleaning_Your_Dogs_Ears.jpg',
       },
       {
         createdAt: '2020-10-01T11:53:44.598Z',
@@ -182,7 +178,7 @@ export const mockChannelsData = [
     readUserIDs: [], // contains user objects
     typingUsers: [], // contains user objects
   },
-]
+];
 
 export const mockThread = [
   {
@@ -194,13 +190,11 @@ export const mockThread = [
     participantProfilePictureURLs: [
       {
         participantId: 'advvwdv2v2v22v1',
-        profilePictureURL:
-          'https://www.iosapptemplates.com/wp-content/uploads/2019/06/empty-avatar.jpg',
+        profilePictureURL: 'https://www.iosapptemplates.com/wp-content/uploads/2019/06/empty-avatar.jpg',
       },
       {
         participantId: 'advvwdv2v2v22v',
-        profilePictureURL:
-          'https://www.iosapptemplates.com/wp-content/uploads/2019/06/empty-avatar.jpg',
+        profilePictureURL: 'https://www.iosapptemplates.com/wp-content/uploads/2019/06/empty-avatar.jpg',
       },
     ],
     readUserIDs: '',
@@ -218,21 +212,18 @@ export const mockThread = [
   },
   {
     id: 'a3RZKhGT7G2WwzP2vCJt3',
-    content:
-      'Sorry mate I have to be at the gym in an hour and I have to prepare, Have fun',
+    content: 'Sorry mate I have to be at the gym in an hour and I have to prepare, Have fun',
     createdAt: '2020-10-08T23:04:08.646Z',
     id: 'a3RZKhGT7G2WwzP2vCJth',
     inReplyToItem: null,
     participantProfilePictureURLs: [
       {
         participantId: 'advvwdv2v2v22v1',
-        profilePictureURL:
-          'https://www.iosapptemplates.com/wp-content/uploads/2019/06/empty-avatar.jpg',
+        profilePictureURL: 'https://www.iosapptemplates.com/wp-content/uploads/2019/06/empty-avatar.jpg',
       },
       {
         participantId: '113311313',
-        profilePictureURL:
-          'https://www.iosapptemplates.com/wp-content/uploads/2019/06/empty-avatar.jpg',
+        profilePictureURL: 'https://www.iosapptemplates.com/wp-content/uploads/2019/06/empty-avatar.jpg',
       },
     ],
     readUserIDs: '',
@@ -257,13 +248,11 @@ export const mockThread = [
     participantProfilePictureURLs: [
       {
         participantId: 'advvwdv2v2v22v1',
-        profilePictureURL:
-          'https://www.iosapptemplates.com/wp-content/uploads/2019/06/empty-avatar.jpg',
+        profilePictureURL: 'https://www.iosapptemplates.com/wp-content/uploads/2019/06/empty-avatar.jpg',
       },
       {
         participantId: 'advvwdv2v2v22v',
-        profilePictureURL:
-          'https://www.iosapptemplates.com/wp-content/uploads/2019/06/empty-avatar.jpg',
+        profilePictureURL: 'https://www.iosapptemplates.com/wp-content/uploads/2019/06/empty-avatar.jpg',
       },
     ],
     readUserIDs: '',
@@ -288,13 +277,11 @@ export const mockThread = [
     participantProfilePictureURLs: [
       {
         participantId: 'advvwdv2v2v22v1',
-        profilePictureURL:
-          'https://www.iosapptemplates.com/wp-content/uploads/2019/06/empty-avatar.jpg',
+        profilePictureURL: 'https://www.iosapptemplates.com/wp-content/uploads/2019/06/empty-avatar.jpg',
       },
       {
         participantId: 'advvwdv2v2v22v',
-        profilePictureURL:
-          'https://www.iosapptemplates.com/wp-content/uploads/2019/06/empty-avatar.jpg',
+        profilePictureURL: 'https://www.iosapptemplates.com/wp-content/uploads/2019/06/empty-avatar.jpg',
       },
     ],
     readUserIDs: '',
@@ -319,13 +306,11 @@ export const mockThread = [
     participantProfilePictureURLs: [
       {
         participantId: 'advvwdv2v2v22v1',
-        profilePictureURL:
-          'https://www.iosapptemplates.com/wp-content/uploads/2019/06/empty-avatar.jpg',
+        profilePictureURL: 'https://www.iosapptemplates.com/wp-content/uploads/2019/06/empty-avatar.jpg',
       },
       {
         participantId: '113311313',
-        profilePictureURL:
-          'https://www.iosapptemplates.com/wp-content/uploads/2019/06/empty-avatar.jpg',
+        profilePictureURL: 'https://www.iosapptemplates.com/wp-content/uploads/2019/06/empty-avatar.jpg',
       },
     ],
     readUserIDs: '',
@@ -350,13 +335,11 @@ export const mockThread = [
     participantProfilePictureURLs: [
       {
         participantId: 'advvwdv2v2v22v1',
-        profilePictureURL:
-          'https://www.iosapptemplates.com/wp-content/uploads/2019/06/empty-avatar.jpg',
+        profilePictureURL: 'https://www.iosapptemplates.com/wp-content/uploads/2019/06/empty-avatar.jpg',
       },
       {
         participantId: 'advvwdv2v2v22v',
-        profilePictureURL:
-          'https://www.iosapptemplates.com/wp-content/uploads/2019/06/empty-avatar.jpg',
+        profilePictureURL: 'https://www.iosapptemplates.com/wp-content/uploads/2019/06/empty-avatar.jpg',
       },
     ],
     readUserIDs: '',
@@ -381,13 +364,11 @@ export const mockThread = [
     participantProfilePictureURLs: [
       {
         participantId: 'advvwdv2v2v22v1',
-        profilePictureURL:
-          'https://www.iosapptemplates.com/wp-content/uploads/2019/06/empty-avatar.jpg',
+        profilePictureURL: 'https://www.iosapptemplates.com/wp-content/uploads/2019/06/empty-avatar.jpg',
       },
       {
         participantId: '113311313',
-        profilePictureURL:
-          'https://www.iosapptemplates.com/wp-content/uploads/2019/06/empty-avatar.jpg',
+        profilePictureURL: 'https://www.iosapptemplates.com/wp-content/uploads/2019/06/empty-avatar.jpg',
       },
     ],
     readUserIDs: '',
@@ -403,4 +384,4 @@ export const mockThread = [
       'https://static2.thethingsimages.com/wordpress/wp-content/uploads/2020/05/15-Sickest-Concept-Cars-In-2020-1.jpg',
     url: '',
   },
-]
+];

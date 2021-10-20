@@ -1,6 +1,6 @@
-import { IMLocalized } from '../../../localization/IMLocalization'
-import uuidv4 from 'uuidv4'
-import { mockThread } from './localData'
+import { IMLocalized } from '../../../localization/IMLocalization';
+import uuidv4 from 'uuidv4';
+import { mockThread } from './localData';
 
 /**
  * Implement These Methods If You Are Adding Your Own Custom Backend
@@ -30,7 +30,7 @@ const chatFeed = [
     readUserIDs: [], // contains user objects
     typingUsers: [], // contains user objects
   },
-]
+];
 
 /*
  ** Listens to all the channels, and calls the callback every time there are server side changes on the channels (e.g. someone sends a new message to current user)
@@ -44,8 +44,8 @@ export const subscribeChannels = (userID, callback) => {
   // callback(listOfChannels)
   // listOfChannels is an array containing the channels with the following format:
   // [{channelID, creatorID, id, channelName, participantProfilePictureURLs, readUserIDs, typingUsers}, ...];
-  callback([])
-}
+  callback([]);
+};
 
 /**
  * Listens to all the chat_feed, and calls the callback every time there are server side changes on the chat feed
@@ -56,14 +56,14 @@ export const subscribeChannels = (userID, callback) => {
  **/
 export const subscribeSingleChannel = (channelID, callback) => {
   // subscribe to the chat_feed collection, based on userID
-  const chatRef = null // this object will be used to unsubscribe from this listener
+  const chatRef = null; // this object will be used to unsubscribe from this listener
   // every time there are changes in channels server side, we call the callback, e.g.
   // callback(chat_feeds)
   // chatfeed is an object with the following format:
   // { title: "Title", participants: [usersData ...], createdAt: 12122112, id: '111dw1wd11d1d', markedAsRead: false };
 
-  return chatRef // return chatRef object that will be used to unsubscribe from this listener
-}
+  return chatRef; // return chatRef object that will be used to unsubscribe from this listener
+};
 
 /**
  * Subscribes to message thread snapshot
@@ -75,11 +75,11 @@ export const subscribeSingleChannel = (channelID, callback) => {
  * @callback - A callback method that gets called every time changes are identified in the server-side chat feed
  */
 export const subscribeThreadSnapshot = (channel, callback) => {
-  const threadRef = null //this is used to unsubscribe from the listener
+  const threadRef = null; //this is used to unsubscribe from the listener
 
-  callback(mockThread)
-  return threadRef
-}
+  callback(mockThread);
+  return threadRef;
+};
 
 /**
  * Sends a message
@@ -90,20 +90,13 @@ export const subscribeThreadSnapshot = (channel, callback) => {
  * @inReplyToItem - The message being replied if any
  * @participantProfilePictureURLs - Profile picture urls of the participants
  */
-export const sendMessage = (
-  sender,
-  channel,
-  message,
-  downloadURL,
-  inReplyToItem,
-  participantProfilePictureURLs,
-) => {
+export const sendMessage = (sender, channel, message, downloadURL, inReplyToItem, participantProfilePictureURLs) => {
   // update channel thread
   // hydrate chat feed
-  return new Promise(resolve => {
-    resolve({ success: true })
-  })
-}
+  return new Promise((resolve) => {
+    resolve({ success: true });
+  });
+};
 
 /**
  * Delete message
@@ -121,13 +114,7 @@ export const sendMessage = (
    }
  *
  */
-export const deleteMessage = ({
-  sender,
-  channel,
-  threadItemID,
-  isLastCreatedThreadItem,
-  newLastCreatedThreadItem,
-}) => {
+export const deleteMessage = ({ sender, channel, threadItemID, isLastCreatedThreadItem, newLastCreatedThreadItem }) => {
   // if (isLastCreatedThreadItem && newLastCreatedThreadItem) {
   //   const {
   //     content,
@@ -141,7 +128,7 @@ export const deleteMessage = ({
   //  delete message from channel and hyrate chat feed
   //
   // }
-}
+};
 
 /**
  * Mark channels typing users
@@ -152,7 +139,7 @@ export const deleteMessage = ({
  */
 export const markChannelTypingUsers = async (channelID, typingUsers) => {
   // update typingUsers ref
-}
+};
 
 /**
  * Mark Channel Thread as read
@@ -164,17 +151,11 @@ export const markChannelTypingUsers = async (channelID, typingUsers) => {
  * @participants - participants of the thread
  *
  */
-export const markChannelThreadItemAsRead = async (
-  channelID,
-  userID,
-  threadMessageID,
-  readUserIDs,
-  participants,
-) => {
+export const markChannelThreadItemAsRead = async (channelID, userID, threadMessageID, readUserIDs, participants) => {
   // mark thread item as read
   // mark last message as read
   // update chat_feed using channelID
-}
+};
 
 /**
  * Create a Channel
@@ -191,18 +172,18 @@ export const createChannel = (creator, otherParticipants, name) => {
   // listOfChannels is an array containing the channels with the following format:
   // [{channelID, creatorID, id, channelName, participantProfilePictureURLs, readUserIDs, typingUsers}, ...];
 
-  return new Promise(resolve => {
-    var channelID = uuidv4() //random id
+  return new Promise((resolve) => {
+    var channelID = uuidv4(); //random id
     const channelData = {
       creatorID: 212112,
       id: 211212,
       channelID,
       name: name || '',
       participants: [...otherParticipants, creator],
-    }
-    resolve({ success: true, channel: channelData })
-  })
-}
+    };
+    resolve({ success: true, channel: channelData });
+  });
+};
 
 /**
  * Leave group
@@ -220,8 +201,8 @@ export const onLeaveGroup = async (channelId, userId, callback) => {
   callback({
     success: false,
     error: error,
-  })
-}
+  });
+};
 
 /**
  * Rename group
@@ -238,8 +219,8 @@ export const onRenameGroup = (text, channel, callback) => {
   callback({
     success: false,
     error: IMLocalized('An error occurred, please try again.'),
-  })
-}
+  });
+};
 
 /**
  *
@@ -247,4 +228,4 @@ export const onRenameGroup = (text, channel, callback) => {
  */
 export const currentTimestamp = () => {
   // return timestamp
-}
+};

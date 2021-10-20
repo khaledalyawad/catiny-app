@@ -1,14 +1,13 @@
-import React, { useRef } from 'react'
-import PropTypes from 'prop-types'
-import { Text, TouchableOpacity, View } from 'react-native'
-import dynamicStyles from './styles'
-import { useColorScheme } from 'react-native-appearance'
-import FastImage from 'react-native-fast-image'
+import React, { useRef } from 'react';
+import PropTypes from 'prop-types';
+import { Text, TouchableOpacity, View } from 'react-native';
+import dynamicStyles from './styles';
+import { useColorScheme } from 'react-native-appearance';
+import FastImage from 'react-native-fast-image';
 
-const Image = FastImage
+const Image = FastImage;
 
-const defaultAvatar =
-  'https://www.iosapptemplates.com/wp-content/uploads/2019/06/empty-avatar.jpg'
+const defaultAvatar = 'https://www.iosapptemplates.com/wp-content/uploads/2019/06/empty-avatar.jpg';
 
 function StoryItem(props) {
   const {
@@ -23,12 +22,12 @@ function StoryItem(props) {
     title,
     appStyles,
     showOnlineIndicator,
-  } = props
+  } = props;
 
-  const refs = useRef()
-  const colorScheme = useColorScheme()
-  const styles = dynamicStyles(appStyles, colorScheme)
-  const lastName = item.lastName || ''
+  const refs = useRef();
+  const colorScheme = useColorScheme();
+  const styles = dynamicStyles(appStyles, colorScheme);
+  const lastName = item.lastName || '';
   return (
     <TouchableOpacity
       key={index}
@@ -37,21 +36,12 @@ function StoryItem(props) {
       onPress={() => onPress(item, index, refs)}
       style={[styles.container, containerStyle]}>
       <View style={[styles.imageContainer, imageContainerStyle]}>
-        <Image
-          style={[styles.image, imageStyle]}
-          source={{ uri: item.profilePictureURL || defaultAvatar }}
-        />
+        <Image style={[styles.image, imageStyle]} source={{ uri: item.profilePictureURL || defaultAvatar }} />
         {showOnlineIndicator && <View style={styles.isOnlineIndicator} />}
       </View>
-      {title && (
-        <Text
-          style={[
-            styles.text,
-            textStyle,
-          ]}>{`${item.firstName} ${lastName}`}</Text>
-      )}
+      {title && <Text style={[styles.text, textStyle]}>{`${item.firstName} ${lastName}`}</Text>}
     </TouchableOpacity>
-  )
+  );
 }
 
 StoryItem.propTypes = {
@@ -63,6 +53,6 @@ StoryItem.propTypes = {
   index: PropTypes.number,
   activeOpacity: PropTypes.number,
   title: PropTypes.bool,
-}
+};
 
-export default StoryItem
+export default StoryItem;

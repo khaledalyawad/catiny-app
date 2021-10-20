@@ -1,53 +1,47 @@
-import React, { useRef } from 'react'
-import { Linking } from 'react-native'
-import ParsedText from 'react-native-parsed-text'
-import styles from './styles'
+import React, { useRef } from 'react';
+import { Linking } from 'react-native';
+import ParsedText from 'react-native-parsed-text';
+import styles from './styles';
 
 export default function IMRichTextView(props) {
-  const {
-    children,
-    onHashTagPress,
-    defaultTextStyle,
-    usernameStyle,
-    hashTagStyle,
-  } = props
+  const { children, onHashTagPress, defaultTextStyle, usernameStyle, hashTagStyle } = props;
 
   const onEmailPress = async (email, matchIndex) => {
-    await Linking.openURL(`mailto:${email}`)
-  }
+    await Linking.openURL(`mailto:${email}`);
+  };
 
   const onPhonePress = async (phoneNumber, matchIndex) => {
-    await Linking.openURL(`tel:${phoneNumber}`)
-  }
+    await Linking.openURL(`tel:${phoneNumber}`);
+  };
 
   const onUrlPress = async (url, matchIndex) => {
-    const followsProtocol = url.startsWith('http')
+    const followsProtocol = url.startsWith('http');
 
     if (followsProtocol) {
-      await Linking.openURL(url)
+      await Linking.openURL(url);
     } else {
-      await Linking.openURL(`https://${url}`)
+      await Linking.openURL(`https://${url}`);
     }
-  }
+  };
 
   const onUserPress = (user, matchIndex) => {
-    let pattern = /@\[([^\]]+?)\]\(id:([^\]]+?)\)/gim
-    let match = pattern.exec(user)
+    let pattern = /@\[([^\]]+?)\]\(id:([^\]]+?)\)/gim;
+    let match = pattern.exec(user);
     const userInfo = {
       firstName: match[1],
       userID: match[2],
       id: match[2],
-    }
+    };
 
-    props.onUserPress(userInfo)
-  }
+    props.onUserPress(userInfo);
+  };
 
   const renderText = (matchingString, matches) => {
-    let pattern = /@\[([^\]]+?)\]\(id:([^\]]+?)\)/gim
-    let match = pattern.exec(matchingString)
+    let pattern = /@\[([^\]]+?)\]\(id:([^\]]+?)\)/gim;
+    let match = pattern.exec(matchingString);
 
-    return `${match[1]}`
-  }
+    return `${match[1]}`;
+  };
 
   return (
     <ParsedText
@@ -79,5 +73,5 @@ export default function IMRichTextView(props) {
       childrenProps={{ allowFontScaling: false }}>
       {children}
     </ParsedText>
-  )
+  );
 }

@@ -1,13 +1,13 @@
-import React from 'react'
-import { Text, View, TouchableOpacity, Image } from 'react-native'
-import dynamicStyles from './styles'
-import { useColorScheme } from 'react-native-appearance'
+import React from 'react';
+import { Text, View, TouchableOpacity, Image } from 'react-native';
+import dynamicStyles from './styles';
+import { useColorScheme } from 'react-native-appearance';
 
-const IMProfileItemView = props => {
-  const { appStyles } = props
-  const colorScheme = useColorScheme()
-  const styles = dynamicStyles(appStyles, colorScheme)
-  const rightArrowIcon = require('../../../../../CoreAssets/right-arrow.png')
+const IMProfileItemView = (props) => {
+  const { appStyles } = props;
+  const colorScheme = useColorScheme();
+  const styles = dynamicStyles(appStyles, colorScheme);
+  const rightArrowIcon = require('../../../../../CoreAssets/right-arrow.png');
 
   return (
     <TouchableOpacity style={styles.container} onPress={props.onPress}>
@@ -17,7 +17,7 @@ const IMProfileItemView = props => {
       </View>
       <Image style={styles.itemNavigationIcon} source={rightArrowIcon} />
     </TouchableOpacity>
-  )
-}
+  );
+};
 
-export default IMProfileItemView
+export default IMProfileItemView;

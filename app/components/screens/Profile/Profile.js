@@ -1,28 +1,25 @@
-import React, { useRef } from 'react'
-import { View, FlatList, Text, ActivityIndicator } from 'react-native'
+import React, { useRef } from 'react';
+import { View, FlatList, Text, ActivityIndicator } from 'react-native';
 
-import PropTypes from 'prop-types'
-import ActionSheet from 'react-native-actionsheet'
-import ImagePicker from 'react-native-image-crop-picker'
-import { useColorScheme } from 'react-native-appearance'
-import { TNStoryItem } from '../../../Core/truly-native'
-import FeedItem from '../../FeedItem/FeedItem'
-import ProfileButton from './ProfileButton'
-import dynamicStyles from './styles'
-import { IMLocalized } from '../../../Core/localization/IMLocalization'
-import { TNEmptyStateView } from '../../../Core/truly-native'
-import AppStyles from '../../../AppStyles'
-import FriendCard from './FriendCard'
-import {
-  TNActivityIndicator,
-  TNMediaViewerModal,
-} from '../../../Core/truly-native'
-import { reportingManager } from '../../../Core/user-reporting'
-import { useSelector } from 'react-redux'
+import PropTypes from 'prop-types';
+import ActionSheet from 'react-native-actionsheet';
+import ImagePicker from 'react-native-image-crop-picker';
+import { useColorScheme } from 'react-native-appearance';
+import { TNStoryItem } from '../../../Core/truly-native';
+import FeedItem from '../../FeedItem/FeedItem';
+import ProfileButton from './ProfileButton';
+import dynamicStyles from './styles';
+import { IMLocalized } from '../../../Core/localization/IMLocalization';
+import { TNEmptyStateView } from '../../../Core/truly-native';
+import AppStyles from '../../../AppStyles';
+import FriendCard from './FriendCard';
+import { TNActivityIndicator, TNMediaViewerModal } from '../../../Core/truly-native';
+import { reportingManager } from '../../../Core/user-reporting';
+import { useSelector } from 'react-redux';
 
 function Profile(props) {
-  const colorScheme = useColorScheme()
-  const styles = dynamicStyles(colorScheme)
+  const colorScheme = useColorScheme();
+  const styles = dynamicStyles(colorScheme);
   const {
     onMainButtonPress,
     recentUserFeeds,
@@ -54,77 +51,77 @@ function Profile(props) {
     willBlur,
     onFriendItemPress,
     navigation,
-  } = props
+  } = props;
 
-  const updatePhotoDialogActionSheet = useRef()
-  const photoUploadDialogActionSheet = useRef()
+  const updatePhotoDialogActionSheet = useRef();
+  const photoUploadDialogActionSheet = useRef();
 
-  const currentUser = useSelector(state => state.auth.user)
+  const currentUser = useSelector((state) => state.auth.user);
 
   const onProfilePicturePress = () => {
     if (isOtherUser) {
-      return
+      return;
     }
-    updatePhotoDialogActionSheet.current.show()
-  }
+    updatePhotoDialogActionSheet.current.show();
+  };
 
-  const onUpdatePhotoDialogDone = index => {
+  const onUpdatePhotoDialogDone = (index) => {
     if (index === 0) {
-      photoUploadDialogActionSheet.current.show()
+      photoUploadDialogActionSheet.current.show();
     }
 
     if (index === 1) {
-      removePhoto()
+      removePhoto();
     }
-  }
+  };
 
-  const onPhotoUploadDialogDone = index => {
+  const onPhotoUploadDialogDone = (index) => {
     if (index === 0) {
-      onLaunchCamera()
+      onLaunchCamera();
     }
 
     if (index === 1) {
-      onOpenPhotos()
+      onOpenPhotos();
     }
-  }
+  };
 
   const onUserReport = async (item, type) => {
-    await reportingManager.markAbuse(currentUser.id, item.authorID, type)
-    props.navigation.goBack()
-  }
+    await reportingManager.markAbuse(currentUser.id, item.authorID, type);
+    props.navigation.goBack();
+  };
 
   const onLaunchCamera = () => {
     ImagePicker.openCamera({
       cropping: false,
-    }).then(image => {
-      startUpload(image)
-    })
-  }
+    }).then((image) => {
+      startUpload(image);
+    });
+  };
 
   const onOpenPhotos = () => {
     ImagePicker.openPicker({
       cropping: false,
-    }).then(image => {
-      startUpload(image)
-    })
-  }
+    }).then((image) => {
+      startUpload(image);
+    });
+  };
 
-  const onTextFieldUserPress = userInfo => {
+  const onTextFieldUserPress = (userInfo) => {
     navigation.navigate('MainProfile', {
       user: userInfo,
       stackKeyTitle: 'MainProfile',
       lastScreenTitle: 'MainProfile',
-    })
-  }
+    });
+  };
 
-  const onTextFieldHashTagPress = hashtag => {
-    navigation.push('FeedSearch', { hashtag })
-  }
+  const onTextFieldHashTagPress = (hashtag) => {
+    navigation.push('FeedSearch', { hashtag });
+  };
 
   const renderItem = ({ item, index }) => {
-    let shouldUpdate = false
+    let shouldUpdate = false;
     if (item.shouldUpdate) {
-      shouldUpdate = item.shouldUpdate
+      shouldUpdate = item.shouldUpdate;
     }
     return (
       <FeedItem
@@ -144,18 +141,18 @@ function Profile(props) {
         onTextFieldHashTagPress={onTextFieldHashTagPress}
         onTextFieldUserPress={onTextFieldUserPress}
       />
-    )
-  }
+    );
+  };
 
   const renderListFooter = () => {
     if (loading) {
-      return null
+      return null;
     }
     if (isFetching) {
-      return <ActivityIndicator style={{ marginVertical: 7 }} size="small" />
+      return <ActivityIndicator style={{ marginVertical: 7 }} size="small" />;
     }
-    return null
-  }
+    return null;
+  };
 
   const renderListHeader = () => {
     return (
@@ -172,19 +169,10 @@ function Profile(props) {
           appStyles={AppStyles}
         />
         <ProfileButton title={mainButtonTitle} onPress={onMainButtonPress} />
-        {friends && friends.length > 0 && (
-          <Text style={styles.FriendsTitle}>{'Friends'}</Text>
-        )}
+        {friends && friends.length > 0 && <Text style={styles.FriendsTitle}>{'Friends'}</Text>}
         {friends && friends.length > 0 && (
           <View style={styles.FriendsContainer}>
-            {friends.length > 0 &&
-              friends.map(item => (
-                <FriendCard
-                  onPress={() => onFriendItemPress(item)}
-                  key={item.id}
-                  item={item}
-                />
-              ))}
+            {friends.length > 0 && friends.map((item) => <FriendCard onPress={() => onFriendItemPress(item)} key={item.id} item={item} />)}
           </View>
         )}
         {displaySubButton && (
@@ -198,9 +186,7 @@ function Profile(props) {
               },
               styles.subButtonColor,
               loading && { display: 'none' },
-              displaySubButton
-                ? { opacity: 1 }
-                : { opacity: 0, marginTop: -20, zIndex: -1 },
+              displaySubButton ? { opacity: 1 } : { opacity: 0, marginTop: -20, zIndex: -1 },
             ]}
             titleStyle={styles.titleStyleColor}
           />
@@ -208,29 +194,24 @@ function Profile(props) {
 
         {loading && (
           <View style={styles.container}>
-            <ActivityIndicator
-              style={{ marginTop: 15, alignSelf: 'center' }}
-              size="small"
-            />
+            <ActivityIndicator style={{ marginTop: 15, alignSelf: 'center' }} size="small" />
           </View>
         )}
       </View>
-    )
-  }
+    );
+  };
 
   const renderEmptyComponent = () => {
     var emptyStateConfig = {
       title: IMLocalized('No Posts'),
-      description: IMLocalized(
-        'There are currently no posts on this profile. All the posts will show up here.',
-      ),
-    }
+      description: IMLocalized('There are currently no posts on this profile. All the posts will show up here.'),
+    };
     if (!isOtherUser) {
       emptyStateConfig = {
         ...emptyStateConfig,
         buttonName: IMLocalized('Add Your First Post'),
         onPress: onEmptyStatePress,
-      }
+      };
     }
     return (
       <TNEmptyStateView
@@ -243,8 +224,8 @@ function Profile(props) {
           paddingBottom: 20,
         }}
       />
-    )
-  }
+    );
+  };
   return (
     <View style={styles.container}>
       <View style={[styles.progressBar, { width: `${uploadProgress}%` }]} />
@@ -253,7 +234,7 @@ function Profile(props) {
           scrollEventThrottle={16}
           data={recentUserFeeds}
           renderItem={renderItem}
-          keyExtractor={item => item.id}
+          keyExtractor={(item) => item.id}
           onEndReachedThreshold={0.5}
           horizontal={false}
           onEndReached={handleOnEndReached}
@@ -274,11 +255,7 @@ function Profile(props) {
       <ActionSheet
         ref={updatePhotoDialogActionSheet}
         title={IMLocalized('Profile Picture')}
-        options={[
-          IMLocalized('Change Photo'),
-          IMLocalized('Remove'),
-          IMLocalized('Cancel'),
-        ]}
+        options={[IMLocalized('Change Photo'), IMLocalized('Remove'), IMLocalized('Cancel')]}
         cancelButtonIndex={2}
         destructiveButtonIndex={1}
         onPress={onUpdatePhotoDialogDone}
@@ -286,16 +263,12 @@ function Profile(props) {
       <ActionSheet
         ref={photoUploadDialogActionSheet}
         title={IMLocalized('Select Photo')}
-        options={[
-          IMLocalized('Camera'),
-          IMLocalized('Library'),
-          IMLocalized('Cancel'),
-        ]}
+        options={[IMLocalized('Camera'), IMLocalized('Library'), IMLocalized('Cancel')]}
         cancelButtonIndex={2}
         onPress={onPhotoUploadDialogDone}
       />
     </View>
-  )
+  );
 }
 
 Profile.propTypes = {
@@ -317,6 +290,6 @@ Profile.propTypes = {
   displaySubButton: PropTypes.bool,
   selectedMediaIndex: PropTypes.number,
   uploadProgress: PropTypes.number,
-}
+};
 
-export default Profile
+export default Profile;

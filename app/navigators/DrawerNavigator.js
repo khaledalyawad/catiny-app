@@ -1,18 +1,18 @@
-import { createDrawerNavigator } from '@react-navigation/drawer'
-import React from 'react'
-import IMDrawerMenu from '../Core/ui/drawer/IMDrawerMenu/IMDrawerMenu'
+import { createDrawerNavigator } from '@react-navigation/drawer';
+import React from 'react';
+import IMDrawerMenu from '../Core/ui/drawer/IMDrawerMenu/IMDrawerMenu';
 import {
   InnerFeedNavigator,
   InnerChatSearchNavigator,
   InnerFriendsSearchNavigator,
   InnerDiscoverNavigator,
   InnerProfileNavigator,
-} from './InnerStackNavigators'
-import AppStyles from '../AppStyles.js'
-import { authManager } from '../Core/onboarding/utils/api'
-import SocialNetworkConfig from '../SocialNetworkConfig'
+} from './InnerStackNavigators';
+import AppStyles from '../AppStyles.js';
+import { authManager } from '../Core/onboarding/utils/api';
+import SocialNetworkConfig from '../SocialNetworkConfig';
 
-const Drawer = createDrawerNavigator()
+const Drawer = createDrawerNavigator();
 const DrawerNavigator = () => {
   return (
     <Drawer.Navigator
@@ -38,7 +38,7 @@ const DrawerNavigator = () => {
       <Drawer.Screen name="Friends" component={InnerFriendsSearchNavigator} />
       <Drawer.Screen name="Profile" component={InnerProfileNavigator} />
     </Drawer.Navigator>
-  )
-}
+  );
+};
 
-export default DrawerNavigator
+export default DrawerNavigator;

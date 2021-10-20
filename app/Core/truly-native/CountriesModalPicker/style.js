@@ -1,12 +1,12 @@
-import { Dimensions } from 'react-native'
-import { StyleSheet } from 'react-native'
+import { Dimensions } from 'react-native';
+import { StyleSheet } from 'react-native';
 
-const { height, width } = Dimensions.get('window')
+const { height, width } = Dimensions.get('window');
 
-const PADDING = 8
-const BORDER_RADIUS = 5
-const FONT_SIZE = 16
-const OPTION_CONTAINER_HEIGHT = 400
+const PADDING = 8;
+const BORDER_RADIUS = 5;
+const FONT_SIZE = 16;
+const OPTION_CONTAINER_HEIGHT = 400;
 
 const dynamicStyles = (appStyles, colorScheme) => {
   return StyleSheet.create({
@@ -68,7 +68,7 @@ const dynamicStyles = (appStyles, colorScheme) => {
       textAlign: 'center',
       fontSize: FONT_SIZE,
     },
-  })
-}
+  });
+};
 
-export default dynamicStyles
+export default dynamicStyles;

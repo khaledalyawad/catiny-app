@@ -26,20 +26,14 @@
  * @param {function} callbackSuccess
  * @param {function} callbackError
  */
-const processAndUploadMediaFileWithProgressTracking = async (
-  file,
-  callbackProgress,
-  callbackSuccess,
-  callbackError,
-) => {
+const processAndUploadMediaFileWithProgressTracking = async (file, callbackProgress, callbackSuccess, callbackError) => {
   // process file (optionally using helper method) and start upload with progress tracking
   // resolve({ downloadURL: downloadURL }); if successful
   // resolve({ error: ErrorCode.photoUploadFailed }); if unsuccessful
   resolve({
-    downloadURL:
-      'https://www.iosapptemplates.com/wp-content/uploads/2019/06/empty-avatar.jpg',
-  })
-}
+    downloadURL: 'https://www.iosapptemplates.com/wp-content/uploads/2019/06/empty-avatar.jpg',
+  });
+};
 
 /**
  * processAndUploadMediaFile uploads files without progress tracking
@@ -50,21 +44,20 @@ const processAndUploadMediaFileWithProgressTracking = async (
  *
  *
  */
-const processAndUploadMediaFile = file => {
+const processAndUploadMediaFile = (file) => {
   return new Promise((resolve, _reject) => {
     // process file (optionally using helper method) and start upload
     // resolve({ downloadURL: downloadURL }); if successful
     // resolve({ error: ErrorCode.photoUploadFailed }); if unsuccessful
     resolve({
-      downloadURL:
-        'https://www.iosapptemplates.com/wp-content/uploads/2019/06/empty-avatar.jpg',
-    })
-  })
-}
+      downloadURL: 'https://www.iosapptemplates.com/wp-content/uploads/2019/06/empty-avatar.jpg',
+    });
+  });
+};
 
 const localStorage = {
   processAndUploadMediaFile,
   processAndUploadMediaFileWithProgressTracking,
-}
+};
 
-export default localStorage
+export default localStorage;

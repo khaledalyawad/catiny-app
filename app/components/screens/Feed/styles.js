@@ -1,7 +1,7 @@
-import { StyleSheet } from 'react-native'
-import AppStyles from '../../../AppStyles'
+import { StyleSheet } from 'react-native';
+import AppStyles from '../../../AppStyles';
 
-const dynamicStyles = colorScheme => {
+const dynamicStyles = (colorScheme) => {
   return new StyleSheet.create({
     feedContainer: {
       flex: 1,
@@ -10,7 +10,7 @@ const dynamicStyles = colorScheme => {
     emptyStateView: {
       marginTop: 50,
     },
-  })
-}
+  });
+};
 
-export default dynamicStyles
+export default dynamicStyles;

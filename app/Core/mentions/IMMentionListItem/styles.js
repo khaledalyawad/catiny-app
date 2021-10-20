@@ -1,9 +1,9 @@
-import { StyleSheet, Dimensions } from 'react-native'
+import { StyleSheet, Dimensions } from 'react-native';
 
-const height = Dimensions.get('window').height
+const height = Dimensions.get('window').height;
 
-const mentionItemContainerHeight = Math.floor(height * 0.066)
-const mentionPhotoSize = Math.floor(mentionItemContainerHeight * 0.66)
+const mentionItemContainerHeight = Math.floor(height * 0.066);
+const mentionPhotoSize = Math.floor(mentionItemContainerHeight * 0.66);
 
 const dynamicStyles = (colorScheme, appStyles) => {
   return new StyleSheet.create({
@@ -36,7 +36,7 @@ const dynamicStyles = (colorScheme, appStyles) => {
       color: appStyles.colorSet[colorScheme].mainTextColor,
       fontWeight: '400',
     },
-  })
-}
+  });
+};
 
-export default dynamicStyles
+export default dynamicStyles;

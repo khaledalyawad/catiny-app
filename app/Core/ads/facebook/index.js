@@ -5,4 +5,4 @@
 api 'com.facebook.android:audience-network-sdk:5.+'
 
 */
-export { default as IMNativeFBAdComponentView } from './IMNativeFBAdComponentView'
+export { default as IMNativeFBAdComponentView } from './IMNativeFBAdComponentView';

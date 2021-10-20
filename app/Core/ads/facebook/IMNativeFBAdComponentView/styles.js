@@ -1,5 +1,5 @@
-import { StyleSheet, Dimensions } from 'react-native'
-const WIDTH = Dimensions.get('window').width
+import { StyleSheet, Dimensions } from 'react-native';
+const WIDTH = Dimensions.get('window').width;
 
 const styles = StyleSheet.create({
   container: {
@@ -33,6 +33,6 @@ const styles = StyleSheet.create({
   textContainer: {
     padding: 15,
   },
-})
+});
 
-export default styles
+export default styles;

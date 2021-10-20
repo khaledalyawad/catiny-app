@@ -1,6 +1,6 @@
-import { StyleSheet, Dimensions } from 'react-native'
+import { StyleSheet, Dimensions } from 'react-native';
 
-const { height } = Dimensions.get('window')
+const { height } = Dimensions.get('window');
 
 const dynamicStyles = (appStyles, colorScheme) => {
   return StyleSheet.create({
@@ -39,7 +39,7 @@ const dynamicStyles = (appStyles, colorScheme) => {
     emptyViewContainer: {
       marginTop: height / 5,
     },
-  })
-}
+  });
+};
 
-export default dynamicStyles
+export default dynamicStyles;

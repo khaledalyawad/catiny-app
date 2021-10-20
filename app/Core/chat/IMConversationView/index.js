@@ -1,1 +1,1 @@
-export { default } from './IMConversationView'
+export { default } from './IMConversationView';

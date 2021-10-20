@@ -1,169 +1,126 @@
-import React, { useState } from 'react'
-import {
-  Alert,
-  Image,
-  Keyboard,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  View,
-} from 'react-native'
-import Button from 'react-native-button'
-import appleAuth, {
-  AppleButton,
-} from '@invertase/react-native-apple-authentication'
-import { connect } from 'react-redux'
+import React, { useState } from 'react';
+import { Alert, Image, Keyboard, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import Button from 'react-native-button';
+import appleAuth, { AppleButton } from '@invertase/react-native-apple-authentication';
+import { connect } from 'react-redux';
 
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
-import TNActivityIndicator from '../../truly-native/TNActivityIndicator'
-import { IMLocalized } from '../../localization/IMLocalization'
-import dynamicStyles from './styles'
-import { useColorScheme } from 'react-native-appearance'
-import { setUserData } from '../redux/auth'
-import { localizedErrorMessage } from '../utils/ErrorCode'
-import IMGoogleSignInButton from '../components/IMGoogleSignInButton/IMGoogleSignInButton'
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import TNActivityIndicator from '../../truly-native/TNActivityIndicator';
+import { IMLocalized } from '../../localization/IMLocalization';
+import dynamicStyles from './styles';
+import { useColorScheme } from 'react-native-appearance';
+import { setUserData } from '../redux/auth';
+import { localizedErrorMessage } from '../utils/ErrorCode';
+import IMGoogleSignInButton from '../components/IMGoogleSignInButton/IMGoogleSignInButton';
 
-const LoginScreen = props => {
-  const appConfig = props.route.params.appConfig
-  const authManager = props.route.params.authManager
+const LoginScreen = (props) => {
+  const appConfig = props.route.params.appConfig;
+  const authManager = props.route.params.authManager;
 
-  const [loading, setLoading] = useState(false)
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
-  const appStyles = props.route.params.appStyles
-  const colorScheme = useColorScheme()
-  const styles = dynamicStyles(appStyles, colorScheme)
+  const [loading, setLoading] = useState(false);
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const appStyles = props.route.params.appStyles;
+  const colorScheme = useColorScheme();
+  const styles = dynamicStyles(appStyles, colorScheme);
 
   const onPressLogin = () => {
-    setLoading(true)
-    authManager
-      .loginWithEmailAndPassword(
-        email && email.trim(),
-        password && password.trim(),
-        appConfig,
-      )
-      .then(response => {
-        if (response?.user) {
-          const user = response.user
-          props.setUserData({
-            user: response.user,
-          })
-          Keyboard.dismiss()
-          props.navigation.reset({
-            index: 0,
-            routes: [{ name: 'MainStack', params: { user: user } }],
-          })
-        } else {
-          setLoading(false)
-          Alert.alert(
-            '',
-            localizedErrorMessage(response.error),
-            [{ text: IMLocalized('OK') }],
-            {
-              cancelable: false,
-            },
-          )
-        }
-      })
-  }
-
-  const onFBButtonPress = () => {
-    setLoading(true)
-    authManager.loginOrSignUpWithFacebook(appConfig).then(response => {
+    setLoading(true);
+    authManager.loginWithEmailAndPassword(email && email.trim(), password && password.trim(), appConfig).then((response) => {
       if (response?.user) {
-        const user = response.user
+        const user = response.user;
         props.setUserData({
           user: response.user,
-        })
-        Keyboard.dismiss()
+        });
+        Keyboard.dismiss();
         props.navigation.reset({
           index: 0,
           routes: [{ name: 'MainStack', params: { user: user } }],
-        })
+        });
       } else {
-        setLoading(false)
-        Alert.alert(
-          '',
-          localizedErrorMessage(response.error),
-          [{ text: IMLocalized('OK') }],
-          {
-            cancelable: false,
-          },
-        )
+        setLoading(false);
+        Alert.alert('', localizedErrorMessage(response.error), [{ text: IMLocalized('OK') }], {
+          cancelable: false,
+        });
       }
-    })
-  }
+    });
+  };
+
+  const onFBButtonPress = () => {
+    setLoading(true);
+    authManager.loginOrSignUpWithFacebook(appConfig).then((response) => {
+      if (response?.user) {
+        const user = response.user;
+        props.setUserData({
+          user: response.user,
+        });
+        Keyboard.dismiss();
+        props.navigation.reset({
+          index: 0,
+          routes: [{ name: 'MainStack', params: { user: user } }],
+        });
+      } else {
+        setLoading(false);
+        Alert.alert('', localizedErrorMessage(response.error), [{ text: IMLocalized('OK') }], {
+          cancelable: false,
+        });
+      }
+    });
+  };
 
   const onGoogleButtonPress = () => {
-    setLoading(true)
-    authManager.loginOrSignUpWithGoogle(appConfig).then(response => {
+    setLoading(true);
+    authManager.loginOrSignUpWithGoogle(appConfig).then((response) => {
       if (response?.user) {
-        const user = response.user
-        props.setUserData({ user })
-        Keyboard.dismiss()
+        const user = response.user;
+        props.setUserData({ user });
+        Keyboard.dismiss();
         props.navigation.reset({
           index: 0,
           routes: [{ name: 'MainStack', params: { user: user } }],
-        })
+        });
       } else {
-        setLoading(false)
-        Alert.alert(
-          '',
-          localizedErrorMessage(response.error),
-          [{ text: IMLocalized('OK') }],
-          {
-            cancelable: false,
-          },
-        )
+        setLoading(false);
+        Alert.alert('', localizedErrorMessage(response.error), [{ text: IMLocalized('OK') }], {
+          cancelable: false,
+        });
       }
-    })
-  }
+    });
+  };
 
   const onAppleButtonPress = async () => {
-    setLoading(true)
-    authManager.loginOrSignUpWithApple(appConfig).then(response => {
+    setLoading(true);
+    authManager.loginOrSignUpWithApple(appConfig).then((response) => {
       if (response?.user) {
-        const user = response.user
-        props.setUserData({ user })
-        Keyboard.dismiss()
+        const user = response.user;
+        props.setUserData({ user });
+        Keyboard.dismiss();
         props.navigation.reset({
           index: 0,
           routes: [{ name: 'MainStack', params: { user: user } }],
-        })
+        });
       } else {
-        setLoading(false)
-        Alert.alert(
-          '',
-          localizedErrorMessage(response.error),
-          [{ text: IMLocalized('OK') }],
-          {
-            cancelable: false,
-          },
-        )
+        setLoading(false);
+        Alert.alert('', localizedErrorMessage(response.error), [{ text: IMLocalized('OK') }], {
+          cancelable: false,
+        });
       }
-    })
-  }
+    });
+  };
 
   const onForgotPassword = async () => {
     props.navigation.push('ResetPassword', {
       isResetPassword: true,
       appStyles,
       appConfig,
-    })
-  }
+    });
+  };
 
   return (
     <View style={styles.container}>
-      <KeyboardAwareScrollView
-        style={{ flex: 1, width: '100%' }}
-        keyboardShouldPersistTaps="always">
-        <TouchableOpacity
-          style={{ alignSelf: 'flex-start' }}
-          onPress={() => props.navigation.goBack()}>
-          <Image
-            style={appStyles.styleSet.backArrowStyle}
-            source={appStyles.iconSet.backArrow}
-          />
+      <KeyboardAwareScrollView style={{ flex: 1, width: '100%' }} keyboardShouldPersistTaps="always">
+        <TouchableOpacity style={{ alignSelf: 'flex-start' }} onPress={() => props.navigation.goBack()}>
+          <Image style={appStyles.styleSet.backArrowStyle} source={appStyles.iconSet.backArrow} />
         </TouchableOpacity>
         <Text style={styles.title}>{IMLocalized('Sign In')}</Text>
         <TextInput
@@ -171,7 +128,7 @@ const LoginScreen = props => {
           placeholder={IMLocalized('E-mail')}
           keyboardType="email-address"
           placeholderTextColor="#aaaaaa"
-          onChangeText={text => setEmail(text)}
+          onChangeText={(text) => setEmail(text)}
           value={email}
           underlineColorAndroid="transparent"
           autoCapitalize="none"
@@ -181,35 +138,24 @@ const LoginScreen = props => {
           placeholderTextColor="#aaaaaa"
           secureTextEntry
           placeholder={IMLocalized('Password')}
-          onChangeText={text => setPassword(text)}
+          onChangeText={(text) => setPassword(text)}
           value={password}
           underlineColorAndroid="transparent"
           autoCapitalize="none"
         />
         <View style={styles.forgotPasswordContainer}>
-          <Button
-            style={styles.forgotPasswordText}
-            onPress={() => onForgotPassword()}>
+          <Button style={styles.forgotPasswordText} onPress={() => onForgotPassword()}>
             {IMLocalized('Forgot password?')}
           </Button>
         </View>
-        <Button
-          containerStyle={styles.loginContainer}
-          style={styles.loginText}
-          onPress={() => onPressLogin()}>
+        <Button containerStyle={styles.loginContainer} style={styles.loginText} onPress={() => onPressLogin()}>
           {IMLocalized('Log In')}
         </Button>
         <Text style={styles.orTextStyle}> {IMLocalized('OR')}</Text>
-        <Button
-          containerStyle={styles.facebookContainer}
-          style={styles.facebookText}
-          onPress={() => onFBButtonPress()}>
+        <Button containerStyle={styles.facebookContainer} style={styles.facebookText} onPress={() => onFBButtonPress()}>
           {IMLocalized('Login With Facebook')}
         </Button>
-        <IMGoogleSignInButton
-          containerStyle={styles.googleButtonStyle}
-          onPress={onGoogleButtonPress}
-        />
+        <IMGoogleSignInButton containerStyle={styles.googleButtonStyle} onPress={onGoogleButtonPress} />
         {appleAuth.isSupported && (
           <AppleButton
             cornerRadius={25}
@@ -237,9 +183,9 @@ const LoginScreen = props => {
         {loading && <TNActivityIndicator appStyles={appStyles} />}
       </KeyboardAwareScrollView>
     </View>
-  )
-}
+  );
+};
 
 export default connect(null, {
   setUserData,
-})(LoginScreen)
+})(LoginScreen);

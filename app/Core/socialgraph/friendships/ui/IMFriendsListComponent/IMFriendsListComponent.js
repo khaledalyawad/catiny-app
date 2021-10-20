@@ -1,14 +1,14 @@
-import React from 'react'
-import { FlatList, View } from 'react-native'
+import React from 'react';
+import { FlatList, View } from 'react-native';
 
-import PropTypes from 'prop-types'
-import { IMFriendItem } from '../..'
-import { IMUserSearchModal } from '../..'
-import { SearchBarAlternate } from '../../../..'
-import dynamicStyles from './styles'
-import { useColorScheme } from 'react-native-appearance'
-import { IMLocalized } from '../../../../localization/IMLocalization'
-import { TNEmptyStateView, TNActivityIndicator } from '../../../../truly-native'
+import PropTypes from 'prop-types';
+import { IMFriendItem } from '../..';
+import { IMUserSearchModal } from '../..';
+import { SearchBarAlternate } from '../../../..';
+import dynamicStyles from './styles';
+import { useColorScheme } from 'react-native-appearance';
+import { IMLocalized } from '../../../../localization/IMLocalization';
+import { TNEmptyStateView, TNActivityIndicator } from '../../../../truly-native';
 
 function IMFriendsListComponent(props) {
   const {
@@ -24,9 +24,9 @@ function IMFriendsListComponent(props) {
     searchBar,
     onSearchBarPress,
     emptyStateConfig,
-  } = props
-  const colorScheme = useColorScheme()
-  const styles = dynamicStyles(appStyles, colorScheme)
+  } = props;
+  const colorScheme = useColorScheme();
+  const styles = dynamicStyles(appStyles, colorScheme);
   const renderItem = ({ item }) => (
     <IMFriendItem
       onFriendItemPress={onFriendItemPress}
@@ -36,38 +36,25 @@ function IMFriendsListComponent(props) {
       appStyles={appStyles}
       followEnabled={followEnabled}
     />
-  )
+  );
 
   return (
     <View style={[styles.container, containerStyle]}>
       {searchBar && (
-        <SearchBarAlternate
-          onPress={onSearchBarPress}
-          placeholderTitle={IMLocalized('Search for friends')}
-          appStyles={appStyles}
-        />
+        <SearchBarAlternate onPress={onSearchBarPress} placeholderTitle={IMLocalized('Search for friends')} appStyles={appStyles} />
       )}
       {friendsData && friendsData.length > 0 && (
-        <FlatList
-          data={friendsData}
-          renderItem={renderItem}
-          keyExtractor={item => item.user.id}
-        />
+        <FlatList data={friendsData} renderItem={renderItem} keyExtractor={(item) => item.user.id} />
       )}
       {!friendsData ||
         (friendsData.length <= 0 && (
           <View style={styles.emptyViewContainer}>
-            <TNEmptyStateView
-              emptyStateConfig={emptyStateConfig}
-              appStyles={appStyles}
-            />
+            <TNEmptyStateView emptyStateConfig={emptyStateConfig} appStyles={appStyles} />
           </View>
         ))}
-      {(isLoading || friendsData == null) && (
-        <TNActivityIndicator appStyles={appStyles} />
-      )}
+      {(isLoading || friendsData == null) && <TNActivityIndicator appStyles={appStyles} />}
     </View>
-  )
+  );
 }
 
 IMFriendsListComponent.propTypes = {
@@ -83,6 +70,6 @@ IMFriendsListComponent.propTypes = {
   isSearchModalOpen: PropTypes.bool,
   onSearchModalClose: PropTypes.func,
   onSearchClear: PropTypes.func,
-}
+};
 
-export default IMFriendsListComponent
+export default IMFriendsListComponent;

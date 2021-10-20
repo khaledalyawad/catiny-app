@@ -5,18 +5,18 @@ import {
   setMainStories,
   setCurrentUserFeedPosts,
   setFeedListenerDidSubscribe,
-} from '../../redux'
-import * as postAPIManager from './post'
-import * as storyAPIManager from './story'
-import * as commentAPIManager from './comment'
-import { setBannedUserIDs } from '../../../../user-reporting/redux'
-import { reportingManager } from '../../../../user-reporting'
+} from '../../redux';
+import * as postAPIManager from './post';
+import * as storyAPIManager from './story';
+import * as commentAPIManager from './comment';
+import { setBannedUserIDs } from '../../../../user-reporting/redux';
+import { reportingManager } from '../../../../user-reporting';
 
 export default class FeedManager {
   constructor(reduxStore, currentUserID) {
-    this.reduxStore = reduxStore
-    this.currentUserID = currentUserID
-    this.reduxStore.subscribe(this.syncTrackerToStore)
+    this.reduxStore = reduxStore;
+    this.currentUserID = currentUserID;
+    this.reduxStore.subscribe(this.syncTrackerToStore);
   }
 
   syncTrackerToStore = () => {
@@ -27,88 +27,67 @@ export default class FeedManager {
     //   this.reactions = reactionsInRedux;
     //   this.hydratePostsIfNeeded(true);
     // }
-  }
+  };
 
   subscribeUserFeedRelatedActions = () => {
-    this.abusesUnsubscribe = reportingManager?.unsubscribeAbuseDB(
-      this.currentUserID,
-      this.onAbusesUpdate,
-    )
+    this.abusesUnsubscribe = reportingManager?.unsubscribeAbuseDB(this.currentUserID, this.onAbusesUpdate);
 
-    this.reactionsUnsubscribe = commentAPIManager?.subscribeToUserReactions(
-      this.currentUserID,
-      this.onReactionsUpdate,
-    )
-  }
+    this.reactionsUnsubscribe = commentAPIManager?.subscribeToUserReactions(this.currentUserID, this.onReactionsUpdate);
+  };
 
   subscribeIfNeeded = () => {
-    const state = this.reduxStore.getState()
+    const state = this.reduxStore.getState();
     if (!state.feed.didSubscribeToMainFeed) {
-      this.reduxStore.dispatch(setFeedListenerDidSubscribe())
-      this.feedUnsubscribe = postAPIManager?.subscribeToMainFeedPosts(
-        this.currentUserID,
-        this.onFeedPostsUpdate,
-      )
-      this.storiesUnsubscribe = storyAPIManager?.subscribeToStoriesFeed(
-        this.currentUserID,
-        this.onStoriesUpdate,
-      )
+      this.reduxStore.dispatch(setFeedListenerDidSubscribe());
+      this.feedUnsubscribe = postAPIManager?.subscribeToMainFeedPosts(this.currentUserID, this.onFeedPostsUpdate);
+      this.storiesUnsubscribe = storyAPIManager?.subscribeToStoriesFeed(this.currentUserID, this.onStoriesUpdate);
 
-      this.subscribeUserFeedRelatedActions()
+      this.subscribeUserFeedRelatedActions();
 
-      this.discoverUnsubscribe = postAPIManager?.subscribeToDiscoverFeedPosts(
-        this.onDiscoverPostsUpdate,
-      )
-      this.currentProfileFeedUnsubscribe =
-        postAPIManager?.subscribeToProfileFeedPosts(
-          this.currentUserID,
-          this.onProfileFeedUpdate,
-        )
+      this.discoverUnsubscribe = postAPIManager?.subscribeToDiscoverFeedPosts(this.onDiscoverPostsUpdate);
+      this.currentProfileFeedUnsubscribe = postAPIManager?.subscribeToProfileFeedPosts(this.currentUserID, this.onProfileFeedUpdate);
     }
-  }
+  };
 
   subscribeHashtagFeedPosts = (hashtag, callback) => {
-    this.hashtagFeedUnsubscribe = postAPIManager?.subscribeToHashtagFeedPosts(
-      hashtag,
-      posts => this.onHashtagFeedPostsUpdate(posts, callback),
-    )
-  }
+    this.hashtagFeedUnsubscribe = postAPIManager?.subscribeToHashtagFeedPosts(hashtag, (posts) =>
+      this.onHashtagFeedPostsUpdate(posts, callback),
+    );
+  };
 
   unsubscribeHashtagFeedPosts = () => {
     if (this.hashtagFeedUnsubscribe) {
-      this.hashtagFeedUnsubscribe()
+      this.hashtagFeedUnsubscribe();
     }
-  }
+  };
 
   unsubscribe = () => {
     if (this.feedUnsubscribe) {
-      this.feedUnsubscribe()
+      this.feedUnsubscribe();
     }
     if (this.discoverUnsubscribe) {
-      this.discoverUnsubscribe()
+      this.discoverUnsubscribe();
     }
     if (this.reactionsUnsubscribe) {
-      this.reactionsUnsubscribe()
+      this.reactionsUnsubscribe();
     }
     if (this.storiesUnsubscribe) {
-      this.storiesUnsubscribe()
+      this.storiesUnsubscribe();
     }
     if (this.currentProfileFeedUnsubscribe) {
-      this.currentProfileFeedUnsubscribe()
+      this.currentProfileFeedUnsubscribe();
     }
-  }
+  };
 
   applyReaction = (reaction, item, followEnabled = true) => {
-    const state = this.reduxStore.getState()
-    const reactions = state.feed.feedPostReactions
-    const existingReaction = reactions.find(
-      reaction => reaction.postID == item.id,
-    )
-    var newReactions
+    const state = this.reduxStore.getState();
+    const reactions = state.feed.feedPostReactions;
+    const existingReaction = reactions.find((reaction) => reaction.postID == item.id);
+    var newReactions;
     if (followEnabled) {
       if (existingReaction) {
         // like => unlike
-        newReactions = reactions.filter(reaction => reaction.postID != item.id)
+        newReactions = reactions.filter((reaction) => reaction.postID != item.id);
       } else {
         // like
         newReactions = reactions.concat([
@@ -116,27 +95,23 @@ export default class FeedManager {
             postID: item.id,
             reaction: reaction,
           },
-        ])
+        ]);
       }
     } else {
       if (existingReaction) {
         if (reaction == null) {
           // undo previous reaction e.g. angry => null
-          newReactions = reactions.filter(
-            reaction => reaction.postID != item.id,
-          )
+          newReactions = reactions.filter((reaction) => reaction.postID != item.id);
         } else {
           // replace previous reaction
-          newReactions = reactions.filter(
-            reaction => reaction.postID != item.id,
-          ) // remove previous reaction
+          newReactions = reactions.filter((reaction) => reaction.postID != item.id); // remove previous reaction
           newReactions = newReactions.concat([
             // add new different reaction
             {
               postID: item.id,
               reaction: reaction,
             },
-          ])
+          ]);
         }
       } else {
         // got a reaction, with no previous reaction. Add it
@@ -147,117 +122,97 @@ export default class FeedManager {
               postID: item.id,
               reaction: reaction,
             },
-          ])
+          ]);
         }
       }
     }
-    this.reactions = newReactions
-    this.hydratePostsIfNeeded()
-  }
+    this.reactions = newReactions;
+    this.hydratePostsIfNeeded();
+  };
 
-  hydratePostsWithReduxReactions = posts => {
-    const state = this.reduxStore.getState()
-    const reactions = state.feed.feedPostReactions
-    const bannedUserIDs = state.userReports.bannedUserIDs
-    return this.hydratedPostsWithReactions(posts, reactions, bannedUserIDs)
-  }
+  hydratePostsWithReduxReactions = (posts) => {
+    const state = this.reduxStore.getState();
+    const reactions = state.feed.feedPostReactions;
+    const bannedUserIDs = state.userReports.bannedUserIDs;
+    return this.hydratedPostsWithReactions(posts, reactions, bannedUserIDs);
+  };
 
-  onFeedPostsUpdate = posts => {
-    this.posts = posts
-    this.hydratePostsIfNeeded()
-  }
+  onFeedPostsUpdate = (posts) => {
+    this.posts = posts;
+    this.hydratePostsIfNeeded();
+  };
 
-  onDiscoverPostsUpdate = posts => {
-    this.discoverPosts = posts
-    this.hydratePostsIfNeeded()
-  }
+  onDiscoverPostsUpdate = (posts) => {
+    this.discoverPosts = posts;
+    this.hydratePostsIfNeeded();
+  };
 
   onHashtagFeedPostsUpdate = (posts, callback) => {
-    this.hashtagPosts = this.hydratedPostsWithReactions(
-      posts,
-      this.reactions,
-      this.bannedUserIDs,
-    )
-    callback(this.hashtagPosts)
-  }
+    this.hashtagPosts = this.hydratedPostsWithReactions(posts, this.reactions, this.bannedUserIDs);
+    callback(this.hashtagPosts);
+  };
 
-  onStoriesUpdate = stories => {
-    this.reduxStore.dispatch(setMainStories(stories))
-  }
+  onStoriesUpdate = (stories) => {
+    this.reduxStore.dispatch(setMainStories(stories));
+  };
 
-  onReactionsUpdate = reactions => {
-    this.reactions = reactions
-    this.hydratePostsIfNeeded()
-  }
+  onReactionsUpdate = (reactions) => {
+    this.reactions = reactions;
+    this.hydratePostsIfNeeded();
+  };
 
-  onProfileFeedUpdate = posts => {
-    this.reduxStore.dispatch(setCurrentUserFeedPosts(posts))
-  }
+  onProfileFeedUpdate = (posts) => {
+    this.reduxStore.dispatch(setCurrentUserFeedPosts(posts));
+  };
 
-  onAbusesUpdate = abuses => {
-    var bannedUserIDs = []
-    abuses.forEach(abuse => bannedUserIDs.push(abuse.dest))
-    this.reduxStore.dispatch(setBannedUserIDs(bannedUserIDs))
-    this.bannedUserIDs = bannedUserIDs
-    this.hydratePostsIfNeeded()
-  }
+  onAbusesUpdate = (abuses) => {
+    var bannedUserIDs = [];
+    abuses.forEach((abuse) => bannedUserIDs.push(abuse.dest));
+    this.reduxStore.dispatch(setBannedUserIDs(bannedUserIDs));
+    this.bannedUserIDs = bannedUserIDs;
+    this.hydratePostsIfNeeded();
+  };
 
   hydratePostsIfNeeded = (skipReactionReduxUpdate = false) => {
     if (!this.bannedUserIDs) {
       // we are still waiting to fetch banned users
-      return
+      return;
     }
     // main feed
     if (this.reactions && this.posts) {
-      const hydratedPosts = this.hydratedPostsWithReactions(
-        this.posts,
-        this.reactions,
-        this.bannedUserIDs,
-      )
-      this.reduxStore.dispatch(setMainFeedPosts(hydratedPosts))
+      const hydratedPosts = this.hydratedPostsWithReactions(this.posts, this.reactions, this.bannedUserIDs);
+      this.reduxStore.dispatch(setMainFeedPosts(hydratedPosts));
       if (!skipReactionReduxUpdate) {
-        this.reduxStore.dispatch(setFeedPostReactions(this.reactions))
+        this.reduxStore.dispatch(setFeedPostReactions(this.reactions));
       }
     }
     // discover feed
     if (this.reactions && this.discoverPosts) {
       this.reduxStore.dispatch(
-        setDiscoverFeedPosts(
-          this.hydratedPostsWithReactions(
-            this.discoverPosts,
-            this.reactions,
-            this.bannedUserIDs,
-          ),
-        ),
-      )
+        setDiscoverFeedPosts(this.hydratedPostsWithReactions(this.discoverPosts, this.reactions, this.bannedUserIDs)),
+      );
     }
-  }
+  };
 
   hydratedPostsWithReactions = (posts, reactions, bannedUserIDs) => {
     if (reactions && posts) {
       const hydratedPosts = posts
-        .map(post => {
-          const reaction = reactions.find(
-            reaction => reaction.postID == post.id,
-          )
+        .map((post) => {
+          const reaction = reactions.find((reaction) => reaction.postID == post.id);
           if (reaction) {
             return {
               ...post,
               myReaction: reaction.reaction,
-            }
+            };
           }
           return {
             ...post,
             myReaction: null, // we need to explicitly remove any previous reaction
-          }
+          };
         })
-        .filter(
-          post =>
-            post.authorID &&
-            (!bannedUserIDs || !bannedUserIDs.includes(post.authorID)),
-        )
-      return hydratedPosts
+        .filter((post) => post.authorID && (!bannedUserIDs || !bannedUserIDs.includes(post.authorID)));
+      return hydratedPosts;
     }
-    return posts
-  }
+    return posts;
+  };
 }

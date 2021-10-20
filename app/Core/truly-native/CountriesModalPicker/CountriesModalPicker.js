@@ -1,55 +1,51 @@
-import React, { useState, useEffect, useRef } from 'react'
-import { View, Modal, Text, ScrollView, TouchableOpacity } from 'react-native'
-import { useColorScheme } from 'react-native-appearance'
-import dynamicStyles from './style'
+import React, { useState, useEffect, useRef } from 'react';
+import { View, Modal, Text, ScrollView, TouchableOpacity } from 'react-native';
+import { useColorScheme } from 'react-native-appearance';
+import dynamicStyles from './style';
 
-const CountriesModalPicker = props => {
-  const colorScheme = useColorScheme()
-  const styles = dynamicStyles(props.appStyles, colorScheme)
+const CountriesModalPicker = (props) => {
+  const colorScheme = useColorScheme();
+  const styles = dynamicStyles(props.appStyles, colorScheme);
 
-  const [animationType, setAnimationType] = useState('slide')
-  const [modalVisible, setModalVisible] = useState(false)
-  const [selected, setSelected] = useState('please select')
-  const [data, setData] = useState([])
-  const modal = useRef(null)
+  const [animationType, setAnimationType] = useState('slide');
+  const [modalVisible, setModalVisible] = useState(false);
+  const [selected, setSelected] = useState('please select');
+  const [data, setData] = useState([]);
+  const modal = useRef(null);
 
   useEffect(() => {
-    setSelected(props.initValue)
-    setData(props.data)
-    setModalVisible(props.visible)
-  })
+    setSelected(props.initValue);
+    setData(props.data);
+    setModalVisible(props.visible);
+  });
 
   const close = () => {
-    setModalVisible(false)
-  }
+    setModalVisible(false);
+  };
 
-  const onChange = item => {
-    props.onChange(item)
-    setSelected(item.label)
-    props.onCancel()
-  }
+  const onChange = (item) => {
+    props.onChange(item);
+    setSelected(item.label);
+    props.onCancel();
+  };
 
-  const renderOption = option => {
+  const renderOption = (option) => {
     return (
       <TouchableOpacity key={option.key} onPress={() => onChange(option)}>
         <View style={[styles.optionStyle, props.optionStyle]}>
           <View style={{ flex: 1, alignItems: 'flex-start' }}>
-            <Text style={[styles.optionTextStyle, props.optionTextStyle]}>
-              {option.label}
-            </Text>
+            <Text style={[styles.optionTextStyle, props.optionTextStyle]}>{option.label}</Text>
           </View>
-          <Text style={[styles.optionTextStyle, props.optionTextStyle]}>
-            {option.dialCode}
-          </Text>
+          <Text style={[styles.optionTextStyle, props.optionTextStyle]}>{option.dialCode}</Text>
         </View>
       </TouchableOpacity>
-    )
-  }
+    );
+  };
 
   const renderOptionList = () => {
-    const options = data.map(item => {
-      return renderOption(item)
-    })
+    const options = data.map((item) => {
+      return renderOption(item);
+    });
 
     return (
       <View
@@ -64,29 +60,22 @@ const CountriesModalPicker = props => {
         <View style={styles.cancelContainer}>
           <TouchableOpacity onPress={() => props.onCancel()}>
             <View style={[styles.cancelStyle, props.cancelStyle]}>
-              <Text style={[styles.cancelTextStyle, props.cancelTextStyle]}>
-                {props.cancelText}
-              </Text>
+              <Text style={[styles.cancelTextStyle, props.cancelTextStyle]}>{props.cancelText}</Text>
             </View>
           </TouchableOpacity>
         </View>
       </View>
-    )
-  }
+    );
+  };
 
   const dp = (
-    <Modal
-      transparent
-      ref={modal}
-      visible={modalVisible}
-      onRequestClose={close}
-      animationType={animationType}>
+    <Modal transparent ref={modal} visible={modalVisible} onRequestClose={close} animationType={animationType}>
       {renderOptionList()}
     </Modal>
-  )
+  );
 
-  return <View style={props.style}>{dp}</View>
-}
+  return <View style={props.style}>{dp}</View>;
+};
 
 CountriesModalPicker.defaultProps = {
   data: [],
@@ -102,6 +91,6 @@ CountriesModalPicker.defaultProps = {
   cancelTextStyle: {},
   overlayStyle: {},
   cancelText: 'cancel',
-}
+};
 
-export default CountriesModalPicker
+export default CountriesModalPicker;

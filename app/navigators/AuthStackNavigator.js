@@ -1,18 +1,12 @@
-import { createStackNavigator } from '@react-navigation/stack'
-import React from 'react'
-import {
-  WelcomeScreen,
-  LoginScreen,
-  SignupScreen,
-  SmsAuthenticationScreen,
-  ResetPasswordScreen,
-} from '../Core/onboarding'
-import { authManager } from '../Core/onboarding/utils/api'
-import AppStyles from '../AppStyles'
-import SocialNetworkConfig from '../SocialNetworkConfig'
-import { StyleSheet } from 'react-native'
+import { createStackNavigator } from '@react-navigation/stack';
+import React from 'react';
+import { WelcomeScreen, LoginScreen, SignupScreen, SmsAuthenticationScreen, ResetPasswordScreen } from '../Core/onboarding';
+import { authManager } from '../Core/onboarding/utils/api';
+import AppStyles from '../AppStyles';
+import SocialNetworkConfig from '../SocialNetworkConfig';
+import { StyleSheet } from 'react-native';
 
-const AuthStack = createStackNavigator()
+const AuthStack = createStackNavigator();
 
 const AuthStackNavigator = () => {
   return (
@@ -34,21 +28,9 @@ const AuthStackNavigator = () => {
         name="Welcome"
         component={WelcomeScreen}
       />
-      <AuthStack.Screen
-        options={{ headerStyle: styles.headerStyle }}
-        name="Login"
-        component={LoginScreen}
-      />
-      <AuthStack.Screen
-        options={{ headerStyle: styles.headerStyle }}
-        name="Signup"
-        component={SignupScreen}
-      />
-      <AuthStack.Screen
-        options={{ headerStyle: styles.headerStyle }}
-        name="Sms"
-        component={SmsAuthenticationScreen}
-      />
+      <AuthStack.Screen options={{ headerStyle: styles.headerStyle }} name="Login" component={LoginScreen} />
+      <AuthStack.Screen options={{ headerStyle: styles.headerStyle }} name="Signup" component={SignupScreen} />
+      <AuthStack.Screen options={{ headerStyle: styles.headerStyle }} name="Sms" component={SmsAuthenticationScreen} />
       <AuthStack.Screen
         options={{ headerStyle: styles.headerStyle }}
         name="ResetPassword"
@@ -60,8 +42,8 @@ const AuthStackNavigator = () => {
         }}
       />
     </AuthStack.Navigator>
-  )
-}
+  );
+};
 
 const styles = StyleSheet.create({
   headerStyle: {
@@ -70,6 +52,6 @@ const styles = StyleSheet.create({
     shadowOpacity: 0,
     elevation: 0, // remove shadow on Android
   },
-})
+});
 
-export default AuthStackNavigator
+export default AuthStackNavigator;

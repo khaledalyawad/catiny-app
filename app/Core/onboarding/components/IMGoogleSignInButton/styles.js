@@ -1,10 +1,10 @@
-import { StyleSheet } from 'react-native'
+import { StyleSheet } from 'react-native';
 
 const styles = StyleSheet.create({
   image: {
     width: 40,
     height: 40,
   },
-})
+});
 
-export default styles
+export default styles;

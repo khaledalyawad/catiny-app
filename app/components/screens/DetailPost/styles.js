@@ -1,10 +1,10 @@
-import { StyleSheet } from 'react-native'
-import AppStyles from '../../../AppStyles'
+import { StyleSheet } from 'react-native';
+import AppStyles from '../../../AppStyles';
 
-const commentItemHeight = 80
-const commentBodyPaddingLeft = 8
+const commentItemHeight = 80;
+const commentBodyPaddingLeft = 8;
 
-const dynamicStyles = colorScheme => {
+const dynamicStyles = (colorScheme) => {
   return new StyleSheet.create({
     detailPostContainer: {
       flex: 1,
@@ -81,7 +81,7 @@ const dynamicStyles = colorScheme => {
       width: 22,
       tintColor: AppStyles.colorSet[colorScheme].mainTextColor,
     },
-  })
-}
+  });
+};
 
-export default dynamicStyles
+export default dynamicStyles;

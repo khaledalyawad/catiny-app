@@ -1,40 +1,34 @@
-import React, {
-  useContext,
-  useState,
-  useEffect,
-  useLayoutEffect,
-  useRef,
-} from 'react'
-import { useSelector, ReactReduxContext } from 'react-redux'
-import { Appearance } from 'react-native-appearance'
-import { IMChatHomeComponent } from '../../Core/chat'
-import { TNTouchableIcon } from '../../Core/truly-native'
-import { IMLocalized } from '../../Core/localization/IMLocalization'
-import { FriendshipAPITracker } from '../../Core/socialgraph/friendships/api'
-import AppStyles from '../../AppStyles'
+import React, { useContext, useState, useEffect, useLayoutEffect, useRef } from 'react';
+import { useSelector, ReactReduxContext } from 'react-redux';
+import { Appearance } from 'react-native-appearance';
+import { IMChatHomeComponent } from '../../Core/chat';
+import { TNTouchableIcon } from '../../Core/truly-native';
+import { IMLocalized } from '../../Core/localization/IMLocalization';
+import { FriendshipAPITracker } from '../../Core/socialgraph/friendships/api';
+import AppStyles from '../../AppStyles';
 
-const ChatScreen = props => {
-  const { store } = useContext(ReactReduxContext)
+const ChatScreen = (props) => {
+  const { store } = useContext(ReactReduxContext);
 
-  const colorScheme = Appearance.getColorScheme()
-  let currentTheme = AppStyles.navThemeConstants[colorScheme]
+  const colorScheme = Appearance.getColorScheme();
+  let currentTheme = AppStyles.navThemeConstants[colorScheme];
 
-  const [loading, setLoading] = useState(false)
-  const [willBlur, setWillBlur] = useState(false)
+  const [loading, setLoading] = useState(false);
+  const [willBlur, setWillBlur] = useState(false);
 
-  const searchBarRef = useRef()
-  const friendshipTracker = useRef(null)
-  const willBlurSubscription = useRef(null)
+  const searchBarRef = useRef();
+  const friendshipTracker = useRef(null);
+  const willBlurSubscription = useRef(null);
   const didFocusSubscription = useRef(
-    props.navigation.addListener('focus', payload => {
-      setWillBlur(false)
+    props.navigation.addListener('focus', (payload) => {
+      setWillBlur(false);
     }),
-  )
+  );
 
-  const currentUser = useSelector(state => state.auth.user)
-  const friends = useSelector(state => state.friends.friends)
-  const friendships = useSelector(state => state.friends.friendships)
-  const audioVideoChatConfig = useSelector(state => state.audioVideoChat)
+  const currentUser = useSelector((state) => state.auth.user);
+  const friends = useSelector((state) => state.friends.friends);
+  const friendships = useSelector((state) => state.friends.friendships);
+  const audioVideoChatConfig = useSelector((state) => state.audioVideoChat);
 
   useLayoutEffect(() => {
     props.navigation.setOptions({
@@ -43,9 +37,7 @@ const ChatScreen = props => {
         <TNTouchableIcon
           imageStyle={{ tintColor: currentTheme.fontColor }}
           iconSource={AppStyles.iconSet.inscription}
-          onPress={() =>
-            props.navigation.navigate('CreateGroup', { appStyles: AppStyles })
-          }
+          onPress={() => props.navigation.navigate('CreateGroup', { appStyles: AppStyles })}
           appStyles={AppStyles}
         />
       ),
@@ -62,73 +54,64 @@ const ChatScreen = props => {
         backgroundColor: currentTheme.backgroundColor,
       },
       headerTintColor: currentTheme.fontColor,
-    })
-  }, [])
+    });
+  }, []);
 
   useEffect(() => {
-    friendshipTracker.current = new FriendshipAPITracker(
-      store,
-      currentUser.id || currentUser.userID,
-      true,
-      false,
-      true,
-    )
+    friendshipTracker.current = new FriendshipAPITracker(store, currentUser.id || currentUser.userID, true, false, true);
 
-    friendshipTracker.current.subscribeIfNeeded()
-  }, [currentUser])
+    friendshipTracker.current.subscribeIfNeeded();
+  }, [currentUser]);
 
   useEffect(() => {
-    willBlurSubscription.current = props.navigation.addListener(
-      'blur',
-      payload => {
-        setWillBlur(true)
-      },
-    )
+    willBlurSubscription.current = props.navigation.addListener('blur', (payload) => {
+      setWillBlur(true);
+    });
     return () => {
-      willBlurSubscription.current && willBlurSubscription.current()
-      didFocusSubscription.current && didFocusSubscription.current()
-    }
-  }, [])
+      willBlurSubscription.current && willBlurSubscription.current();
+      didFocusSubscription.current && didFocusSubscription.current();
+    };
+  }, []);
 
   useEffect(() => {
     if (willBlur) {
-      friendshipTracker.current.unsubscribe()
+      friendshipTracker.current.unsubscribe();
     }
-  }, [willBlur])
+  }, [willBlur]);
 
   const openDrawer = () => {
-    props.navigation.openDrawer()
-  }
+    props.navigation.openDrawer();
+  };
 
-  const onFriendItemPress = friend => {
-    const id1 = currentUser.id || currentUser.userID
-    const id2 = friend.id || friend.userID
+  const onFriendItemPress = (friend) => {
+    const id1 = currentUser.id || currentUser.userID;
+    const id2 = friend.id || friend.userID;
     if (id1 == id2) {
-      return
+      return;
     }
     const channel = {
       id: id1 < id2 ? id1 + id2 : id2 + id1,
       participants: [friend],
-    }
+    };
     props.navigation.navigate('PersonalChat', {
       channel,
       appStyles: AppStyles,
-    })
-  }
+    });
+  };
 
   const onSearchButtonPress = async () => {
     props.navigation.navigate('UserSearchScreen', {
       appStyles: AppStyles,
       followEnabled: false,
-    })
-  }
+    });
+  };
 
   const onEmptyStatePress = () => {
-    onSearchButtonPress()
-  }
-  const onSenderProfilePicturePress = item => {
-    console.log(item)
-  }
+    onSearchButtonPress();
+  };
+  const onSenderProfilePicturePress = (item) => {
+    console.log(item);
+  };
 
   return (
     <IMChatHomeComponent
@@ -143,7 +126,7 @@ const ChatScreen = props => {
       onEmptyStatePress={onEmptyStatePress}
       onSenderProfilePicturePress={onSenderProfilePicturePress}
     />
-  )
-}
+  );
+};
 
-export default ChatScreen
+export default ChatScreen;

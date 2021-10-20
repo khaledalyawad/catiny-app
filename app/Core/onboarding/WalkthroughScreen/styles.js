@@ -1,4 +1,4 @@
-import { StyleSheet } from 'react-native'
+import { StyleSheet } from 'react-native';
 
 const dynamicStyles = (appStyles, colorScheme) => {
   return StyleSheet.create({
@@ -33,7 +33,7 @@ const dynamicStyles = (appStyles, colorScheme) => {
       color: 'white',
       marginTop: 10,
     },
-  })
-}
+  });
+};
 
-export default dynamicStyles
+export default dynamicStyles;

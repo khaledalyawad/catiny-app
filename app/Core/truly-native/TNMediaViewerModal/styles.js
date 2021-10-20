@@ -1,8 +1,8 @@
-import { StyleSheet, Dimensions } from 'react-native'
-import { ifIphoneX } from 'react-native-iphone-x-helper'
+import { StyleSheet, Dimensions } from 'react-native';
+import { ifIphoneX } from 'react-native-iphone-x-helper';
 
-const { width, height } = Dimensions.get('window')
-const closeButtonSize = Math.floor(height * 0.032)
+const { width, height } = Dimensions.get('window');
+const closeButtonSize = Math.floor(height * 0.032);
 
 const styles = StyleSheet.create({
   container: {
@@ -97,6 +97,6 @@ const styles = StyleSheet.create({
     height: 1,
     backgroundColor: 'black',
   },
-})
+});
 
-export default styles
+export default styles;

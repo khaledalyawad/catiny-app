@@ -1,10 +1,10 @@
-import { StyleSheet, Dimensions, I18nManager } from 'react-native'
-import { modedColor } from '../../helpers/colors'
-import TNColor from '../../truly-native/TNColor'
+import { StyleSheet, Dimensions, I18nManager } from 'react-native';
+import { modedColor } from '../../helpers/colors';
+import TNColor from '../../truly-native/TNColor';
 
-const { height } = Dimensions.get('window')
-const imageSize = height * 0.232
-const photoIconSize = imageSize * 0.27
+const { height } = Dimensions.get('window');
+const imageSize = height * 0.232;
+const photoIconSize = imageSize * 0.27;
 
 const dynamicStyles = (appStyles, colorScheme) => {
   return StyleSheet.create({
@@ -49,10 +49,7 @@ const dynamicStyles = (appStyles, colorScheme) => {
       height: 42,
       borderWidth: 1,
       borderColor: appStyles.colorSet[colorScheme].grey3,
-      backgroundColor: modedColor(
-        appStyles.colorSet[colorScheme].mainThemeBackgroundColor,
-        TNColor('#e0e0e0'),
-      ),
+      backgroundColor: modedColor(appStyles.colorSet[colorScheme].mainThemeBackgroundColor, TNColor('#e0e0e0')),
       paddingLeft: 20,
       color: appStyles.colorSet[colorScheme].mainTextColor,
       width: '80%',
@@ -138,7 +135,7 @@ const dynamicStyles = (appStyles, colorScheme) => {
       justifyContent: 'center',
       height: 30,
     },
-  })
-}
+  });
+};
 
-export default dynamicStyles
+export default dynamicStyles;

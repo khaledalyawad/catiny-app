@@ -1,6 +1,6 @@
-import { StyleSheet } from 'react-native'
+import { StyleSheet } from 'react-native';
 
-const imageSize = 40
+const imageSize = 40;
 
 const dynamicStyles = (appStyles, colorScheme) => {
   return StyleSheet.create({
@@ -63,7 +63,7 @@ const dynamicStyles = (appStyles, colorScheme) => {
       flex: 1,
       backgroundColor: appStyles.colorSet[colorScheme].mainThemeBackgroundColor,
     },
-  })
-}
+  });
+};
 
-export default dynamicStyles
+export default dynamicStyles;

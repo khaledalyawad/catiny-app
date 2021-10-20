@@ -33,7 +33,7 @@ export const mockFriend1 = {
     longitude: 3.398943,
   },
   userID: 'advvwdv2v2v22v1',
-}
+};
 
 const mockFriend2 = {
   ...mockFriend1,
@@ -41,10 +41,9 @@ const mockFriend2 = {
   userID: 'advvwdv2v2v22v1qaa',
   email: 'deletom@gmail.com',
   firstName: 'Dele',
-  profilePictureURL:
-    'https://static2.thethingsimages.com/wordpress/wp-content/uploads/2020/05/15-Sickest-Concept-Cars-In-2020-1.jpg',
+  profilePictureURL: 'https://static2.thethingsimages.com/wordpress/wp-content/uploads/2020/05/15-Sickest-Concept-Cars-In-2020-1.jpg',
   isOnline: false,
-}
+};
 
 const mockFriend3 = {
   ...mockFriend1,
@@ -54,11 +53,10 @@ const mockFriend3 = {
 
   lastName: 'Rex',
 
-  profilePictureURL:
-    'http://2.bp.blogspot.com/-qRbQOVe3Y1o/UAWBHxJKSBI/AAAAAAAAKNY/fqFSYEtaTss/s1920/yellow-sports-car-wallpaper.jpg',
+  profilePictureURL: 'http://2.bp.blogspot.com/-qRbQOVe3Y1o/UAWBHxJKSBI/AAAAAAAAKNY/fqFSYEtaTss/s1920/yellow-sports-car-wallpaper.jpg',
   isOnline: false,
   userID: 'advvwdv2v2v22v1qaa1',
-}
+};
 
 const mockFriend4 = {
   ...mockFriend1,
@@ -66,10 +64,9 @@ const mockFriend4 = {
   firstName: 'Daniel',
   id: 'advvwdv2v2v22v1qaa11',
   lastName: 'Rex',
-  profilePictureURL:
-    'https://101clipart.com/wp-content/uploads/08/Children%20Walking%20Clipart%2012.jpg',
+  profilePictureURL: 'https://101clipart.com/wp-content/uploads/08/Children%20Walking%20Clipart%2012.jpg',
   userID: 'advvwdv2v2v22v1qaa1',
-}
+};
 
 const mockFriend5 = {
   ...mockFriend1,
@@ -77,18 +74,11 @@ const mockFriend5 = {
   firstName: 'Paul',
   id: 'advvwdv2v2v22v1qa3a11',
   lastName: 'Rex',
-  profilePictureURL:
-    'https://image.shutterstock.com/image-photo/image-450w-425716696.jpg',
+  profilePictureURL: 'https://image.shutterstock.com/image-photo/image-450w-425716696.jpg',
   userID: 'advvwdv2v2v22v1qaa1',
-}
+};
 
-export const mockFriends = [
-  mockFriend1,
-  mockFriend2,
-  mockFriend3,
-  mockFriend4,
-  mockFriend5,
-]
+export const mockFriends = [mockFriend1, mockFriend2, mockFriend3, mockFriend4, mockFriend5];
 
 export const mockFriendships = [
   { type: 'reciprocal', user: mockFriend1 },
@@ -96,4 +86,4 @@ export const mockFriendships = [
   { type: 'reciprocal', user: mockFriend3 },
   { type: 'reciprocal', user: mockFriend4 },
   { type: 'reciprocal', user: mockFriend5 },
-]
+];

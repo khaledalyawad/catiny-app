@@ -1,2 +1,2 @@
-export { userReports } from './reducers'
-export { setBannedUserIDs } from './actions'
+export { userReports } from './reducers';
+export { setBannedUserIDs } from './actions';

@@ -1,14 +1,14 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import { ScrollView, ActivityIndicator } from 'react-native'
-import { KeyboardAwareView } from 'react-native-keyboard-aware-view'
+import React from 'react';
+import PropTypes from 'prop-types';
+import { ScrollView, ActivityIndicator } from 'react-native';
+import { KeyboardAwareView } from 'react-native-keyboard-aware-view';
 // import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
-import { useColorScheme } from 'react-native-appearance'
-import FeedItem from '../../FeedItem/FeedItem'
-import CommentItem from './CommentItem'
-import CommentInput from './CommentInput'
-import TNMediaViewerModal from '../../../Core/truly-native/TNMediaViewerModal'
-import dynamicStyles from './styles'
+import { useColorScheme } from 'react-native-appearance';
+import FeedItem from '../../FeedItem/FeedItem';
+import CommentItem from './CommentItem';
+import CommentInput from './CommentInput';
+import TNMediaViewerModal from '../../../Core/truly-native/TNMediaViewerModal';
+import dynamicStyles from './styles';
 
 function DetailPost(props) {
   const {
@@ -30,25 +30,25 @@ function DetailPost(props) {
     user,
     commentsLoading,
     navigation,
-  } = props
-  const colorScheme = useColorScheme()
-  const styles = dynamicStyles(colorScheme)
+  } = props;
+  const colorScheme = useColorScheme();
+  const styles = dynamicStyles(colorScheme);
 
   const onCommentPress = () => {
-    console.log('comment')
-  }
+    console.log('comment');
+  };
 
-  const onTextFieldUserPress = userInfo => {
+  const onTextFieldUserPress = (userInfo) => {
     navigation.navigate('MainProfile', {
       user: userInfo,
       stackKeyTitle: 'MainProfile',
       lastScreenTitle: 'MainProfile',
-    })
-  }
+    });
+  };
 
-  const onTextFieldHashTagPress = hashtag => {
-    navigation.push('FeedSearch', { hashtag })
-  }
+  const onTextFieldHashTagPress = (hashtag) => {
+    navigation.push('FeedSearch', { hashtag });
+  };
 
   return (
     <KeyboardAwareView style={styles.detailPostContainer}>
@@ -70,10 +70,7 @@ function DetailPost(props) {
         {commentsLoading ? (
           <ActivityIndicator style={{ marginVertical: 7 }} size="small" />
         ) : (
-          commentItems &&
-          commentItems.map(comment => (
-            <CommentItem item={comment} key={comment.id} />
-          ))
+          commentItems && commentItems.map((comment) => <CommentItem item={comment} key={comment.id} />)
         )}
       </ScrollView>
       <CommentInput onCommentSend={onCommentSend} />
@@ -84,7 +81,7 @@ function DetailPost(props) {
         selectedMediaIndex={selectedMediaIndex}
       />
     </KeyboardAwareView>
-  )
+  );
 }
 
 DetailPost.propTypes = {
@@ -98,6 +95,6 @@ DetailPost.propTypes = {
   feedItems: PropTypes.array,
   isMediaViewerOpen: PropTypes.bool,
   selectedMediaIndex: PropTypes.number,
-}
+};
 
-export default DetailPost
+export default DetailPost;

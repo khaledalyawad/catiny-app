@@ -1,76 +1,59 @@
-import React, {
-  useState,
-  useRef,
-  useEffect,
-  useLayoutEffect,
-  useContext,
-} from 'react'
-import { Platform, BackHandler } from 'react-native'
-import { useSelector, ReactReduxContext, useDispatch } from 'react-redux'
-import { Profile } from '../../components'
-import { userAPIManager, storageAPI } from '../../Core/api'
-import { friendship } from '../../Core/socialgraph/friendships/api'
-import AppStyles from '../../AppStyles'
-import { IMLocalized } from '../../Core/localization/IMLocalization'
-import { setUserData } from '../../Core/onboarding/redux/auth'
-import { TNTouchableIcon } from '../../Core/truly-native'
-import SocialNetworkConfig from '../../SocialNetworkConfig'
-import { FriendshipConstants } from '../../Core/socialgraph/friendships'
-import {
-  postAPIManager,
-  commentAPIManager,
-  FeedManager,
-} from '../../Core/socialgraph/feed/api'
-import { FriendshipManager } from '../../Core/socialgraph/friendships/api'
-import { Appearance } from 'react-native-appearance'
+import React, { useState, useRef, useEffect, useLayoutEffect, useContext } from 'react';
+import { Platform, BackHandler } from 'react-native';
+import { useSelector, ReactReduxContext, useDispatch } from 'react-redux';
+import { Profile } from '../../components';
+import { userAPIManager, storageAPI } from '../../Core/api';
+import { friendship } from '../../Core/socialgraph/friendships/api';
+import AppStyles from '../../AppStyles';
+import { IMLocalized } from '../../Core/localization/IMLocalization';
+import { setUserData } from '../../Core/onboarding/redux/auth';
+import { TNTouchableIcon } from '../../Core/truly-native';
+import SocialNetworkConfig from '../../SocialNetworkConfig';
+import { FriendshipConstants } from '../../Core/socialgraph/friendships';
+import { postAPIManager, commentAPIManager, FeedManager } from '../../Core/socialgraph/feed/api';
+import { FriendshipManager } from '../../Core/socialgraph/friendships/api';
+import { Appearance } from 'react-native-appearance';
 
-const defaultAvatar =
-  'https://www.iosapptemplates.com/wp-content/uploads/2019/06/empty-avatar.jpg'
-const initialCountDisplay = 6
+const defaultAvatar = 'https://www.iosapptemplates.com/wp-content/uploads/2019/06/empty-avatar.jpg';
+const initialCountDisplay = 6;
 
-const ProfileScreen = props => {
-  const { store } = useContext(ReactReduxContext)
+const ProfileScreen = (props) => {
+  const { store } = useContext(ReactReduxContext);
 
-  let colorScheme = Appearance.getColorScheme()
-  let currentTheme = AppStyles.navThemeConstants[colorScheme]
+  let colorScheme = Appearance.getColorScheme();
+  let currentTheme = AppStyles.navThemeConstants[colorScheme];
 
-  const friends = useSelector(state => state.friends.friends)
-  const currentUser = useSelector(state => state.auth.user)
-  const friendships = useSelector(state => state.friends.friendships)
-  const currentUserFeedPosts = useSelector(
-    state => state.feed.currentUserFeedPosts,
-  )
+  const friends = useSelector((state) => state.friends.friends);
+  const currentUser = useSelector((state) => state.auth.user);
+  const friendships = useSelector((state) => state.friends.friendships);
+  const currentUserFeedPosts = useSelector((state) => state.feed.currentUserFeedPosts);
 
-  const otherUser = props.route?.params?.user
-  const [shouldAddFriend, setShouldAddFriend] = useState(null)
-  const dispatch = useDispatch()
+  const otherUser = props.route?.params?.user;
+  const [shouldAddFriend, setShouldAddFriend] = useState(null);
+  const dispatch = useDispatch();
 
-  const [isLoading, setIsLoading] = useState(true)
-  const [profilePosts, setProfilePosts] = useState(null)
-  const [isMediaViewerOpen, setIsMediaViewerOpen] = useState(false)
-  const [selectedFeedItems, setSelectedFeedItems] = useState([])
-  const [friendsUi, setFriendsUi] = useState([])
-  const [loading, setLoading] = useState(true)
-  const [uploadProgress, setUploadProgress] = useState(0)
-  const [isFetching, setIsFetching] = useState(false)
-  const [selectedMediaIndex, setSelectedMediaIndex] = useState(null)
-  const [feedBatchLimit, setFeedBatchLimit] = useState(15)
-  const [fetchCallCount, setFetchCallCount] = useState(0)
-  const [stackKeyTitle, setStackKeyTitle] = useState('Profile')
-  const [displaySubButton, setDisplaySubButton] = useState(null)
-  const [ProfileSettingsTitle, setProfileSettingsTitle] = useState(
-    'ProfileProfileSettings',
-  )
+  const [isLoading, setIsLoading] = useState(true);
+  const [profilePosts, setProfilePosts] = useState(null);
+  const [isMediaViewerOpen, setIsMediaViewerOpen] = useState(false);
+  const [selectedFeedItems, setSelectedFeedItems] = useState([]);
+  const [friendsUi, setFriendsUi] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [uploadProgress, setUploadProgress] = useState(0);
+  const [isFetching, setIsFetching] = useState(false);
+  const [selectedMediaIndex, setSelectedMediaIndex] = useState(null);
+  const [feedBatchLimit, setFeedBatchLimit] = useState(15);
+  const [fetchCallCount, setFetchCallCount] = useState(0);
+  const [stackKeyTitle, setStackKeyTitle] = useState('Profile');
+  const [displaySubButton, setDisplaySubButton] = useState(null);
+  const [ProfileSettingsTitle, setProfileSettingsTitle] = useState('ProfileProfileSettings');
 
-  const [lastScreenTitle, setLastScreenTitle] = useState(
-    props.route?.params?.lastScreenTitle,
-  )
-  const [mainButtonTitle, setMainButtonTitle] = useState('')
+  const [lastScreenTitle, setLastScreenTitle] = useState(props.route?.params?.lastScreenTitle);
+  const [mainButtonTitle, setMainButtonTitle] = useState('');
 
-  const feedManager = useRef(null)
-  const friendshipManager = useRef(null)
-  const currentProfileFeedUnsubscribe = useRef(null)
-  const currentUserUnsubscribe = useRef(null)
+  const feedManager = useRef(null);
+  const friendshipManager = useRef(null);
+  const currentProfileFeedUnsubscribe = useRef(null);
+  const currentUserUnsubscribe = useRef(null);
 
   useLayoutEffect(() => {
     props.navigation.setOptions({
@@ -89,7 +72,7 @@ const ProfileScreen = props => {
         borderBottomColor: currentTheme.hairlineColor,
       },
       headerTintColor: currentTheme.fontColor,
-    })
+    });
 
     if (!otherUser && Platform.OS === 'android') {
       props.navigation.setOptions({
@@ -101,259 +84,209 @@ const ProfileScreen = props => {
             appStyles={AppStyles}
           />
         ),
-      })
+      });
     }
-  }, [lastScreenTitle])
+  }, [lastScreenTitle]);
 
   useEffect(() => {
-    const keyTitle = props.route?.params?.stackKeyTitle
+    const keyTitle = props.route?.params?.stackKeyTitle;
 
     if (keyTitle) {
-      setStackKeyTitle(keyTitle)
+      setStackKeyTitle(keyTitle);
     }
 
     if (lastScreenTitle) {
-      setProfileSettingsTitle(lastScreenTitle + 'ProfileSettings')
+      setProfileSettingsTitle(lastScreenTitle + 'ProfileSettings');
     } else {
-      setLastScreenTitle('Profile')
+      setLastScreenTitle('Profile');
     }
 
-    feedManager.current = new FeedManager(store, currentUser.id)
-    feedManager.current.subscribeIfNeeded()
+    feedManager.current = new FeedManager(store, currentUser.id);
+    feedManager.current.subscribeIfNeeded();
 
-    friendshipManager.current = new FriendshipManager(
-      false,
-      onFriendshipsRetrieved,
-    )
+    friendshipManager.current = new FriendshipManager(false, onFriendshipsRetrieved);
     if (otherUser && otherUser.id != currentUser.id) {
-      let profileUserID = otherUser.id
-      currentProfileFeedUnsubscribe.current =
-        postAPIManager.subscribeToProfileFeedPosts(
-          profileUserID,
-          onProfileFeedUpdate,
-        )
-      currentUserUnsubscribe.current = userAPIManager.subscribeCurrentUser(
-        profileUserID,
-        onCurrentUserUpdate,
-      )
-      setIsLoading(true)
-      friendshipManager.current.fetchFriendships(otherUser.id)
+      let profileUserID = otherUser.id;
+      currentProfileFeedUnsubscribe.current = postAPIManager.subscribeToProfileFeedPosts(profileUserID, onProfileFeedUpdate);
+      currentUserUnsubscribe.current = userAPIManager.subscribeCurrentUser(profileUserID, onCurrentUserUpdate);
+      setIsLoading(true);
+      friendshipManager.current.fetchFriendships(otherUser.id);
     } else {
-      currentProfileFeedUnsubscribe.current =
-        postAPIManager.subscribeToProfileFeedPosts(
-          currentUser.id,
-          onProfileFeedUpdate,
-        )
-      currentUserUnsubscribe.current = userAPIManager.subscribeCurrentUser(
-        currentUser.id,
-        onCurrentUserUpdate,
-      )
-      friendshipManager.current.fetchFriendships(currentUser.id)
+      currentProfileFeedUnsubscribe.current = postAPIManager.subscribeToProfileFeedPosts(currentUser.id, onProfileFeedUpdate);
+      currentUserUnsubscribe.current = userAPIManager.subscribeCurrentUser(currentUser.id, onCurrentUserUpdate);
+      friendshipManager.current.fetchFriendships(currentUser.id);
 
-      setProfilePosts(
-        feedManager.current.hydratePostsWithReduxReactions(
-          currentUserFeedPosts,
-        ),
-      )
-      setIsLoading(true)
+      setProfilePosts(feedManager.current.hydratePostsWithReduxReactions(currentUserFeedPosts));
+      setIsLoading(true);
     }
     return () => {
-      currentProfileFeedUnsubscribe.current &&
-        currentProfileFeedUnsubscribe.current()
-      currentUserUnsubscribe.current && currentUserUnsubscribe.current()
-      friendshipManager.current && friendshipManager.current.unsubscribe()
-    }
-  }, [])
+      currentProfileFeedUnsubscribe.current && currentProfileFeedUnsubscribe.current();
+      currentUserUnsubscribe.current && currentUserUnsubscribe.current();
+      friendshipManager.current && friendshipManager.current.unsubscribe();
+    };
+  }, []);
 
   useEffect(() => {
     if (!friendships) {
-      return
+      return;
     }
     if (shouldAddFriend === null) {
-      setShouldAddFriend(
-        otherUser
-          ? !friendships.find(friend => friend?.user?.id === otherUser?.id)
-          : false,
-      )
+      setShouldAddFriend(otherUser ? !friendships.find((friend) => friend?.user?.id === otherUser?.id) : false);
     }
-  }, [friendships])
+  }, [friendships]);
 
-  const onCurrentUserUpdate = currentUser => {}
+  const onCurrentUserUpdate = (currentUser) => {};
 
-  const onFriendshipsRetrieved = (
-    mutualFriendships,
-    inboundFriendships,
-    outboundFriendships,
-  ) => {
-    setLoading(false)
-    const friends = mutualFriendships.map(friendship => friendship.user)
-    setFriendsUi(friends.slice(0, initialCountDisplay))
-    setDisplaySubButton(friends && friends.length > initialCountDisplay)
-  }
+  const onFriendshipsRetrieved = (mutualFriendships, inboundFriendships, outboundFriendships) => {
+    setLoading(false);
+    const friends = mutualFriendships.map((friendship) => friendship.user);
+    setFriendsUi(friends.slice(0, initialCountDisplay));
+    setDisplaySubButton(friends && friends.length > initialCountDisplay);
+  };
 
-  const onProfileFeedUpdate = profilePosts => {
-    setProfilePosts(
-      feedManager.current.hydratePostsWithReduxReactions(profilePosts),
-    )
-    setLoading(false)
-  }
+  const onProfileFeedUpdate = (profilePosts) => {
+    setProfilePosts(feedManager.current.hydratePostsWithReduxReactions(profilePosts));
+    setLoading(false);
+  };
 
   const navigateNotifi = () => {
     props.navigation.navigate(lastScreenTitle + 'Notification', {
       lastScreenTitle: lastScreenTitle,
       appStyles: AppStyles,
-    })
-  }
+    });
+  };
 
   const openDrawer = () => {
-    props.navigation.openDrawer()
-  }
+    props.navigation.openDrawer();
+  };
 
   const onMainButtonPress = () => {
     if (shouldAddFriend) {
-      onAddFriend()
-      return
+      onAddFriend();
+      return;
     }
     if (otherUser) {
-      onMessage()
-      return
+      onMessage();
+      return;
     }
     props.navigation.navigate(ProfileSettingsTitle, {
       lastScreenTitle: lastScreenTitle,
       appStyles: AppStyles,
       appConfig: SocialNetworkConfig,
-    })
-  }
+    });
+  };
 
   const onMessage = () => {
-    const viewer = currentUser
-    const viewerID = viewer.id || viewer.userID
-    const friendID = otherUser.id || otherUser.userID
+    const viewer = currentUser;
+    const viewerID = viewer.id || viewer.userID;
+    const friendID = otherUser.id || otherUser.userID;
     let channel = {
       id: viewerID < friendID ? viewerID + friendID : friendID + viewerID,
       participants: [otherUser],
-    }
+    };
     props.navigation.navigate('PersonalChat', {
       channel,
       appStyles: AppStyles,
-    })
-  }
+    });
+  };
 
   const onMediaClose = () => {
-    setIsMediaViewerOpen(false)
-  }
+    setIsMediaViewerOpen(false);
+  };
 
-  const startUpload = async source => {
+  const startUpload = async (source) => {
     dispatch(
       setUserData({
         user: { ...currentUser, profilePictureURL: source?.path || source.uri },
         profilePictureURL: source?.path || source.uri,
       }),
-    )
+    );
 
     storageAPI.processAndUploadMediaFileWithProgressTracking(
       source,
-      async snapshot => {
-        const uploadProgress =
-          (snapshot.bytesTransferred / snapshot.totalBytes) * 100
-        setUploadProgress(uploadProgress)
+      async (snapshot) => {
+        const uploadProgress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+        setUploadProgress(uploadProgress);
       },
-      async url => {
+      async (url) => {
         const data = {
           profilePictureURL: url,
-        }
+        };
         dispatch(
           setUserData({
             user: { ...currentUser, profilePictureURL: url },
           }),
-        )
+        );
 
-        userAPIManager.updateUserData(currentUser.id, data)
-        setUploadProgress(0)
+        userAPIManager.updateUserData(currentUser.id, data);
+        setUploadProgress(0);
       },
-      error => {
-        setUploadProgress(0)
-        console.log(error)
-        alert(
-          IMLocalized(
-            'Oops! An error occured while trying to update your profile picture. Please try again.',
-          ),
-        )
-        console.log(error)
+      (error) => {
+        setUploadProgress(0);
+        console.log(error);
+        alert(IMLocalized('Oops! An error occured while trying to update your profile picture. Please try again.'));
+        console.log(error);
       },
-    )
-  }
+    );
+  };
 
   const removePhoto = async () => {
     const res = await userAPIManager.updateUserData(currentUser.id, {
       profilePictureURL: defaultAvatar,
-    })
+    });
     if (res.success) {
       dispatch(
         setUserData({
           user: { ...currentUser, profilePictureURL: defaultAvatar },
         }),
-      )
+      );
     } else {
-      alert(
-        IMLocalized(
-          'Oops! An error occured while trying to remove your profile picture. Please try again.',
-        ),
-      )
+      alert(IMLocalized('Oops! An error occured while trying to remove your profile picture. Please try again.'));
     }
-  }
+  };
 
   const onAddFriend = () => {
-    const newFriendId = otherUser.id || otherUser.userID
-    setShouldAddFriend(false)
+    const newFriendId = otherUser.id || otherUser.userID;
+    setShouldAddFriend(false);
 
-    friendship.addFriendRequest(
-      currentUser,
-      otherUser,
-      true,
-      false,
-      true,
-      ({ success, error }) => {
-        if (error) {
-          alert(error)
-          setShouldAddFriend(true)
-        } else {
-          const newFriendId = otherUser.id || otherUser.userID
-          const detectedFriendship = friendships.find(
-            friendship =>
-              friendship.user.id == newFriendId &&
-              friendship.type == FriendshipConstants.FriendshipType.reciprocal,
-          )
-          if (detectedFriendship) {
-            friendship.updateFeedsForNewFriends(currentUser.id, newFriendId)
-          }
+    friendship.addFriendRequest(currentUser, otherUser, true, false, true, ({ success, error }) => {
+      if (error) {
+        alert(error);
+        setShouldAddFriend(true);
+      } else {
+        const newFriendId = otherUser.id || otherUser.userID;
+        const detectedFriendship = friendships.find(
+          (friendship) => friendship.user.id == newFriendId && friendship.type == FriendshipConstants.FriendshipType.reciprocal,
+        );
+        if (detectedFriendship) {
+          friendship.updateFeedsForNewFriends(currentUser.id, newFriendId);
         }
-      },
-    )
-  }
+      }
+    });
+  };
 
   const onEmptyStatePress = () => {
-    props.navigation.navigate('CreatePost')
-  }
+    props.navigation.navigate('CreatePost');
+  };
 
-  const handleOnEndReached = distanceFromEnd => {
+  const handleOnEndReached = (distanceFromEnd) => {
     if (isFetching) {
-      return
+      return;
     }
     if (fetchCallCount > 1) {
-      return
+      return;
     }
-  }
+  };
 
   const onReaction = async (reaction, item) => {
-    feedManager.current.applyReaction(reaction, item, false)
-    commentAPIManager.handleReaction(reaction, currentUser, item, false)
-  }
+    feedManager.current.applyReaction(reaction, item, false);
+    commentAPIManager.handleReaction(reaction, currentUser, item, false);
+  };
 
-  const onSharePost = async item => {
-    let url = ''
+  const onSharePost = async (item) => {
+    let url = '';
     if (item.postMedia?.length > 0) {
-      url = item.postMedia[0]?.url || item.postMedia[0]
+      url = item.postMedia[0]?.url || item.postMedia[0];
     }
     try {
       const result = await Share.share(
@@ -365,31 +298,31 @@ const ProfileScreen = props => {
         {
           dialogTitle: 'Share SocialNetwork post.',
         },
-      )
+      );
     } catch (error) {
-      alert(error.message)
+      alert(error.message);
     }
-  }
+  };
 
-  const onDeletePost = async item => {
-    const res = await postAPIManager.deletePost(item, true)
+  const onDeletePost = async (item) => {
+    const res = await postAPIManager.deletePost(item, true);
     if (res.error) {
-      alert(res.error)
+      alert(res.error);
     }
-  }
+  };
 
-  const onFriendItemPress = item => {
+  const onFriendItemPress = (item) => {
     if (item.id === currentUser.id || item.userID === currentUser.id) {
       props.navigation.push(stackKeyTitle, {
         stackKeyTitle: stackKeyTitle,
-      })
+      });
     } else {
       props.navigation.push(stackKeyTitle, {
         user: item,
         stackKeyTitle: stackKeyTitle,
-      })
+      });
     }
-  }
+  };
 
   const onSubButtonTitlePress = () => {
     props.navigation.push(lastScreenTitle + 'AllFriends', {
@@ -400,61 +333,61 @@ const ProfileScreen = props => {
       includeReciprocal: true,
       appStyles: AppStyles,
       followEnabled: false,
-    })
-  }
+    });
+  };
 
-  const onFeedUserItemPress = async author => {
+  const onFeedUserItemPress = async (author) => {
     if (other && other.id == author.id) {
-      return
+      return;
     }
     if (!other) {
-      return
+      return;
     }
     if (author.id === currentUser.id) {
       props.navigation.navigate('DiscoverProfile', {
         stackKeyTitle: stackKeyTitle,
         lastScreenTitle: lastScreenTitle,
-      })
+      });
     } else {
       props.navigation.navigate('DiscoverProfile', {
         user: author,
         stackKeyTitle: stackKeyTitle,
         lastScreenTitle: lastScreenTitle,
-      })
+      });
     }
-  }
+  };
 
   const onMediaPress = (media, mediaIndex) => {
-    setSelectedMediaIndex(mediaIndex)
-    setSelectedFeedItems(media)
-    setIsMediaViewerOpen(true)
-  }
+    setSelectedMediaIndex(mediaIndex);
+    setSelectedFeedItems(media);
+    setIsMediaViewerOpen(true);
+  };
 
-  const onCommentPress = item => {
+  const onCommentPress = (item) => {
     props.navigation.navigate(`${stackKeyTitle}PostDetails`, {
       item: item,
       lastScreenTitle: 'Profile',
-    })
-  }
+    });
+  };
 
   useEffect(() => {
-    setDisplaySubButton(friends && friends.length > initialCountDisplay)
-    setFriendsUi(friends ? friends.slice(0, initialCountDisplay) : null)
-  }, [])
+    setDisplaySubButton(friends && friends.length > initialCountDisplay);
+    setFriendsUi(friends ? friends.slice(0, initialCountDisplay) : null);
+  }, []);
 
   useEffect(() => {
     if (!otherUser) {
-      setMainButtonTitle(IMLocalized('Profile Settings'))
-      return
+      setMainButtonTitle(IMLocalized('Profile Settings'));
+      return;
     }
     if (otherUser && shouldAddFriend !== null) {
       if (shouldAddFriend) {
-        setMainButtonTitle(IMLocalized('Add Friend'))
-        return
+        setMainButtonTitle(IMLocalized('Add Friend'));
+        return;
       }
-      setMainButtonTitle(IMLocalized('Send Message'))
+      setMainButtonTitle(IMLocalized('Send Message'));
     }
-  }, [shouldAddFriend])
+  }, [shouldAddFriend]);
 
   return (
     <Profile
@@ -488,7 +421,7 @@ const ProfileScreen = props => {
       onEmptyStatePress={onEmptyStatePress}
       navigation={props.navigation}
     />
-  )
-}
+  );
+};
 
-export default ProfileScreen
+export default ProfileScreen;

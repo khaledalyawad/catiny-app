@@ -2,7 +2,7 @@
  * Implement These Methods If You Are Adding Your Own Custom Backend
  */
 
-import { mockData } from '../../onboarding/utils/api/local/localData'
+import { mockData } from '../../onboarding/utils/api/local/localData';
 
 /**
  * Determine whether the user is in the database
@@ -23,43 +23,43 @@ import { mockData } from '../../onboarding/utils/api/local/localData'
 const handleUserFromAuthStateChanged = (user, resolve) => {
   //if user is in our database in call resolve({ ...userData, id: user.uid, userID: user.uid });
   //if user object is null or the user is not logged in then resolve(null)
-  resolve({ user: mockData })
-}
+  resolve({ user: mockData });
+};
 
 /**
  * this function tries to retrieve persisted user from other auth providers e.g Firebase, facebook, apple
  *
  * @param {function} resolve
  */
-export const tryAlternatePersistedAuthUserRetriever = resolve => {
+export const tryAlternatePersistedAuthUserRetriever = (resolve) => {
   // verify user is in on the current device and the user exists on our database
   // if success call resolve({ ...userData, id: user.uid, userID: user.uid });
   // if error call resolve(null)
-  resolve({ user: mockData })
-}
+  resolve({ user: mockData });
+};
 
 /**
  * Verify that the user is logged in on that device
  */
 export const retrievePersistedAuthUser = () => {
   // return a promise
-  return new Promise(resolve => {
+  return new Promise((resolve) => {
     // retrieve saved user from local storage and verify that the user....
     //   is saved in our database for all auth providers
     // if success call resolve({ ...userData, id: user.uid, userID: user.uid });
     // if error call resolve(null)
-    resolve(mockData)
-  })
-}
+    resolve(mockData);
+  });
+};
 
 /**
  * Send password reset to user
  *
  * @param {String} email email of the user retrieving password
  */
-export const sendPasswordResetEmail = email => {
+export const sendPasswordResetEmail = (email) => {
   //send password reset email
-}
+};
 
 /**
  * Sign in with Credential || for apple and facebook auth providers
@@ -81,9 +81,9 @@ const signInWithCredential = (authManager, credential, appIdentifier) => {
     // });
     // or
     // resolve({ error: ErrorCode.serverError });
-    resolve({ user: mockData })
-  })
-}
+    resolve({ user: mockData });
+  });
+};
 
 /**
  * Register user
@@ -107,9 +107,9 @@ export const register = (userDetails, appIdentifier) => {
     // register the user in the database
     // if successful resolve({ user: data });
     // if error call resolve({ error: ErrorCode.[the correct error code] });
-    resolve({ user: mockData })
-  })
-}
+    resolve({ user: mockData });
+  });
+};
 
 /**
  * Login with email and password
@@ -126,9 +126,9 @@ export const loginWithEmailAndPassword = async (email, password) => {
     // or
     // resolve({ error: ErrorCode.[the correct error code] });
     // resolve({user: mockData})
-    resolve({ user: mockData })
-  })
-}
+    resolve({ user: mockData });
+  });
+};
 
 /**
  * Login with Apple
@@ -139,7 +139,7 @@ export const loginWithEmailAndPassword = async (email, password) => {
  */
 export const loginWithApple = (identityToken, nonce, appIdentifier) => {
   // initialize apple credential
-  const appleCredential = null
+  const appleCredential = null;
 
   // return a promise
   return new Promise((resolve, _reject) => {
@@ -152,9 +152,9 @@ export const loginWithApple = (identityToken, nonce, appIdentifier) => {
     // };
     // or
     // { error: ErrorCode.serverError };
-    resolve({ user: mockData })
-  })
-}
+    resolve({ user: mockData });
+  });
+};
 
 /**
  * Login with Facebook
@@ -164,7 +164,7 @@ export const loginWithApple = (identityToken, nonce, appIdentifier) => {
  */
 export const loginWithFacebook = (accessToken, appIdentifier) => {
   // initialize facebook credential
-  const credential = null
+  const credential = null;
 
   // return a promise
   return new Promise((resolve, _reject) => {
@@ -177,42 +177,42 @@ export const loginWithFacebook = (accessToken, appIdentifier) => {
     // };
     // or
     // { error: ErrorCode.serverError };
-    resolve({ user: mockData })
-  })
-}
+    resolve({ user: mockData });
+  });
+};
 
 /**
  * Logout of the device
  */
 export const logout = () => {
   // sign out of app for all auth providers
-}
+};
 
 /**
  * A listener that verifies the user's phone number
  *
  * @param {String} phone phone number being verified
  */
-export const onVerificationChanged = phone => {
+export const onVerificationChanged = (phone) => {
   //optional
   // listen on and verify user's
-}
+};
 
 /**
  * Retrieve user from database using phone number
  *
  * @param {String} phone user's phone number being retreived
  */
-export const retrieveUserByPhone = phone => {
+export const retrieveUserByPhone = (phone) => {
   // return a promise
-  return new Promise(resolve => {
+  return new Promise((resolve) => {
     // check if the user is logged using phone number
     // call resolve({ error: true }); or
     // call resolve({ success: true });
 
-    resolve({ error: true })
-  })
-}
+    resolve({ error: true });
+  });
+};
 
 /**
  * Send SMS to phone number
@@ -227,8 +227,8 @@ export const sendSMSToPhoneNumber = (phoneNumber, captchaVerifier) => {
     // call resolve({ confirmationResult });
     // confirmationResult takes the format: {verificationID: string}
     // resolve({ error: ErrorCode.smsNotSent });
-  })
-}
+  });
+};
 
 /**
  * Login with SMS
@@ -238,16 +238,16 @@ export const sendSMSToPhoneNumber = (phoneNumber, captchaVerifier) => {
  */
 export const loginWithSMSCode = (smsCode, verificationID) => {
   // initialize phone credential
-  const credential = null
+  const credential = null;
 
   // return a promise
   return new Promise(function (resolve, _reject) {
     // login with SMS
     // if successful call resolve({user: userData }); or
     // resolve({ error: ErrorCode.[the correct error code] });
-    resolve({ user: mockData })
-  })
-}
+    resolve({ user: mockData });
+  });
+};
 
 /**
  * Register user with Phone number
@@ -266,20 +266,15 @@ export const loginWithSMSCode = (smsCode, verificationID) => {
  * @param {String} verificationID the verification ID received from the backend
  * @param {String} appIdentifier the appIdentifier
  */
-export const registerWithPhoneNumber = (
-  userDetails,
-  smsCode,
-  verificationID,
-  appIdentifier,
-) => {
+export const registerWithPhoneNumber = (userDetails, smsCode, verificationID, appIdentifier) => {
   // return a promise
   return new Promise(function (resolve, _reject) {
     // register user using user data
     // if successful resolve({ user: data }); or
     // resolve({ error: ErrorCode.[the correct error code] });
-    resolve({ user: mockData })
-  })
-}
+    resolve({ user: mockData });
+  });
+};
 
 /**
  * Update profile picture
@@ -293,16 +288,16 @@ export const updateProfilePhoto = (userID, profilePictureURL) => {
     // update profile picture
     // if success call resolve({ success: true });
     // resolve({ error: error });
-    resolve({ success: true })
-  })
-}
+    resolve({ success: true });
+  });
+};
 
 /**
  * Fetch push token from device and store
  *
  * @param {String} user the user object of the current user
  */
-export const fetchAndStorePushTokenIfPossible = async user => {
+export const fetchAndStorePushTokenIfPossible = async (user) => {
   // fetch push token and update for user data with new data
   //   example
   //{
@@ -310,7 +305,7 @@ export const fetchAndStorePushTokenIfPossible = async user => {
   //     pushKitToken: '',
   //     badgeCount: 0,
   // }
-}
+};
 
 /**
  *
@@ -334,15 +329,15 @@ export const updateUser = async (userID, newData) => {
    *    profilePictureURL,
    *  };
    */
-  return { user: mockData }
-}
+  return { user: mockData };
+};
 
 /**
  * Fetch user Data by user ID
  *
  * @param {String} userID user id of current user
  */
-export const getUserByID = async userID => {
+export const getUserByID = async (userID) => {
   // retreive user data ID
   // if successful return user object or
   // return null
@@ -358,10 +353,10 @@ export const getUserByID = async userID => {
    *    profilePictureURL,
    *  };
    */
-  return mockData
-}
+  return mockData;
+};
 /**This function irreversibly removes the user from the database and auth table
  *
  * @param {String} userID the id of the current user
  */
-export const removeUser = userID => {}
+export const removeUser = (userID) => {};

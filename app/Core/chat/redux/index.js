@@ -1,20 +1,20 @@
-const SET_CHANNELS = 'SET_CHANNELS'
-const SET_CHANNELS_SUBCRIBED = 'SET_CHANNELS_SUBCRIBED'
+const SET_CHANNELS = 'SET_CHANNELS';
+const SET_CHANNELS_SUBCRIBED = 'SET_CHANNELS_SUBCRIBED';
 
-export const setChannels = data => ({
+export const setChannels = (data) => ({
   type: SET_CHANNELS,
   data,
-})
+});
 
-export const setChannelsSubcribed = data => ({
+export const setChannelsSubcribed = (data) => ({
   type: SET_CHANNELS_SUBCRIBED,
   data,
-})
+});
 
 const initialState = {
   channels: null,
   areChannelsSubcribed: false,
-}
+};
 
 export const chat = (state = initialState, action) => {
   switch (action.type) {
@@ -22,15 +22,15 @@ export const chat = (state = initialState, action) => {
       return {
         ...state,
         areChannelsSubcribed: action.data,
-      }
+      };
     case SET_CHANNELS:
       return {
         ...state,
         channels: [...action.data],
-      }
+      };
     case 'LOG_OUT':
-      return initialState
+      return initialState;
     default:
-      return state
+      return state;
   }
-}
+};

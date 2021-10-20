@@ -1,5 +1,5 @@
-import { StyleSheet, Dimensions, Platform } from 'react-native'
-const width = Dimensions.get('window').width
+import { StyleSheet, Dimensions, Platform } from 'react-native';
+const width = Dimensions.get('window').width;
 
 const dynamicStyles = (colorScheme, appStyles) => {
   return new StyleSheet.create({
@@ -52,8 +52,8 @@ const dynamicStyles = (colorScheme, appStyles) => {
       color: 'rgba(0, 0, 0, 0.1)',
       fontSize: 16,
     },
-  })
-}
+  });
+};
 
 export const mentionStyle = {
   mention: {
@@ -62,6 +62,6 @@ export const mentionStyle = {
     backgroundColor: 'rgba(36, 77, 201, 0.05)',
     color: '#244dc9',
   },
-}
+};
 
-export default dynamicStyles
+export default dynamicStyles;

@@ -1,4 +1,4 @@
-export { feed } from './reducers'
+export { feed } from './reducers';
 export {
   setMainFeedPosts,
   setDiscoverFeedPosts,
@@ -6,4 +6,4 @@ export {
   setFeedPostReactions,
   setMainStories,
   setFeedListenerDidSubscribe,
-} from './actions'
+} from './actions';

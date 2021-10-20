@@ -1,14 +1,13 @@
-import { StyleSheet, Dimensions } from 'react-native'
-import { ifIphoneX } from 'react-native-iphone-x-helper'
-import { size } from '../../helpers/devices'
+import { StyleSheet, Dimensions } from 'react-native';
+import { ifIphoneX } from 'react-native-iphone-x-helper';
+import { size } from '../../helpers/devices';
 
-const WINDOW_WIDTH = Dimensions.get('window').width
+const WINDOW_WIDTH = Dimensions.get('window').width;
 
 const dynamicStyles = (appStyles, colorScheme, outBound) => {
-  const chatBackgroundColor =
-    appStyles.colorSet[colorScheme].mainThemeBackgroundColor
-  const audioPlayPauseContainerSize = 24
-  const audioPlayIconSize = 15
+  const chatBackgroundColor = appStyles.colorSet[colorScheme].mainThemeBackgroundColor;
+  const audioPlayPauseContainerSize = 24;
+  const audioPlayIconSize = 15;
 
   return StyleSheet.create({
     safeAreaViewContainer: {
@@ -407,9 +406,7 @@ const dynamicStyles = (appStyles, colorScheme, outBound) => {
       justifyContent: 'center',
       alignItems: 'center',
       borderWidth: 2,
-      borderColor: outBound
-        ? appStyles.colorSet[colorScheme].hairlineColor
-        : appStyles.colorSet[colorScheme].mainThemeForegroundColor,
+      borderColor: outBound ? appStyles.colorSet[colorScheme].hairlineColor : appStyles.colorSet[colorScheme].mainThemeForegroundColor,
       height: audioPlayPauseContainerSize,
       width: audioPlayPauseContainerSize,
       borderRadius: Math.floor(audioPlayPauseContainerSize / 2),
@@ -436,31 +433,23 @@ const dynamicStyles = (appStyles, colorScheme, outBound) => {
     audioPlayIcon: {
       width: audioPlayIconSize,
       height: audioPlayIconSize,
-      tintColor: outBound
-        ? appStyles.colorSet[colorScheme].hairlineColor
-        : appStyles.colorSet[colorScheme].mainThemeForegroundColor,
+      tintColor: outBound ? appStyles.colorSet[colorScheme].hairlineColor : appStyles.colorSet[colorScheme].mainThemeForegroundColor,
       // marginLeft: 2,
     },
     audioTimerCount: {
-      color: outBound
-        ? appStyles.colorSet[colorScheme].hairlineColor
-        : appStyles.colorSet[colorScheme].mainThemeForegroundColor,
+      color: outBound ? appStyles.colorSet[colorScheme].hairlineColor : appStyles.colorSet[colorScheme].mainThemeForegroundColor,
       fontSize: 12,
     },
     // maximumAudioTrackTintColor: {
     //   color: appStyles.colorSet[colorScheme].hairlineColor,
     // },
     minimumAudioTrackTintColor: {
-      color: outBound
-        ? appStyles.colorSet[colorScheme].hairlineColor
-        : appStyles.colorSet[colorScheme].mainThemeForegroundColor,
+      color: outBound ? appStyles.colorSet[colorScheme].hairlineColor : appStyles.colorSet[colorScheme].mainThemeForegroundColor,
     },
     audioThumbTintColor: {
-      color: outBound
-        ? appStyles.colorSet[colorScheme].hairlineColor
-        : appStyles.colorSet[colorScheme].mainThemeForegroundColor,
+      color: outBound ? appStyles.colorSet[colorScheme].hairlineColor : appStyles.colorSet[colorScheme].mainThemeForegroundColor,
     },
-  })
-}
+  });
+};
 
-export default dynamicStyles
+export default dynamicStyles;

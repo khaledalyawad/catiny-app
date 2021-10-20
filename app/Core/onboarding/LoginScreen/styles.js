@@ -1,7 +1,7 @@
-import { I18nManager } from 'react-native'
-import { StyleSheet } from 'react-native'
-import { modedColor } from '../../helpers/colors'
-import TNColor from '../../truly-native/TNColor'
+import { I18nManager } from 'react-native';
+import { StyleSheet } from 'react-native';
+import { modedColor } from '../../helpers/colors';
+import TNColor from '../../truly-native/TNColor';
 
 const dynamicStyles = (appStyles, colorScheme) => {
   return StyleSheet.create({
@@ -44,10 +44,7 @@ const dynamicStyles = (appStyles, colorScheme) => {
       height: 42,
       borderWidth: 1,
       borderColor: appStyles.colorSet[colorScheme].grey3,
-      backgroundColor: modedColor(
-        appStyles.colorSet[colorScheme].mainThemeBackgroundColor,
-        TNColor('#e0e0e0'),
-      ),
+      backgroundColor: modedColor(appStyles.colorSet[colorScheme].mainThemeBackgroundColor, TNColor('#e0e0e0')),
       paddingLeft: 20,
       color: appStyles.colorSet[colorScheme].mainTextColor,
       width: '80%',
@@ -94,7 +91,7 @@ const dynamicStyles = (appStyles, colorScheme) => {
       fontSize: 14,
       padding: 4,
     },
-  })
-}
+  });
+};
 
-export default dynamicStyles
+export default dynamicStyles;

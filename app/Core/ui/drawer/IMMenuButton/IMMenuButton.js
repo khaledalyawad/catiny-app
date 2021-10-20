@@ -1,12 +1,12 @@
-import React from 'react'
-import { Image, Text, TouchableHighlight, View } from 'react-native'
-import { useColorScheme } from 'react-native-appearance'
-import dynamicStyles from './styles'
+import React from 'react';
+import { Image, Text, TouchableHighlight, View } from 'react-native';
+import { useColorScheme } from 'react-native-appearance';
+import dynamicStyles from './styles';
 
-const IMMenuButton = props => {
-  const { appStyles } = props
-  const colorScheme = useColorScheme()
-  const styles = dynamicStyles(appStyles, colorScheme)
+const IMMenuButton = (props) => {
+  const { appStyles } = props;
+  const colorScheme = useColorScheme();
+  const styles = dynamicStyles(appStyles, colorScheme);
 
   return (
     <TouchableHighlight
@@ -18,7 +18,7 @@ const IMMenuButton = props => {
         <Text style={styles.btnText}>{props.title}</Text>
       </View>
     </TouchableHighlight>
-  )
-}
+  );
+};
 
-export default IMMenuButton
+export default IMMenuButton;

@@ -1,8 +1,8 @@
-import { Dimensions } from 'react-native'
-import { StyleSheet } from 'react-native'
+import { Dimensions } from 'react-native';
+import { StyleSheet } from 'react-native';
 
-const { height } = Dimensions.get('window')
-const imageSize = height * 0.14
+const { height } = Dimensions.get('window');
+const imageSize = height * 0.14;
 
 const dynamicStyles = (appStyles, colorScheme) => {
   return StyleSheet.create({
@@ -55,7 +55,7 @@ const dynamicStyles = (appStyles, colorScheme) => {
       borderRadius: 5,
       textAlign: 'center',
     },
-  })
-}
+  });
+};
 
-export default dynamicStyles
+export default dynamicStyles;

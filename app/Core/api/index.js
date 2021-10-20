@@ -13,8 +13,8 @@
 // export { storageAPI, authAPI, PaymentAPIManager, userAPIManager };
 
 // Remove these lines if you want to remove firebase and add your own custom backend:
-import storageAPI from './firebase/storage'
-import * as authAPI from './firebase/auth'
-import PaymentAPIManager from './firebase/paymentMethods'
-import * as userAPIManager from './firebase/user'
-export { storageAPI, authAPI, PaymentAPIManager, userAPIManager }
+import storageAPI from './firebase/storage';
+import * as authAPI from './firebase/auth';
+import PaymentAPIManager from './firebase/paymentMethods';
+import * as userAPIManager from './firebase/user';
+export { storageAPI, authAPI, PaymentAPIManager, userAPIManager };

@@ -2,7 +2,7 @@
  * Implement These Methods If You Are Adding Your Own Custom Backend
  */
 
-import { mockPostsData } from './localData'
+import { mockPostsData } from './localData';
 
 // Mock data format:
 // [
@@ -55,14 +55,14 @@ import { mockPostsData } from './localData'
  * @callback - A callback method that gets called every time changes are identified in the server-side main_feeds
  **/
 export const subscribeToMainFeedPosts = (userID, callback) => {
-  const postRef = null
+  const postRef = null;
   // subscribe to the main_feeds collection with a limit of 100 entries
   // every time there are changes in hashtags server side, we call the callback, e.g.
   // callback(feedPosts)
   // return postref
-  callback(mockPostsData)
-  return postRef
-}
+  callback(mockPostsData);
+  return postRef;
+};
 
 /**
  * Removes post from all friends timeline
@@ -71,15 +71,15 @@ export const subscribeToMainFeedPosts = (userID, callback) => {
  *
  * @callback - A callback method that gets called every time changes are identified in the server-side channels
  **/
-export const subscribeToDiscoverFeedPosts = callback => {
-  const postRef = null
+export const subscribeToDiscoverFeedPosts = (callback) => {
+  const postRef = null;
   // subscribe to the hashtags collection with a limit of 100 entries
   // every time there are changes in hashtags server side, we call the callback, e.g.
   // callback(posts)
   // return postref
-  callback(mockPostsData)
-  return postRef
-}
+  callback(mockPostsData);
+  return postRef;
+};
 
 /**
  * Removes post from all friends timeline
@@ -90,14 +90,14 @@ export const subscribeToDiscoverFeedPosts = callback => {
  * @callback - A callback method that gets called every time changes are identified in the server-side hashtags
  **/
 export const subscribeToHashtagFeedPosts = (hashtag, callback) => {
-  const postRef = null
+  const postRef = null;
   // subscribe to the hashtags collection with a limit of 100 entries
   // every time there are changes in hashtags server side, we call the callback, e.g.
   // callback(feedposts)
   // return postref
-  callback([])
-  return postRef
-}
+  callback([]);
+  return postRef;
+};
 
 /**
  * Removes post from all friends timeline
@@ -108,14 +108,14 @@ export const subscribeToHashtagFeedPosts = (hashtag, callback) => {
  * @callback - A callback method that gets called every time changes are identified in the server-side profile-feeds
  **/
 export const subscribeToProfileFeedPosts = (userID, callback) => {
-  const postRef = null
+  const postRef = null;
   // subscribe to the posts collection, based on userID
   // every time there are changes in channels server side, we call the callback, e.g.
   // callback(listoffeedposts)
   // return postref
-  callback(mockPostsData)
-  return postRef
-}
+  callback(mockPostsData);
+  return postRef;
+};
 
 /**
  * Subscribe to a single post
@@ -135,8 +135,8 @@ export const subscribeToSinglePost = (postID, callback) => {
   // call callback(post)
   //
   // call callback(null) if no post is returned
-  callback(mockPostsData[2])
-}
+  callback(mockPostsData[2]);
+};
 
 /**
  * Removes post from all friends timeline
@@ -150,7 +150,7 @@ export const hydrateFeedForNewFriendship = async (destUserID, sourceUserID) => {
   // we take all posts & stories from sourceUserID and populate the feed & stories of destUserID
   // we subscribe to mainfeedposts collections and update main feed posts
   // unsubscribe
-}
+};
 
 /**
  * Removes post from all friends timeline
@@ -182,7 +182,7 @@ export const removeFeedForOldFriendship = async (destUserID, oldFriendID) => {
   // We remove all posts authored by oldFriendID from destUserID's feed
   // we subscribe to mainfeedposts collections and delete post from old friend timeline
   // unsubscribe
-}
+};
 
 /**
  * Removes post from all friends timeline
@@ -220,7 +220,7 @@ const filterForReactions = (reactions, post) => {
   //     });
   //   }
   // });
-}
+};
 
 /**
  * Removes post from all friends timeline
@@ -242,7 +242,7 @@ const filterForReactions = (reactions, post) => {
  * 
  * 
  **/
-export const getNewPosts = async body => {
+export const getNewPosts = async (body) => {
   // let {
   //   feedBatchLimit,
   //   lastVisibleFeed,
@@ -266,8 +266,8 @@ export const getNewPosts = async body => {
   return {
     error: 'Oops! an occurred while trying to get post. Please try again.',
     success: false,
-  }
-}
+  };
+};
 
 /**
  * Removes post from all friends timeline
@@ -290,8 +290,8 @@ export const getNewPosts = async body => {
 export const subscribeNewPost = (users, callback) => {
   // subscribe for new post based on new users and update user reaction for each post
   // return callback(posts);
-  return callback(mockPostsData)
-}
+  return callback(mockPostsData);
+};
 
 /**
  * Removes post from all friends timeline
@@ -313,8 +313,8 @@ export const addPost = async (post, followerIDs, author) => {
   // update post on the backend using postId
   // for each of the followerIDs update the post for other followers
   //return return response { success: true }; or return { error, success: true };
-  return { error: { message: 'Error' }, success: true }
-}
+  return { error: { message: 'Error' }, success: true };
+};
 
 /**
  * Removes post from all friends timeline
@@ -349,8 +349,8 @@ export const updatePost = async (postId, post, followerIDs) => {
   // update post on the backend using postId
   // for each of the followerIDs update the post for other followers
   //return return response { success: true }; or return { error, success: true };
-  return { error, success: true }
-}
+  return { error, success: true };
+};
 
 /**
  * Removes post from all friends timeline
@@ -377,7 +377,7 @@ export const updatePost = async (postId, post, followerIDs) => {
  *
  * returns response object
  **/
-export const getPost = async postId => {
+export const getPost = async (postId) => {
   // initialize postRef using the postId
   // fetch post based on postID
   // if success
@@ -390,8 +390,8 @@ export const getPost = async postId => {
   return {
     error: 'Oops! an error occurred. Please try again',
     success: false,
-  }
-}
+  };
+};
 
 /**
  * Removes post from all friends timeline
@@ -435,12 +435,12 @@ export const deletePost = async (post, followEnabled) => {
   return {
     error: IMLocalized('Oops! an error occurred. Please try again'),
     success: false,
-  }
-}
+  };
+};
 
-const removePostFromAllTimelines = async post => {
+const removePostFromAllTimelines = async (post) => {
   // We fetch all users who follow the author of the post and update their timelines
-}
+};
 
 /**
  * Removes post from all friends timeline
@@ -468,10 +468,10 @@ const removePostFromAllTimelines = async post => {
  *
  * returns a promise that resolves to user data
  **/
-const removePostFromAllFriendsTimelines = async post => {
+const removePostFromAllFriendsTimelines = async (post) => {
   // subscribe to friendships collection
   // then delete all of them
-}
+};
 
 /**
  * A method that creates a new user
@@ -498,8 +498,8 @@ const removePostFromAllFriendsTimelines = async post => {
   }
 
  **/
-const removePostFromAllEntities = post => {
+const removePostFromAllEntities = (post) => {
   // check if post has hashtags
   // then loop over post hashtags and delete them
   // commit the operation
-}
+};

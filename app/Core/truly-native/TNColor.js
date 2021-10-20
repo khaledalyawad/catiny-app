@@ -1,9 +1,9 @@
-import invert from 'invert-color'
-import { Appearance } from 'react-native-appearance'
+import invert from 'invert-color';
+import { Appearance } from 'react-native-appearance';
 
-const TNColor = hexStringColor => {
-  return invert(hexStringColor)
-}
+const TNColor = (hexStringColor) => {
+  return invert(hexStringColor);
+};
 // const TNColor = hexStringColor => {
 //   const colorScheme = Appearance.getColorScheme();
 //   if (colorScheme === 'dark') {
@@ -11,4 +11,4 @@ const TNColor = hexStringColor => {
 //   }
 //   return hexStringColor;
 // };
-export default TNColor
+export default TNColor;

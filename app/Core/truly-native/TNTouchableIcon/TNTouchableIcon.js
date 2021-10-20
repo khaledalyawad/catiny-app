@@ -1,8 +1,8 @@
-import React from 'react'
-import { TouchableOpacity, Image, Text } from 'react-native'
-import PropTypes from 'prop-types'
-import dynamicStyles from './styles'
-import { useColorScheme } from 'react-native-appearance'
+import React from 'react';
+import { TouchableOpacity, Image, Text } from 'react-native';
+import PropTypes from 'prop-types';
+import dynamicStyles from './styles';
+import { useColorScheme } from 'react-native-appearance';
 
 function TNTouchableIcon(props) {
   const {
@@ -19,9 +19,9 @@ function TNTouchableIcon(props) {
     iconRef,
     onLayout,
     appStyles,
-  } = props
-  const colorScheme = useColorScheme()
-  const styles = dynamicStyles(appStyles, colorScheme)
+  } = props;
+  const colorScheme = useColorScheme();
+  const styles = dynamicStyles(appStyles, colorScheme);
 
   return (
     <TouchableOpacity
@@ -35,7 +35,7 @@ function TNTouchableIcon(props) {
       <Image style={[styles.Image, imageStyle]} source={iconSource} />
       {renderTitle && <Text style={[styles.title, titleStyle]}>{title}</Text>}
     </TouchableOpacity>
-  )
+  );
 }
 
 TNTouchableIcon.propTypes = {
@@ -51,6 +51,6 @@ TNTouchableIcon.propTypes = {
   renderTitle: PropTypes.bool,
   iconRef: PropTypes.any,
   onLayout: PropTypes.func,
-}
+};
 
-export default TNTouchableIcon
+export default TNTouchableIcon;

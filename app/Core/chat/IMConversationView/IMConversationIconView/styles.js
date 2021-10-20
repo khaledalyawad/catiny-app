@@ -1,10 +1,10 @@
-import { StyleSheet } from 'react-native'
+import { StyleSheet } from 'react-native';
 
-const VIEW_WIDTH = 60
-const MULTI_ICON_WIDTH = 40
-const RADIUS_BORDER_WIDTH = 2
-const TOP_ICON_WIDTH = MULTI_ICON_WIDTH + RADIUS_BORDER_WIDTH * 2
-const ONLINE_MARK_WIDTH = 9 + RADIUS_BORDER_WIDTH * 2
+const VIEW_WIDTH = 60;
+const MULTI_ICON_WIDTH = 40;
+const RADIUS_BORDER_WIDTH = 2;
+const TOP_ICON_WIDTH = MULTI_ICON_WIDTH + RADIUS_BORDER_WIDTH * 2;
+const ONLINE_MARK_WIDTH = 9 + RADIUS_BORDER_WIDTH * 2;
 
 const dynamicStyles = (appStyles, colorScheme) => {
   return StyleSheet.create({
@@ -61,7 +61,7 @@ const dynamicStyles = (appStyles, colorScheme) => {
       borderRadius: MULTI_ICON_WIDTH / 2,
       width: MULTI_ICON_WIDTH,
     },
-  })
-}
+  });
+};
 
-export default dynamicStyles
+export default dynamicStyles;

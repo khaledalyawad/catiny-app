@@ -1,86 +1,81 @@
-import React, { useState, useEffect } from 'react'
-import { Modal, View, SafeAreaView } from 'react-native'
-import PropTypes from 'prop-types'
-import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete'
-import { useColorScheme } from 'react-native-appearance'
-import MapView, { Marker } from 'react-native-maps'
-import * as Location from 'expo-location'
-import Geolocation from '@react-native-community/geolocation'
-import TextButton from 'react-native-button'
-import dynamicStyles from './styles'
+import React, { useState, useEffect } from 'react';
+import { Modal, View, SafeAreaView } from 'react-native';
+import PropTypes from 'prop-types';
+import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
+import { useColorScheme } from 'react-native-appearance';
+import MapView, { Marker } from 'react-native-maps';
+import * as Location from 'expo-location';
+import Geolocation from '@react-native-community/geolocation';
+import TextButton from 'react-native-button';
+import dynamicStyles from './styles';
 
-const locationDelta = { latitudeDelta: 0.0922, longitudeDelta: 0.0421 }
-const defaultGoogleApiKey = 'AIzaSyCc-7cU3-_x1VTV5eW3g2pVnl3vi9lvv7w'
+const locationDelta = { latitudeDelta: 0.0922, longitudeDelta: 0.0421 };
+const defaultGoogleApiKey = 'AIzaSyCc-7cU3-_x1VTV5eW3g2pVnl3vi9lvv7w';
 
 function IMLocationSelectorModal(props) {
-  const { onCancel, isVisible, onChangeLocation, onDone, appStyles, apiKey } =
-    props
-  const colorScheme = useColorScheme()
-  const styles = dynamicStyles(appStyles, colorScheme)
+  const { onCancel, isVisible, onChangeLocation, onDone, appStyles, apiKey } = props;
+  const colorScheme = useColorScheme();
+  const styles = dynamicStyles(appStyles, colorScheme);
 
   const [region, setRegion] = useState({
     latitude: 37.7749,
     longitude: -122.4194,
-  })
-  const [address, setAddress] = useState(' ')
+  });
+  const [address, setAddress] = useState(' ');
 
   useEffect(() => {
-    getCurrentPosition()
-  }, [])
+    getCurrentPosition();
+  }, []);
 
   const getCurrentPosition = () => {
     Geolocation.getCurrentPosition(
-      position => {
-        setRegion(position.coords)
-        onLocationChange(position.coords)
+      (position) => {
+        setRegion(position.coords);
+        onLocationChange(position.coords);
       },
-      error => {
-        console.log(error.message)
+      (error) => {
+        console.log(error.message);
       },
-    )
-  }
+    );
+  };
 
-  const onLocationChange = async location => {
+  const onLocationChange = async (location) => {
     try {
-      let json = await Location.reverseGeocodeAsync(location)
+      let json = await Location.reverseGeocodeAsync(location);
 
-      const choosenIndex = Math.floor(json.length * 0.8)
-      const formatted_address = `${json[choosenIndex].city}, ${json[choosenIndex].region}.`
-      setAddress(formatted_address)
-      onChangeLocation(formatted_address)
+      const choosenIndex = Math.floor(json.length * 0.8);
+      const formatted_address = `${json[choosenIndex].city}, ${json[choosenIndex].region}.`;
+      setAddress(formatted_address);
+      onChangeLocation(formatted_address);
     } catch (error) {
-      console.log(error)
-      setAddress('')
+      console.log(error);
+      setAddress('');
     }
-  }
+  };
 
   const setLocationDetails = (data, details) => {
-    const { geometry, name } = details
+    const { geometry, name } = details;
     if (geometry) {
       setRegion({
         longitude: geometry.location.lng,
         latitude: geometry.location.lat,
-      })
+      });
     }
 
     if (name) {
-      setAddress(name)
-      onChangeLocation(name)
+      setAddress(name);
+      onChangeLocation(name);
     }
-  }
+  };
 
-  const onMapMarkerDragEnd = location => {
-    const region = location.nativeEvent.coordinate
-    setRegion(region)
-    onLocationChange(region)
-  }
+  const onMapMarkerDragEnd = (location) => {
+    const region = location.nativeEvent.coordinate;
+    setRegion(region);
+    onLocationChange(region);
+  };
 
   return (
-    <Modal
-      animationType="slide"
-      transparent={false}
-      visible={isVisible}
-      onRequestClose={onCancel}>
+    <Modal animationType="slide" transparent={false} visible={isVisible} onRequestClose={onCancel}>
       <SafeAreaView style={styles.container}>
         <View style={styles.navBarContainer}>
           <View style={styles.leftButtonContainer}>
@@ -91,9 +86,7 @@ function IMLocationSelectorModal(props) {
           <View style={styles.navBarTitleContainer} />
 
           <View style={styles.rightButtonContainer}>
-            <TextButton
-              style={styles.buttonText}
-              onPress={() => onDone(address)}>
+            <TextButton style={styles.buttonText} onPress={() => onDone(address)}>
               Done
             </TextButton>
           </View>
@@ -106,12 +99,12 @@ function IMLocationSelectorModal(props) {
           keyboardAppearance={'light'} // Can be left out for default keyboardAppearance https://facebook.github.io/react-native/docs/textinput.html#keyboardappearance
           listViewDisplayed="auto" // true/false/undefined
           fetchDetails={true}
-          renderDescription={row => row.description} // custom description render
+          renderDescription={(row) => row.description} // custom description render
           onPress={(data, details = null) => {
-            const { formatted_address } = details
-            setAddress(formatted_address)
-            onChangeLocation(formatted_address)
-            setLocationDetails(data, details)
+            const { formatted_address } = details;
+            setAddress(formatted_address);
+            onChangeLocation(formatted_address);
+            setLocationDetails(data, details);
           }}
           getDefaultValue={() => ''}
           query={{
@@ -141,10 +134,7 @@ function IMLocationSelectorModal(props) {
             // available options for GooglePlacesDetails API : https://developers.google.com/places/web-service/details
             fields: 'formatted_address',
           }}
-          filterReverseGeocodingByTypes={[
-            'locality',
-            'administrative_area_level_3',
-          ]} // filter the reverse geocoding results by types - ['locality', 'administrative_area_level_3'] if you want to display only cities
+          filterReverseGeocodingByTypes={['locality', 'administrative_area_level_3']} // filter the reverse geocoding results by types - ['locality', 'administrative_area_level_3'] if you want to display only cities
           debounce={200} // debounce the requests in ms. Set to 0 to remove debounce. By default 0ms.
         />
         <MapView
@@ -153,15 +143,11 @@ function IMLocationSelectorModal(props) {
             ...region,
             ...locationDelta,
           }}>
-          <Marker
-            draggable={true}
-            onDragEnd={onMapMarkerDragEnd}
-            coordinate={region}
-          />
+          <Marker draggable={true} onDragEnd={onMapMarkerDragEnd} coordinate={region} />
         </MapView>
       </SafeAreaView>
     </Modal>
-  )
+  );
 }
 
 IMLocationSelectorModal.propTypes = {
@@ -169,6 +155,6 @@ IMLocationSelectorModal.propTypes = {
   onCancel: PropTypes.func,
   onDone: PropTypes.func,
   onChangeLocation: PropTypes.func,
-}
+};
 
-export default IMLocationSelectorModal
+export default IMLocationSelectorModal;

@@ -1,4 +1,4 @@
-import { StyleSheet } from 'react-native'
+import { StyleSheet } from 'react-native';
 
 const styles = StyleSheet.create({
   url: {
@@ -22,6 +22,6 @@ const styles = StyleSheet.create({
     color: 'blue',
     fontStyle: 'italic',
   },
-})
+});
 
-export default styles
+export default styles;

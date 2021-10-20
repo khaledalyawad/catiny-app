@@ -27,7 +27,7 @@ const nativePaymentMethod = {
   last4: Platform.OS === 'ios' ? 'Apple Pay' : 'Google Pay',
   iconSource: require('../../../CoreAssets/visa.png'),
   isNativePaymentMethod: true,
-}
+};
 
 export default class PaymentMethodDataManager {
   /**
@@ -37,7 +37,7 @@ export default class PaymentMethodDataManager {
    */
   constructor(appConfig) {
     //initialize appConfig
-    this.appConfig = appConfig
+    this.appConfig = appConfig;
   }
 
   /**
@@ -57,18 +57,18 @@ export default class PaymentMethodDataManager {
     // update user paymetn details
     // return { success: true };
     // return { error, success: false };
-  }
+  };
 
   /**
    *Delete a payment source from the database
    *
    * @param {String} cardId cardID of the currently signed in user
    */
-  deleteFromUserPaymentMethods = async cardId => {
+  deleteFromUserPaymentMethods = async (cardId) => {
     // delete payment method from database
     //   return { success: true }
     //   return { error, success: false };
-  }
+  };
 
   /**
    *
@@ -77,13 +77,13 @@ export default class PaymentMethodDataManager {
    */
   subscribePaymentMethods = (ownerId, callback) => {
     if (!ownerId) {
-      return
+      return;
     }
-    const ref = null // object that will  be used to unsubscribed from the listener
+    const ref = null; // object that will  be used to unsubscribed from the listener
     // listener always call callback(paymentMethods) whenever there's a change in the payment methods table
-    callback([nativePaymentMethod])
-    return ref //this object unsubscribes from the event
-  }
+    callback([nativePaymentMethod]);
+    return ref; //this object unsubscribes from the event
+  };
 
   /**
    * Save payment source
@@ -95,5 +95,5 @@ export default class PaymentMethodDataManager {
     // save source id based on users' stripe customer id
     //   return { response, success: true }; if successful
     //   return { error, success: false };
-  }
+  };
 }

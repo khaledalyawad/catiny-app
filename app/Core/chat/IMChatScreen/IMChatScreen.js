@@ -1,135 +1,121 @@
-import React, { useEffect, useLayoutEffect, useRef, useState } from 'react'
-import { useSelector, useDispatch } from 'react-redux'
-import { Alert, BackHandler, View, Dimensions } from 'react-native'
-import { useColorScheme } from 'react-native-appearance'
-import ImagePicker from 'react-native-image-crop-picker'
-import { IMIconButton } from '../../truly-native'
-import IMChat from '../IMChat/IMChat'
-import { channelManager, SingleChannelTracker } from '../api'
-import { storageAPI } from '../../api'
-import { reportingManager } from '../../user-reporting'
-import { IMLocalized } from '../../localization/IMLocalization'
-import { notificationManager } from '../../notifications'
+import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { Alert, BackHandler, View, Dimensions } from 'react-native';
+import { useColorScheme } from 'react-native-appearance';
+import ImagePicker from 'react-native-image-crop-picker';
+import { IMIconButton } from '../../truly-native';
+import IMChat from '../IMChat/IMChat';
+import { channelManager, SingleChannelTracker } from '../api';
+import { storageAPI } from '../../api';
+import { reportingManager } from '../../user-reporting';
+import { IMLocalized } from '../../localization/IMLocalization';
+import { notificationManager } from '../../notifications';
 
-const IMChatScreen = props => {
-  const appStyles = props.route.params.appStyles
-  const colorScheme = useColorScheme()
-  const currentTheme = appStyles.navThemeConstants[colorScheme]
+const IMChatScreen = (props) => {
+  const appStyles = props.route.params.appStyles;
+  const colorScheme = useColorScheme();
+  const currentTheme = appStyles.navThemeConstants[colorScheme];
 
-  const openedFromPushNotification =
-    props.route.params.openedFromPushNotification
-  const navigation = props.navigation
+  const openedFromPushNotification = props.route.params.openedFromPushNotification;
+  const navigation = props.navigation;
 
-  const currentUser = useSelector(state => state.auth.user)
-  const dispatch = useDispatch()
+  const currentUser = useSelector((state) => state.auth.user);
+  const dispatch = useDispatch();
 
-  const [channel, setChannel] = useState(null)
-  const [thread, setThread] = useState(null)
-  const [inputValue, setInputValue] = useState('')
-  const [downloadObject, setDownloadObject] = useState(null)
-  const [uploadProgress, setUploadProgress] = useState(0)
-  const [isMediaViewerOpen, setIsMediaViewerOpen] = useState(false)
-  const [isRenameDialogVisible, setIsRenameDialogVisible] = useState(false)
-  const [selectedMediaIndex, setSelectedMediaIndex] = useState(-1)
-  const [inReplyToItem, setInReplyToItem] = useState(null)
-  const [images, setImages] = useState([])
+  const [channel, setChannel] = useState(null);
+  const [thread, setThread] = useState(null);
+  const [inputValue, setInputValue] = useState('');
+  const [downloadObject, setDownloadObject] = useState(null);
+  const [uploadProgress, setUploadProgress] = useState(0);
+  const [isMediaViewerOpen, setIsMediaViewerOpen] = useState(false);
+  const [isRenameDialogVisible, setIsRenameDialogVisible] = useState(false);
+  const [selectedMediaIndex, setSelectedMediaIndex] = useState(-1);
+  const [inReplyToItem, setInReplyToItem] = useState(null);
+  const [images, setImages] = useState([]);
 
-  const threadUnsubscribe = useRef(null)
-  const singleChannelUnsubscribe = useRef(null)
-  const singleChannelTracker = useRef(null)
+  const threadUnsubscribe = useRef(null);
+  const singleChannelUnsubscribe = useRef(null);
+  const singleChannelTracker = useRef(null);
 
-  const groupSettingsActionSheetRef = useRef(null)
-  const privateSettingsActionSheetRef = useRef(null)
+  const groupSettingsActionSheetRef = useRef(null);
+  const privateSettingsActionSheetRef = useRef(null);
 
-  const [willBlur, setWillBlur] = useState(false)
-  const willBlurSubscription = useRef(null)
+  const [willBlur, setWillBlur] = useState(false);
+  const willBlurSubscription = useRef(null);
   const didFocusSubscription = useRef(
-    props.navigation.addListener('focus', payload => {
-      setWillBlur(false)
+    props.navigation.addListener('focus', (payload) => {
+      setWillBlur(false);
     }),
-  )
+  );
 
   useLayoutEffect(() => {
     if (!openedFromPushNotification) {
-      configureNavigation(
-        channelWithHydratedOtherParticipants(props.route.params.channel),
-      )
+      configureNavigation(channelWithHydratedOtherParticipants(props.route.params.channel));
     } else {
-      navigation.setOptions({ headerTitle: '' })
+      navigation.setOptions({ headerTitle: '' });
     }
-  }, [navigation])
+  }, [navigation]);
 
   useEffect(() => {
-    configureNavigation(channel)
-  }, [channel])
+    configureNavigation(channel);
+  }, [channel]);
 
   useEffect(() => {
     if (thread) {
-      configureImages()
+      configureImages();
     }
-  }, [thread])
+  }, [thread]);
 
   useEffect(() => {
     if (selectedMediaIndex !== -1) {
-      setIsMediaViewerOpen(true)
+      setIsMediaViewerOpen(true);
     } else {
-      setIsMediaViewerOpen(false)
+      setIsMediaViewerOpen(false);
     }
-  }, [selectedMediaIndex])
+  }, [selectedMediaIndex]);
 
   useEffect(() => {
-    const hydratedChannel = channelWithHydratedOtherParticipants(
-      props.route.params.channel,
-    )
+    const hydratedChannel = channelWithHydratedOtherParticipants(props.route.params.channel);
     if (!hydratedChannel) {
-      return
+      return;
     }
-    setChannel(hydratedChannel)
+    setChannel(hydratedChannel);
 
-    singleChannelTracker.current = new SingleChannelTracker(
-      hydratedChannel,
-      currentUser?.id,
-    )
-    singleChannelTracker.current.subscribe(onRemoteChannelRetrieved, setThread)
-  }, [currentUser?.id])
+    singleChannelTracker.current = new SingleChannelTracker(hydratedChannel, currentUser?.id);
+    singleChannelTracker.current.subscribe(onRemoteChannelRetrieved, setThread);
+  }, [currentUser?.id]);
 
   useEffect(() => {
-    willBlurSubscription.current = props.navigation.addListener(
-      'blur',
-      payload => {
-        setWillBlur(true)
-      },
-    )
+    willBlurSubscription.current = props.navigation.addListener('blur', (payload) => {
+      setWillBlur(true);
+    });
     return () => {
-      willBlurSubscription.current && willBlurSubscription.current()
-      didFocusSubscription.current && didFocusSubscription.current()
-    }
-  }, [])
+      willBlurSubscription.current && willBlurSubscription.current();
+      didFocusSubscription.current && didFocusSubscription.current();
+    };
+  }, []);
 
   useEffect(() => {
     if (downloadObject !== null) {
       // We've just finished the photo upload, so we send the message out
-      setUploadProgress(0)
-      onSendInput()
+      setUploadProgress(0);
+      onSendInput();
     }
-  }, [downloadObject])
+  }, [downloadObject]);
 
   useEffect(() => {
     if (willBlur) {
-      singleChannelTracker.current && singleChannelTracker.current.unsubscribe()
+      singleChannelTracker.current && singleChannelTracker.current.unsubscribe();
     }
-    BackHandler.addEventListener('hardwareBackPress', onBackButtonPressAndroid)
-  }, [willBlur])
+    BackHandler.addEventListener('hardwareBackPress', onBackButtonPressAndroid);
+  }, [willBlur]);
 
-  const configureNavigation = channel => {
-    var title = channel?.name
-    var isGroupChat = channel?.otherParticipants?.length > 1
+  const configureNavigation = (channel) => {
+    var title = channel?.name;
+    var isGroupChat = channel?.otherParticipants?.length > 1;
     if (!title && channel?.otherParticipants?.length > 0) {
       title =
-        channel.otherParticipants[0]?.firstName +
-          ' ' +
-          channel.otherParticipants[0]?.lastName ||
-        channel.otherParticipants[0]?.fullname
+        channel.otherParticipants[0]?.firstName + ' ' + channel.otherParticipants[0]?.lastName || channel.otherParticipants[0]?.fullname;
     }
 
     navigation.setOptions({
@@ -156,69 +142,61 @@ const IMChatScreen = props => {
           />
         </View>
       ),
-    })
-  }
+    });
+  };
 
-  const onRemoteChannelRetrieved = remoteChannel => {
+  const onRemoteChannelRetrieved = (remoteChannel) => {
     if (!remoteChannel) {
-      return
+      return;
     }
     // We have a hydrated channel, so we replace the partial channel we have on the state
-    const hydratedChannel = channelWithHydratedOtherParticipants(remoteChannel)
-    setChannel(hydratedChannel)
-    markThreadItemAsReadIfNeeded(hydratedChannel)
+    const hydratedChannel = channelWithHydratedOtherParticipants(remoteChannel);
+    setChannel(hydratedChannel);
+    markThreadItemAsReadIfNeeded(hydratedChannel);
 
     // We have a hydrated channel, so we update the title of the screen
     if (openedFromPushNotification) {
-      configureNavigation(hydratedChannel)
+      configureNavigation(hydratedChannel);
     }
-  }
+  };
 
-  const channelWithHydratedOtherParticipants = channel => {
-    const allParticipants = channel?.participants
+  const channelWithHydratedOtherParticipants = (channel) => {
+    const allParticipants = channel?.participants;
     if (!allParticipants) {
-      return channel
+      return channel;
     }
     // otherParticipants are all the participants in the chat, except for the currently logged in user
-    const otherParticipants =
-      allParticipants &&
-      allParticipants.filter(
-        participant => participant && participant.id != currentUser.id,
-      )
-    return { ...channel, otherParticipants }
-  }
+    const otherParticipants = allParticipants && allParticipants.filter((participant) => participant && participant.id != currentUser.id);
+    return { ...channel, otherParticipants };
+  };
 
   const onBackButtonPressAndroid = () => {
-    props.navigation.goBack()
-    return true
-  }
+    props.navigation.goBack();
+    return true;
+  };
 
   const onSettingsPress = () => {
     if (channel?.otherParticipants?.length > 1) {
-      groupSettingsActionSheetRef.current.show()
+      groupSettingsActionSheetRef.current.show();
     } else {
-      privateSettingsActionSheetRef.current.show()
+      privateSettingsActionSheetRef.current.show();
     }
-  }
+  };
 
-  const onChangeName = text => {
-    showRenameDialog(false)
-    const newChannel = { ...channel }
-    newChannel.name = text
-    channelManager.onRenameGroup(
-      text,
-      newChannel,
-      ({ success, error, newChannel }) => {
-        if (success) {
-          setChannel(newChannel)
-          configureNavigation(newChannel)
-        }
-        if (error) {
-          alert(error)
-        }
-      },
-    )
-  }
+  const onChangeName = (text) => {
+    showRenameDialog(false);
+    const newChannel = { ...channel };
+    newChannel.name = text;
+    channelManager.onRenameGroup(text, newChannel, ({ success, error, newChannel }) => {
+      if (success) {
+        setChannel(newChannel);
+        configureNavigation(newChannel);
+      }
+      if (error) {
+        alert(error);
+      }
+    });
+  };
 
   const onLeave = () => {
     Alert.alert(
@@ -233,241 +211,186 @@ const IMChatScreen = props => {
         { text: 'No' },
       ],
       { cancelable: false },
-    )
-  }
+    );
+  };
 
   const onLeaveDecided = () => {
-    channelManager.onLeaveGroup(
-      channel.id,
-      currentUser.id,
-      ({ success, error }) => {
-        if (success) {
-          navigation.goBack(null)
-        }
-        if (error) {
-          alert(error)
-        }
-      },
-    )
-  }
+    channelManager.onLeaveGroup(channel.id, currentUser.id, ({ success, error }) => {
+      if (success) {
+        navigation.goBack(null);
+      }
+      if (error) {
+        alert(error);
+      }
+    });
+  };
 
-  const showRenameDialog = show => {
-    setIsRenameDialogVisible(show)
-  }
+  const showRenameDialog = (show) => {
+    setIsRenameDialogVisible(show);
+  };
 
-  const markThreadItemAsReadIfNeeded = channel => {
-    const {
-      id: channelID,
-      lastThreadMessageId,
-      readUserIDs,
-      participants,
-      lastMessage,
-    } = channel
-    const userID = currentUser?.id
-    const isRead = readUserIDs?.includes(userID)
+  const markThreadItemAsReadIfNeeded = (channel) => {
+    const { id: channelID, lastThreadMessageId, readUserIDs, participants, lastMessage } = channel;
+    const userID = currentUser?.id;
+    const isRead = readUserIDs?.includes(userID);
 
     if (!isRead && channelID && lastMessage && userID) {
-      const newReadUserIDs = readUserIDs ? [...readUserIDs, userID] : [userID]
-      channelManager.markChannelThreadItemAsRead(
-        channelID,
-        userID,
-        lastThreadMessageId,
-        newReadUserIDs,
-        participants,
-      )
+      const newReadUserIDs = readUserIDs ? [...readUserIDs, userID] : [userID];
+      channelManager.markChannelThreadItemAsRead(channelID, userID, lastThreadMessageId, newReadUserIDs, participants);
     }
-  }
+  };
 
-  const onChangeTextInput = text => {
-    setInputValue(text)
-  }
+  const onChangeTextInput = (text) => {
+    setInputValue(text);
+  };
 
   const createOne2OneChannel = () => {
-    return new Promise(resolve => {
-      channelManager
-        .createChannel(currentUser, channel?.otherParticipants)
-        .then(response => {
-          if (!response.channel) {
-            return
-          }
-          setChannel(channelWithHydratedOtherParticipants(response.channel))
-          threadUnsubscribe.current && threadUnsubscribe.current()
-          threadUnsubscribe.current = channelManager.subscribeThreadSnapshot(
-            response.channel,
-            setThread,
-            currentUser.id,
-          )
-          resolve(response.channel)
-        })
-    })
-  }
+    return new Promise((resolve) => {
+      channelManager.createChannel(currentUser, channel?.otherParticipants).then((response) => {
+        if (!response.channel) {
+          return;
+        }
+        setChannel(channelWithHydratedOtherParticipants(response.channel));
+        threadUnsubscribe.current && threadUnsubscribe.current();
+        threadUnsubscribe.current = channelManager.subscribeThreadSnapshot(response.channel, setThread, currentUser.id);
+        resolve(response.channel);
+      });
+    });
+  };
 
   const onSendInput = async () => {
     if (thread?.length > 0 || channel?.otherParticipants?.length > 1) {
-      sendMessage()
-      return
+      sendMessage();
+      return;
     }
 
     // If we don't have a chat message, we need to create a 1-1 channel first
-    createOne2OneChannel().then(newChannel => {
-      sendMessage(newChannel)
-    })
-  }
+    createOne2OneChannel().then((newChannel) => {
+      sendMessage(newChannel);
+    });
+  };
 
   const getParticipantPictures = () => {
     if (channel?.otherParticipants) {
-      return channel.otherParticipants.map(participant => {
+      return channel.otherParticipants.map((participant) => {
         return {
           participantId: participant.id || participant.userID,
           profilePictureURL: participant.profilePictureURL,
-        }
-      })
+        };
+      });
     } else {
-      return []
+      return [];
     }
-  }
+  };
 
   const sendMessage = (newChannel = channel) => {
-    const tempInputValue = inputValue
-    const tempInReplyToItem = inReplyToItem
-    const participantProfilePictureURLs = getParticipantPictures()
-    setInputValue('')
-    setInReplyToItem(null)
+    const tempInputValue = inputValue;
+    const tempInReplyToItem = inReplyToItem;
+    const participantProfilePictureURLs = getParticipantPictures();
+    setInputValue('');
+    setInReplyToItem(null);
 
     channelManager
-      .sendMessage(
-        currentUser,
-        newChannel,
-        tempInputValue,
-        downloadObject,
-        tempInReplyToItem,
-        participantProfilePictureURLs,
-      )
-      .then(response => {
+      .sendMessage(currentUser, newChannel, tempInputValue, downloadObject, tempInReplyToItem, participantProfilePictureURLs)
+      .then((response) => {
         if (response.error) {
-          alert(error)
-          setInputValue(tempInputValue)
-          setInReplyToItem(tempInReplyToItem)
+          alert(error);
+          setInputValue(tempInputValue);
+          setInReplyToItem(tempInReplyToItem);
         } else {
-          setDownloadObject(null)
-          broadcastPushNotifications(tempInputValue, downloadObject)
+          setDownloadObject(null);
+          broadcastPushNotifications(tempInputValue, downloadObject);
         }
-      })
-  }
+      });
+  };
 
   const broadcastPushNotifications = (inputValue, downloadObject) => {
-    const participants = channel.otherParticipants
+    const participants = channel.otherParticipants;
     if (!participants || participants.length == 0) {
-      return
+      return;
     }
-    const sender = currentUser
-    const isGroupChat = channel.name && channel.name.length > 0
-    const fromTitle = isGroupChat
-      ? channel.name
-      : sender.firstName + ' ' + sender.lastName
-    var message
+    const sender = currentUser;
+    const isGroupChat = channel.name && channel.name.length > 0;
+    const fromTitle = isGroupChat ? channel.name : sender.firstName + ' ' + sender.lastName;
+    var message;
     if (isGroupChat) {
       if (downloadObject) {
-        if (
-          downloadObject.mime &&
-          downloaddownloadObjectURL.mime.startsWith('video')
-        ) {
-          message =
-            sender.firstName +
-            ' ' +
-            sender.lastName +
-            ' ' +
-            IMLocalized('sent a video.')
+        if (downloadObject.mime && downloaddownloadObjectURL.mime.startsWith('video')) {
+          message = sender.firstName + ' ' + sender.lastName + ' ' + IMLocalized('sent a video.');
         } else {
-          message =
-            sender.firstName +
-            ' ' +
-            sender.lastName +
-            ' ' +
-            IMLocalized('sent a photo.')
+          message = sender.firstName + ' ' + sender.lastName + ' ' + IMLocalized('sent a photo.');
         }
       } else {
-        message = sender.firstName + ' ' + sender.lastName + ': ' + inputValue
+        message = sender.firstName + ' ' + sender.lastName + ': ' + inputValue;
       }
     } else {
       if (downloadObject) {
         if (downloadObject.mime && downloadObject.mime.startsWith('video')) {
-          message = sender.firstName + ' ' + IMLocalized('sent you a video.')
-        } else if (
-          downloadObject.mime &&
-          downloadObject.mime.startsWith('audio')
-        ) {
-          message =
-            sender.firstName + ' ' + IMLocalized('sent you an audio message.')
+          message = sender.firstName + ' ' + IMLocalized('sent you a video.');
+        } else if (downloadObject.mime && downloadObject.mime.startsWith('audio')) {
+          message = sender.firstName + ' ' + IMLocalized('sent you an audio message.');
         } else {
-          message = sender.firstName + ' ' + IMLocalized('sent you a photo.')
+          message = sender.firstName + ' ' + IMLocalized('sent you a photo.');
         }
       } else {
-        message = inputValue
+        message = inputValue;
       }
     }
 
-    participants.forEach(participant => {
+    participants.forEach((participant) => {
       if (participant.id !== currentUser.id) {
-        notificationManager.sendPushNotification(
-          participant,
-          fromTitle,
-          message,
-          'chat_message',
-          { channelID: channel.id },
-        )
+        notificationManager.sendPushNotification(participant, fromTitle, message, 'chat_message', { channelID: channel.id });
       }
-    })
-  }
+    });
+  };
 
-  const onAddMediaPress = photoUploadDialogRef => {
-    photoUploadDialogRef.current.show()
-  }
+  const onAddMediaPress = (photoUploadDialogRef) => {
+    photoUploadDialogRef.current.show();
+  };
 
-  const onAudioRecordSend = audioRecord => {
-    startUpload(audioRecord)
-  }
+  const onAudioRecordSend = (audioRecord) => {
+    startUpload(audioRecord);
+  };
 
   const onLaunchCamera = () => {
-    const { id, firstName, profilePictureURL } = currentUser
+    const { id, firstName, profilePictureURL } = currentUser;
 
     ImagePicker.openCamera({
       cropping: false,
     })
-      .then(image => {
-        startUpload(image)
+      .then((image) => {
+        startUpload(image);
       })
       .catch(function (error) {
-        console.log(error)
-      })
-  }
+        console.log(error);
+      });
+  };
 
   const onOpenPhotos = () => {
-    const { id, firstName, profilePictureURL } = currentUser
+    const { id, firstName, profilePictureURL } = currentUser;
 
     ImagePicker.openPicker({
       cropping: false,
       multiple: false,
     })
-      .then(image => {
-        startUpload(image)
+      .then((image) => {
+        startUpload(image);
       })
       .catch(function (error) {
-        console.log(error)
-      })
-  }
+        console.log(error);
+      });
+  };
 
-  const startUpload = uploadData => {
-    const { mime } = uploadData
+  const startUpload = (uploadData) => {
+    const { mime } = uploadData;
 
     storageAPI.processAndUploadMediaFileWithProgressTracking(
       uploadData,
-      async snapshot => {
-        const uploadProgress =
-          (snapshot.bytesTransferred / snapshot.totalBytes) * 100
-        setUploadProgress(uploadProgress)
+      async (snapshot) => {
+        const uploadProgress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+        setUploadProgress(uploadProgress);
       },
-      async url => {
+      async (url) => {
         if (url) {
           setDownloadObject({
             ...uploadData,
@@ -475,87 +398,87 @@ const IMChatScreen = props => {
             uri: url,
             url,
             mime,
-          })
+          });
         }
       },
-      error => {
-        setUploadProgress(0)
-        alert(IMLocalized('Oops! An error has occurred. Please try again.'))
-        console.log(error)
+      (error) => {
+        setUploadProgress(0);
+        alert(IMLocalized('Oops! An error has occurred. Please try again.'));
+        console.log(error);
       },
-    )
-  }
+    );
+  };
 
   const configureImages = () => {
-    var images = []
+    var images = [];
 
-    thread?.forEach(item => {
+    thread?.forEach((item) => {
       if (item && item.url && item.url !== '') {
         if (item.url.mime && item.url.mime.startsWith('image')) {
           images.push({
             id: item.id,
             url: item.url,
-          })
+          });
         } else if (!item.url.mime && item.url.startsWith('https://')) {
           // To handle old format before video feature
           images.push({
             id: item.id,
             url: item.url,
-          })
+          });
         }
       }
-    })
-    setImages(images)
-  }
+    });
+    setImages(images);
+  };
 
-  const onChatMediaPress = item => {
-    const index = images?.findIndex(image => {
-      return image.id === item.id
-    })
-    setSelectedMediaIndex(index)
-  }
+  const onChatMediaPress = (item) => {
+    const index = images?.findIndex((image) => {
+      return image.id === item.id;
+    });
+    setSelectedMediaIndex(index);
+  };
 
   const onMediaClose = () => {
-    setSelectedMediaIndex(-1)
-  }
+    setSelectedMediaIndex(-1);
+  };
 
   const onUserBlockPress = () => {
-    reportAbuse('block')
-  }
+    reportAbuse('block');
+  };
 
   const onUserReportPress = () => {
-    reportAbuse('report')
-  }
+    reportAbuse('report');
+  };
 
-  const reportAbuse = type => {
-    const participants = channel?.otherParticipants
+  const reportAbuse = (type) => {
+    const participants = channel?.otherParticipants;
     if (!participants || participants.length != 1) {
-      return
+      return;
     }
-    const myID = currentUser.id
-    const otherUserID = participants[0].id
-    reportingManager.markAbuse(myID, otherUserID, type).then(response => {
+    const myID = currentUser.id;
+    const otherUserID = participants[0].id;
+    reportingManager.markAbuse(myID, otherUserID, type).then((response) => {
       if (!response.error) {
-        navigation.goBack(null)
+        navigation.goBack(null);
       }
-    })
-  }
+    });
+  };
 
-  const onReplyActionPress = inReplyToItem => {
-    setInReplyToItem(inReplyToItem)
-  }
+  const onReplyActionPress = (inReplyToItem) => {
+    setInReplyToItem(inReplyToItem);
+  };
 
   const onReplyingToDismiss = () => {
-    setInReplyToItem(null)
-  }
+    setInReplyToItem(null);
+  };
 
-  const onDeleteThreadItem = threadItem => {
-    let newLastCreatedThreadItem = null
-    let isLastCreatedThreadItem = false
+  const onDeleteThreadItem = (threadItem) => {
+    let newLastCreatedThreadItem = null;
+    let isLastCreatedThreadItem = false;
 
     if (thread.length > 0 && thread[0].id === threadItem?.id) {
-      isLastCreatedThreadItem = true
-      newLastCreatedThreadItem = thread[1]
+      isLastCreatedThreadItem = true;
+      newLastCreatedThreadItem = thread[1];
     }
 
     const params = {
@@ -564,10 +487,10 @@ const IMChatScreen = props => {
       channel,
       sender: currentUser,
       threadItemID: threadItem?.id,
-    }
+    };
 
-    channelManager.deleteMessage(params)
-  }
+    channelManager.deleteMessage(params);
+  };
 
   return (
     <IMChat
@@ -583,7 +506,7 @@ const IMChatScreen = props => {
       onLaunchCamera={onLaunchCamera}
       onOpenPhotos={onOpenPhotos}
       uploadProgress={uploadProgress}
-      mediaItemURLs={images.flatMap(i => i.url?.url)}
+      mediaItemURLs={images.flatMap((i) => i.url?.url)}
       isMediaViewerOpen={isMediaViewerOpen}
       selectedMediaIndex={selectedMediaIndex}
       onChatMediaPress={onChatMediaPress}
@@ -601,7 +524,7 @@ const IMChatScreen = props => {
       onDeleteThreadItem={onDeleteThreadItem}
       channelItem={channel}
     />
-  )
-}
+  );
+};
 
-export default IMChatScreen
+export default IMChatScreen;

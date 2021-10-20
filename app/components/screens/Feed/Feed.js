@@ -1,18 +1,18 @@
-import React, { useRef } from 'react'
-import { FlatList, View, ActivityIndicator, Dimensions } from 'react-native'
-import PropTypes from 'prop-types'
-import { Viewport } from '@skele/components'
-import { useColorScheme } from 'react-native-appearance'
-import FeedItem from '../../FeedItem/FeedItem'
-import dynamicStyles from './styles'
-import IMCameraModal from '../../../Core/camera/IMCameraModal'
-import TNMediaViewerModal from '../../../Core/truly-native/TNMediaViewerModal'
-import FullStories from '../../../Core/stories/FullStories'
-import { TNEmptyStateView } from '../../../Core/truly-native'
-import { IMNativeFBAdComponentView } from '../../../Core/ads/facebook'
-import AppStyles from '../../../AppStyles'
+import React, { useRef } from 'react';
+import { FlatList, View, ActivityIndicator, Dimensions } from 'react-native';
+import PropTypes from 'prop-types';
+import { Viewport } from '@skele/components';
+import { useColorScheme } from 'react-native-appearance';
+import FeedItem from '../../FeedItem/FeedItem';
+import dynamicStyles from './styles';
+import IMCameraModal from '../../../Core/camera/IMCameraModal';
+import TNMediaViewerModal from '../../../Core/truly-native/TNMediaViewerModal';
+import FullStories from '../../../Core/stories/FullStories';
+import { TNEmptyStateView } from '../../../Core/truly-native';
+import { IMNativeFBAdComponentView } from '../../../Core/ads/facebook';
+import AppStyles from '../../../AppStyles';
 
-const HEIGHT = Dimensions.get('window').height
+const HEIGHT = Dimensions.get('window').height;
 
 function Feed(props) {
   const {
@@ -51,48 +51,46 @@ function Feed(props) {
     adsManager,
     emptyStateConfig,
     navigation,
-  } = props
+  } = props;
 
-  const colorScheme = useColorScheme()
-  const styles = dynamicStyles(colorScheme)
-  const fullStoryRef = useRef()
-  const mediaLayouts = useRef([])
+  const colorScheme = useColorScheme();
+  const styles = dynamicStyles(colorScheme);
+  const fullStoryRef = useRef();
+  const mediaLayouts = useRef([]);
 
-  const onImagePost = source => {
-    onPostStory(source)
+  const onImagePost = (source) => {
+    onPostStory(source);
 
     // fullStoryRef.current.postStory(story);
     // console.log(source);
-  }
+  };
 
   const getItemLayout = (data, index) => ({
     length: feed.length,
     offset: HEIGHT * 0.55 * index,
     index,
-  })
+  });
 
-  const onTextFieldUserPress = userInfo => {
+  const onTextFieldUserPress = (userInfo) => {
     navigation.navigate('MainProfile', {
       user: userInfo,
       stackKeyTitle: 'MainProfile',
       lastScreenTitle: 'MainProfile',
-    })
-  }
+    });
+  };
 
-  const onTextFieldHashTagPress = hashtag => {
-    navigation.push('FeedSearch', { hashtag })
-  }
+  const onTextFieldHashTagPress = (hashtag) => {
+    navigation.push('FeedSearch', { hashtag });
+  };
 
   const renderItem = ({ item, index }) => {
-    const isLastItem = index === feed?.length - 1
-    let shouldUpdate = false
+    const isLastItem = index === feed?.length - 1;
+    let shouldUpdate = false;
     if (item.shouldUpdate) {
-      shouldUpdate = item.shouldUpdate
+      shouldUpdate = item.shouldUpdate;
     }
     if (item.isAd) {
-      return (
-        <IMNativeFBAdComponentView key={index + 'ad'} adsManager={adsManager} />
-      )
+      return <IMNativeFBAdComponentView key={index + 'ad'} adsManager={adsManager} />;
     }
     return (
       <FeedItem
@@ -118,20 +116,15 @@ function Feed(props) {
         shouldDisplayViewAllComments={true}
         onTextFieldUserPress={onTextFieldUserPress}
         onTextFieldHashTagPress={onTextFieldHashTagPress}
-        onLayout={event => {
-          if (
-            event &&
-            event.nativeEvent &&
-            mediaLayouts &&
-            mediaLayouts.current
-          ) {
-            const layout = event.nativeEvent.layout
-            mediaLayouts.current[index] = layout.x
+        onLayout={(event) => {
+          if (event && event.nativeEvent && mediaLayouts && mediaLayouts.current) {
+            const layout = event.nativeEvent.layout;
+            mediaLayouts.current[index] = layout.x;
           }
         }}
       />
-    )
-  }
+    );
+  };
 
   const renderListHeader = () => {
     if (displayStories) {
@@ -146,38 +139,32 @@ function Feed(props) {
           userStories={userStories}
           appStyles={AppStyles}
         />
-      )
+      );
     }
-    return null
-  }
+    return null;
+  };
 
   const renderListFooter = () => {
     if (isFetching) {
-      return <ActivityIndicator style={{ marginVertical: 7 }} size="small" />
+      return <ActivityIndicator style={{ marginVertical: 7 }} size="small" />;
     }
-    return null
-  }
+    return null;
+  };
 
   const renderEmptyComponent = () => {
     if (!feed) {
-      return null
+      return null;
     }
 
-    return (
-      <TNEmptyStateView
-        style={styles.emptyStateView}
-        emptyStateConfig={emptyStateConfig}
-        appStyles={AppStyles}
-      />
-    )
-  }
+    return <TNEmptyStateView style={styles.emptyStateView} emptyStateConfig={emptyStateConfig} appStyles={AppStyles} />;
+  };
 
   if (loading) {
     return (
       <View style={styles.feedContainer}>
         <ActivityIndicator style={{ marginTop: 15 }} size="small" />
       </View>
-    )
+    );
   }
 
   return (
@@ -198,11 +185,7 @@ function Feed(props) {
           removeClippedSubviews={true}
         />
       </Viewport.Tracker>
-      <IMCameraModal
-        isCameraOpen={isCameraOpen}
-        onImagePost={onImagePost}
-        onCameraClose={onCameraClose}
-      />
+      <IMCameraModal isCameraOpen={isCameraOpen} onImagePost={onImagePost} onCameraClose={onCameraClose} />
       <TNMediaViewerModal
         mediaItems={feedItems}
         isModalOpen={isMediaViewerOpen}
@@ -210,7 +193,7 @@ function Feed(props) {
         selectedMediaIndex={selectedMediaIndex}
       />
     </View>
-  )
+  );
   // }
 }
 
@@ -231,6 +214,6 @@ Feed.propTypes = {
   selectedMediaIndex: PropTypes.number,
   onLikeReaction: PropTypes.func,
   onOtherReaction: PropTypes.func,
-}
+};
 
-export default Feed
+export default Feed;

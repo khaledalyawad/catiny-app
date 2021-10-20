@@ -1,4 +1,4 @@
-import { StyleSheet } from 'react-native'
+import { StyleSheet } from 'react-native';
 
 const dynamicStyles = (appStyles, colorScheme) => {
   return StyleSheet.create({
@@ -69,7 +69,7 @@ const dynamicStyles = (appStyles, colorScheme) => {
     placeholderTextColor: {
       color: appStyles.colorSet[colorScheme].hairlineColor,
     },
-  })
-}
+  });
+};
 
-export default dynamicStyles
+export default dynamicStyles;

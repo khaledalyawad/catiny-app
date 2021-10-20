@@ -1,9 +1,9 @@
-import { Platform, Dimensions, I18nManager } from 'react-native'
-import TNColor from './Core/truly-native/TNColor'
-import { AppleButton } from '@invertase/react-native-apple-authentication'
+import { Platform, Dimensions, I18nManager } from 'react-native';
+import TNColor from './Core/truly-native/TNColor';
+import { AppleButton } from '@invertase/react-native-apple-authentication';
 
-const WINDOW_WIDTH = Dimensions.get('window').width
-const WINDOW_HEIGHT = Dimensions.get('window').height
+const WINDOW_WIDTH = Dimensions.get('window').width;
+const WINDOW_HEIGHT = Dimensions.get('window').height;
 
 const darkColorSet = {
   mainThemeBackgroundColor: '#121212',
@@ -23,7 +23,7 @@ const darkColorSet = {
   bottomTintColor: 'lightgrey',
   mainButtonColor: '#062246',
   subButtonColor: '#20242d',
-}
+};
 
 const lightColorSet = {
   mainThemeBackgroundColor: '#ffffff',
@@ -43,13 +43,13 @@ const lightColorSet = {
   bottomTintColor: 'grey',
   mainButtonColor: '#e8f1fd',
   subButtonColor: '#eaecf0',
-}
+};
 
 const colorSet = {
   light: lightColorSet,
   dark: darkColorSet,
   'no-preference': lightColorSet,
-}
+};
 
 const navLight = {
   backgroundColor: '#fff',
@@ -57,7 +57,7 @@ const navLight = {
   activeTintColor: '#3875e8',
   inactiveTintColor: '#ccc',
   hairlineColor: '#e0e0e0',
-}
+};
 
 const navDark = {
   backgroundColor: '#000',
@@ -65,14 +65,14 @@ const navDark = {
   activeTintColor: '#3875e8',
   inactiveTintColor: '#888',
   hairlineColor: '#222222',
-}
+};
 
 const navThemeConstants = {
   light: navLight,
   dark: navDark,
   main: '#3875e8',
   'no-preference': navLight,
-}
+};
 
 const imageSet = {
   chat: require('../assets/images/chat.png'),
@@ -81,7 +81,7 @@ const imageSet = {
   notification: require('../assets/images/notification.png'),
   photo: require('../assets/images/photo.png'),
   pin: require('../assets/images/pin.png'),
-}
+};
 
 const iconSet = {
   logo: require('../assets/images/app-logo.png'),
@@ -124,7 +124,7 @@ const iconSet = {
   soundMute: require('../assets/icons/sound_mute.png'),
   users_android: require('../assets/icons/users-icon-48.png'),
   user_android: require('../assets/icons/account-detail.png'),
-}
+};
 
 const fontFamily = {
   boldFont: '',
@@ -133,7 +133,7 @@ const fontFamily = {
   mediumFont: '',
   lightFont: '',
   extraLightFont: '',
-}
+};
 
 const fontSet = {
   xxlarge: 40,
@@ -145,7 +145,7 @@ const fontSet = {
   xsmall: 11,
   title: 30,
   content: 20,
-}
+};
 
 const loadingModal = {
   color: '#FFFFFF',
@@ -153,13 +153,13 @@ const loadingModal = {
   overlayColor: 'rgba(0,0,0,0.5)',
   closeOnTouch: false,
   loadingType: 'Spinner', // 'Bubbles', 'DoubleBounce', 'Bars', 'Pulse', 'Spinner'
-}
+};
 
 const sizeSet = {
   buttonWidth: '70%',
   inputWidth: '80%',
   radius: 25,
-}
+};
 
 const styleSet = {
   menuBtn: {
@@ -209,13 +209,13 @@ const styleSet = {
     marginLeft: 10,
     transform: [{ scaleX: I18nManager.isRTL ? -1 : 1 }],
   },
-}
+};
 
 const appleButtonStyle = {
   dark: AppleButton?.Style?.WHITE,
   light: AppleButton?.Style?.BLACK,
   'no-preference': AppleButton?.Style?.WHITE,
-}
+};
 
 const StyleDict = {
   imageSet,
@@ -230,6 +230,6 @@ const StyleDict = {
   WINDOW_WIDTH,
   WINDOW_HEIGHT,
   appleButtonStyle,
-}
+};
 
-export default StyleDict
+export default StyleDict;

@@ -1,15 +1,15 @@
-import { StyleSheet, Dimensions } from 'react-native'
-import { ifIphoneX } from 'react-native-iphone-x-helper'
-import AppStyles from '../../../AppStyles'
+import { StyleSheet, Dimensions } from 'react-native';
+import { ifIphoneX } from 'react-native-iphone-x-helper';
+import AppStyles from '../../../AppStyles';
 
-const height = Dimensions.get('window').height
-const imageContainerWidth = Math.floor(height * 0.076)
-const imageWidth = imageContainerWidth - 6
+const height = Dimensions.get('window').height;
+const imageContainerWidth = Math.floor(height * 0.076);
+const imageWidth = imageContainerWidth - 6;
 
-const mentionItemContainerHeight = Math.floor(height * 0.066)
-const mentionPhotoSize = Math.floor(mentionItemContainerHeight * 0.66)
+const mentionItemContainerHeight = Math.floor(height * 0.066);
+const mentionPhotoSize = Math.floor(mentionItemContainerHeight * 0.66);
 
-const dynamicStyles = colorScheme => {
+const dynamicStyles = (colorScheme) => {
   return new StyleSheet.create({
     container: {
       flex: 1,
@@ -175,7 +175,7 @@ const dynamicStyles = colorScheme => {
     pinpointTintColor: {
       tintColor: AppStyles.colorSet[colorScheme].mainTextColor,
     },
-  })
-}
+  });
+};
 
-export default dynamicStyles
+export default dynamicStyles;

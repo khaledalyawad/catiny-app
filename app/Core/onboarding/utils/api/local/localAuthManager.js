@@ -2,7 +2,7 @@
  * Implement These Methods If You Are Adding Your Own Custom Backend
  */
 
-import { mockData } from './localData'
+import { mockData } from './localData';
 
 /**
  * A method that logs the user into his account
@@ -14,7 +14,7 @@ import { mockData } from './localData'
  **/
 const loginWithEmailAndPassword = (email, password) => {
   return new Promise(function (resolve, _reject) {
-    resolve({ user: mockData })
+    resolve({ user: mockData });
     // morkData takes the format of:
     // const mockData = {
     //   id,
@@ -26,8 +26,8 @@ const loginWithEmailAndPassword = (email, password) => {
     //   lastName,
     //   profilePictureURL,
     // };
-  })
-}
+  });
+};
 
 /**
  * A method that creates a new user using email and password
@@ -61,7 +61,7 @@ const loginWithEmailAndPassword = (email, password) => {
  **/
 const createAccountWithEmailAndPassword = (userDetails, appConfig) => {
   return new Promise(function (resolve, _reject) {
-    resolve({ user: mockData })
+    resolve({ user: mockData });
     // morkData takes the format of:
     // const mockData = {
     //   id,
@@ -73,8 +73,8 @@ const createAccountWithEmailAndPassword = (userDetails, appConfig) => {
     //   lastName,
     //   profilePictureURL,
     // };
-  })
-}
+  });
+};
 
 /**
  * Registers users using Facebook gateway
@@ -92,9 +92,9 @@ const createAccountWithEmailAndPassword = (userDetails, appConfig) => {
  * }
  * returns a promise that resolves to user data
  **/
-const loginOrSignUpWithFacebook = appConfig => {
+const loginOrSignUpWithFacebook = (appConfig) => {
   return new Promise(function (resolve, _reject) {
-    resolve({ user: mockData })
+    resolve({ user: mockData });
     // morkData takes the format of:
     // const mockData = {
     //   id,
@@ -106,8 +106,8 @@ const loginOrSignUpWithFacebook = appConfig => {
     //   lastName,
     //   profilePictureURL,
     // };
-  })
-}
+  });
+};
 
 /**
  * A method that creates a new user using facebook gateway
@@ -128,7 +128,7 @@ const loginOrSignUpWithFacebook = appConfig => {
  **/
 const loginOrSignUpWithApple = () => {
   return new Promise(function (resolve, _reject) {
-    resolve({ user: mockData })
+    resolve({ user: mockData });
     // morkData takes the format of:
     // const mockData = {
     //   id,
@@ -140,8 +140,8 @@ const loginOrSignUpWithApple = () => {
     //   lastName,
     //   profilePictureURL,
     // };
-  })
-}
+  });
+};
 
 /**
  * Send out a password reset to the user's email
@@ -150,9 +150,9 @@ const loginOrSignUpWithApple = () => {
  *
  * returns a promise that resolves to user data
  **/
-const sendPasswordResetEmail = email => {
-  return {}
-}
+const sendPasswordResetEmail = (email) => {
+  return {};
+};
 
 /**
  * Login using the SMS code
@@ -161,7 +161,7 @@ const sendPasswordResetEmail = email => {
  **/
 const loginWithSMSCode = () => {
   return new Promise(function (resolve, _reject) {
-    resolve({ user: mockData })
+    resolve({ user: mockData });
     // morkData takes the format of:
     // const mockData = {
     //   id,
@@ -173,30 +173,30 @@ const loginWithSMSCode = () => {
     //   lastName,
     //   profilePictureURL,
     // };
-  })
-}
+  });
+};
 
 /*
  ** Logout out of the app
  **
  ** returns a promise that resolves to user data
  */
-const logout = () => {}
+const logout = () => {};
 
 const retrievePersistedAuthUser = () => {
-  return new Promise(resolve => {
-    resolve(null)
-  })
-}
+  return new Promise((resolve) => {
+    resolve(null);
+  });
+};
 
 const validateUsernameFieldIfNeeded = (inputFields, appConfig) => {
   return new Promise((resolve, reject) => {
-    resolve({ success: true })
+    resolve({ success: true });
 
     // Error format:
     // resolve({ error: IMLocalized('Invalid username') });
-  })
-}
+  });
+};
 
 /**Deletes the user account
  *
@@ -205,7 +205,7 @@ const validateUsernameFieldIfNeeded = (inputFields, appConfig) => {
  */
 const deleteUser = (userID, callback) => {
   // calls the removeUser from the auth API
-}
+};
 
 const localAuthManager = {
   loginWithEmailAndPassword,
@@ -218,6 +218,6 @@ const localAuthManager = {
   retrievePersistedAuthUser,
   validateUsernameFieldIfNeeded,
   deleteUser,
-}
+};
 
-export default localAuthManager
+export default localAuthManager;

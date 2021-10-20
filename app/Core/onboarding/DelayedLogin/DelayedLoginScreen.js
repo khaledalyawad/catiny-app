@@ -1,10 +1,10 @@
-import React from 'react'
-import WelcomeScreen from '../WelcomeScreen/WelcomeScreen'
+import React from 'react';
+import WelcomeScreen from '../WelcomeScreen/WelcomeScreen';
 
 export default function DelayedLoginScreen(props) {
-  const appConfig = props.route?.params?.appConfig || props.appConfig
-  const authManager = props.route?.params?.authManager || props.authManager
-  const appStyles = props.route?.params?.appStyles || props.appStyles
+  const appConfig = props.route?.params?.appConfig || props.appConfig;
+  const authManager = props.route?.params?.authManager || props.authManager;
+  const appStyles = props.route?.params?.appStyles || props.appStyles;
 
   return (
     <WelcomeScreen
@@ -16,5 +16,5 @@ export default function DelayedLoginScreen(props) {
       caption={appConfig.onboardingConfig.delayedLoginCaption}
       delayedMode={true}
     />
-  )
+  );
 }

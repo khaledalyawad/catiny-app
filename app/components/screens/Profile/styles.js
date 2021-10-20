@@ -1,10 +1,10 @@
-import { StyleSheet } from 'react-native'
-import AppStyles from '../../../AppStyles'
+import { StyleSheet } from 'react-native';
+import AppStyles from '../../../AppStyles';
 
 // const imageContainerWidth = 66;
-const imageWidth = 110
+const imageWidth = 110;
 
-const dynamicStyles = colorScheme => {
+const dynamicStyles = (colorScheme) => {
   return new StyleSheet.create({
     container: {
       flex: 1,
@@ -92,7 +92,7 @@ const dynamicStyles = colorScheme => {
       backgroundColor: AppStyles.colorSet[colorScheme].subButtonColor,
     },
     titleStyleColor: { color: AppStyles.colorSet[colorScheme].mainTextColor },
-  })
-}
+  });
+};
 
-export default dynamicStyles
+export default dynamicStyles;

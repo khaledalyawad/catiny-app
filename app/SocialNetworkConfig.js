@@ -1,30 +1,25 @@
-import AppStyles from './AppStyles'
-import { IMLocalized, setI18nConfig } from './Core/localization/IMLocalization'
-import { Platform } from 'react-native'
+import AppStyles from './AppStyles';
+import { IMLocalized, setI18nConfig } from './Core/localization/IMLocalization';
+import { Platform } from 'react-native';
 
-setI18nConfig()
+setI18nConfig();
 
-const regexForNames = /^[a-zA-Z]{2,25}$/
-const regexForPhoneNumber = /\d{9}$/
+const regexForNames = /^[a-zA-Z]{2,25}$/;
+const regexForPhoneNumber = /\d{9}$/;
 
 const SocialNetworkConfig = {
   isSMSAuthEnabled: true,
   appIdentifier: 'rn-social-network-android',
   facebookIdentifier: '285315185217069',
-  webClientId:
-    '525472070731-mg8m3q8v9vp1port7nkbq9le65hp917t.apps.googleusercontent.com',
+  webClientId: '525472070731-mg8m3q8v9vp1port7nkbq9le65hp917t.apps.googleusercontent.com',
   onboardingConfig: {
     welcomeTitle: IMLocalized('Welcome to your app'),
-    welcomeCaption: IMLocalized(
-      'Use this codebase to build your own social network in minutes.',
-    ),
+    welcomeCaption: IMLocalized('Use this codebase to build your own social network in minutes.'),
     walkthroughScreens: [
       {
         icon: require('../assets/images/file.png'),
         title: IMLocalized('Posts'),
-        description: IMLocalized(
-          'Share posts, photos and comments with your network.',
-        ),
+        description: IMLocalized('Share posts, photos and comments with your network.'),
       },
       {
         icon: require('../assets/images/photo.png'),
@@ -34,16 +29,12 @@ const SocialNetworkConfig = {
       {
         icon: require('../assets/images/like.png'),
         title: IMLocalized('Reactions'),
-        description: IMLocalized(
-          'React to posts and photos with likes, dislikes, laughs and more..',
-        ),
+        description: IMLocalized('React to posts and photos with likes, dislikes, laughs and more..'),
       },
       {
         icon: require('../assets/images/chat.png'),
         title: IMLocalized('Chat'),
-        description: IMLocalized(
-          'Communicate with your friends via private messages.',
-        ),
+        description: IMLocalized('Communicate with your friends via private messages.'),
       },
       {
         icon: require('../assets/icons/friends-unfilled.png'),
@@ -53,23 +44,17 @@ const SocialNetworkConfig = {
       {
         icon: require('../assets/images/instagram.png'),
         title: IMLocalized('Send Photos & Videos'),
-        description: IMLocalized(
-          'Have fun with your matches by sending photos and videos to each other.',
-        ),
+        description: IMLocalized('Have fun with your matches by sending photos and videos to each other.'),
       },
       {
         icon: require('../assets/images/pin.png'),
         title: IMLocalized('Check ins'),
-        description: IMLocalized(
-          'Check in when posting to share your location with friends.',
-        ),
+        description: IMLocalized('Check in when posting to share your location with friends.'),
       },
       {
         icon: require('../assets/images/notification.png'),
         title: IMLocalized('Get Notified'),
-        description: IMLocalized(
-          'Receive notifications when you get new messages and matches.',
-        ),
+        description: IMLocalized('Receive notifications when you get new messages and matches.'),
       },
     ],
   },
@@ -341,12 +326,9 @@ const SocialNetworkConfig = {
   },
   contactUsPhoneNumber: '+16504850000',
   adsConfig: {
-    facebookAdsPlacementID:
-      Platform.OS === 'ios'
-        ? '834318260403282_834914470343661'
-        : '834318260403282_834390467062728',
+    facebookAdsPlacementID: Platform.OS === 'ios' ? '834318260403282_834914470343661' : '834318260403282_834390467062728',
     adSlotInjectionInterval: 10,
   },
-}
+};
 
-export default SocialNetworkConfig
+export default SocialNetworkConfig;

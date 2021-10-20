@@ -19,19 +19,19 @@ export const subscribeToUserReactions = (userID, callback) => {
   // format of reactions:
   // {createdAt, postID, reaction, reactionAuthorID}
   // return reactionsRef object that unsubscribes this listener
-  const reactionRef = null
+  const reactionRef = null;
   const reaction = {
     createdAt: 'February 28, 2020 at 11:00:02 PM UTC+1',
     postID: 'oEaRazWHQJlteGjLuXtM',
     reaction: 'love',
     reactionAuthorID: 'i9OKO3xUufbUyaRbC3vtr2A8kF23',
-  }
+  };
   if (reaction.reactionAuthorID === userID) {
-    callback([...reaction])
+    callback([...reaction]);
   }
 
-  return reactionRef
-}
+  return reactionRef;
+};
 
 /**
  * Removes post from all friends timeline
@@ -57,7 +57,7 @@ export const subscribeComments = (postId, callback) => {
   // return commentRef object that unsubscribes this listener
 
   // initialise commentsRef
-  const commentRef = null
+  const commentRef = null;
   const comment = {
     authorID: 'baXRjw3lIihmEOyqcXmN7mwuw0J2',
     commentID: '0BUYKSyKGykvtigzU0ER',
@@ -65,13 +65,12 @@ export const subscribeComments = (postId, callback) => {
     createdAt: 'April 14, 2020 at 5:47:32 AM UTC+1',
     id: '0BUYKSyKGykvtigzU0ER',
     postID: 'SJIi6v1mzXd8PxRumMk9',
-    profilePictureURL:
-      'https://i.pinimg.com/originals/fb/d7/2a/fbd72a1440f9b17f09d1fb9cc5ffcef6.jpg',
+    profilePictureURL: 'https://i.pinimg.com/originals/fb/d7/2a/fbd72a1440f9b17f09d1fb9cc5ffcef6.jpg',
     firstName: 'Florian Marcu',
-  }
-  callback([comment])
-  return commentRef
-}
+  };
+  callback([comment]);
+  return commentRef;
+};
 
 /**
  * Removes post from all friends timeline
@@ -89,19 +88,19 @@ export const subscribeReactions = (callback, postId) => {
   // every time there are changes in reactions server side, we return callback(callback(formattedReactions)) from the listener
   //
 
-  const reactionRef = null
+  const reactionRef = null;
   const reaction = {
     createdAt: 'February 28, 2020 at 11:00:02 PM UTC+1',
     postID: 'oEaRazWHQJlteGjLuXtM',
     reaction: 'love',
     reactionAuthorID: 'i9OKO3xUufbUyaRbC3vtr2A8kF23',
-  }
+  };
   if (reaction.postID === postId) {
-    callback(reaction)
+    callback(reaction);
   }
 
-  return reactionRef
-}
+  return reactionRef;
+};
 
 /**
  * Removes post from all friends timeline
@@ -121,9 +120,9 @@ export const getUserReactions = (userId, callback) => {
     postID: 'oEaRazWHQJlteGjLuXtM',
     reaction: 'love',
     reactionAuthorID: 'i9OKO3xUufbUyaRbC3vtr2A8kF23',
-  }
-  callback({ reaction, fetchCompleted: true })
-}
+  };
+  callback({ reaction, fetchCompleted: true });
+};
 
 /**
  * Add a reaction
@@ -168,18 +167,13 @@ export const getUserReactions = (userId, callback) => {
  *
  * returns response object
  **/
-export const addComment = async (
-  comment,
-  commentAuthor,
-  post,
-  followEnabled,
-) => {
+export const addComment = async (comment, commentAuthor, post, followEnabled) => {
   // update comment
   // send out notification
   // update timeline
   // return { success: true, id: ref.id } or return { error, success: false };
-  return { error, success: false }
-}
+  return { error, success: false };
+};
 
 /**
  * Delete a reaction
@@ -214,14 +208,14 @@ export const addComment = async (
  * 
  **/
 export const handleReaction = async (reaction, user, post, followEnabled) => {
-  const postId = post.id
+  const postId = post.id;
   if (!postId || !user?.id) {
-    alert('Missing post or user. Please try again!')
-    return
+    alert('Missing post or user. Please try again!');
+    return;
   }
   // update reactions by the user on the backend for the target post
   // Send push notification to author
-}
+};
 
 /**
  * Delete a reaction
@@ -234,7 +228,7 @@ export const handleReaction = async (reaction, user, post, followEnabled) => {
  **/
 export const deleteReaction = async (userId, postId) => {
   // delete reaction
-}
+};
 
 /**
  * Update rection for user's followers
@@ -259,12 +253,12 @@ export const deleteReaction = async (userId, postId) => {
     reactionsCount,
   }
  * */
-export const updateReactionsCountForFollowers = async post => {
+export const updateReactionsCountForFollowers = async (post) => {
   // After we added the reaction to the reactions table (the main source of truth for reactions), update the counts in the timeline of all people seeing this post
   // We compute the canonical reactions count
   // We update the canonical entry
   // We get all friends of the author and update their timelines
-}
+};
 
 /**
  * After we added the reaction to the reactions table (the main source of truth for reactions), update the counts in the timeline of all people seeing this post
@@ -294,11 +288,11 @@ export const updateReactionsCountForFollowers = async post => {
   }
  * 
  * */
-const updateReactionsCountForFriends = async post => {
+const updateReactionsCountForFriends = async (post) => {
   // Fetch the current comment count
   // Update canonical posts table
   // We fetch all users who follow the author of the post and update their timelines
-}
+};
 
 /**
  * Parameters
@@ -306,8 +300,8 @@ const updateReactionsCountForFriends = async post => {
  * @comment - The comment to be updated
  *
  * */
-const updateCommentCountOnAllTimelines = async comment => {
+const updateCommentCountOnAllTimelines = async (comment) => {
   // Fetch the current comment count
   // Update canonical posts table
   // We fetch all friends of the author of the post and update their timelines
-}
+};

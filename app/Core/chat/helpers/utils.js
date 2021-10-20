@@ -1,24 +1,24 @@
-import { IMLocalized } from '../../localization/IMLocalization'
+import { IMLocalized } from '../../localization/IMLocalization';
 
-const formatMessage = message => {
-  const mime = message?.url?.mime || message?.mime
+const formatMessage = (message) => {
+  const mime = message?.url?.mime || message?.mime;
   if (mime) {
     if (mime.startsWith('video')) {
-      return IMLocalized('Someone sent a video.')
+      return IMLocalized('Someone sent a video.');
     } else if (mime.startsWith('audio')) {
-      return IMLocalized('Someone sent an audio.')
+      return IMLocalized('Someone sent an audio.');
     } else if (mime.startsWith('image')) {
-      return IMLocalized('Someone sent a photo.')
+      return IMLocalized('Someone sent a photo.');
     }
   }
   if (message?.content && message.content.length > 0) {
-    return message?.content
+    return message?.content;
   } else if (message && message.length > 0) {
-    return message
+    return message;
   } else if (message) {
-    return JSON.stringify(message)
+    return JSON.stringify(message);
   }
-  return ''
-}
+  return '';
+};
 
-export { formatMessage }
+export { formatMessage };

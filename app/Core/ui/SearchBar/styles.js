@@ -1,4 +1,4 @@
-import { Platform, StyleSheet } from 'react-native'
+import { Platform, StyleSheet } from 'react-native';
 
 const dynamicStyles = (appStyles, colorScheme) => {
   return StyleSheet.create({
@@ -19,12 +19,10 @@ const dynamicStyles = (appStyles, colorScheme) => {
       fontSize: 14,
       color: appStyles.colorSet[colorScheme].mainTextColor,
       backgroundColor:
-        Platform.OS === 'ios'
-          ? appStyles.colorSet[colorScheme].mainThemeBackgroundColor
-          : appStyles.colorSet[colorScheme].whiteSmoke,
+        Platform.OS === 'ios' ? appStyles.colorSet[colorScheme].mainThemeBackgroundColor : appStyles.colorSet[colorScheme].whiteSmoke,
       flex: 1,
     },
-  })
-}
+  });
+};
 
-export default dynamicStyles
+export default dynamicStyles;

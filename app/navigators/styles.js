@@ -1,5 +1,5 @@
-import { StyleSheet, Platform } from 'react-native'
-import AppStyles from '../AppStyles'
+import { StyleSheet, Platform } from 'react-native';
+import AppStyles from '../AppStyles';
 
 const styles = StyleSheet.create({
   searchBarContainer: {
@@ -16,6 +16,6 @@ const styles = StyleSheet.create({
     width: 25,
     height: 25,
   },
-})
+});
 
-export default styles
+export default styles;

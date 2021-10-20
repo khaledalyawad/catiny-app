@@ -1,14 +1,14 @@
-import React from 'react'
-import { Text, View } from 'react-native'
-import { useColorScheme } from 'react-native-appearance'
-import FastImage from 'react-native-fast-image'
-import PropTypes from 'prop-types'
-import dynamicStyles from './styles'
+import React from 'react';
+import { Text, View } from 'react-native';
+import { useColorScheme } from 'react-native-appearance';
+import FastImage from 'react-native-fast-image';
+import PropTypes from 'prop-types';
+import dynamicStyles from './styles';
 
 function CommentItem(props) {
-  const { item } = props
-  const colorScheme = useColorScheme()
-  const styles = dynamicStyles(colorScheme)
+  const { item } = props;
+  const colorScheme = useColorScheme();
+  const styles = dynamicStyles(colorScheme);
 
   return (
     <View style={styles.commentItemContainer}>
@@ -27,11 +27,11 @@ function CommentItem(props) {
         </View>
       </View>
     </View>
-  )
+  );
 }
 
 CommentItem.propTypes = {
   item: PropTypes.object,
-}
+};
 
-export default CommentItem
+export default CommentItem;

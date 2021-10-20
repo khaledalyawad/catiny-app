@@ -1,7 +1,7 @@
-import { StyleSheet } from 'react-native'
+import { StyleSheet } from 'react-native';
 
 const dynamicStyles = (appStyles, colorScheme) => {
-  const colorSet = appStyles.colorSet[colorScheme]
+  const colorSet = appStyles.colorSet[colorScheme];
 
   return StyleSheet.create({
     containerView: {
@@ -23,7 +23,7 @@ const dynamicStyles = (appStyles, colorScheme) => {
       height: 32,
       tintColor: colorSet.mainThemeForegroundColor,
     },
-  })
-}
+  });
+};
 
-export default dynamicStyles
+export default dynamicStyles;

@@ -1,16 +1,16 @@
-import React, { useRef, useEffect } from 'react'
-import { Animated } from 'react-native'
+import React, { useRef, useEffect } from 'react';
+import { Animated } from 'react-native';
 
 export default function IndicatorDot(props) {
-  const animation = useRef(new Animated.Value(0))
+  const animation = useRef(new Animated.Value(0));
 
-  const { startTime, radius } = props
+  const { startTime, radius } = props;
 
   useEffect(() => {
     setTimeout(() => {
-      handleAnimation()
-    }, startTime)
-  }, [])
+      handleAnimation();
+    }, startTime);
+  }, []);
 
   const handleAnimation = () => {
     Animated.sequence([
@@ -25,14 +25,14 @@ export default function IndicatorDot(props) {
         useNativeDriver: false,
       }),
     ]).start(() => {
-      handleAnimation()
-    })
-  }
+      handleAnimation();
+    });
+  };
 
   const backgroundColorInterpolation = animation.current.interpolate({
     inputRange: [0, 1],
     outputRange: ['rgb(150, 150, 150)', 'rgb(197,197,200)'],
-  })
+  });
 
   const getStyles = () => ({
     width: radius * 2,
@@ -40,6 +40,6 @@ export default function IndicatorDot(props) {
     borderRadius: radius,
     backgroundColor: backgroundColorInterpolation,
     marginHorizontal: 2,
-  })
-  return <Animated.View style={getStyles(props)} />
+  });
+  return <Animated.View style={getStyles(props)} />;
 }

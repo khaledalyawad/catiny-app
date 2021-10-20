@@ -1,5 +1,5 @@
-import { StyleSheet } from 'react-native'
-import { ifIphoneX } from 'react-native-iphone-x-helper'
+import { StyleSheet } from 'react-native';
+import { ifIphoneX } from 'react-native-iphone-x-helper';
 
 const dynamicStyles = (appStyles, colorScheme) => {
   return StyleSheet.create({
@@ -21,7 +21,7 @@ const dynamicStyles = (appStyles, colorScheme) => {
       borderBottomWidth: 0.5,
       borderBottomColor: appStyles.colorSet[colorScheme].hairlineColor,
     },
-  })
-}
+  });
+};
 
-export default dynamicStyles
+export default dynamicStyles;

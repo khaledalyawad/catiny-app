@@ -1,5 +1,5 @@
-import { StyleSheet } from 'react-native'
-import { I18nManager } from 'react-native'
+import { StyleSheet } from 'react-native';
+import { I18nManager } from 'react-native';
 
 const dynamicStyles = (appStyles, colorScheme) => {
   return StyleSheet.create({
@@ -32,7 +32,7 @@ const dynamicStyles = (appStyles, colorScheme) => {
       tintColor: appStyles.colorSet[colorScheme].grey6,
       transform: [{ scaleX: I18nManager.isRTL ? -1 : 1 }],
     },
-  })
-}
+  });
+};
 
-export default dynamicStyles
+export default dynamicStyles;

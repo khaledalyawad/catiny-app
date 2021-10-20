@@ -1,8 +1,8 @@
-import React, { useRef } from 'react'
-import { Text, View, TextInput, Platform, ScrollView } from 'react-native'
-import { useColorScheme } from 'react-native-appearance'
-import dynamicStyles from './styles'
-import { TouchableWithoutFeedback } from 'react-native-gesture-handler'
+import React, { useRef } from 'react';
+import { Text, View, TextInput, Platform, ScrollView } from 'react-native';
+import { useColorScheme } from 'react-native-appearance';
+import dynamicStyles from './styles';
+import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
 
 export default function CustomTextInput(props) {
   const {
@@ -16,17 +16,17 @@ export default function CustomTextInput(props) {
     handleSelectionChange,
     onContentSizeChange,
     appStyles,
-  } = props
-  const scrollRef = useRef()
-  const inputRef = useRef()
+  } = props;
+  const scrollRef = useRef();
+  const inputRef = useRef();
 
-  const colorScheme = useColorScheme()
-  const styles = dynamicStyles(colorScheme, appStyles)
+  const colorScheme = useColorScheme();
+  const styles = dynamicStyles(colorScheme, appStyles);
 
   const onTextFieldPress = () => {
-    inputRef.current?.focus()
-  }
-  props.inputRef.current = inputRef.current
+    inputRef.current?.focus();
+  };
+  props.inputRef.current = inputRef.current;
 
   return (
     <View styles={[editorStyles.mainContainer]}>
@@ -35,7 +35,7 @@ export default function CustomTextInput(props) {
           keyboardShouldPersistTaps={'always'}
           ref={scrollRef}
           onContentSizeChange={() => {
-            scrollRef.current?.scrollToEnd({ animated: true })
+            scrollRef.current?.scrollToEnd({ animated: true });
           }}
           style={[styles.editorContainer, editorStyles.editorContainer]}>
           <View style={[{ height: editorHeight }]}>
@@ -54,36 +54,22 @@ export default function CustomTextInput(props) {
               onContentSizeChange={onContentSizeChange}
               scrollEnabled={false}
             />
-            <TouchableWithoutFeedback
-              onPress={onTextFieldPress}
-              style={[
-                styles.formmatedTextWrapper,
-                editorStyles.inputMaskTextWrapper,
-              ]}>
+            <TouchableWithoutFeedback onPress={onTextFieldPress} style={[styles.formmatedTextWrapper, editorStyles.inputMaskTextWrapper]}>
               {formattedText !== '' ? (
-                <Text
-                  style={[styles.formmatedText, editorStyles.inputMaskText]}>
-                  {formattedText}
-                </Text>
+                <Text style={[styles.formmatedText, editorStyles.inputMaskText]}>{formattedText}</Text>
               ) : (
-                <Text
-                  style={[
-                    styles.placeholderText,
-                    editorStyles.placeholderText,
-                  ]}>
-                  {placeholder}
-                </Text>
+                <Text style={[styles.placeholderText, editorStyles.placeholderText]}>{placeholder}</Text>
               )}
             </TouchableWithoutFeedback>
           </View>
         </ScrollView>
       </View>
     </View>
-  )
+  );
 }
 
 CustomTextInput.defaultProps = {
   inputRef: {
     current: {},
   },
-}
+};

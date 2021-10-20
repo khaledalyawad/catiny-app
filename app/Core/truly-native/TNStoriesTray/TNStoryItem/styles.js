@@ -1,7 +1,7 @@
-import { StyleSheet } from 'react-native'
+import { StyleSheet } from 'react-native';
 
-const imageContainerWidth = 66
-const imageWidth = imageContainerWidth - 6
+const imageContainerWidth = 66;
+const imageWidth = imageContainerWidth - 6;
 
 const dynamicStyles = (appStyles, colorScheme) => {
   return StyleSheet.create({
@@ -43,7 +43,7 @@ const dynamicStyles = (appStyles, colorScheme) => {
       right: 5,
       bottom: 0,
     },
-  })
-}
+  });
+};
 
-export default dynamicStyles
+export default dynamicStyles;

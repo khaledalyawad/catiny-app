@@ -1,6 +1,6 @@
-import { StyleSheet } from 'react-native'
+import { StyleSheet } from 'react-native';
 
-const navIconSize = 25
+const navIconSize = 25;
 
 const styles = new StyleSheet.create({
   doubleNavIcon: {
@@ -19,6 +19,6 @@ const styles = new StyleSheet.create({
     flexDirection: 'row',
     width: null,
   },
-})
+});
 
-export default styles
+export default styles;

@@ -1,9 +1,9 @@
-import { StyleSheet } from 'react-native'
-import AppStyles from '../../AppStyles'
+import { StyleSheet } from 'react-native';
+import AppStyles from '../../AppStyles';
 
-const reactionIconSize = Math.floor(AppStyles.WINDOW_WIDTH * 0.09)
+const reactionIconSize = Math.floor(AppStyles.WINDOW_WIDTH * 0.09);
 
-const dynamicStyles = colorScheme => {
+const dynamicStyles = (colorScheme) => {
   return new StyleSheet.create({
     container: {
       width: Math.floor(AppStyles.WINDOW_WIDTH * 0.97),
@@ -162,7 +162,7 @@ const dynamicStyles = colorScheme => {
       width: 19,
       height: 19,
     },
-  })
-}
+  });
+};
 
-export default dynamicStyles
+export default dynamicStyles;

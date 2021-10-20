@@ -1,5 +1,5 @@
-import { StyleSheet } from 'react-native'
-import { ifIphoneX } from 'react-native-iphone-x-helper'
+import { StyleSheet } from 'react-native';
+import { ifIphoneX } from 'react-native-iphone-x-helper';
 
 const dynamicStyles = (appStyles, colorScheme) => {
   return StyleSheet.create({
@@ -41,7 +41,7 @@ const dynamicStyles = (appStyles, colorScheme) => {
     unFocusTintColor: {
       tintColor: appStyles.colorSet[colorScheme].bottomTintColor,
     },
-  })
-}
+  });
+};
 
-export default dynamicStyles
+export default dynamicStyles;

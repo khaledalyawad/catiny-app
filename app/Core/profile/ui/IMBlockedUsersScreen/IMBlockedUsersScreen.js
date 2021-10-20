@@ -1,57 +1,54 @@
-import React, { useLayoutEffect, useEffect, useState } from 'react'
-import { useSelector } from 'react-redux'
-import { useColorScheme } from 'react-native-appearance'
-import IMBlockedUsersComponent from '../components/IMBlockedUsersComponent/IMBlockedUsersComponent'
-import { reportingManager } from '../../../user-reporting/index'
-import { IMLocalized } from '../../../localization/IMLocalization'
+import React, { useLayoutEffect, useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
+import { useColorScheme } from 'react-native-appearance';
+import IMBlockedUsersComponent from '../components/IMBlockedUsersComponent/IMBlockedUsersComponent';
+import { reportingManager } from '../../../user-reporting/index';
+import { IMLocalized } from '../../../localization/IMLocalization';
 
-const IMBlockedUsersScreen = props => {
-  const navigation = props.navigation
-  const appConfig = props.route.params.appConfig
-  const appStyles = props.route.params.appStyles
-  const colorScheme = useColorScheme()
-  const currentTheme = appStyles.navThemeConstants[colorScheme]
+const IMBlockedUsersScreen = (props) => {
+  const navigation = props.navigation;
+  const appConfig = props.route.params.appConfig;
+  const appStyles = props.route.params.appStyles;
+  const colorScheme = useColorScheme();
+  const currentTheme = appStyles.navThemeConstants[colorScheme];
 
-  const [blockedUsers, setBlockedUsers] = useState(null)
-  const [isLoading, setIsLoading] = useState(true)
+  const [blockedUsers, setBlockedUsers] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
 
-  const currentUser = useSelector(state => state.auth.user)
+  const currentUser = useSelector((state) => state.auth.user);
 
   useEffect(() => {
-    const unsubscribe = reportingManager.hydrateAllReportedUsers(
-      currentUser.id,
-      response => {
-        response
-          .then(values => {
-            setBlockedUsers(values)
-            setIsLoading(false)
-          })
-          .catch(error => {
-            console.log(error)
-            setIsLoading(false)
-          })
-      },
-    )
+    const unsubscribe = reportingManager.hydrateAllReportedUsers(currentUser.id, (response) => {
+      response
+        .then((values) => {
+          setBlockedUsers(values);
+          setIsLoading(false);
+        })
+        .catch((error) => {
+          console.log(error);
+          setIsLoading(false);
+        });
+    });
     return () => {
-      unsubscribe()
-    }
-  }, [currentUser?.id])
+      unsubscribe();
+    };
+  }, [currentUser?.id]);
 
-  const onUserUnblock = userID => {
-    setIsLoading(true)
+  const onUserUnblock = (userID) => {
+    setIsLoading(true);
     reportingManager.unblockUser(
       currentUser.id,
       userID,
-      response => {
+      (response) => {
         if (response) {
-          setIsLoading(response)
+          setIsLoading(response);
         }
       },
-      error => {
-        console.error(error)
+      (error) => {
+        console.error(error);
       },
-    )
-  }
+    );
+  };
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -61,15 +58,13 @@ const IMBlockedUsersScreen = props => {
         borderBottomColor: currentTheme.hairlineColor,
       },
       headerTintColor: currentTheme.fontColor,
-    })
-  }, [])
+    });
+  }, []);
 
   const emptyStateConfig = {
     title: IMLocalized('No Blocked Users'),
-    description: IMLocalized(
-      "You haven't blocked nor reported anyone yet. The users that you block or report will show up here.",
-    ),
-  }
+    description: IMLocalized("You haven't blocked nor reported anyone yet. The users that you block or report will show up here."),
+  };
 
   return (
     <IMBlockedUsersComponent
@@ -80,7 +75,7 @@ const IMBlockedUsersScreen = props => {
       isLoading={isLoading}
       emptyStateConfig={emptyStateConfig}
     />
-  )
-}
+  );
+};
 
-export default IMBlockedUsersScreen
+export default IMBlockedUsersScreen;

@@ -1,9 +1,9 @@
-import { StyleSheet, Platform } from 'react-native'
-import styles from '../IMMenuButton/styles'
+import { StyleSheet, Platform } from 'react-native';
+import styles from '../IMMenuButton/styles';
 
 const dynamicStyles = (appStyles, colorScheme) => {
-  const colorSet = appStyles.colorSet[colorScheme]
-  const fontSet = appStyles.fontFamily
+  const colorSet = appStyles.colorSet[colorScheme];
+  const fontSet = appStyles.fontFamily;
   return new StyleSheet.create({
     content: {
       flex: 1,
@@ -75,7 +75,7 @@ const dynamicStyles = (appStyles, colorScheme) => {
       color: colorSet.grey9,
       fontWeight: 'normal',
     },
-  })
-}
+  });
+};
 
-export default dynamicStyles
+export default dynamicStyles;
