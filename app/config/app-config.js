@@ -5,7 +5,8 @@ const extra = Constants.manifest?.extra ?? {};
 
 export default {
   // use 10.0.2.2 for Android to connect to host machine
-  apiUrl: 'http://dev.catiny.com:18080',
+  // apiUrl: 'http://dev.catiny.com:18080',
+  apiUrl: 'http://10.0.2.2:8080',
   // use fixtures instead of real API requests
   useFixtures: false,
   // debug mode

@@ -3,7 +3,13 @@
  */
 
 import { mockData } from '../../onboarding/utils/api/local/localData';
-
+import restApi from '../../../shared/services/api';
+import { login, selectAuthToken } from '../../../modules/login/login.sagas';
+import { call, put, select } from 'redux-saga/effects';
+import configureStore from '../../../shared/reducers';
+import LoginActions from '../../../modules/login/login.reducer';
+import { AsyncStorage } from '@react-native-async-storage/async-storage';
+import { getAccount } from '../../../shared/sagas/account.sagas';
 /**
  * Determine whether the user is in the database
  *
@@ -48,7 +54,8 @@ export const retrievePersistedAuthUser = () => {
     //   is saved in our database for all auth providers
     // if success call resolve({ ...userData, id: user.uid, userID: user.uid });
     // if error call resolve(null)
-    resolve(mockData);
+    // resolve(mockData);
+    resolve(null);
   });
 };
 
@@ -87,7 +94,7 @@ const signInWithCredential = (authManager, credential, appIdentifier) => {
 
 /**
  * Register user
- * 
+ *
  * @param {object} [userDetails] user details
  * {
     email,
@@ -118,6 +125,14 @@ export const register = (userDetails, appIdentifier) => {
  * @param {String} password the password of current user
  */
 export const loginWithEmailAndPassword = async (email, password) => {
+  email = 'admin';
+  password = 'admin';
+  const store = configureStore();
+  console.log(store.dispatch(LoginActions.loginRequest(email, password)));
+  call(getAccount);
+  console.log();
+  // console.log(() => store().dispatch(LoginActions.loginRequest({ username: email, password: password })));
+  // login(restApi, { username: email, password: password }).next();
   // return a promise
   return new Promise(function (resolve, reject) {
     // log into the app
@@ -251,7 +266,7 @@ export const loginWithSMSCode = (smsCode, verificationID) => {
 
 /**
  * Register user with Phone number
- * 
+ *
  * @param {String} userDetails an object containing user details
  * userDetails:
  * {

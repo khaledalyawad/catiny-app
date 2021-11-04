@@ -1,15 +1,17 @@
 import React, { useState, useEffect } from 'react';
-import { YellowBox, StatusBar } from 'react-native';
+import { YellowBox, StatusBar, Text, Button } from 'react-native';
 import { Provider } from 'react-redux';
 import { Appearance, AppearanceProvider } from 'react-native-appearance';
 import SplashScreen from 'react-native-splash-screen';
+import * as JHSplashScreen from 'expo-splash-screen';
 import { MenuProvider } from 'react-native-popup-menu';
-import configureStore from './redux/store';
+import configureStore from './shared/reducers';
 import AppContainer from './screens/AppContainer';
 import { setI18nConfig } from './Core/localization/IMLocalization';
 import * as FacebookAds from 'expo-ads-facebook';
 import SocialNetworkConfig from './SocialNetworkConfig';
 import { enableScreens } from 'react-native-screens';
+import NavContainer from './navigation/nav-container';
 
 if (SocialNetworkConfig.adsConfig) {
   FacebookAds.AdSettings.addTestDevice(FacebookAds.AdSettings.currentDeviceHash);
@@ -37,14 +39,30 @@ const App = (props) => {
     });
   }, []);
 
+  const [displayApp, setDisplayApp] = React.useState(false);
+  React.useEffect(() => {
+    if (!displayApp) {
+      JHSplashScreen.preventAutoHideAsync()
+        .then(() => setDisplayApp(true))
+        .catch(() => setDisplayApp(true));
+    }
+  }, [displayApp, setDisplayApp]);
+  const [jhipsterIsOpen, setJhipsterIsOpen] = useState(false);
+
   return (
     <Provider store={store}>
-      <AppearanceProvider>
-        <MenuProvider>
-          <StatusBar />
-          <MainNavigator screenProps={{ theme: colorScheme }} />
-        </MenuProvider>
-      </AppearanceProvider>
+      <Button title={'open jhipster'} onPress={() => setJhipsterIsOpen((prev) => !prev)}>
+        <Text></Text>
+      </Button>
+      {jhipsterIsOpen && displayApp && <NavContainer />}
+      {!jhipsterIsOpen && (
+        <AppearanceProvider>
+          <MenuProvider>
+            <StatusBar />
+            <MainNavigator screenProps={{ theme: colorScheme }} />
+          </MenuProvider>
+        </AppearanceProvider>
+      )}
     </Provider>
   );
 };

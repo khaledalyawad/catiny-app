@@ -6,6 +6,10 @@ import AppConfig from '../../config/app-config';
 import RehydrationServices from '../services/rehydration.service';
 import ReduxPersist from '../../config/redux-persist';
 import WebsocketService from '../websockets/websocket.service';
+import thunk from 'redux-thunk';
+import { createLogger } from 'redux-logger';
+const logger = createLogger();
+
 const compose = AppConfig.debugMode ? composeWithDevTools : composeWithoutDevTools;
 // creates the store
 export default (rootReducer, rootSaga) => {
@@ -22,9 +26,11 @@ export default (rootReducer, rootSaga) => {
   const wsSagaMiddleware = createSagaMiddleware(WebsocketService.websocketSagas);
   middleware.push(wsSagaMiddleware);
 
+  /* ------------- Thunk Middleware ------------- */
+  middleware.push(thunk);
   /* ------------- Assemble Middleware ------------- */
 
-  enhancers.push(applyMiddleware(...middleware));
+  enhancers.push(applyMiddleware(...middleware /*, logger*/));
 
   const store = createStore(rootReducer, compose(...enhancers));
 
@@ -42,5 +48,6 @@ export default (rootReducer, rootSaga) => {
     sagasManager,
     websocketSagaManager,
     sagaMiddleware,
+    thunk,
   };
 };

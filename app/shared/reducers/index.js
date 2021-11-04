@@ -5,10 +5,18 @@ import configureStore from './create-store';
 import rootSaga from '../sagas';
 import ReduxPersist from '../../config/redux-persist';
 
+import { auth } from '../../Core/onboarding/redux/auth';
+import { friends } from '../../Core/socialgraph/friendships/redux';
+import { feed } from '../../Core/socialgraph/feed/redux';
+import { chat } from '../../Core/chat/redux';
+import { userReports } from '../../Core/user-reporting/redux';
+import { notifications } from '../../Core/notifications/redux';
+import { users } from '../../Core/users/redux';
+
 /* ------------- Assemble The Reducers ------------- */
 export const reducers = combineReducers({
   appState: require('./app-state.reducer').reducer,
-  users: require('./user.reducer').reducer,
+  // users: require('./user.reducer').reducer,
   messageGroups: require('../../modules/entities/message-group/message-group.reducer').reducer,
   messageContents: require('../../modules/entities/message-content/message-content.reducer').reducer,
   hanhChinhVNS: require('../../modules/entities/hanh-chinh-vn/hanh-chinh-vn.reducer').reducer,
@@ -16,7 +24,7 @@ export const reducers = combineReducers({
   userProfiles: require('../../modules/entities/user-profile/user-profile.reducer').reducer,
   accountStatuses: require('../../modules/entities/account-status/account-status.reducer').reducer,
   deviceStatuses: require('../../modules/entities/device-status/device-status.reducer').reducer,
-  friends: require('../../modules/entities/friend/friend.reducer').reducer,
+  // friends: require('../../modules/entities/friend/friend.reducer').reducer,
   followUsers: require('../../modules/entities/follow-user/follow-user.reducer').reducer,
   followGroups: require('../../modules/entities/follow-group/follow-group.reducer').reducer,
   followPages: require('../../modules/entities/follow-page/follow-page.reducer').reducer,
@@ -31,7 +39,7 @@ export const reducers = combineReducers({
   newsFeeds: require('../../modules/entities/news-feed/news-feed.reducer').reducer,
   rankUsers: require('../../modules/entities/rank-user/rank-user.reducer').reducer,
   rankGroups: require('../../modules/entities/rank-group/rank-group.reducer').reducer,
-  notifications: require('../../modules/entities/notification/notification.reducer').reducer,
+  // notifications: require('../../modules/entities/notification/notification.reducer').reducer,
   albums: require('../../modules/entities/album/album.reducer').reducer,
   videos: require('../../modules/entities/video/video.reducer').reducer,
   images: require('../../modules/entities/image/image.reducer').reducer,
@@ -45,12 +53,20 @@ export const reducers = combineReducers({
   classInfos: require('../../modules/entities/class-info/class-info.reducer').reducer,
   historyUpdates: require('../../modules/entities/history-update/history-update.reducer').reducer,
   // jhipster-react-native-redux-store-import-needle
-  chat: require('../../modules/chat/chat.reducer').reducer,
+  // chat: require('../../modules/chat/chat.reducer').reducer,
   account: require('./account.reducer').reducer,
   login: require('../../modules/login/login.reducer').reducer,
   register: require('../../modules/account/register/register.reducer').reducer,
   changePassword: require('../../modules/account/password/change-password.reducer').reducer,
   forgotPassword: require('../../modules/account/password-reset/forgot-password.reducer').reducer,
+  // from instamobile
+  auth,
+  friends,
+  feed,
+  chat,
+  userReports,
+  notifications,
+  users,
 });
 
 export default () => {
