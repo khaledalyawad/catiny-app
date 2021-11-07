@@ -99,7 +99,7 @@ import HistoryUpdateSagas from '../../modules/entities/history-update/history-up
 
 // The API we use is only used from Sagas, so we create it here and pass along
 // to the sagas which need it.
-const api = AppConfig.useFixtures ? FixtureAPI : API.create();
+export const api = AppConfig.useFixtures ? FixtureAPI : API.create();
 
 /* ------------- Connect Types To Sagas ------------- */
 

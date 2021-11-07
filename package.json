@@ -21,9 +21,10 @@
     "ios": "expo start --ios",
     "web": "expo start --web",
     "eject": "expo eject",
-    "native:start": "react-native start",
-    "native:android": " cd android && gradlew clean && cd .. && react-native run-android",
-    "native:ios": "react-native run-ios"
+    "native:android": "npm run gradle:clean && react-native run-android",
+    "native:ios": "react-native run-ios",
+    "gradle:clean": "cd android && ./gradlew clean && cd ..",
+    "linux:android": "chmod +x ./android/gradlew && npm run native:android && react-native start"
   },
   "lint-staged": {
     "{,app/**/,test/**/}*.{js,json,yml,md,ts,tsx}": [
@@ -191,6 +192,7 @@
     "yup": "^0.32.11"
   },
   "devDependencies": {
+    "babel-eslint": "^10.1.0",
     "@babel/core": "^7.15.8",
     "@babel/plugin-proposal-decorators": "^7.15.8",
     "@babel/runtime": "^7.15.4",
@@ -212,6 +214,7 @@
     "eslint": "^7.32.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-prettier": "^4.0.0",
+    "eslint-plugin-editorconfig": "^3.2.0",
     "expect": "^27.3.1",
     "expo-detox-hook": "^1.0.10",
     "generator-jhipster-react-native": "^4.2.0",

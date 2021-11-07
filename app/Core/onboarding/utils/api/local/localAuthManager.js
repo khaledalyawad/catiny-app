@@ -3,7 +3,16 @@
  */
 
 import { mockData } from './localData';
+import configureStore from '../../../../../shared/reducers';
+import LoginActions from '../../../../../modules/login/login.reducer';
+import api from '../../../../../shared/services';
+import ForgotPasswordActions from '../../../../../modules/account/password-reset/forgot-password.reducer';
+import { imageUrl } from '../../../../../shared/util/image-tools-util';
+import { authAPI } from '../../../../api';
+import Geolocation from '@react-native-community/geolocation';
+import * as Location from 'expo-location';
 
+const store = configureStore();
 /**
  * A method that logs the user into his account
  * Parameters
@@ -13,8 +22,35 @@ import { mockData } from './localData';
  * returns a promise that resolves to user data
  **/
 const loginWithEmailAndPassword = (email, password) => {
-  return new Promise(function (resolve, _reject) {
-    resolve({ user: mockData });
+  return new Promise(async function (resolve, reject) {
+    api.getCurrentMasterUser().then((response) => {
+      if (!response.error) {
+        const masterUser = response?.data;
+        resolve({
+          user: {
+            ...mockData,
+            id: masterUser.uuid,
+            userID: masterUser.uuid,
+            firstName: masterUser.user.firstName,
+            lastName: masterUser.user.lastName,
+            email: masterUser.user.email,
+            profilePictureURL: imageUrl(masterUser.avatar),
+          },
+        });
+      } else {
+        store.dispatch(LoginActions.loginFailure(response));
+        resolve({ error: response.error });
+      }
+    });
+
+    // authAPI.loginWithEmailAndPassword(email, password).then((response) => {
+    //   if (!response.error) {
+    //     handleSuccessfulLogin({ ...response.user }, false).then((res) => {
+    //       // Login successful, push token stored, login credential persisted, so we log the user in.
+    //       resolve({ user: res.user });
+    //     });
+    //   } else resolve({ error: response.error });
+    // });
     // morkData takes the format of:
     // const mockData = {
     //   id,
@@ -26,6 +62,7 @@ const loginWithEmailAndPassword = (email, password) => {
     //   lastName,
     //   profilePictureURL,
     // };
+    // resolve({ user: mockData });
   });
 };
 
@@ -151,7 +188,12 @@ const loginOrSignUpWithApple = () => {
  * returns a promise that resolves to user data
  **/
 const sendPasswordResetEmail = (email) => {
-  return {};
+  return new Promise(function (resolve, reject) {
+    store.dispatch(ForgotPasswordActions.forgotPasswordRequest(email));
+    resolve({});
+    // if (store.getState().forgotPassword.response) resolve({ data: store.getState().forgotPassword.response });
+    // reject({ data: store.getState().forgotPassword.error });
+  });
 };
 
 /**
@@ -181,10 +223,16 @@ const loginWithSMSCode = () => {
  **
  ** returns a promise that resolves to user data
  */
-const logout = () => {};
+const logout = () => {
+  return new Promise((resolve) => {
+    store.dispatch(LoginActions.logoutRequest());
+    resolve(null);
+  });
+};
 
 const retrievePersistedAuthUser = () => {
   return new Promise((resolve) => {
+    console.log(store.getState().account);
     resolve(null);
   });
 };
@@ -205,6 +253,79 @@ const validateUsernameFieldIfNeeded = (inputFields, appConfig) => {
  */
 const deleteUser = (userID, callback) => {
   // calls the removeUser from the auth API
+};
+
+const handleSuccessfulLogin = (user, accountCreated) => {
+  // After a successful login, we fetch & store the device token for push notifications, location, online status, etc.
+  // we don't wait for fetching & updating the location or push token, for performance reasons (especially on Android)
+  fetchAndStoreExtraInfoUponLogin(user, accountCreated);
+
+  return new Promise((resolve) => {
+    resolve({ user: { ...user } });
+  });
+};
+
+const fetchAndStoreExtraInfoUponLogin = async (user, accountCreated) => {
+  authAPI.fetchAndStorePushTokenIfPossible(user);
+
+  getCurrentLocation(Geolocation).then(async (location) => {
+    const latitude = location.coords.latitude;
+    const longitude = location.coords.longitude;
+    var locationData = {};
+    if (location) {
+      locationData = {
+        location: {
+          latitude: latitude,
+          longitude: longitude,
+        },
+      };
+      if (accountCreated) {
+        locationData = {
+          ...locationData,
+          signUpLocation: {
+            latitude: latitude,
+            longitude: longitude,
+          },
+        };
+      }
+    }
+
+    const userData = {
+      ...locationData,
+      isOnline: true,
+    };
+
+    authAPI.updateUser(user.id || user.userID, userData);
+  });
+};
+
+const getCurrentLocation = (geolocation) => {
+  return new Promise(async (resolve) => {
+    let { status } = await Location.requestForegroundPermissionsAsync();
+    if (status !== 'granted') {
+      resolve({ coords: { latitude: '', longitude: '' } });
+      return;
+    }
+
+    geolocation.getCurrentPosition(
+      (location) => {
+        console.log(location);
+        resolve(location);
+      },
+      (error) => {
+        console.log(error);
+      },
+    );
+
+    // setRegion(location.coords);
+    // onLocationChange(location.coords);
+
+    // geolocation.getCurrentPosition(
+    //     resolve,
+    //     () => resolve({ coords: { latitude: "", longitude: "" } }),
+    //     { enableHighAccuracy: false, timeout: 20000, maximumAge: 1000 }
+    // );
+  });
 };
 
 const localAuthManager = {

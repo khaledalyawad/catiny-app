@@ -19,7 +19,7 @@ export default class FriendshipTracker {
     this.reduxStore = reduxStore;
     this.reduxStore.dispatch(setFriendships(mockFriendships));
     this.reduxStore.dispatch(setFriends(mockFriends));
-    this.reduxStore.dispatch(setUserData({ user: mockData }));
+    // this.reduxStore.dispatch(setUserData({ user: mockData }));
   }
 
   /**

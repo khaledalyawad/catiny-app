@@ -1,10 +1,16 @@
 module.exports = {
-  root: true,
-  extends: ['@react-native-community', 'prettier'],
-  rules: {
-    semi: [2, 'always'],
-    quotes: [2, 'single', { avoidEscape: true }],
+  parserOptions: {
+    project: './tsconfig.json',
   },
+  root: true,
+  extends: ['@react-native-community', 'prettier', 'plugin:editorconfig/all'],
+  rules: {
+    'editorconfig/eol-last': 'off',
+    'prettier/prettier': 'off',
+    'react-hooks/exhaustive-deps': "off",
+  },
+  parser: "babel-eslint",
+  plugins: ['editorconfig', "react", "react-native","react-hooks"],
   globals: {
     describe: 'readonly',
     test: 'readonly',

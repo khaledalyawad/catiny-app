@@ -18,6 +18,7 @@ const LoginScreen = (props) => {
   const authManager = props.route.params.authManager;
 
   const [loading, setLoading] = useState(false);
+  const [loginFailure, setLoginFailure] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const appStyles = props.route.params.appStyles;
@@ -43,6 +44,11 @@ const LoginScreen = (props) => {
           cancelable: false,
         });
       }
+    })
+      .catch(reason =>
+    {
+      setLoading(false);
+      setLoginFailure(true);
     });
   };
 
@@ -123,6 +129,7 @@ const LoginScreen = (props) => {
           <Image style={appStyles.styleSet.backArrowStyle} source={appStyles.iconSet.backArrow} />
         </TouchableOpacity>
         <Text style={styles.title}>{IMLocalized('Sign In')}</Text>
+        {loginFailure && <Text style={styles.loginFailure}>{IMLocalized('Login failed!')}</Text>}
         <TextInput
           style={styles.InputContainer}
           placeholder={IMLocalized('E-mail')}

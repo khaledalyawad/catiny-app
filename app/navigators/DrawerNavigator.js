@@ -20,7 +20,7 @@ const DrawerNavigator = () => {
         title: route.key,
       })}
       initialRouteName="Feed"
-      drawerStyle={{ width: 300 }}
+      drawerStyle={{ width: 250 }}
       drawerPosition="left"
       drawerContent={({ navigation }) => (
         <IMDrawerMenu

@@ -91,6 +91,12 @@ const dynamicStyles = (appStyles, colorScheme) => {
       fontSize: 14,
       padding: 4,
     },
+    loginFailure: {
+      fontSize: 18,
+      padding: 2,
+      color: '#f66161',
+      alignSelf: 'center',
+    },
   });
 };
 

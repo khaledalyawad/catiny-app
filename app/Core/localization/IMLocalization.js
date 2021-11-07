@@ -8,6 +8,7 @@ export const translationGetters = {
   ar: () => require('../../Translations/ar.json'),
   en: () => require('../../Translations/en.json'),
   fr: () => require('../../Translations/fr.json'),
+  vi: () => require('../../Translations/vi.json'),
 };
 
 export const IMLocalized = memoize(
@@ -26,7 +27,7 @@ export const setI18nConfig = () => {
   let isRTL = Localization.isRTL;
 
   if (localeLanguageTag) {
-    localeLanguageTag = 'en';
+    localeLanguageTag = 'vi';
     isRTL = false;
   }
 

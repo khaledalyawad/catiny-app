@@ -3,10 +3,12 @@ const LOG_OUT = 'LOG_OUT';
 
 export const DUMMY_USER_DATA = {};
 
-export const setUserData = (data) => ({
-  type: UPDATE_USER,
-  data,
-});
+export const setUserData = (data) => {
+  return {
+    type: UPDATE_USER,
+    data,
+  };
+};
 
 export const logout = () => ({
   type: LOG_OUT,

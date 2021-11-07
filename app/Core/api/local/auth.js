@@ -3,13 +3,11 @@
  */
 
 import { mockData } from '../../onboarding/utils/api/local/localData';
-import restApi from '../../../shared/services/api';
-import { login, selectAuthToken } from '../../../modules/login/login.sagas';
-import { call, put, select } from 'redux-saga/effects';
-import configureStore from '../../../shared/reducers';
 import LoginActions from '../../../modules/login/login.reducer';
-import { AsyncStorage } from '@react-native-async-storage/async-storage';
-import { getAccount } from '../../../shared/sagas/account.sagas';
+import configureStore from '../../../shared/reducers';
+
+const store = configureStore();
+
 /**
  * Determine whether the user is in the database
  *
@@ -125,16 +123,8 @@ export const register = (userDetails, appIdentifier) => {
  * @param {String} password the password of current user
  */
 export const loginWithEmailAndPassword = async (email, password) => {
-  email = 'admin';
-  password = 'admin';
-  const store = configureStore();
-  console.log(store.dispatch(LoginActions.loginRequest(email, password)));
-  call(getAccount);
-  console.log();
-  // console.log(() => store().dispatch(LoginActions.loginRequest({ username: email, password: password })));
-  // login(restApi, { username: email, password: password }).next();
-  // return a promise
   return new Promise(function (resolve, reject) {
+    store.dispatch(LoginActions.loginRequest(email, password));
     // log into the app
     // if success call
     // resolve({ user: newUserData });
