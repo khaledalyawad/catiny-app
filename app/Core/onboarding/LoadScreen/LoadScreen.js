@@ -1,12 +1,13 @@
-import React, { useEffect, useRef } from 'react';
-import { View } from 'react-native';
+import React, {useEffect, useRef} from 'react';
+import {View} from 'react-native';
 import PropTypes from 'prop-types';
 import deviceStorage from '../utils/AuthDeviceStorage';
-import { useDispatch } from 'react-redux';
-import { setUserData } from '../redux/auth';
+import {useDispatch} from 'react-redux';
+import {setUserData} from '../redux/auth';
 
-const LoadScreen = (props) => {
-  const { navigation, route } = props;
+const LoadScreen = (props) =>
+{
+  const {navigation, route} = props;
 
   const dispatch = useDispatch();
 
@@ -15,22 +16,28 @@ const LoadScreen = (props) => {
   const authManager = props?.authManager ? props?.authManager : props.route?.params?.authManager;
 
   const didFocusSubscription = useRef(
-    props.navigation.addListener('focus', (payload) => {
+    props.navigation.addListener('focus', (payload) =>
+    {
       setAppState();
     }),
   );
 
-  useEffect(() => {
+  useEffect(() =>
+  {
     setAppState();
-    return () => {
+    return () =>
+    {
       didFocusSubscription.current && didFocusSubscription.current();
     };
   }, []);
 
-  const setAppState = async () => {
+  const setAppState = async () =>
+  {
     const shouldShowOnboardingFlow = await deviceStorage.getShouldShowOnboardingFlow();
-    if (!shouldShowOnboardingFlow) {
-      if (appConfig?.isDelayedLoginEnabled) {
+    if (!shouldShowOnboardingFlow)
+    {
+      if (appConfig?.isDelayedLoginEnabled)
+      {
         fetchPersistedUserIfNeeded();
         return;
       }
@@ -38,7 +45,9 @@ const LoadScreen = (props) => {
         appStyles: appStyles,
         appConfig: appConfig,
       });
-    } else {
+    }
+    else
+    {
       navigation.navigate('Walkthrough', {
         appStyles: appStyles,
         appConfig: appConfig,
@@ -46,11 +55,14 @@ const LoadScreen = (props) => {
     }
   };
 
-  const fetchPersistedUserIfNeeded = async () => {
+  const fetchPersistedUserIfNeeded = async () =>
+  {
     authManager
       .retrievePersistedAuthUser(appConfig)
-      .then((response) => {
-        if (response?.user) {
+      .then((response) =>
+      {
+        if (response?.user)
+        {
           dispatch(
             setUserData({
               user: response.user,
@@ -60,7 +72,8 @@ const LoadScreen = (props) => {
         }
         navigation.navigate('DelayedHome');
       })
-      .catch((error) => {
+      .catch((error) =>
+      {
         console.log(error);
         navigation.navigate('DelayedHome');
       });

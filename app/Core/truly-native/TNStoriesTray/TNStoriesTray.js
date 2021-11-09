@@ -1,12 +1,13 @@
 import React from 'react';
-import { FlatList, ScrollView, I18nManager } from 'react-native';
+import {FlatList, I18nManager} from 'react-native';
 
 import TNStoryItem from './TNStoryItem/TNStoryItem';
 import PropTypes from 'prop-types';
 import dynamicStyles from './styles';
-import { useColorScheme } from 'react-native-appearance';
+import {useColorScheme} from 'react-native-appearance';
 
-function TNStoriesTray(props) {
+function TNStoriesTray(props)
+{
   const {
     data,
     onStoryItemPress,
@@ -24,13 +25,14 @@ function TNStoriesTray(props) {
   const colorScheme = useColorScheme();
   const styles = dynamicStyles(appStyles, colorScheme);
 
-  const renderItem = ({ item, index }) => {
+  const renderItem = ({item, index}) =>
+  {
     const isSeen = item.items && item.idx + 1 === item.items.length && styles.seenStyle;
 
     return (
       <TNStoryItem
         onPress={onStoryItemPress}
-        item={{ ...item, lastName: displayLastName ? item.lastName : ' ' }}
+        item={{...item, lastName: displayLastName ? item.lastName : ' '}}
         index={index}
         title={true}
         appStyles={appStyles}
@@ -49,7 +51,7 @@ function TNStoriesTray(props) {
             appStyles={appStyles}
             title={true}
             index={0}
-            item={{ ...user, firstName: userStoryTitle, lastName: '' }}
+            item={{...user, firstName: userStoryTitle, lastName: ''}}
           />
         ) : null
       }

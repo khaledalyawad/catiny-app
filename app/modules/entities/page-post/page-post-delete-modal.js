@@ -1,20 +1,22 @@
 import React from 'react';
-import { TouchableHighlight, Modal, Text, View } from 'react-native';
-import { connect } from 'react-redux';
+import {Modal, Text, TouchableHighlight, View} from 'react-native';
+import {connect} from 'react-redux';
 
 import PagePostActions from './page-post.reducer';
 
 import styles from './page-post-styles';
 
-function PagePostDeleteModal(props) {
-  const { visible, setVisible, entity, navigation, testID } = props;
+function PagePostDeleteModal(props)
+{
+  const {visible, setVisible, entity, navigation, testID} = props;
 
-  const deleteEntity = () => {
+  const deleteEntity = () =>
+  {
     props.deletePagePost(entity.id);
     navigation.canGoBack() ? navigation.goBack() : navigation.navigate('PagePost');
   };
   return (
-    <Modal animationType="slide" transparent={true} visible={visible}>
+    <Modal animationType='slide' transparent={true} visible={visible}>
       <View testID={testID} style={styles.centeredView}>
         <View style={styles.modalView}>
           <View style={[styles.flex, styles.flexRow]}>
@@ -23,12 +25,13 @@ function PagePostDeleteModal(props) {
           <View style={[styles.flexRow]}>
             <TouchableHighlight
               style={[styles.openButton, styles.cancelButton]}
-              onPress={() => {
+              onPress={() =>
+              {
                 setVisible(false);
               }}>
               <Text style={styles.textStyle}>Cancel</Text>
             </TouchableHighlight>
-            <TouchableHighlight style={[styles.openButton, styles.submitButton]} onPress={deleteEntity} testID="deleteButton">
+            <TouchableHighlight style={[styles.openButton, styles.submitButton]} onPress={deleteEntity} testID='deleteButton'>
               <Text style={styles.textStyle}>Delete</Text>
             </TouchableHighlight>
           </View>
@@ -38,7 +41,8 @@ function PagePostDeleteModal(props) {
   );
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state) =>
+{
   return {
     pagePost: state.pagePosts.pagePost,
     fetching: state.pagePosts.fetchingOne,
@@ -47,7 +51,8 @@ const mapStateToProps = (state) => {
   };
 };
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = (dispatch) =>
+{
   return {
     getPagePost: (id) => dispatch(PagePostActions.pagePostRequest(id)),
     getAllPagePosts: (options) => dispatch(PagePostActions.pagePostAllRequest(options)),

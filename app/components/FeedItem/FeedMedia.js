@@ -1,21 +1,23 @@
-import React, { useRef, useState, useEffect, memo } from 'react';
-import { View, TouchableOpacity, Platform, NativeModules, ActivityIndicator } from 'react-native';
-import { useSelector } from 'react-redux';
-import { createImageProgress } from 'react-native-image-progress';
+import React, {memo, useEffect, useRef, useState} from 'react';
+import {NativeModules, Platform, TouchableOpacity} from 'react-native';
+import {useSelector} from 'react-redux';
+import {createImageProgress} from 'react-native-image-progress';
 import FastImage from 'react-native-fast-image';
-import { Video } from 'expo-av';
-import { TNTouchableIcon } from '../../Core/truly-native';
-import { loadCachedItem } from '../../Core/helpers/cacheManager';
+import {Video} from 'expo-av';
+import {TNTouchableIcon} from '../../Core/truly-native';
+import {loadCachedItem} from '../../Core/helpers/cacheManager';
 import AppStyles from '../../AppStyles';
 // import CircleSnail from 'react-native-progress/CircleSnail';
 
 const Image = createImageProgress(FastImage);
 
-const { VideoPlayerManager } = NativeModules;
-const circleSnailProps = { thickness: 1, color: '#D0D0D0', size: 20 };
+const {VideoPlayerManager} = NativeModules;
+const circleSnailProps = {thickness: 1, color: '#D0D0D0', size: 20};
 
-const FeedMedia = memo(({ media, index, item, isLastItem, onImagePress, dynamicStyles, postMediaIndex, inViewPort, willBlur }) => {
-  if (!item.postMedia || !item.postMedia.length) {
+const FeedMedia = memo(({media, index, item, isLastItem, onImagePress, dynamicStyles, postMediaIndex, inViewPort, willBlur}) =>
+{
+  if (!item.postMedia || !item.postMedia.length)
+  {
     alert('There is no post media to display. You must fix this error.');
     return null;
   }
@@ -46,36 +48,46 @@ const FeedMedia = memo(({ media, index, item, isLastItem, onImagePress, dynamicS
     mute_video_enabled: (muteValue) => setIsVideoMuted(muteValue),
   };
 
-  useEffect(() => {
+  useEffect(() =>
+  {
     const appSettings = currentUser.settings;
-    if (appSettings) {
+    if (appSettings)
+    {
       const settingsKeys = Object.keys(appSettings);
-      if (settingsKeys.length > 0) {
+      if (settingsKeys.length > 0)
+      {
         settingsKeys.forEach((key) => settingsHandler[key] && settingsHandler[key](appSettings[key]));
       }
     }
   }, [currentUser]);
 
-  useEffect(() => {
-    if (videoRef.current) {
+  useEffect(() =>
+  {
+    if (videoRef.current)
+    {
       videoRef.current.setIsMutedAsync(isVideoMuted);
     }
   }, [isVideoMuted]);
 
-  useEffect(() => {
-    const loadImage = async () => {
-      if (noTypeStated && (isValidUrl || isValidLegacyUrl)) {
-        const image = await loadCachedItem({ uri });
+  useEffect(() =>
+  {
+    const loadImage = async () =>
+    {
+      if (noTypeStated && (isValidUrl || isValidLegacyUrl))
+      {
+        const image = await loadCachedItem({uri});
         setCachedImage(image);
       }
 
-      if (isImage && (isValidUrl || isValidLegacyUrl)) {
-        const image = await loadCachedItem({ uri });
+      if (isImage && (isValidUrl || isValidLegacyUrl))
+      {
+        const image = await loadCachedItem({uri});
         setCachedImage(image);
       }
-      if (isVideo && (isValidUrl || isValidLegacyUrl)) {
-        const image = await loadCachedItem({ uri: thumbnailUri });
-        const video = await loadCachedItem({ uri });
+      if (isVideo && (isValidUrl || isValidLegacyUrl))
+      {
+        const image = await loadCachedItem({uri: thumbnailUri});
+        const video = await loadCachedItem({uri});
         setCachedImage(image);
         setCachedVideo(video);
       }
@@ -84,15 +96,22 @@ const FeedMedia = memo(({ media, index, item, isLastItem, onImagePress, dynamicS
     loadImage();
   }, []);
 
-  useEffect(() => {
-    const handleIsPostMediaIndex = async () => {
-      if (postMediaIndex === index && inViewPort && playEnabledFromSettings) {
-        if (videoRef.current) {
+  useEffect(() =>
+  {
+    const handleIsPostMediaIndex = async () =>
+    {
+      if (postMediaIndex === index && inViewPort && playEnabledFromSettings)
+      {
+        if (videoRef.current)
+        {
           await videoRef.current.setPositionAsync(0);
           await videoRef.current.playAsync(true);
         }
-      } else {
-        if (videoRef.current) {
+      }
+      else
+      {
+        if (videoRef.current)
+        {
           await videoRef.current.pauseAsync(true);
         }
       }
@@ -101,15 +120,20 @@ const FeedMedia = memo(({ media, index, item, isLastItem, onImagePress, dynamicS
     handleIsPostMediaIndex();
   }, [postMediaIndex]);
 
-  useEffect(() => {
+  useEffect(() =>
+  {
     handleInViewPort();
   }, [inViewPort]);
 
-  useEffect(() => {
-    const handleVideoStatus = async () => {
-      if (videoRef.current) {
+  useEffect(() =>
+  {
+    const handleVideoStatus = async () =>
+    {
+      if (videoRef.current)
+      {
         const videoStatus = await videoRef.current.getStatusAsync();
-        if (videoStatus.isPlaying) {
+        if (videoStatus.isPlaying)
+        {
           videoRef.current.pauseAsync(true);
         }
       }
@@ -118,53 +142,72 @@ const FeedMedia = memo(({ media, index, item, isLastItem, onImagePress, dynamicS
     handleVideoStatus();
   }, [willBlur]);
 
-  const handleInViewPort = async () => {
+  const handleInViewPort = async () =>
+  {
     const postMedia = item.postMedia;
 
-    if (postMediaIndex === index && postMedia[postMediaIndex] && isVideo && playEnabledFromSettings) {
-      if (inViewPort) {
-        if (videoRef.current) {
+    if (postMediaIndex === index && postMedia[postMediaIndex] && isVideo && playEnabledFromSettings)
+    {
+      if (inViewPort)
+      {
+        if (videoRef.current)
+        {
           await videoRef.current.setPositionAsync(0);
           await videoRef.current.playAsync(true);
         }
-      } else {
-        if (videoRef.current) {
+      }
+      else
+      {
+        if (videoRef.current)
+        {
           await videoRef.current.pauseAsync(true);
         }
       }
     }
   };
 
-  const onVideoLoadStart = () => {
+  const onVideoLoadStart = () =>
+  {
     setVideoLoading(true);
   };
 
-  const onVideoLoad = () => {
+  const onVideoLoad = () =>
+  {
     setVideoLoading(false);
   };
 
-  const onSoundPress = () => {
+  const onSoundPress = () =>
+  {
     setIsVideoMuted((prevIsVideoMuted) => !prevIsVideoMuted);
   };
 
-  const onVideoMediaPress = (url) => {
-    if (Platform.OS === 'android') {
+  const onVideoMediaPress = (url) =>
+  {
+    if (Platform.OS === 'android')
+    {
       VideoPlayerManager.showVideoPlayer(url);
-    } else {
-      if (videoRef.current) {
+    }
+    else
+    {
+      if (videoRef.current)
+      {
         videoRef.current.presentFullscreenPlayer();
       }
     }
   };
 
-  const onImageMediaPress = () => {
+  const onImageMediaPress = () =>
+  {
     const filteredImages = [];
-    item.postMedia.forEach((singleMedia) => {
-      if (singleMedia.mime && singleMedia.mime.startsWith('image') && singleMedia.url) {
+    item.postMedia.forEach((singleMedia) =>
+    {
+      if (singleMedia.mime && singleMedia.mime.startsWith('image') && singleMedia.url)
+      {
         filteredImages.push(singleMedia.url);
       }
 
-      if (singleMedia && !singleMedia.mime) {
+      if (singleMedia && !singleMedia.mime)
+      {
         filteredImages.push(singleMedia);
       }
     });
@@ -172,23 +215,27 @@ const FeedMedia = memo(({ media, index, item, isLastItem, onImagePress, dynamicS
     onImagePress(filteredImages, index);
   };
 
-  const onMediaFilePress = () => {
-    if (isVideo) {
+  const onMediaFilePress = () =>
+  {
+    if (isVideo)
+    {
       onVideoMediaPress(media.url);
       return;
     }
     onImageMediaPress();
   };
 
-  const rendenderMediaFile = () => {
-    if (isVideo) {
+  const rendenderMediaFile = () =>
+  {
+    if (isVideo)
+    {
       return (
         <>
           <Video
             ref={videoRef}
-            source={{ uri: cachedVideo }}
-            posterSource={{ uri: cachedImage }}
-            posterStyle={{ resizeMode: 'cover' }}
+            source={{uri: cachedVideo}}
+            posterSource={{uri: cachedImage}}
+            posterStyle={{resizeMode: 'cover'}}
             onLoad={onVideoLoad}
             resizeMode={'cover'}
             onLoadStart={onVideoLoadStart}
@@ -207,7 +254,7 @@ const FeedMedia = memo(({ media, index, item, isLastItem, onImagePress, dynamicS
     }
     return (
       <Image
-        source={{ uri: cachedImage }}
+        source={{uri: cachedImage}}
         style={dynamicStyles.bodyImage}
         // indicator={CircleSnail}
         indicatorProps={circleSnailProps}

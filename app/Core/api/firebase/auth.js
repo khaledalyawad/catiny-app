@@ -1,66 +1,87 @@
 import messaging from '@react-native-firebase/messaging';
-import auth from '@react-native-firebase/auth';
-import { ErrorCode } from '../../onboarding/utils/ErrorCode';
-import { firebase } from './config';
-import { firebase as RNFBAuth } from '@react-native-firebase/auth';
+import auth, {firebase as RNFBAuth} from '@react-native-firebase/auth';
+import {ErrorCode} from '../../onboarding/utils/ErrorCode';
+import {firebase} from './config';
 
 const usersRef = firebase.firestore().collection('users');
 
-const handleUserFromAuthStateChanged = (user, resolve) => {
-  if (user) {
+const handleUserFromAuthStateChanged = (user, resolve) =>
+{
+  if (user)
+  {
     usersRef
       .doc(user.uid)
       .get()
-      .then((document) => {
+      .then((document) =>
+      {
         const userData = document.data();
-        resolve({ ...userData, id: user.uid, userID: user.uid });
+        resolve({...userData, id: user.uid, userID: user.uid});
       })
-      .catch((error) => {
+      .catch((error) =>
+      {
         resolve(null);
       });
-  } else {
+  }
+  else
+  {
     resolve(null);
   }
 };
 
-export const tryAlternatePersistedAuthUserRetriever = (resolve) => {
-  RNFBAuth.auth().onAuthStateChanged((user) => {
-    if (user) {
+export const tryAlternatePersistedAuthUserRetriever = (resolve) =>
+{
+  RNFBAuth.auth().onAuthStateChanged((user) =>
+  {
+    if (user)
+    {
       return handleUserFromAuthStateChanged(user, resolve);
-    } else {
+    }
+    else
+    {
       resolve(null);
     }
   });
 };
 
-export const retrievePersistedAuthUser = () => {
-  return new Promise((resolve) => {
-    return firebase.auth().onAuthStateChanged((user) => {
-      if (user) {
+export const retrievePersistedAuthUser = () =>
+{
+  return new Promise((resolve) =>
+  {
+    return firebase.auth().onAuthStateChanged((user) =>
+    {
+      if (user)
+      {
         return handleUserFromAuthStateChanged(user, resolve);
-      } else {
+      }
+      else
+      {
         return tryAlternatePersistedAuthUserRetriever(resolve);
       }
     });
   });
 };
 
-export const sendPasswordResetEmail = (email) => {
+export const sendPasswordResetEmail = (email) =>
+{
   firebase.auth().sendPasswordResetEmail(email);
 };
 
-const signInWithCredential = (authManager, credential, appIdentifier) => {
-  return new Promise((resolve, _reject) => {
+const signInWithCredential = (authManager, credential, appIdentifier) =>
+{
+  return new Promise((resolve, _reject) =>
+  {
     authManager
       .auth()
       .signInWithCredential(credential)
-      .then((response) => {
+      .then((response) =>
+      {
         const isNewUser = response.additionalUserInfo.isNewUser;
-        const { first_name, last_name, family_name, given_name } = response.additionalUserInfo.profile;
-        const { uid, email, phoneNumber, photoURL } = response.user;
+        const {first_name, last_name, family_name, given_name} = response.additionalUserInfo.profile;
+        const {uid, email, phoneNumber, photoURL} = response.user;
         const defaultProfilePhotoURL = 'https://www.iosapptemplates.com/wp-content/uploads/2019/06/empty-avatar.jpg';
 
-        if (isNewUser) {
+        if (isNewUser)
+        {
           const timestamp = firebase.firestore.FieldValue.serverTimestamp();
           const userData = {
             id: uid,
@@ -76,9 +97,10 @@ const signInWithCredential = (authManager, credential, appIdentifier) => {
           usersRef
             .doc(uid)
             .set(userData)
-            .then(() => {
+            .then(() =>
+            {
               resolve({
-                user: { ...userData, id: uid, userID: uid },
+                user: {...userData, id: uid, userID: uid},
                 accountCreated: true,
               });
             });
@@ -86,48 +108,60 @@ const signInWithCredential = (authManager, credential, appIdentifier) => {
         usersRef
           .doc(uid)
           .get()
-          .then((document) => {
+          .then((document) =>
+          {
             const userData = document.data();
             resolve({
-              user: { ...userData, id: uid, userID: uid },
+              user: {...userData, id: uid, userID: uid},
               accountCreated: false,
             });
           });
       })
-      .catch((_error) => {
+      .catch((_error) =>
+      {
         console.log(_error);
-        resolve({ error: ErrorCode.serverError });
+        resolve({error: ErrorCode.serverError});
       });
   });
 };
 
-export const checkUniqueUsername = (username) => {
-  return new Promise((resolve) => {
+export const checkUniqueUsername = (username) =>
+{
+  return new Promise((resolve) =>
+  {
     usersRef
       .where('username', '==', username)
       .get()
-      .then((querySnapshot) => {
-        if (querySnapshot.docs.length <= 0) {
+      .then((querySnapshot) =>
+      {
+        if (querySnapshot.docs.length <= 0)
+        {
           // doesn't exist
-          resolve({ isUnique: true });
-        } else {
+          resolve({isUnique: true});
+        }
+        else
+        {
           // does exist
-          resolve({ taken: true });
+          resolve({taken: true});
         }
       })
-      .catch((error) => {
+      .catch((error) =>
+      {
         reject(error);
       });
   });
 };
 
-export const register = (userDetails, appIdentifier) => {
-  const { email, firstName, lastName, username, password, phone, profilePictureURL, location, signUpLocation } = userDetails;
-  return new Promise(function (resolve, _reject) {
+export const register = (userDetails, appIdentifier) =>
+{
+  const {email, firstName, lastName, username, password, phone, profilePictureURL, location, signUpLocation} = userDetails;
+  return new Promise(function (resolve, _reject)
+  {
     firebase
       .auth()
       .createUserWithEmailAndPassword(email, password)
-      .then((response) => {
+      .then((response) =>
+      {
         const timestamp = firebase.firestore.FieldValue.serverTimestamp();
         const uid = response.user.uid;
 
@@ -148,31 +182,38 @@ export const register = (userDetails, appIdentifier) => {
         usersRef
           .doc(uid)
           .set(data)
-          .then(() => {
-            resolve({ user: data });
+          .then(() =>
+          {
+            resolve({user: data});
           })
-          .catch((error) => {
+          .catch((error) =>
+          {
             alert(error);
-            resolve({ error: ErrorCode.serverError });
+            resolve({error: ErrorCode.serverError});
           });
       })
-      .catch((error) => {
+      .catch((error) =>
+      {
         console.log('_error:', error);
         var errorCode = ErrorCode.serverError;
-        if (error.code === 'auth/email-already-in-use') {
+        if (error.code === 'auth/email-already-in-use')
+        {
           errorCode = ErrorCode.emailInUse;
         }
-        resolve({ error: errorCode });
+        resolve({error: errorCode});
       });
   });
 };
 
-export const loginWithEmailAndPassword = async (email, password) => {
-  return new Promise(function (resolve, reject) {
+export const loginWithEmailAndPassword = async (email, password) =>
+{
+  return new Promise(function (resolve, reject)
+  {
     firebase
       .auth()
       .signInWithEmailAndPassword(email, password)
-      .then((response) => {
+      .then((response) =>
+      {
         const uid = response.user.uid;
 
         const userData = {
@@ -183,9 +224,11 @@ export const loginWithEmailAndPassword = async (email, password) => {
         usersRef
           .doc(uid)
           .get()
-          .then(function (firestoreDocument) {
-            if (!firestoreDocument.exists) {
-              resolve({ errorCode: ErrorCode.noUser });
+          .then(function (firestoreDocument)
+          {
+            if (!firestoreDocument.exists)
+            {
+              resolve({errorCode: ErrorCode.noUser});
               return;
             }
             const user = firestoreDocument.data();
@@ -193,17 +236,20 @@ export const loginWithEmailAndPassword = async (email, password) => {
               ...userData,
               ...user,
             };
-            resolve({ user: newUserData });
+            resolve({user: newUserData});
           })
-          .catch(function (_error) {
+          .catch(function (_error)
+          {
             console.log('_error:', _error);
-            resolve({ error: ErrorCode.serverError });
+            resolve({error: ErrorCode.serverError});
           });
       })
-      .catch((error) => {
+      .catch((error) =>
+      {
         console.log('error:', error);
         var errorCode = ErrorCode.serverError;
-        switch (error.code) {
+        switch (error.code)
+        {
           case 'auth/wrong-password':
             errorCode = ErrorCode.invalidPassword;
             break;
@@ -216,130 +262,164 @@ export const loginWithEmailAndPassword = async (email, password) => {
           default:
             errorCode = ErrorCode.serverError;
         }
-        resolve({ error: errorCode });
+        resolve({error: errorCode});
       });
   });
 };
 
-export const loginWithApple = (identityToken, nonce, appIdentifier) => {
+export const loginWithApple = (identityToken, nonce, appIdentifier) =>
+{
   const appleCredential = RNFBAuth.auth.AppleAuthProvider.credential(identityToken, nonce);
 
-  return new Promise((resolve, _reject) => {
-    signInWithCredential(RNFBAuth, appleCredential, appIdentifier).then((response) => {
+  return new Promise((resolve, _reject) =>
+  {
+    signInWithCredential(RNFBAuth, appleCredential, appIdentifier).then((response) =>
+    {
       resolve(response);
     });
   });
 };
 
-export const loginWithFacebook = (accessToken, appIdentifier) => {
+export const loginWithFacebook = (accessToken, appIdentifier) =>
+{
   const credential = firebase.auth.FacebookAuthProvider.credential(accessToken);
 
-  return new Promise((resolve, _reject) => {
-    signInWithCredential(firebase, credential, appIdentifier).then((response) => {
+  return new Promise((resolve, _reject) =>
+  {
+    signInWithCredential(firebase, credential, appIdentifier).then((response) =>
+    {
       resolve(response);
     });
   });
 };
 
-export const loginWithGoogle = (idToken, appIdentifier) => {
+export const loginWithGoogle = (idToken, appIdentifier) =>
+{
   const credential = RNFBAuth.auth.GoogleAuthProvider.credential(idToken);
 
-  return new Promise((resolve, _reject) => {
-    signInWithCredential(RNFBAuth, credential, appIdentifier).then((response) => {
+  return new Promise((resolve, _reject) =>
+  {
+    signInWithCredential(RNFBAuth, credential, appIdentifier).then((response) =>
+    {
       resolve(response);
     });
   });
 };
 
-export const logout = () => {
+export const logout = () =>
+{
   firebase.auth().signOut();
   RNFBAuth.auth().signOut();
 };
 
-export const onVerificationChanged = (phone) => {
+export const onVerificationChanged = (phone) =>
+{
   auth()
     .verifyPhoneNumber(phone)
     .on(
       'state_changed',
-      (phoneAuthSnapshot) => {
+      (phoneAuthSnapshot) =>
+      {
         console.log('State: ', phoneAuthSnapshot.state);
       },
-      (error) => {
+      (error) =>
+      {
         console.error(error);
       },
-      (phoneAuthSnapshot) => {
+      (phoneAuthSnapshot) =>
+      {
         console.log(phoneAuthSnapshot);
       },
     );
 };
 
-export const retrieveUserByPhone = (phone) => {
-  return new Promise((resolve) => {
-    usersRef.where('phone', '==', phone).onSnapshot((querySnapshot) => {
-      if (querySnapshot.docs.length <= 0) {
-        resolve({ error: true });
-      } else {
-        resolve({ success: true });
+export const retrieveUserByPhone = (phone) =>
+{
+  return new Promise((resolve) =>
+  {
+    usersRef.where('phone', '==', phone).onSnapshot((querySnapshot) =>
+    {
+      if (querySnapshot.docs.length <= 0)
+      {
+        resolve({error: true});
+      }
+      else
+      {
+        resolve({success: true});
       }
     });
   });
 };
 
-export const sendSMSToPhoneNumber = (phoneNumber, captchaVerifier) => {
-  return new Promise(function (resolve, _reject) {
+export const sendSMSToPhoneNumber = (phoneNumber, captchaVerifier) =>
+{
+  return new Promise(function (resolve, _reject)
+  {
     firebase
       .auth()
       .signInWithPhoneNumber(phoneNumber, captchaVerifier)
-      .then(function (confirmationResult) {
+      .then(function (confirmationResult)
+      {
         // SMS sent. Prompt user to type the code from the message, then sign the
         // user in with confirmationResult.confirm(code).
-        resolve({ confirmationResult });
+        resolve({confirmationResult});
       })
-      .catch(function (_error) {
+      .catch(function (_error)
+      {
         console.log(_error);
         console.warn(_error);
-        resolve({ error: ErrorCode.smsNotSent });
+        resolve({error: ErrorCode.smsNotSent});
       });
   });
 };
 
-export const loginWithSMSCode = (smsCode, verificationID) => {
+export const loginWithSMSCode = (smsCode, verificationID) =>
+{
   const credential = firebase.auth.PhoneAuthProvider.credential(verificationID, smsCode);
-  return new Promise(function (resolve, _reject) {
+  return new Promise(function (resolve, _reject)
+  {
     firebase
       .auth()
       .signInWithCredential(credential)
-      .then((result) => {
-        const { user } = result;
+      .then((result) =>
+      {
+        const {user} = result;
         usersRef
           .doc(user.uid)
           .get()
-          .then(function (firestoreDocument) {
-            if (!firestoreDocument.exists) {
-              resolve({ errorCode: ErrorCode.noUser });
+          .then(function (firestoreDocument)
+          {
+            if (!firestoreDocument.exists)
+            {
+              resolve({errorCode: ErrorCode.noUser});
               return;
             }
             const userData = firestoreDocument.data();
-            resolve({ user: userData });
+            resolve({user: userData});
           })
-          .catch(function (_error) {
-            resolve({ error: ErrorCode.serverError });
+          .catch(function (_error)
+          {
+            resolve({error: ErrorCode.serverError});
           });
       })
-      .catch((_error) => {
-        resolve({ error: ErrorCode.invalidSMSCode });
+      .catch((_error) =>
+      {
+        resolve({error: ErrorCode.invalidSMSCode});
       });
   });
 };
 
-export const registerWithPhoneNumber = (userDetails, smsCode, verificationID, appIdentifier) => {
-  const { firstName, lastName, username, phone, profilePictureURL, location, signUpLocation } = userDetails;
+export const registerWithPhoneNumber = (userDetails, smsCode, verificationID, appIdentifier) =>
+{
+  const {firstName, lastName, username, phone, profilePictureURL, location, signUpLocation} = userDetails;
   const credential = firebase.auth.PhoneAuthProvider.credential(verificationID, smsCode);
-  return new Promise(function (resolve, _reject) {
+  return new Promise(function (resolve, _reject)
+  {
     firebase
       .auth()
       .signInWithCredential(credential)
-      .then((response) => {
+      .then((response) =>
+      {
         const timestamp = firebase.firestore.FieldValue.serverTimestamp();
         const uid = response.user.uid;
         const data = {
@@ -358,39 +438,49 @@ export const registerWithPhoneNumber = (userDetails, smsCode, verificationID, ap
         usersRef
           .doc(uid)
           .set(data)
-          .then(() => {
-            resolve({ user: data });
+          .then(() =>
+          {
+            resolve({user: data});
           });
       })
-      .catch((error) => {
+      .catch((error) =>
+      {
         console.log(error);
         var errorCode = ErrorCode.serverError;
-        if (error.code === 'auth/email-already-in-use') {
+        if (error.code === 'auth/email-already-in-use')
+        {
           errorCode = ErrorCode.emailInUse;
         }
-        resolve({ error: errorCode });
+        resolve({error: errorCode});
       });
   });
 };
 
-export const updateProfilePhoto = (userID, profilePictureURL) => {
-  return new Promise((resolve, _reject) => {
+export const updateProfilePhoto = (userID, profilePictureURL) =>
+{
+  return new Promise((resolve, _reject) =>
+  {
     usersRef
       .doc(userID)
-      .update({ profilePictureURL: profilePictureURL })
-      .then(() => {
-        resolve({ success: true });
+      .update({profilePictureURL: profilePictureURL})
+      .then(() =>
+      {
+        resolve({success: true});
       })
-      .catch((error) => {
-        resolve({ error: error });
+      .catch((error) =>
+      {
+        resolve({error: error});
       });
   });
 };
 
-export const fetchAndStorePushTokenIfPossible = async (user) => {
-  try {
+export const fetchAndStorePushTokenIfPossible = async (user) =>
+{
+  try
+  {
     const settings = await messaging().requestPermission();
-    if (settings) {
+    if (settings)
+    {
       const token = await messaging().getToken();
       updateUser(user.id || user.userID, {
         pushToken: token,
@@ -398,55 +488,70 @@ export const fetchAndStorePushTokenIfPossible = async (user) => {
         badgeCount: 0,
       });
     }
-  } catch (error) {
+  }
+  catch (error)
+  {
     console.log(error);
   }
 };
 
-export const updateUser = async (userID, newData) => {
+export const updateUser = async (userID, newData) =>
+{
   const dataWithOnlineStatus = {
     ...newData,
     lastOnlineTimestamp: firebase.firestore.FieldValue.serverTimestamp(),
   };
-  return await usersRef.doc(userID).set({ ...dataWithOnlineStatus }, { merge: true });
+  return await usersRef.doc(userID).set({...dataWithOnlineStatus}, {merge: true});
 };
 
-export const getUserByID = async (userID) => {
-  try {
+export const getUserByID = async (userID) =>
+{
+  try
+  {
     const document = await usersRef.doc(userID).get();
-    if (document) {
+    if (document)
+    {
       return document.data();
     }
     return null;
-  } catch (error) {
+  }
+  catch (error)
+  {
     console.log(error);
     return null;
   }
 };
 
-export const removeUser = (userID) => {
-  return new Promise((resolve) => {
+export const removeUser = (userID) =>
+{
+  return new Promise((resolve) =>
+  {
     usersRef
       .doc(userID)
       .delete()
-      .then(() => {
+      .then(() =>
+      {
         firebase.default
           .auth()
           .currentUser.delete()
-          .then(() => {
-            resolve({ success: true });
+          .then(() =>
+          {
+            resolve({success: true});
           })
-          .catch((error) => {
+          .catch((error) =>
+          {
             let errorCode = '';
-            if ((error.code = 'auth/requires-recent-login')) {
+            if ((error.code = 'auth/requires-recent-login'))
+            {
               errorCode = ErrorCode.requiresRecentLogin;
             }
-            resolve({ success: false, error: errorCode });
+            resolve({success: false, error: errorCode});
           });
       })
-      .catch((error) => {
+      .catch((error) =>
+      {
         console.log(error);
-        resolve({ success: false, error });
+        resolve({success: false, error});
       });
   });
 };

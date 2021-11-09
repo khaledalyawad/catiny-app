@@ -1,24 +1,28 @@
 import React from 'react';
-import { View, StyleSheet, Text } from 'react-native';
+import {StyleSheet, Text, View} from 'react-native';
 import RNPickerSelect from 'react-native-picker-select';
-import { Fonts } from '../../../themes';
+import {Fonts} from '../../../themes';
 
-export default React.forwardRef((props, ref) => {
-  const { label, labelStyle, error, value, listItems = [], placeholder, listItemLabelField, testID, ...otherProps } = props;
+export default React.forwardRef((props, ref) =>
+{
+  const {label, labelStyle, error, value, listItems = [], placeholder, listItemLabelField, testID, ...otherProps} = props;
   const actualPlaceholder = {
     label: placeholder ? placeholder : 'Select an item...',
     value: '',
     color: 'black',
   };
 
-  const memoizedItems = React.useMemo(() => {
+  const memoizedItems = React.useMemo(() =>
+  {
     // map the list items to the expected Picker format
-    const mapListItems = () => {
-      return listItems.map((listItem) => {
+    const mapListItems = () =>
+    {
+      return listItems.map((listItem) =>
+      {
         const itemLabel = listItem[listItemLabelField] || listItem.label || listItem.id || '';
         const itemValue = listItem.value || listItem.id || '';
         const itemKey = listItem.itemKey || listItem.id || '';
-        return { label: `${itemLabel}`, value: itemValue, key: itemKey.toString() };
+        return {label: `${itemLabel}`, value: itemValue, key: itemKey.toString()};
       });
     };
 
@@ -37,9 +41,9 @@ export default React.forwardRef((props, ref) => {
         ref={ref}
         itemKey={value.toString()}
         value={value}
-        touchableWrapperProps={{ testID }}
-        pickerProps={{ testID: `${testID}Picker` }}
-        touchableDoneProps={{ testID: `${testID}PickerDone` }}
+        touchableWrapperProps={{testID}}
+        pickerProps={{testID: `${testID}Picker`}}
+        touchableDoneProps={{testID: `${testID}PickerDone`}}
         {...otherProps}
       />
 

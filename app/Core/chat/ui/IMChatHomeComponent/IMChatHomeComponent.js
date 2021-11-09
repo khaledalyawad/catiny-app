@@ -1,15 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { ScrollView, View } from 'react-native';
+import {View} from 'react-native';
 
-import { SearchBarAlternate } from '../../..';
-import { TNStoriesTray } from '../../../truly-native';
+import {SearchBarAlternate} from '../../..';
+import {TNStoriesTray} from '../../../truly-native';
 import dynamicStyles from './styles';
-import { useColorScheme } from 'react-native-appearance';
-import { IMConversationListView } from '../..';
-import { IMLocalized } from '../../../localization/IMLocalization';
+import {useColorScheme} from 'react-native-appearance';
+import {IMConversationListView} from '../..';
+import {IMLocalized} from '../../../localization/IMLocalization';
 
-function IMChatHomeComponent(props) {
+function IMChatHomeComponent(props)
+{
   const {
     friends,
     onSearchBarPress,

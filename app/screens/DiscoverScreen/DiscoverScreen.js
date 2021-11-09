@@ -1,16 +1,17 @@
-import React, { useContext, useState, useEffect, useLayoutEffect, useRef } from 'react';
-import { Platform, Share } from 'react-native';
-import { useSelector, ReactReduxContext } from 'react-redux';
-import { Feed } from '../../components';
+import React, {useContext, useEffect, useLayoutEffect, useRef, useState} from 'react';
+import {Platform, Share} from 'react-native';
+import {ReactReduxContext, useSelector} from 'react-redux';
+import {Feed} from '../../components';
 import TNTouchableIcon from '../../Core/truly-native/TNTouchableIcon/TNTouchableIcon';
-import { postAPIManager, commentAPIManager, FeedManager } from '../../Core/socialgraph/feed/api';
+import {commentAPIManager, FeedManager, postAPIManager} from '../../Core/socialgraph/feed/api';
 import AppStyles from '../../AppStyles';
-import { IMLocalized } from '../../Core/localization/IMLocalization';
-import { Appearance } from 'react-native-appearance';
-import { reportingManager } from '../../Core/user-reporting';
+import {IMLocalized} from '../../Core/localization/IMLocalization';
+import {Appearance} from 'react-native-appearance';
+import {reportingManager} from '../../Core/user-reporting';
 
-const DiscoverScreen = (props) => {
-  const { store } = useContext(ReactReduxContext);
+const DiscoverScreen = (props) =>
+{
+  const {store} = useContext(ReactReduxContext);
   let colorScheme = Appearance.getColorScheme();
   let currentTheme = AppStyles.navThemeConstants[colorScheme];
 
@@ -27,13 +28,14 @@ const DiscoverScreen = (props) => {
   const currentUser = useSelector((state) => state.auth.user);
   const friends = useSelector((state) => state.friends.friends);
 
-  useLayoutEffect(() => {
+  useLayoutEffect(() =>
+  {
     props.navigation.setOptions({
       headerTitle: IMLocalized('Discover'),
       headerLeft: () =>
         Platform.OS === 'android' && (
           <TNTouchableIcon
-            imageStyle={{ tintColor: currentTheme.fontColor }}
+            imageStyle={{tintColor: currentTheme.fontColor}}
             iconSource={AppStyles.iconSet.menuHamburger}
             onPress={openDrawer}
             appStyles={AppStyles}
@@ -47,33 +49,41 @@ const DiscoverScreen = (props) => {
     });
   }, []);
 
-  useEffect(() => {
+  useEffect(() =>
+  {
     feedManager.current = new FeedManager(store, currentUser.id);
     feedManager.current.subscribeIfNeeded();
-    return () => {
+    return () =>
+    {
       feedManager.current.unsubscribe();
     };
   }, [feedManager]);
 
-  const openDrawer = () => {
+  const openDrawer = () =>
+  {
     props.navigation.openDrawer();
   };
 
-  const onCommentPress = (item) => {
-    let copyItem = { ...item };
+  const onCommentPress = (item) =>
+  {
+    let copyItem = {...item};
     props.navigation.navigate('DiscoverDetailPost', {
-      item: { ...copyItem },
+      item: {...copyItem},
       lastScreenTitle: 'Discover',
     });
   };
 
-  const onFeedUserItemPress = async (author) => {
-    if (author.id === currentUser.id) {
+  const onFeedUserItemPress = async (author) =>
+  {
+    if (author.id === currentUser.id)
+    {
       props.navigation.navigate('DiscoverProfile', {
         stackKeyTitle: 'DiscoverProfile',
         lastScreenTitle: 'Discover',
       });
-    } else {
+    }
+    else
+    {
       props.navigation.navigate('DiscoverProfile', {
         user: author,
         stackKeyTitle: 'DiscoverProfile',
@@ -82,27 +92,33 @@ const DiscoverScreen = (props) => {
     }
   };
 
-  const onMediaClose = () => {
+  const onMediaClose = () =>
+  {
     setIsMediaViewerOpen(false);
   };
 
-  const onMediaPress = (media, mediaIndex) => {
+  const onMediaPress = (media, mediaIndex) =>
+  {
     setSelectedFeedItems(media);
     setSelectedMediaIndex(mediaIndex);
     setIsMediaViewerOpen(true);
   };
 
-  const onReaction = async (reaction, item) => {
+  const onReaction = async (reaction, item) =>
+  {
     feedManager.current.applyReaction(reaction, item, false);
     commentAPIManager.handleReaction(reaction, currentUser, item, false);
   };
 
-  const onSharePost = async (item) => {
+  const onSharePost = async (item) =>
+  {
     let url = '';
-    if (item.postMedia?.length > 0) {
+    if (item.postMedia?.length > 0)
+    {
       url = item.postMedia[0]?.url || item.postMedia[0];
     }
-    try {
+    try
+    {
       const result = await Share.share(
         {
           title: 'Share SocialNetwork post.',
@@ -113,46 +129,59 @@ const DiscoverScreen = (props) => {
           dialogTitle: 'Share SocialNetwork post.',
         },
       );
-    } catch (error) {
+    }
+    catch (error)
+    {
       alert(error.message);
     }
   };
 
-  const onDeletePost = async (item) => {
+  const onDeletePost = async (item) =>
+  {
     const res = await postAPIManager.deletePost(item, true);
-    if (res.error) {
+    if (res.error)
+    {
       alert(res.error);
     }
   };
 
-  const onUserReport = async (item, type) => {
+  const onUserReport = async (item, type) =>
+  {
     reportingManager.markAbuse(currentUser.id, item.authorID, type);
   };
 
-  const handleOnEndReached = (distanceFromEnd) => {
-    if (!flatlistReady) {
+  const handleOnEndReached = (distanceFromEnd) =>
+  {
+    if (!flatlistReady)
+    {
       return;
     }
 
-    if (isFetching) {
+    if (isFetching)
+    {
       return;
     }
-    if (fetchCallCount > 1) {
-      return;
+    if (fetchCallCount > 1)
+    {
+
     }
   };
 
-  const onFeedScroll = () => {
+  const onFeedScroll = () =>
+  {
     setFlatlistReady(true);
   };
 
-  const filterOutRelatedPosts = (posts) => {
+  const filterOutRelatedPosts = (posts) =>
+  {
     // we filter out posts with no media from self & friends
-    if (!posts) {
+    if (!posts)
+    {
       return posts;
     }
     const defaultAvatar = 'https://www.iosapptemplates.com/wp-content/uploads/2019/06/empty-avatar.jpg';
-    return posts.filter((post) => {
+    return posts.filter((post) =>
+    {
       return (
         post &&
         post.authorID != currentUser.id &&

@@ -72,7 +72,7 @@ const ApplicationStyles = {
     flex: {
       flex: 1,
     },
-    paddedScrollView: { paddingBottom: 30 },
+    paddedScrollView: {paddingBottom: 30},
   },
   entity: {
     listRow: {
@@ -90,7 +90,7 @@ const ApplicationStyles = {
     listContent: {
       marginTop: Metrics.baseMargin,
     },
-    entityButtons: { marginBottom: 20 },
+    entityButtons: {marginBottom: 20},
   },
   entityDeleteModal: {
     centeredView: {

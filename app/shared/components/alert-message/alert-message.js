@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text } from 'react-native';
+import {Text, View} from 'react-native';
 
 import styles from './alert-message.styles';
 
@@ -10,7 +10,8 @@ import styles from './alert-message.styles';
 //   show: PropTypes.bool,
 // };
 
-export default function AlertMessage({ title, style, show = true }) {
+export default function AlertMessage({title, style, show = true})
+{
   return show ? (
     <View style={[styles.container, style]}>
       <View style={styles.contentContainer}>

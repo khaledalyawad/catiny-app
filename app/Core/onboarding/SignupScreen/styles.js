@@ -1,12 +1,13 @@
-import { StyleSheet, Dimensions, I18nManager } from 'react-native';
-import { modedColor } from '../../helpers/colors';
+import {Dimensions, I18nManager, StyleSheet} from 'react-native';
+import {modedColor} from '../../helpers/colors';
 import TNColor from '../../truly-native/TNColor';
 
-const { height } = Dimensions.get('window');
+const {height} = Dimensions.get('window');
 const imageSize = height * 0.232;
 const photoIconSize = imageSize * 0.27;
 
-const dynamicStyles = (appStyles, colorScheme) => {
+const dynamicStyles = (appStyles, colorScheme) =>
+{
   return StyleSheet.create({
     container: {
       flex: 1,

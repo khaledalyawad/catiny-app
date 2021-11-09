@@ -3,7 +3,8 @@ const LOG_OUT = 'LOG_OUT';
 
 export const DUMMY_USER_DATA = {};
 
-export const setUserData = (data) => {
+export const setUserData = (data) =>
+{
   return {
     type: UPDATE_USER,
     data,
@@ -18,14 +19,17 @@ const initialState = {
   user: DUMMY_USER_DATA,
 };
 
-export const auth = (state = initialState, action) => {
-  switch (action.type) {
+export const auth = (state = initialState, action) =>
+{
+  switch (action.type)
+  {
     case UPDATE_USER:
       return {
         ...state,
         user: action.data.user,
       };
-    case LOG_OUT: {
+    case LOG_OUT:
+    {
       return initialState;
     }
     default:

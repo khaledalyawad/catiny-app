@@ -1,10 +1,11 @@
-import React, { useLayoutEffect, useRef, useEffect } from 'react';
-import { BackHandler, Linking } from 'react-native';
-import { IMLocalized } from '../../../localization/IMLocalization';
+import React, {useEffect, useLayoutEffect, useRef} from 'react';
+import {BackHandler, Linking} from 'react-native';
+import {IMLocalized} from '../../../localization/IMLocalization';
 import IMFormComponent from '../IMFormComponent/IMFormComponent';
-import { Appearance } from 'react-native-appearance';
+import {Appearance} from 'react-native-appearance';
 
-function IMContactUsScreen(props) {
+function IMContactUsScreen(props)
+{
   let appStyles = props.route.params.appStyles;
   let screenTitle = props.route.params.screenTitle || IMLocalized('Contact Us');
   let COLOR_SCHEME = Appearance.getColorScheme();
@@ -16,7 +17,8 @@ function IMContactUsScreen(props) {
   const didFocusSubscription = useRef(null);
   const willBlurSubscription = useRef(null);
 
-  useLayoutEffect(() => {
+  useLayoutEffect(() =>
+  {
     props.navigation.setOptions({
       headerTitle: screenTitle,
       headerStyle: {
@@ -26,25 +28,29 @@ function IMContactUsScreen(props) {
     });
   }, []);
 
-  useEffect(() => {
+  useEffect(() =>
+  {
     didFocusSubscription.current = props.navigation.addListener('focus', (payload) =>
       BackHandler.addEventListener('hardwareBackPress', onBackButtonPressAndroid),
     );
     willBlurSubscription.current = props.navigation.addListener('beforeRemove', (payload) =>
       BackHandler.removeEventListener('hardwareBackPress', onBackButtonPressAndroid),
     );
-    return () => {
+    return () =>
+    {
       didFocusSubscription.current && didFocusSubscription.current();
       willBlurSubscription.current && willBlurSubscription.current();
     };
   }, []);
 
-  const onBackButtonPressAndroid = () => {
+  const onBackButtonPressAndroid = () =>
+  {
     props.navigation.goBack();
     return true;
   };
 
-  const onFormButtonPress = (_buttonField) => {
+  const onFormButtonPress = (_buttonField) =>
+  {
     Linking.openURL(`tel:${phone}`);
   };
 

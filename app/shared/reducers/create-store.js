@@ -1,18 +1,20 @@
-import { createStore, applyMiddleware, compose as composeWithoutDevTools } from 'redux';
+import {applyMiddleware, compose as composeWithoutDevTools, createStore} from 'redux';
 import createSagaMiddleware from 'redux-saga';
-import { composeWithDevTools } from 'redux-devtools-extension';
+import {composeWithDevTools} from 'redux-devtools-extension';
 
 import AppConfig from '../../config/app-config';
 import RehydrationServices from '../services/rehydration.service';
 import ReduxPersist from '../../config/redux-persist';
 import WebsocketService from '../websockets/websocket.service';
 import thunk from 'redux-thunk';
-import { createLogger } from 'redux-logger';
+import {createLogger} from 'redux-logger';
+
 const logger = createLogger();
 
 const compose = AppConfig.debugMode ? composeWithDevTools : composeWithoutDevTools;
 // creates the store
-export default (rootReducer, rootSaga) => {
+export default (rootReducer, rootSaga) =>
+{
   /* ------------- Redux Configuration ------------- */
 
   const middleware = [];
@@ -21,7 +23,7 @@ export default (rootReducer, rootSaga) => {
   /* ------------- Saga Middleware ------------- */
 
   const sagaMonitor = null;
-  const sagaMiddleware = createSagaMiddleware({ sagaMonitor });
+  const sagaMiddleware = createSagaMiddleware({sagaMonitor});
   middleware.push(sagaMiddleware);
   const wsSagaMiddleware = createSagaMiddleware(WebsocketService.websocketSagas);
   middleware.push(wsSagaMiddleware);
@@ -35,7 +37,8 @@ export default (rootReducer, rootSaga) => {
   const store = createStore(rootReducer, compose(...enhancers));
 
   // configure persistStore and check reducer version number
-  if (ReduxPersist.active) {
+  if (ReduxPersist.active)
+  {
     RehydrationServices.updateReducers(store);
   }
 

@@ -1,15 +1,15 @@
-import React, { createRef } from 'react';
-import { ActivityIndicator, Text, View } from 'react-native';
-import { connect } from 'react-redux';
+import React, {createRef} from 'react';
+import {ActivityIndicator, Text, View} from 'react-native';
+import {connect} from 'react-redux';
 import * as Yup from 'yup';
 
 import UserProfileActions from './user-profile.reducer';
 import BaseInfoActions from '../base-info/base-info.reducer';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import FormButton from '../../../shared/components/form/jhi-form-button';
 import FormField from '../../../shared/components/form/jhi-form-field';
 import Form from '../../../shared/components/form/jhi-form';
-import { useDidUpdateEffect } from '../../../shared/util/use-did-update-effect';
+import {useDidUpdateEffect} from '../../../shared/util/use-did-update-effect';
 import styles from './user-profile-styles';
 
 // set up validation schema for the form
@@ -17,7 +17,8 @@ const validationSchema = Yup.object().shape({
   uuid: Yup.string().required(),
 });
 
-function UserProfileEditScreen(props) {
+function UserProfileEditScreen(props)
+{
   const {
     getUserProfile,
     updateUserProfile,
@@ -38,44 +39,59 @@ function UserProfileEditScreen(props) {
 
   const isNewEntity = !(route.params && route.params.entityId);
 
-  React.useEffect(() => {
-    if (!isNewEntity) {
+  React.useEffect(() =>
+  {
+    if (!isNewEntity)
+    {
       getUserProfile(route.params.entityId);
-    } else {
+    }
+    else
+    {
       reset();
     }
   }, [isNewEntity, getUserProfile, route, reset]);
 
-  React.useEffect(() => {
-    if (isNewEntity) {
+  React.useEffect(() =>
+  {
+    if (isNewEntity)
+    {
       setFormValue(entityToFormValue({}));
-    } else if (!fetching) {
+    }
+    else if (!fetching)
+    {
       setFormValue(entityToFormValue(userProfile));
     }
   }, [userProfile, fetching, isNewEntity]);
 
   // fetch related entities
-  React.useEffect(() => {
+  React.useEffect(() =>
+  {
     getAllBaseInfos();
   }, [getAllBaseInfos]);
 
-  useDidUpdateEffect(() => {
-    if (updating === false) {
-      if (errorUpdating) {
+  useDidUpdateEffect(() =>
+  {
+    if (updating === false)
+    {
+      if (errorUpdating)
+      {
         setError(errorUpdating && errorUpdating.detail ? errorUpdating.detail : 'Something went wrong updating the entity');
-      } else if (updateSuccess) {
+      }
+      else if (updateSuccess)
+      {
         setError('');
-        isNewEntity || !navigation.canGoBack() ? navigation.replace('UserProfileDetail', { entityId: userProfile?.id }) : navigation.pop();
+        isNewEntity || !navigation.canGoBack() ? navigation.replace('UserProfileDetail', {entityId: userProfile?.id}) : navigation.pop();
       }
     }
   }, [updateSuccess, errorUpdating, navigation]);
 
   const onSubmit = (data) => updateUserProfile(formValueToEntity(data));
 
-  if (fetching) {
+  if (fetching)
+  {
     return (
       <View style={styles.loading}>
-        <ActivityIndicator size="large" />
+        <ActivityIndicator size='large' />
       </View>
     );
   }
@@ -100,119 +116,119 @@ function UserProfileEditScreen(props) {
     <View style={styles.container}>
       <KeyboardAwareScrollView
         enableResetScrollToCoords={false}
-        testID="userProfileEditScrollView"
-        keyboardShouldPersistTaps="handled"
-        keyboardDismissMode="on-drag"
+        testID='userProfileEditScrollView'
+        keyboardShouldPersistTaps='handled'
+        keyboardDismissMode='on-drag'
         contentContainerStyle={styles.paddedScrollView}>
         {!!error && <Text style={styles.errorText}>{error}</Text>}
         {formValue && (
           <Form initialValues={formValue} validationSchema={validationSchema} onSubmit={onSubmit} ref={formRef}>
             <FormField
-              name="uuid"
+              name='uuid'
               ref={uuidRef}
-              label="Uuid"
-              placeholder="Enter Uuid"
-              testID="uuidInput"
+              label='Uuid'
+              placeholder='Enter Uuid'
+              testID='uuidInput'
               onSubmitEditing={() => workRef.current?.focus()}
             />
             <FormField
-              name="work"
+              name='work'
               ref={workRef}
-              label="Work"
-              placeholder="Enter Work"
-              testID="workInput"
+              label='Work'
+              placeholder='Enter Work'
+              testID='workInput'
               onSubmitEditing={() => educationRef.current?.focus()}
             />
             <FormField
-              name="education"
+              name='education'
               ref={educationRef}
-              label="Education"
-              placeholder="Enter Education"
-              testID="educationInput"
+              label='Education'
+              placeholder='Enter Education'
+              testID='educationInput'
               onSubmitEditing={() => placesLivedRef.current?.focus()}
             />
             <FormField
-              name="placesLived"
+              name='placesLived'
               ref={placesLivedRef}
-              label="Places Lived"
-              placeholder="Enter Places Lived"
-              testID="placesLivedInput"
+              label='Places Lived'
+              placeholder='Enter Places Lived'
+              testID='placesLivedInput'
               onSubmitEditing={() => contactInfoRef.current?.focus()}
             />
             <FormField
-              name="contactInfo"
+              name='contactInfo'
               ref={contactInfoRef}
-              label="Contact Info"
-              placeholder="Enter Contact Info"
-              testID="contactInfoInput"
+              label='Contact Info'
+              placeholder='Enter Contact Info'
+              testID='contactInfoInput'
               onSubmitEditing={() => webSocialLinksRef.current?.focus()}
             />
             <FormField
-              name="webSocialLinks"
+              name='webSocialLinks'
               ref={webSocialLinksRef}
-              label="Web Social Links"
-              placeholder="Enter Web Social Links"
-              testID="webSocialLinksInput"
+              label='Web Social Links'
+              placeholder='Enter Web Social Links'
+              testID='webSocialLinksInput'
               onSubmitEditing={() => basicInfoRef.current?.focus()}
             />
             <FormField
-              name="basicInfo"
+              name='basicInfo'
               ref={basicInfoRef}
-              label="Basic Info"
-              placeholder="Enter Basic Info"
-              testID="basicInfoInput"
+              label='Basic Info'
+              placeholder='Enter Basic Info'
+              testID='basicInfoInput'
               onSubmitEditing={() => relationshipInfoRef.current?.focus()}
             />
             <FormField
-              name="relationshipInfo"
+              name='relationshipInfo'
               ref={relationshipInfoRef}
-              label="Relationship Info"
-              placeholder="Enter Relationship Info"
-              testID="relationshipInfoInput"
+              label='Relationship Info'
+              placeholder='Enter Relationship Info'
+              testID='relationshipInfoInput'
               onSubmitEditing={() => familyRef.current?.focus()}
             />
             <FormField
-              name="family"
+              name='family'
               ref={familyRef}
-              label="Family"
-              placeholder="Enter Family"
-              testID="familyInput"
+              label='Family'
+              placeholder='Enter Family'
+              testID='familyInput'
               onSubmitEditing={() => detailAboutRef.current?.focus()}
             />
             <FormField
-              name="detailAbout"
+              name='detailAbout'
               ref={detailAboutRef}
-              label="Detail About"
-              placeholder="Enter Detail About"
-              testID="detailAboutInput"
+              label='Detail About'
+              placeholder='Enter Detail About'
+              testID='detailAboutInput'
               onSubmitEditing={() => lifeEventsRef.current?.focus()}
             />
             <FormField
-              name="lifeEvents"
+              name='lifeEvents'
               ref={lifeEventsRef}
-              label="Life Events"
-              placeholder="Enter Life Events"
-              testID="lifeEventsInput"
+              label='Life Events'
+              placeholder='Enter Life Events'
+              testID='lifeEventsInput'
               onSubmitEditing={() => hobbiesRef.current?.focus()}
             />
             <FormField
-              name="hobbies"
+              name='hobbies'
               ref={hobbiesRef}
-              label="Hobbies"
-              placeholder="Enter Hobbies"
-              testID="hobbiesInput"
+              label='Hobbies'
+              placeholder='Enter Hobbies'
+              testID='hobbiesInput'
               onSubmitEditing={() => featuredRef.current?.focus()}
             />
-            <FormField name="featured" ref={featuredRef} label="Featured" placeholder="Enter Featured" testID="featuredInput" />
+            <FormField name='featured' ref={featuredRef} label='Featured' placeholder='Enter Featured' testID='featuredInput' />
             <FormField
-              name="info"
-              inputType="select-one"
+              name='info'
+              inputType='select-one'
               ref={infoRef}
               listItems={baseInfoList}
-              listItemLabelField="id"
-              label="Info"
-              placeholder="Select Info"
-              testID="baseInfoSelectInput"
+              listItemLabelField='id'
+              label='Info'
+              placeholder='Select Info'
+              testID='baseInfoSelectInput'
             />
 
             <FormButton title={'Save'} testID={'submitButton'} />
@@ -224,8 +240,10 @@ function UserProfileEditScreen(props) {
 }
 
 // convenience methods for customizing the mapping of the entity to/from the form value
-const entityToFormValue = (value) => {
-  if (!value) {
+const entityToFormValue = (value) =>
+{
+  if (!value)
+  {
     return {};
   }
   return {
@@ -246,7 +264,8 @@ const entityToFormValue = (value) => {
     info: value.info && value.info.id ? value.info.id : null,
   };
 };
-const formValueToEntity = (value) => {
+const formValueToEntity = (value) =>
+{
   const entity = {
     id: value.id ?? null,
     uuid: value.uuid ?? null,
@@ -263,11 +282,12 @@ const formValueToEntity = (value) => {
     hobbies: value.hobbies ?? null,
     featured: value.featured ?? null,
   };
-  entity.info = value.info ? { id: value.info } : null;
+  entity.info = value.info ? {id: value.info} : null;
   return entity;
 };
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state) =>
+{
   return {
     baseInfoList: state.baseInfos.baseInfoList ?? [],
     userProfile: state.userProfiles.userProfile,
@@ -278,7 +298,8 @@ const mapStateToProps = (state) => {
   };
 };
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = (dispatch) =>
+{
   return {
     getAllBaseInfos: (options) => dispatch(BaseInfoActions.baseInfoAllRequest(options)),
     getUserProfile: (id) => dispatch(UserProfileActions.userProfileRequest(id)),

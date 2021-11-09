@@ -1,28 +1,29 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { Alert, Image, Keyboard, TextInput, Text, TouchableOpacity, View } from 'react-native';
+import React, {useEffect, useRef, useState} from 'react';
+import {Alert, Image, Keyboard, Text, TextInput, TouchableOpacity, View} from 'react-native';
 import 'react-native-get-random-values';
 import Button from 'react-native-button';
 import PhoneInput from 'react-native-phone-input';
-import { FirebaseRecaptchaVerifierModal } from 'expo-firebase-recaptcha';
-import { CodeField, Cursor, useBlurOnFulfill, useClearByFocusCell } from 'react-native-confirmation-code-field';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import { useColorScheme } from 'react-native-appearance';
-import appleAuth, { AppleButton } from '@invertase/react-native-apple-authentication';
+import {FirebaseRecaptchaVerifierModal} from 'expo-firebase-recaptcha';
+import {CodeField, Cursor, useBlurOnFulfill, useClearByFocusCell} from 'react-native-confirmation-code-field';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
+import {useColorScheme} from 'react-native-appearance';
+import appleAuth, {AppleButton} from '@invertase/react-native-apple-authentication';
 import TNActivityIndicator from '../../truly-native/TNActivityIndicator';
 import TNProfilePictureSelector from '../../truly-native/TNProfilePictureSelector/TNProfilePictureSelector';
 import CountriesModalPicker from '../../truly-native/CountriesModalPicker/CountriesModalPicker';
-import { IMLocalized } from '../../localization/IMLocalization';
-import { setUserData } from '../redux/auth';
-import { connect } from 'react-redux';
-import { localizedErrorMessage } from '../utils/ErrorCode';
+import {IMLocalized} from '../../localization/IMLocalization';
+import {setUserData} from '../redux/auth';
+import {connect} from 'react-redux';
+import {localizedErrorMessage} from '../utils/ErrorCode';
 import TermsOfUseView from '../components/TermsOfUseView';
-import { firebase } from '../../api/firebase/config';
+import {firebase} from '../../api/firebase/config';
 import dynamicStyles from './styles';
 import IMGoogleSignInButton from '../components/IMGoogleSignInButton/IMGoogleSignInButton';
 
 const codeInputCellCount = 6;
 
-const SmsAuthenticationScreen = (props) => {
+const SmsAuthenticationScreen = (props) =>
+{
   const appConfig = props.route.params.appConfig;
   const appStyles = props.route.params.appStyles;
   const authManager = props.route.params.authManager;
@@ -56,142 +57,178 @@ const SmsAuthenticationScreen = (props) => {
   const recaptchaVerifier = React.useRef(null);
   const firebaseConfig = firebase.app().options;
 
-  const { isSigningUp } = props.route.params;
+  const {isSigningUp} = props.route.params;
 
-  useEffect(() => {
-    if (codeInputValue?.trim()?.length === codeInputCellCount) {
+  useEffect(() =>
+  {
+    if (codeInputValue?.trim()?.length === codeInputCellCount)
+    {
       onFinishCheckingCode(codeInputValue);
     }
   }, [codeInputValue]);
 
-  useEffect(() => {
-    if (phoneRef && phoneRef.current) {
+  useEffect(() =>
+  {
+    if (phoneRef && phoneRef.current)
+    {
       setCountriesPickerData(phoneRef.current.getPickerData());
     }
   }, [phoneRef]);
 
-  const onFBButtonPress = () => {
+  const onFBButtonPress = () =>
+  {
     setLoading(true);
-    authManager.loginOrSignUpWithFacebook(appConfig).then((response) => {
-      if (response?.user) {
+    authManager.loginOrSignUpWithFacebook(appConfig).then((response) =>
+    {
+      if (response?.user)
+      {
         const user = response.user;
-        props.setUserData({ user });
+        props.setUserData({user});
         Keyboard.dismiss();
         props.navigation.reset({
           index: 0,
-          routes: [{ name: 'MainStack', params: { user: user } }],
+          routes: [{name: 'MainStack', params: {user: user}}],
         });
-      } else {
+      }
+      else
+      {
         setLoading(false);
-        Alert.alert('', localizedErrorMessage(response.error), [{ text: IMLocalized('OK') }], {
+        Alert.alert('', localizedErrorMessage(response.error), [{text: IMLocalized('OK')}], {
           cancelable: false,
         });
       }
     });
   };
 
-  const onGoogleButtonPress = () => {
+  const onGoogleButtonPress = () =>
+  {
     setLoading(true);
-    authManager.loginOrSignUpWithGoogle(appConfig).then((response) => {
-      if (response?.user) {
+    authManager.loginOrSignUpWithGoogle(appConfig).then((response) =>
+    {
+      if (response?.user)
+      {
         const user = response.user;
-        props.setUserData({ user });
+        props.setUserData({user});
         Keyboard.dismiss();
         props.navigation.reset({
           index: 0,
-          routes: [{ name: 'MainStack', params: { user: user } }],
+          routes: [{name: 'MainStack', params: {user: user}}],
         });
-      } else {
+      }
+      else
+      {
         setLoading(false);
-        Alert.alert('', localizedErrorMessage(response.error), [{ text: IMLocalized('OK') }], {
+        Alert.alert('', localizedErrorMessage(response.error), [{text: IMLocalized('OK')}], {
           cancelable: false,
         });
       }
     });
   };
 
-  const onAppleButtonPress = async () => {
+  const onAppleButtonPress = async () =>
+  {
     setLoading(true);
-    authManager.loginOrSignUpWithApple(appConfig).then((response) => {
-      if (response?.user) {
+    authManager.loginOrSignUpWithApple(appConfig).then((response) =>
+    {
+      if (response?.user)
+      {
         const user = response.user;
-        props.setUserData({ user });
+        props.setUserData({user});
         Keyboard.dismiss();
         props.navigation.reset({
           index: 0,
-          routes: [{ name: 'MainStack', params: { user: user } }],
+          routes: [{name: 'MainStack', params: {user: user}}],
         });
-      } else {
+      }
+      else
+      {
         setLoading(false);
-        Alert.alert('', localizedErrorMessage(response.error), [{ text: IMLocalized('OK') }], {
+        Alert.alert('', localizedErrorMessage(response.error), [{text: IMLocalized('OK')}], {
           cancelable: false,
         });
       }
     });
   };
 
-  const signInWithPhoneNumber = (userValidPhoneNumber) => {
+  const signInWithPhoneNumber = (userValidPhoneNumber) =>
+  {
     setLoading(true);
-    authManager.sendSMSToPhoneNumber(userValidPhoneNumber, recaptchaVerifier.current).then((response) => {
+    authManager.sendSMSToPhoneNumber(userValidPhoneNumber, recaptchaVerifier.current).then((response) =>
+    {
       setLoading(false);
       const confirmationResult = response.confirmationResult;
-      if (confirmationResult) {
+      if (confirmationResult)
+      {
         // SMS sent. Prompt user to type the code from the message, then sign the
         // user in with confirmationResult.confirm(code).
         window.confirmationResult = confirmationResult;
         setVerificationId(confirmationResult.verificationId);
         setIsPhoneVisible(false);
-      } else {
+      }
+      else
+      {
         // Error; SMS not sent
-        Alert.alert('', localizedErrorMessage(response.error), [{ text: IMLocalized('OK') }], { cancelable: false });
+        Alert.alert('', localizedErrorMessage(response.error), [{text: IMLocalized('OK')}], {cancelable: false});
       }
     });
   };
 
-  const trimFields = (fields) => {
+  const trimFields = (fields) =>
+  {
     var trimmedFields = {};
-    Object.keys(fields).forEach((key) => {
-      if (fields[key]) {
+    Object.keys(fields).forEach((key) =>
+    {
+      if (fields[key])
+      {
         trimmedFields[key] = fields[key].trim();
       }
     });
     return trimmedFields;
   };
 
-  const signUpWithPhoneNumber = (smsCode) => {
+  const signUpWithPhoneNumber = (smsCode) =>
+  {
     const userDetails = {
       ...trimFields(inputFields),
       phone: phoneNumber?.trim(),
       photoFile: profilePictureFile,
     };
     setLoading(true);
-    authManager.registerWithPhoneNumber(userDetails, smsCode, verificationId, appConfig.appIdentifier).then((response) => {
+    authManager.registerWithPhoneNumber(userDetails, smsCode, verificationId, appConfig.appIdentifier).then((response) =>
+    {
       setLoading(false);
-      if (response.error) {
-        Alert.alert('', localizedErrorMessage(response.error), [{ text: IMLocalized('OK') }], { cancelable: false });
-      } else {
+      if (response.error)
+      {
+        Alert.alert('', localizedErrorMessage(response.error), [{text: IMLocalized('OK')}], {cancelable: false});
+      }
+      else
+      {
         const user = response.user;
-        props.setUserData({ user });
+        props.setUserData({user});
         Keyboard.dismiss();
         props.navigation.reset({
           index: 0,
-          routes: [{ name: 'MainStack', params: { user: user } }],
+          routes: [{name: 'MainStack', params: {user: user}}],
         });
       }
     });
   };
 
-  const onPressSend = async () => {
-    if (phoneRef.current.isValidNumber()) {
+  const onPressSend = async () =>
+  {
+    if (phoneRef.current.isValidNumber())
+    {
       const userValidPhoneNumber = phoneRef.current.getValue();
       setLoading(true);
       setPhoneNumber(userValidPhoneNumber);
-      authManager.retrieveUserByPhone(userValidPhoneNumber).then(async (response) => {
-        if (isSigningUp && response.success) {
+      authManager.retrieveUserByPhone(userValidPhoneNumber).then(async (response) =>
+      {
+        if (isSigningUp && response.success)
+        {
           Alert.alert(
             '',
             IMLocalized('The phone number is already registered'),
-            [{ text: IMLocalized('OK'), onPress: () => setLoading(false) }],
+            [{text: IMLocalized('OK'), onPress: () => setLoading(false)}],
             {
               cancelable: false,
             },
@@ -199,11 +236,13 @@ const SmsAuthenticationScreen = (props) => {
           return;
         }
 
-        if (isSigningUp && response.error) {
-          const { error } = await authManager.validateUsernameFieldIfNeeded(inputFields, appConfig);
+        if (isSigningUp && response.error)
+        {
+          const {error} = await authManager.validateUsernameFieldIfNeeded(inputFields, appConfig);
 
-          if (error) {
-            Alert.alert('', IMLocalized(error), [{ text: IMLocalized('OK'), onPress: () => setLoading(false) }], {
+          if (error)
+          {
+            Alert.alert('', IMLocalized(error), [{text: IMLocalized('OK'), onPress: () => setLoading(false)}], {
               cancelable: false,
             });
             return;
@@ -212,66 +251,83 @@ const SmsAuthenticationScreen = (props) => {
           return;
         }
 
-        if (!isSigningUp && response.success) {
+        if (!isSigningUp && response.success)
+        {
           signInWithPhoneNumber(userValidPhoneNumber);
           return;
         }
 
-        if (!isSigningUp && response.error) {
+        if (!isSigningUp && response.error)
+        {
           setPhoneNumber(null);
           setLoading(false);
-          Alert.alert('', IMLocalized('You cannot log in. There is no account with this phone number.'), [{ text: IMLocalized('OK') }], {
+          Alert.alert('', IMLocalized('You cannot log in. There is no account with this phone number.'), [{text: IMLocalized('OK')}], {
             cancelable: false,
           });
-          return;
+
         }
       });
-    } else {
-      Alert.alert('', IMLocalized('Please enter a valid phone number.'), [{ text: IMLocalized('OK') }], {
+    }
+    else
+    {
+      Alert.alert('', IMLocalized('Please enter a valid phone number.'), [{text: IMLocalized('OK')}], {
         cancelable: false,
       });
     }
   };
 
-  const onPressFlag = () => {
+  const onPressFlag = () =>
+  {
     setCountryModalVisible(true);
   };
 
-  const onPressCancelContryModalPicker = () => {
+  const onPressCancelContryModalPicker = () =>
+  {
     setCountryModalVisible(false);
   };
 
-  const onFinishCheckingCode = (newCode) => {
+  const onFinishCheckingCode = (newCode) =>
+  {
     setLoading(true);
-    if (isSigningUp) {
+    if (isSigningUp)
+    {
       signUpWithPhoneNumber(newCode);
-    } else {
-      authManager.loginWithSMSCode(newCode, verificationId).then((response) => {
-        if (response.error) {
+    }
+    else
+    {
+      authManager.loginWithSMSCode(newCode, verificationId).then((response) =>
+      {
+        if (response.error)
+        {
           setLoading(false);
-          Alert.alert('', localizedErrorMessage(response.error), [{ text: IMLocalized('OK') }], { cancelable: false });
-        } else {
+          Alert.alert('', localizedErrorMessage(response.error), [{text: IMLocalized('OK')}], {cancelable: false});
+        }
+        else
+        {
           const user = response.user;
-          props.setUserData({ user });
+          props.setUserData({user});
           Keyboard.dismiss();
-          props.navigation.navigate('MainStack', { user: user });
+          props.navigation.navigate('MainStack', {user: user});
         }
       });
     }
   };
 
-  const onChangeInputFields = (text, key) => {
+  const onChangeInputFields = (text, key) =>
+  {
     setInputFields((prevFields) => ({
       ...prevFields,
       [key]: text,
     }));
   };
 
-  const selectCountry = (country) => {
+  const selectCountry = (country) =>
+  {
     phoneRef.current.selectCountry(country.iso2);
   };
 
-  const renderPhoneInput = () => {
+  const renderPhoneInput = () =>
+  {
     return (
       <>
         <PhoneInput
@@ -291,7 +347,8 @@ const SmsAuthenticationScreen = (props) => {
           <CountriesModalPicker
             data={countriesPickerData}
             appStyles={appStyles}
-            onChange={(country) => {
+            onChange={(country) =>
+            {
               selectCountry(country);
             }}
             cancelText={IMLocalized('Cancel')}
@@ -306,10 +363,12 @@ const SmsAuthenticationScreen = (props) => {
     );
   };
 
-  const renderCodeInputCell = ({ index, symbol, isFocused }) => {
+  const renderCodeInputCell = ({index, symbol, isFocused}) =>
+  {
     let textChild = symbol;
 
-    if (isFocused) {
+    if (isFocused)
+    {
       textChild = <Cursor />;
     }
 
@@ -320,7 +379,8 @@ const SmsAuthenticationScreen = (props) => {
     );
   };
 
-  const renderCodeInput = () => {
+  const renderCodeInput = () =>
+  {
     return (
       <View style={styles.codeFieldContainer}>
         <CodeField
@@ -329,29 +389,31 @@ const SmsAuthenticationScreen = (props) => {
           value={codeInputValue}
           onChangeText={setCodeInputValue}
           cellCount={codeInputCellCount}
-          keyboardType="number-pad"
-          textContentType="oneTimeCode"
+          keyboardType='number-pad'
+          textContentType='oneTimeCode'
           renderCell={renderCodeInputCell}
         />
       </View>
     );
   };
 
-  const renderInputField = (field, index) => {
+  const renderInputField = (field, index) =>
+  {
     return (
       <TextInput
         key={index?.toString()}
         style={styles.InputContainer}
         placeholder={field.placeholder}
-        placeholderTextColor="#aaaaaa"
+        placeholderTextColor='#aaaaaa'
         onChangeText={(text) => onChangeInputFields(text, field.key)}
         value={inputFields[field.key]}
-        underlineColorAndroid="transparent"
+        underlineColorAndroid='transparent'
       />
     );
   };
 
-  const renderAsSignUpState = () => {
+  const renderAsSignUpState = () =>
+  {
     return (
       <>
         <Text style={styles.title}>{IMLocalized('Create new account')}</Text>
@@ -374,7 +436,8 @@ const SmsAuthenticationScreen = (props) => {
     );
   };
 
-  const renderAsLoginState = () => {
+  const renderAsLoginState = () =>
+  {
     return (
       <>
         <Text style={styles.title}>{IMLocalized('Sign In')}</Text>
@@ -410,7 +473,7 @@ const SmsAuthenticationScreen = (props) => {
 
   return (
     <View style={styles.container}>
-      <KeyboardAwareScrollView style={{ flex: 1, width: '100%' }} keyboardShouldPersistTaps="always">
+      <KeyboardAwareScrollView style={{flex: 1, width: '100%'}} keyboardShouldPersistTaps='always'>
         <TouchableOpacity onPress={() => props.navigation.goBack()}>
           <Image style={appStyles.styleSet.backArrowStyle} source={appStyles.iconSet.backArrow} />
         </TouchableOpacity>

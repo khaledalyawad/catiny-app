@@ -1,14 +1,15 @@
 import React from 'react';
-import { View, Text, TouchableOpacity } from 'react-native';
-import { useColorScheme } from 'react-native-appearance';
+import {Text, TouchableOpacity, View} from 'react-native';
+import {useColorScheme} from 'react-native-appearance';
 import PropTypes from 'prop-types';
 import IMConversationIconView from './IMConversationIconView/IMConversationIconView';
-import { timeFormat } from '../..';
+import {timeFormat} from '../..';
 import dynamicStyles from './styles';
-import { formatMessage } from '../helpers/utils';
+import {formatMessage} from '../helpers/utils';
 
-function IMConversationView(props) {
-  const { onChatItemPress, item, user, appStyles } = props;
+function IMConversationView(props)
+{
+  const {onChatItemPress, item, user, appStyles} = props;
   const colorScheme = useColorScheme();
   const styles = dynamicStyles(appStyles, colorScheme);
 
@@ -16,7 +17,8 @@ function IMConversationView(props) {
 
   let title = item.title;
 
-  const getIsRead = () => {
+  const getIsRead = () =>
+  {
     return item.markedAsRead;
   };
 

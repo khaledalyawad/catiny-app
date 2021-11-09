@@ -1,1 +1,1 @@
-export { default } from './TNNumberPicker';
+export {default} from './TNNumberPicker';

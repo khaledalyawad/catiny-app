@@ -16,15 +16,17 @@ const initialState = {
   didSubscribeToUsers: false,
 };
 
-export const users = (state = initialState, action) => {
-  switch (action.type) {
+export const users = (state = initialState, action) =>
+{
+  switch (action.type)
+  {
     case DID_SUBSCRIBE_TO_USERS:
       return {
         ...state,
         didSubscribeToUsers: true,
       };
     case SET_USERS:
-      return { ...state, users: [...action.data] };
+      return {...state, users: [...action.data]};
     default:
       return state;
   }

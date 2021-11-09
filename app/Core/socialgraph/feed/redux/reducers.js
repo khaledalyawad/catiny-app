@@ -9,20 +9,22 @@ const initialState = {
   didSubscribeToMainFeed: false,
 };
 
-export const feed = (state = initialState, action) => {
-  switch (action.type) {
+export const feed = (state = initialState, action) =>
+{
+  switch (action.type)
+  {
     case IMFeedActionsConstants.SET_MAIN_FEED_POSTS:
-      return { ...state, mainFeedPosts: [...action.data] };
+      return {...state, mainFeedPosts: [...action.data]};
     case IMFeedActionsConstants.SET_CURRENT_USER_FEED_POSTS:
-      return { ...state, currentUserFeedPosts: [...action.data] };
+      return {...state, currentUserFeedPosts: [...action.data]};
     case IMFeedActionsConstants.SET_DISCOVER_FEED_POSTS:
-      return { ...state, discoverFeedPosts: [...action.data] };
+      return {...state, discoverFeedPosts: [...action.data]};
     case IMFeedActionsConstants.SET_MAIN_FEED_POST_REACTIONS:
-      return { ...state, feedPostReactions: [...action.data] };
+      return {...state, feedPostReactions: [...action.data]};
     case IMFeedActionsConstants.SET_MAIN_STORIES:
-      return { ...state, mainStories: [...action.data] };
+      return {...state, mainStories: [...action.data]};
     case IMFeedActionsConstants.DID_SUBSCRIBE:
-      return { ...state, didSubscribeToMainFeed: true };
+      return {...state, didSubscribeToMainFeed: true};
     case 'LOG_OUT':
       return initialState;
     default:

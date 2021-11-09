@@ -1,15 +1,16 @@
 import React from 'react';
-import { ActivityIndicator, ScrollView, Text, View } from 'react-native';
-import { connect } from 'react-redux';
-import { useFocusEffect } from '@react-navigation/native';
+import {ActivityIndicator, ScrollView, Text, View} from 'react-native';
+import {connect} from 'react-redux';
+import {useFocusEffect} from '@react-navigation/native';
 
 import PostCommentActions from './post-comment.reducer';
 import RoundedButton from '../../../shared/components/rounded-button/rounded-button';
 import PostCommentDeleteModal from './post-comment-delete-modal';
 import styles from './post-comment-styles';
 
-function PostCommentDetailScreen(props) {
-  const { route, getPostComment, navigation, postComment, fetching, error } = props;
+function PostCommentDetailScreen(props)
+{
+  const {route, getPostComment, navigation, postComment, fetching, error} = props;
   const [deleteModalVisible, setDeleteModalVisible] = React.useState(false);
   // prevents display of stale reducer data
   const entityId = postComment?.id ?? null;
@@ -17,59 +18,65 @@ function PostCommentDetailScreen(props) {
   const correctEntityLoaded = routeEntityId && entityId && routeEntityId.toString() === entityId.toString();
 
   useFocusEffect(
-    React.useCallback(() => {
-      if (!routeEntityId) {
+    React.useCallback(() =>
+    {
+      if (!routeEntityId)
+      {
         navigation.navigate('PostComment');
-      } else {
+      }
+      else
+      {
         setDeleteModalVisible(false);
         getPostComment(routeEntityId);
       }
     }, [routeEntityId, getPostComment, navigation]),
   );
 
-  if (!entityId && !fetching && error) {
+  if (!entityId && !fetching && error)
+  {
     return (
       <View style={styles.loading}>
         <Text>Something went wrong fetching the PostComment.</Text>
       </View>
     );
   }
-  if (!entityId || fetching || !correctEntityLoaded) {
+  if (!entityId || fetching || !correctEntityLoaded)
+  {
     return (
       <View style={styles.loading}>
-        <ActivityIndicator size="large" />
+        <ActivityIndicator size='large' />
       </View>
     );
   }
   return (
-    <ScrollView style={styles.container} contentContainerStyle={styles.paddedScrollView} testID="postCommentDetailScrollView">
+    <ScrollView style={styles.container} contentContainerStyle={styles.paddedScrollView} testID='postCommentDetailScrollView'>
       <Text style={styles.label}>Id:</Text>
       <Text>{postComment.id}</Text>
       {/* Uuid Field */}
       <Text style={styles.label}>Uuid:</Text>
-      <Text testID="uuid">{postComment.uuid}</Text>
+      <Text testID='uuid'>{postComment.uuid}</Text>
       {/* Content Field */}
       <Text style={styles.label}>Content:</Text>
-      <Text testID="content">{postComment.content}</Text>
+      <Text testID='content'>{postComment.content}</Text>
       <Text style={styles.label}>Info:</Text>
-      <Text testID="info">{String(postComment.info ? postComment.info.id : '')}</Text>
+      <Text testID='info'>{String(postComment.info ? postComment.info.id : '')}</Text>
       <Text style={styles.label}>Post:</Text>
-      <Text testID="post">{String(postComment.post ? postComment.post.id : '')}</Text>
+      <Text testID='post'>{String(postComment.post ? postComment.post.id : '')}</Text>
       <Text style={styles.label}>Parent:</Text>
-      <Text testID="parent">{String(postComment.parent ? postComment.parent.id : '')}</Text>
+      <Text testID='parent'>{String(postComment.parent ? postComment.parent.id : '')}</Text>
 
       <View style={styles.entityButtons}>
         <RoundedButton
-          text="Edit"
-          onPress={() => navigation.navigate('PostCommentEdit', { entityId })}
+          text='Edit'
+          onPress={() => navigation.navigate('PostCommentEdit', {entityId})}
           accessibilityLabel={'PostComment Edit Button'}
-          testID="postCommentEditButton"
+          testID='postCommentEditButton'
         />
         <RoundedButton
-          text="Delete"
+          text='Delete'
           onPress={() => setDeleteModalVisible(true)}
           accessibilityLabel={'PostComment Delete Button'}
-          testID="postCommentDeleteButton"
+          testID='postCommentDeleteButton'
         />
         {deleteModalVisible && (
           <PostCommentDeleteModal
@@ -77,7 +84,7 @@ function PostCommentDetailScreen(props) {
             visible={deleteModalVisible}
             setVisible={setDeleteModalVisible}
             entity={postComment}
-            testID="postCommentDeleteModal"
+            testID='postCommentDeleteModal'
           />
         )}
       </View>
@@ -85,7 +92,8 @@ function PostCommentDetailScreen(props) {
   );
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state) =>
+{
   return {
     postComment: state.postComments.postComment,
     error: state.postComments.errorOne,
@@ -95,7 +103,8 @@ const mapStateToProps = (state) => {
   };
 };
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = (dispatch) =>
+{
   return {
     getPostComment: (id) => dispatch(PostCommentActions.postCommentRequest(id)),
     getAllPostComments: (options) => dispatch(PostCommentActions.postCommentAllRequest(options)),

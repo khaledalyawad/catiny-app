@@ -1,13 +1,15 @@
-import { put, select } from 'redux-saga/effects';
+import {put, select} from 'redux-saga/effects';
 
 import ChatActions from '../../modules/chat/chat.reducer';
 
 export const selectState = (state, key, subKey) => state[key][subKey];
 
 // processes the websocket message
-export function* processWebsocketMessage({ subscription, msg }) {
+export function* processWebsocketMessage({subscription, msg})
+{
   console.log(`WS-Saga: ${subscription}`);
-  switch (subscription) {
+  switch (subscription)
+  {
     case 'chat':
       const state = yield select(selectState, 'chat', 'chat');
       const chat = [].concat(state);

@@ -1,9 +1,10 @@
 import React from 'react';
-import { View } from 'react-native';
+import {View} from 'react-native';
 import IndicatorDot from './IndicatorDot';
 
-export function TypingIndicator(props) {
-  const { dotRadius, containerStyle } = props;
+export function TypingIndicator(props)
+{
+  const {dotRadius, containerStyle} = props;
 
   return (
     <View style={containerStyle}>

@@ -1,20 +1,21 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import { Text, TouchableOpacity, View } from 'react-native';
-import { useColorScheme } from 'react-native-appearance';
+import {Text, TouchableOpacity} from 'react-native';
+import {useColorScheme} from 'react-native-appearance';
 import dynamicStyles from './styles';
 import FastImage from 'react-native-fast-image';
 
 const Image = FastImage;
 
-function FriendCard(props) {
+function FriendCard(props)
+{
   const colorScheme = useColorScheme();
   const styles = dynamicStyles(colorScheme);
-  const { onPress, containerStyle, imageStyle, item, titleStyle, activeOpacity } = props;
+  const {onPress, containerStyle, imageStyle, item, titleStyle, activeOpacity} = props;
 
   return (
     <TouchableOpacity activeOpacity={activeOpacity} onPress={onPress} style={[styles.friendCardContainer, containerStyle]}>
-      <Image style={[styles.friendCardImage, imageStyle]} source={{ uri: item.profilePictureURL }} />
+      <Image style={[styles.friendCardImage, imageStyle]} source={{uri: item.profilePictureURL}} />
       {!!item.firstName && <Text style={[styles.friendCardTitle, titleStyle]}>{item.firstName}</Text>}
     </TouchableOpacity>
   );

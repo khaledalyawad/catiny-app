@@ -1,24 +1,25 @@
-import React, { useState, useRef, useEffect, memo } from 'react';
+import React, {memo, useEffect, useRef, useState} from 'react';
 import PropTypes from 'prop-types';
-import { Text, View, TouchableOpacity, Platform } from 'react-native';
+import {Platform, Text, TouchableOpacity, View} from 'react-native';
 import Swiper from 'react-native-swiper';
-import { useColorScheme } from 'react-native-appearance';
+import {useColorScheme} from 'react-native-appearance';
 import ActionSheet from 'react-native-actionsheet';
 import TruncateText from 'react-native-view-more-text';
-import { Viewport } from '@skele/components';
+import {Viewport} from '@skele/components';
 import FeedMedia from './FeedMedia';
-import { TNTouchableIcon, TNStoryItem } from '../../Core/truly-native';
+import {TNStoryItem, TNTouchableIcon} from '../../Core/truly-native';
 import IMRichTextView from '../../Core/mentions/IMRichTextView/IMRichTextView';
 import dynamicStyles from './styles';
 import AppStyles from '../../AppStyles';
-import { timeFormat } from '../../Core';
-import { IMLocalized } from '../../Core/localization/IMLocalization';
+import {timeFormat} from '../../Core';
+import {IMLocalized} from '../../Core/localization/IMLocalization';
 
 const ViewportAwareSwiper = Viewport.Aware(Swiper);
 
 const reactionIcons = ['like', 'love', 'laugh', 'surprised', 'cry', 'angry'];
 
-const FeedItem = memo((props) => {
+const FeedItem = memo((props) =>
+{
   const {
     item,
     isLastItem,
@@ -36,7 +37,8 @@ const FeedItem = memo((props) => {
     onTextFieldHashTagPress,
   } = props;
 
-  if (!item) {
+  if (!item)
+  {
     alert('There is no feed item to display. You must fix this error.');
     return null;
   }
@@ -56,10 +58,14 @@ const FeedItem = memo((props) => {
 
   const moreArray = useRef([IMLocalized('Share Post')]);
 
-  useEffect(() => {
-    if (item.authorID === user.id) {
+  useEffect(() =>
+  {
+    if (item.authorID === user.id)
+    {
       moreArray.current.push(IMLocalized('Delete Post'));
-    } else {
+    }
+    else
+    {
       moreArray.current.push(IMLocalized('Block User'));
       moreArray.current.push(IMLocalized('Report Post'));
     }
@@ -67,35 +73,46 @@ const FeedItem = memo((props) => {
     moreArray.current.push(IMLocalized('Cancel'));
   }, []);
 
-  useEffect(() => {
-    if (!item) {
+  useEffect(() =>
+  {
+    if (!item)
+    {
       return;
     }
     setReactionCount(item.reactionsCount);
   }, [item?.reactionsCount]);
 
-  useEffect(() => {
-    if (!item) {
+  useEffect(() =>
+  {
+    if (!item)
+    {
       return;
     }
     setSelectedIconName(item.myReaction ? item.myReaction : defaultReaction);
   }, [item?.myReaction]);
 
-  const onReactionPress = async (reaction) => {
-    if (reaction == null) {
+  const onReactionPress = async (reaction) =>
+  {
+    if (reaction == null)
+    {
       // this was a single tap on the inline icon, therefore a like or unlike
-      if (item.myReaction) {
-        if (otherReactionsVisible) {
+      if (item.myReaction)
+      {
+        if (otherReactionsVisible)
+        {
           // Reactions tray is visible, so we only hide it
           setOtherReactionsVisible(false);
           return;
         }
         setSelectedIconName(defaultReaction);
-        if (reactionCount > 0) {
+        if (reactionCount > 0)
+        {
           setReactionCount(reactionCount - 1);
         }
         onReaction(null, item); // sending a null reaction will undo the previous action
-      } else {
+      }
+      else
+      {
         // If we didn't have a reaction before, we increment the UI optimistically
         setReactionCount(reactionCount + 1);
         setSelectedIconName('like');
@@ -105,12 +122,14 @@ const FeedItem = memo((props) => {
       return;
     }
     // this was a reaction on the reactions tray, coming after a long press + one tap
-    if (item.myReaction && item.myReaction == reaction) {
+    if (item.myReaction && item.myReaction == reaction)
+    {
       // Nothing changes, since this is the same reaction as before
       setOtherReactionsVisible(false);
       return;
     }
-    if (!item.myReaction) {
+    if (!item.myReaction)
+    {
       // If we didn't have a reaction before, we increment the UI optimistically
       setReactionCount(reactionCount + 1);
     }
@@ -119,36 +138,45 @@ const FeedItem = memo((props) => {
     onReaction(reaction, item);
   };
 
-  const onReactionLongPress = () => {
+  const onReactionLongPress = () =>
+  {
     setOtherReactionsVisible(!otherReactionsVisible);
   };
 
-  const onMorePress = () => {
-    if (otherReactionsVisible) {
+  const onMorePress = () =>
+  {
+    if (otherReactionsVisible)
+    {
       setOtherReactionsVisible(false);
       return;
     }
     moreRef.current.show();
   };
 
-  const didPressComment = () => {
-    if (otherReactionsVisible) {
+  const didPressComment = () =>
+  {
+    if (otherReactionsVisible)
+    {
       setOtherReactionsVisible(false);
       return;
     }
     onCommentPress(item);
   };
 
-  const onMoreDialogDone = (index) => {
-    if (index === moreArray.current.indexOf(IMLocalized('Share Post'))) {
+  const onMoreDialogDone = (index) =>
+  {
+    if (index === moreArray.current.indexOf(IMLocalized('Share Post')))
+    {
       onSharePost(item);
     }
 
-    if (index === moreArray.current.indexOf(IMLocalized('Report Post')) || index === moreArray.current.indexOf(IMLocalized('Block User'))) {
+    if (index === moreArray.current.indexOf(IMLocalized('Report Post')) || index === moreArray.current.indexOf(IMLocalized('Block User')))
+    {
       onUserReport(item, moreArray.current[index]);
     }
 
-    if (index === moreArray.current.indexOf(IMLocalized('Delete Post'))) {
+    if (index === moreArray.current.indexOf(IMLocalized('Delete Post')))
+    {
       onDeletePost(item);
     }
   };
@@ -157,7 +185,8 @@ const FeedItem = memo((props) => {
 
   const activeDot = () => <View style={styles.activeDot} />;
 
-  const renderTouchableIconIcon = (src, tappedIcon, index) => {
+  const renderTouchableIconIcon = (src, tappedIcon, index) =>
+  {
     return (
       <TNTouchableIcon
         key={index + 'icon'}
@@ -170,7 +199,8 @@ const FeedItem = memo((props) => {
     );
   };
 
-  const renderViewMore = (onPress) => {
+  const renderViewMore = (onPress) =>
+  {
     return (
       <Text onPress={onPress} style={styles.moreText}>
         {IMLocalized('more')}
@@ -178,7 +208,8 @@ const FeedItem = memo((props) => {
     );
   };
 
-  const renderViewLess = (onPress) => {
+  const renderViewLess = (onPress) =>
+  {
     return (
       <Text onPress={onPress} style={styles.moreText}>
         {IMLocalized('less')}
@@ -186,8 +217,10 @@ const FeedItem = memo((props) => {
     );
   };
 
-  const renderPostText = (item) => {
-    if (item.postText) {
+  const renderPostText = (item) =>
+  {
+    if (item.postText)
+    {
       return (
         <TruncateText numberOfLines={2} renderViewMore={renderViewMore} renderViewLess={renderViewLess} textStyle={styles.body}>
           <IMRichTextView defaultTextStyle={styles.body} onUserPress={onTextFieldUserPress} onHashTagPress={onTextFieldHashTagPress}>
@@ -199,8 +232,10 @@ const FeedItem = memo((props) => {
     return null;
   };
 
-  const renderMedia = (item) => {
-    if (item && item.postMedia && item.postMedia.length && item.postMedia.length > 0) {
+  const renderMedia = (item) =>
+  {
+    if (item && item.postMedia && item.postMedia.length && item.postMedia.length > 0)
+    {
       return (
         <View style={styles.bodyImageContainer}>
           <ViewportAwareSwiper
@@ -243,9 +278,12 @@ const FeedItem = memo((props) => {
   };
 
   var inlineActionIconStyle;
-  if (Platform.OS === 'ios') {
+  if (Platform.OS === 'ios')
+  {
     inlineActionIconStyle = selectedIconName == defaultReaction ? [styles.inlineActionIconDefault] : [styles.inlineActionIcon];
-  } else {
+  }
+  else
+  {
     inlineActionIconStyle = [styles.inlineActionIcon];
   }
 
@@ -263,7 +301,7 @@ const FeedItem = memo((props) => {
             <View style={styles.subtitleContainer}>
               <Text style={styles.subtitle}>{timeFormat(item.createdAt)}</Text>
             </View>
-            <View style={[styles.subtitleContainer, { flex: 2 }]}>
+            <View style={[styles.subtitleContainer, {flex: 2}]}>
               <Text style={styles.subtitle}>{item.location}</Text>
             </View>
           </View>

@@ -1,16 +1,16 @@
-import React, { createRef } from 'react';
-import { ActivityIndicator, Text, View } from 'react-native';
-import { connect } from 'react-redux';
+import React, {createRef} from 'react';
+import {ActivityIndicator, Text, View} from 'react-native';
+import {connect} from 'react-redux';
 import * as Yup from 'yup';
 
 import PermissionActions from './permission.reducer';
 import BaseInfoActions from '../base-info/base-info.reducer';
 import MasterUserActions from '../master-user/master-user.reducer';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import FormButton from '../../../shared/components/form/jhi-form-button';
 import FormField from '../../../shared/components/form/jhi-form-field';
 import Form from '../../../shared/components/form/jhi-form';
-import { useDidUpdateEffect } from '../../../shared/util/use-did-update-effect';
+import {useDidUpdateEffect} from '../../../shared/util/use-did-update-effect';
 import styles from './permission-styles';
 
 // set up validation schema for the form
@@ -18,7 +18,8 @@ const validationSchema = Yup.object().shape({
   uuid: Yup.string().required(),
 });
 
-function PermissionEditScreen(props) {
+function PermissionEditScreen(props)
+{
   const {
     getPermission,
     updatePermission,
@@ -41,45 +42,60 @@ function PermissionEditScreen(props) {
 
   const isNewEntity = !(route.params && route.params.entityId);
 
-  React.useEffect(() => {
-    if (!isNewEntity) {
+  React.useEffect(() =>
+  {
+    if (!isNewEntity)
+    {
       getPermission(route.params.entityId);
-    } else {
+    }
+    else
+    {
       reset();
     }
   }, [isNewEntity, getPermission, route, reset]);
 
-  React.useEffect(() => {
-    if (isNewEntity) {
+  React.useEffect(() =>
+  {
+    if (isNewEntity)
+    {
       setFormValue(entityToFormValue({}));
-    } else if (!fetching) {
+    }
+    else if (!fetching)
+    {
       setFormValue(entityToFormValue(permission));
     }
   }, [permission, fetching, isNewEntity]);
 
   // fetch related entities
-  React.useEffect(() => {
+  React.useEffect(() =>
+  {
     getAllBaseInfos();
     getAllMasterUsers();
   }, [getAllBaseInfos, getAllMasterUsers]);
 
-  useDidUpdateEffect(() => {
-    if (updating === false) {
-      if (errorUpdating) {
+  useDidUpdateEffect(() =>
+  {
+    if (updating === false)
+    {
+      if (errorUpdating)
+      {
         setError(errorUpdating && errorUpdating.detail ? errorUpdating.detail : 'Something went wrong updating the entity');
-      } else if (updateSuccess) {
+      }
+      else if (updateSuccess)
+      {
         setError('');
-        isNewEntity || !navigation.canGoBack() ? navigation.replace('PermissionDetail', { entityId: permission?.id }) : navigation.pop();
+        isNewEntity || !navigation.canGoBack() ? navigation.replace('PermissionDetail', {entityId: permission?.id}) : navigation.pop();
       }
     }
   }, [updateSuccess, errorUpdating, navigation]);
 
   const onSubmit = (data) => updatePermission(formValueToEntity(data));
 
-  if (fetching) {
+  if (fetching)
+  {
     return (
       <View style={styles.loading}>
-        <ActivityIndicator size="large" />
+        <ActivityIndicator size='large' />
       </View>
     );
   }
@@ -99,86 +115,86 @@ function PermissionEditScreen(props) {
     <View style={styles.container}>
       <KeyboardAwareScrollView
         enableResetScrollToCoords={false}
-        testID="permissionEditScrollView"
-        keyboardShouldPersistTaps="handled"
-        keyboardDismissMode="on-drag"
+        testID='permissionEditScrollView'
+        keyboardShouldPersistTaps='handled'
+        keyboardDismissMode='on-drag'
         contentContainerStyle={styles.paddedScrollView}>
         {!!error && <Text style={styles.errorText}>{error}</Text>}
         {formValue && (
           <Form initialValues={formValue} validationSchema={validationSchema} onSubmit={onSubmit} ref={formRef}>
             <FormField
-              name="uuid"
+              name='uuid'
               ref={uuidRef}
-              label="Uuid"
-              placeholder="Enter Uuid"
-              testID="uuidInput"
+              label='Uuid'
+              placeholder='Enter Uuid'
+              testID='uuidInput'
               onSubmitEditing={() => readRef.current?.focus()}
             />
             <FormField
-              name="read"
+              name='read'
               ref={readRef}
-              label="Read"
-              placeholder="Enter Read"
-              testID="readInput"
-              inputType="boolean"
+              label='Read'
+              placeholder='Enter Read'
+              testID='readInput'
+              inputType='boolean'
               onSubmitEditing={() => writeRef.current?.focus()}
             />
             <FormField
-              name="write"
+              name='write'
               ref={writeRef}
-              label="Write"
-              placeholder="Enter Write"
-              testID="writeInput"
-              inputType="boolean"
+              label='Write'
+              placeholder='Enter Write'
+              testID='writeInput'
+              inputType='boolean'
               onSubmitEditing={() => shareRef.current?.focus()}
             />
             <FormField
-              name="share"
+              name='share'
               ref={shareRef}
-              label="Share"
-              placeholder="Enter Share"
-              testID="shareInput"
-              inputType="boolean"
+              label='Share'
+              placeholder='Enter Share'
+              testID='shareInput'
+              inputType='boolean'
               onSubmitEditing={() => deleteRef.current?.focus()}
             />
             <FormField
-              name="delete"
+              name='delete'
               ref={deleteRef}
-              label="Delete"
-              placeholder="Enter Delete"
-              testID="deleteInput"
-              inputType="boolean"
+              label='Delete'
+              placeholder='Enter Delete'
+              testID='deleteInput'
+              inputType='boolean'
               onSubmitEditing={() => addRef.current?.focus()}
             />
             <FormField
-              name="add"
+              name='add'
               ref={addRef}
-              label="Add"
-              placeholder="Enter Add"
-              testID="addInput"
-              inputType="boolean"
+              label='Add'
+              placeholder='Enter Add'
+              testID='addInput'
+              inputType='boolean'
               onSubmitEditing={() => levelRef.current?.focus()}
             />
-            <FormField name="level" ref={levelRef} label="Level" placeholder="Enter Level" testID="levelInput" inputType="number" />
+            <FormField name='level' ref={levelRef} label='Level' placeholder='Enter Level' testID='levelInput' inputType='number' />
             <FormField
-              name="baseInfo"
-              inputType="select-one"
+              name='baseInfo'
+              inputType='select-one'
               ref={baseInfoRef}
               listItems={baseInfoList}
-              listItemLabelField="id"
-              label="Base Info"
-              placeholder="Select Base Info"
-              testID="baseInfoSelectInput"
+              listItemLabelField='id'
+              label='Base Info'
+              placeholder='Select Base Info'
+              testID='baseInfoSelectInput'
             />
             <FormField
-              name="owner"
-              inputType="select-one"
+              name='owner'
+              inputType='select-one'
               ref={ownerRef}
               listItems={masterUserList}
-              listItemLabelField="id"
-              label="Owner"
-              placeholder="Select Owner"
-              testID="masterUserSelectInput"
+              listItemLabelField='id'
+              label='Owner'
+              placeholder='Select Owner'
+              testID='masterUserSelectInput'
             />
 
             <FormButton title={'Save'} testID={'submitButton'} />
@@ -190,8 +206,10 @@ function PermissionEditScreen(props) {
 }
 
 // convenience methods for customizing the mapping of the entity to/from the form value
-const entityToFormValue = (value) => {
-  if (!value) {
+const entityToFormValue = (value) =>
+{
+  if (!value)
+  {
     return {};
   }
   return {
@@ -207,7 +225,8 @@ const entityToFormValue = (value) => {
     owner: value.owner && value.owner.id ? value.owner.id : null,
   };
 };
-const formValueToEntity = (value) => {
+const formValueToEntity = (value) =>
+{
   const entity = {
     id: value.id ?? null,
     uuid: value.uuid ?? null,
@@ -218,12 +237,13 @@ const formValueToEntity = (value) => {
     add: value.add === null ? false : Boolean(value.add),
     level: value.level ?? null,
   };
-  entity.baseInfo = value.baseInfo ? { id: value.baseInfo } : null;
-  entity.owner = value.owner ? { id: value.owner } : null;
+  entity.baseInfo = value.baseInfo ? {id: value.baseInfo} : null;
+  entity.owner = value.owner ? {id: value.owner} : null;
   return entity;
 };
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state) =>
+{
   return {
     baseInfoList: state.baseInfos.baseInfoList ?? [],
     masterUserList: state.masterUsers.masterUserList ?? [],
@@ -235,7 +255,8 @@ const mapStateToProps = (state) => {
   };
 };
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = (dispatch) =>
+{
   return {
     getAllBaseInfos: (options) => dispatch(BaseInfoActions.baseInfoAllRequest(options)),
     getAllMasterUsers: (options) => dispatch(MasterUserActions.masterUserAllRequest(options)),

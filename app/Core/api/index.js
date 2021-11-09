@@ -9,4 +9,4 @@ import * as userAPIManager from './local/user';
 // import * as authAPI from './firebase/auth';
 // import PaymentAPIManager from './firebase/paymentMethods';
 // import * as userAPIManager from './firebase/user';
-export { storageAPI, authAPI, PaymentAPIManager, userAPIManager };
+export {storageAPI, authAPI, PaymentAPIManager, userAPIManager};

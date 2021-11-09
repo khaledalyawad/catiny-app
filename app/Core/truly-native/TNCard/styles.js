@@ -1,9 +1,10 @@
-import { StyleSheet } from 'react-native';
-import { Appearance } from 'react-native-appearance';
+import {StyleSheet} from 'react-native';
+import {Appearance} from 'react-native-appearance';
 
 const COLOR_SCHEME = Appearance.getColorScheme();
 
-const styles = (appStyles) => {
+const styles = (appStyles) =>
+{
   return new StyleSheet.create({
     tnCardContainer: {
       flex: 1,

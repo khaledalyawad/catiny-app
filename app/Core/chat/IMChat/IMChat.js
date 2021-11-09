@@ -1,18 +1,19 @@
-import React, { useState, useRef, useEffect } from 'react';
-import { Alert, SafeAreaView } from 'react-native';
+import React, {useEffect, useRef, useState} from 'react';
+import {Alert, SafeAreaView} from 'react-native';
 import PropTypes from 'prop-types';
 import ActionSheet from 'react-native-actionsheet';
-import { KeyboardAwareView } from 'react-native-keyboard-aware-view';
+import {KeyboardAwareView} from 'react-native-keyboard-aware-view';
 import TNMediaViewerModal from '../../truly-native/TNMediaViewerModal';
 import DialogInput from 'react-native-dialog-input';
-import { channelManager } from '../api';
+import {channelManager} from '../api';
 import BottomInput from './BottomInput';
 import MessageThread from './MessageThread';
 import dynamicStyles from './styles';
-import { useColorScheme } from 'react-native-appearance';
-import { IMLocalized } from '../../localization/IMLocalization';
+import {useColorScheme} from 'react-native-appearance';
+import {IMLocalized} from '../../localization/IMLocalization';
 
-function IMChat(props) {
+function IMChat(props)
+{
   const {
     onSendInput,
     onAudioRecordSend,
@@ -62,19 +63,24 @@ function IMChat(props) {
   const inBoundThreadItemSheetOptions = [IMLocalized('Reply'), IMLocalized('Cancel')];
   const outBoundThreadItemSheetOptions = [IMLocalized('Reply'), IMLocalized('Delete'), IMLocalized('Cancel')];
 
-  useEffect(() => {
-    return () => {
+  useEffect(() =>
+  {
+    return () =>
+    {
       handleIsUserTyping('');
     };
   }, []);
 
-  useEffect(() => {
-    if (threadItemActionSheet.options) {
+  useEffect(() =>
+  {
+    if (threadItemActionSheet.options)
+    {
       threadItemActionSheetRef.current.show();
     }
   }, [threadItemActionSheet]);
 
-  const handleIsUserTyping = (inputValue) => {
+  const handleIsUserTyping = (inputValue) =>
+  {
     clearTimeout(staleUserTyping.current);
     const userID = user.id || user.userID;
     const typingUsers = channelItem?.typingUsers || [];
@@ -91,10 +97,14 @@ function IMChat(props) {
 
     typingUserIndex = typingUsers.findIndex((existingTypingUser) => existingTypingUser.userID === userID);
 
-    if (inputValue?.length > 0) {
-      if (typingUserIndex > -1) {
+    if (inputValue?.length > 0)
+    {
+      if (typingUserIndex > -1)
+      {
         typingUsersCopy[typingUserIndex] = typingUser;
-      } else {
+      }
+      else
+      {
         typingUsersCopy.push(typingUser);
       }
 
@@ -103,67 +113,88 @@ function IMChat(props) {
       return;
     }
 
-    if (inputValue?.length === 0) {
-      if (typingUserIndex > -1) {
+    if (inputValue?.length === 0)
+    {
+      if (typingUserIndex > -1)
+      {
         typingUsersCopy[typingUserIndex] = notTypingUser;
-      } else {
+      }
+      else
+      {
         typingUsersCopy.push(notTypingUser);
       }
 
       hasPreviouslyMarkedTyping.current && channelManager.markChannelTypingUsers(channelItem?.id, typingUsersCopy);
       hasPreviouslyMarkedTyping.current = false;
-      return;
+
     }
   };
 
-  const handleStaleUserTyping = () => {
-    staleUserTyping.current = setTimeout(() => {
+  const handleStaleUserTyping = () =>
+  {
+    staleUserTyping.current = setTimeout(() =>
+    {
       handleIsUserTyping('');
     }, 2000);
   };
 
-  const onChangeText = (text) => {
+  const onChangeText = (text) =>
+  {
     onChangeTextInput(text);
     handleIsUserTyping(text);
     handleStaleUserTyping();
   };
 
-  const onAudioRecordDone = (item) => {
+  const onAudioRecordDone = (item) =>
+  {
     onAudioRecordSend(item);
   };
 
-  const onSend = () => {
+  const onSend = () =>
+  {
     onSendInput();
     handleIsUserTyping('');
   };
 
-  const onPhotoUploadDialogDone = (index) => {
-    if (index == 0) {
+  const onPhotoUploadDialogDone = (index) =>
+  {
+    if (index == 0)
+    {
       onLaunchCamera();
     }
 
-    if (index == 1) {
+    if (index == 1)
+    {
       onOpenPhotos();
     }
   };
 
-  const onGroupSettingsActionDone = (index) => {
-    if (index == 0) {
+  const onGroupSettingsActionDone = (index) =>
+  {
+    if (index == 0)
+    {
       showRenameDialog(true);
-    } else if (index == 1) {
+    }
+    else if (index == 1)
+    {
       onLeave();
     }
   };
 
-  const onPrivateSettingsActionDone = (index) => {
-    if (index == 2) {
+  const onPrivateSettingsActionDone = (index) =>
+  {
+    if (index == 2)
+    {
       return;
     }
     var message, actionCallback;
-    if (index == 0) {
+    if (index == 0)
+    {
       actionCallback = onUserBlockPress;
       message = IMLocalized("Are you sure you want to block this user? You won't see their messages again.");
-    } else if (index == 1) {
+    }
+    else if (index == 1)
+    {
       actionCallback = onUserReportPress;
       message = IMLocalized("Are you sure you want to report this user? You won't see their messages again.");
     }
@@ -179,17 +210,21 @@ function IMChat(props) {
     ]);
   };
 
-  const onMessageLongPress = (inReplyToItem) => {
+  const onMessageLongPress = (inReplyToItem) =>
+  {
     setTemporaryInReplyToItem(inReplyToItem);
 
-    if (user.id === inReplyToItem.senderID) {
+    if (user.id === inReplyToItem.senderID)
+    {
       setThreadItemActionSheet({
         inBound: false,
         options: outBoundThreadItemSheetOptions,
         destructiveButtonIndex: 1,
         cancelButtonIndex: 2,
       });
-    } else {
+    }
+    else
+    {
       setThreadItemActionSheet({
         inBound: true,
         options: inBoundThreadItemSheetOptions,
@@ -198,32 +233,43 @@ function IMChat(props) {
     }
   };
 
-  const onReplyPress = (index) => {
-    if (index == 0) {
+  const onReplyPress = (index) =>
+  {
+    if (index == 0)
+    {
       onReplyActionPress && onReplyActionPress(temporaryInReplyToItem);
     }
   };
 
-  const handleInBoundThreadItemActionSheet = (index) => {
-    if (index == 0) {
+  const handleInBoundThreadItemActionSheet = (index) =>
+  {
+    if (index == 0)
+    {
       onReplyPress(index);
     }
   };
 
-  const handleOutBoundThreadItemActionSheet = (index) => {
-    if (index == 0) {
+  const handleOutBoundThreadItemActionSheet = (index) =>
+  {
+    if (index == 0)
+    {
       onReplyPress(index);
     }
 
-    if (index == 1) {
+    if (index == 1)
+    {
       onDeleteThreadItem && onDeleteThreadItem(temporaryInReplyToItem);
     }
   };
 
-  const onThreadItemActionSheetDone = (index) => {
-    if (threadItemActionSheet.inBound) {
+  const onThreadItemActionSheetDone = (index) =>
+  {
+    if (threadItemActionSheet.inBound)
+    {
       handleInBoundThreadItemActionSheet(index);
-    } else {
+    }
+    else
+    {
       handleOutBoundThreadItemActionSheet(index);
     }
   };
@@ -264,10 +310,11 @@ function IMChat(props) {
         isDialogVisible={isRenameDialogVisible}
         title={IMLocalized('Change Name')}
         hintInput={channel.name}
-        textInputProps={{ selectTextOnFocus: true }}
+        textInputProps={{selectTextOnFocus: true}}
         submitText={IMLocalized('OK')}
         submitInput={onChangeName}
-        closeDialog={() => {
+        closeDialog={() =>
+        {
           showRenameDialog(false);
         }}
       />

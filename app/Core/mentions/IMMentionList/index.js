@@ -1,14 +1,16 @@
 import React from 'react';
-import { ActivityIndicator, FlatList, Animated, View } from 'react-native';
-import { useColorScheme } from 'react-native-appearance';
+import {ActivityIndicator, Animated, FlatList, View} from 'react-native';
+import {useColorScheme} from 'react-native-appearance';
 import IMMentionListItem from '../IMMentionListItem';
 import dynamicStyles from './styles';
 
-export default function IMMentionList(props) {
+export default function IMMentionList(props)
+{
   const colorScheme = useColorScheme();
   const styles = dynamicStyles(colorScheme, props.appStyles);
 
-  const renderSuggestionsRow = ({ item, index }) => {
+  const renderSuggestionsRow = ({item, index}) =>
+  {
     return (
       <IMMentionListItem
         key={index.toString()}
@@ -20,8 +22,10 @@ export default function IMMentionList(props) {
     );
   };
 
-  const renderEmptyList = () => {
-    if (list.length === 0) {
+  const renderEmptyList = () =>
+  {
+    if (list.length === 0)
+    {
       return null;
     }
     return (
@@ -31,11 +35,12 @@ export default function IMMentionList(props) {
     );
   };
 
-  const { keyword, isTrackingStarted } = props;
+  const {keyword, isTrackingStarted} = props;
   const withoutAtKeyword = keyword.toLowerCase().substr(1, keyword.length);
   const list = props.list;
   const suggestions = withoutAtKeyword !== '' ? list.filter((user) => user.username.toLowerCase().includes(withoutAtKeyword)) : list;
-  if (!isTrackingStarted) {
+  if (!isTrackingStarted)
+  {
     return null;
   }
 
@@ -54,7 +59,8 @@ export default function IMMentionList(props) {
         enableEmptySections={true}
         data={suggestions}
         keyExtractor={(item, index) => `${item.id}-${index}`}
-        renderItem={(rowData) => {
+        renderItem={(rowData) =>
+        {
           return renderSuggestionsRow(rowData);
         }}
       />

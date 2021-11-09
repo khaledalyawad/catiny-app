@@ -1,1 +1,1 @@
-export { default } from './TNMediaViewerModal';
+export {default} from './TNMediaViewerModal';

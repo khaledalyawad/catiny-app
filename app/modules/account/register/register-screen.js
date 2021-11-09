@@ -1,17 +1,18 @@
-import React, { createRef } from 'react';
-import { Text } from 'react-native';
-import { connect } from 'react-redux';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import React, {createRef} from 'react';
+import {Text} from 'react-native';
+import {connect} from 'react-redux';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import * as Yup from 'yup';
 
 import RegisterActions from '../register/register.reducer';
 import FormButton from '../../../shared/components/form/jhi-form-button';
 import FormField from '../../../shared/components/form/jhi-form-field';
 import Form from '../../../shared/components/form/jhi-form';
-import { useDidUpdateEffect } from '../../../shared/util/use-did-update-effect';
+import {useDidUpdateEffect} from '../../../shared/util/use-did-update-effect';
 import styles from './register-screen.styles';
 
-function RegisterScreen(props) {
+function RegisterScreen(props)
+{
   const [error, setError] = React.useState('');
   const [success, setSuccess] = React.useState('');
 
@@ -23,21 +24,28 @@ function RegisterScreen(props) {
     email: Yup.string().required().email().label('Email'),
   });
 
-  const onSubmit = (data) => {
+  const onSubmit = (data) =>
+  {
     setSuccess('');
     setError('');
-    if (data.password !== data.confirmPassword) {
+    if (data.password !== data.confirmPassword)
+    {
       setError('Passwords do not match');
       return;
     }
     props.register(data);
   };
 
-  useDidUpdateEffect(() => {
-    if (!props.fetching) {
-      if (props.error) {
+  useDidUpdateEffect(() =>
+  {
+    if (!props.fetching)
+    {
+      if (props.error)
+      {
         setError(props.error);
-      } else {
+      }
+      else
+      {
         setSuccess('Please check your email');
       }
     }
@@ -50,53 +58,53 @@ function RegisterScreen(props) {
   const confirmPasswordRef = createRef();
 
   return (
-    <KeyboardAwareScrollView contentContainerStyle={styles.container} keyboardShouldPersistTaps="handled" keyboardDismissMode="on-drag">
+    <KeyboardAwareScrollView contentContainerStyle={styles.container} keyboardShouldPersistTaps='handled' keyboardDismissMode='on-drag'>
       {!!error && <Text style={styles.errorText}>{error}</Text>}
       {!!success && <Text style={styles.successText}>{success}</Text>}
       <Form
-        initialValues={{ login: '', email: '', confirmPassword: '', password: '' }}
+        initialValues={{login: '', email: '', confirmPassword: '', password: ''}}
         validationSchema={validationSchema}
         onSubmit={onSubmit}
         ref={formRef}>
         <FormField
-          name="login"
-          label="Login"
-          placeholder="Enter login"
+          name='login'
+          label='Login'
+          placeholder='Enter login'
           onSubmitEditing={() => emailRef?.current?.focus()}
-          autoCapitalize="none"
-          textContentType="username"
+          autoCapitalize='none'
+          textContentType='username'
         />
         <FormField
-          name="email"
+          name='email'
           ref={emailRef}
-          label="Email"
-          placeholder="Enter email"
+          label='Email'
+          placeholder='Enter email'
           onSubmitEditing={() => passwordRef?.current?.focus()}
-          autoCapitalize="none"
-          keyboardType="email-address"
-          textContentType="username"
+          autoCapitalize='none'
+          keyboardType='email-address'
+          textContentType='username'
         />
         <FormField
           ref={passwordRef}
-          name="password"
-          label="Password"
-          placeholder="Enter password"
-          autoCapitalize="none"
+          name='password'
+          label='Password'
+          placeholder='Enter password'
+          autoCapitalize='none'
           autoCorrect={false}
           secureTextEntry={true}
           onSubmitEditing={() => confirmPasswordRef?.current?.focus()}
-          textContentType="password"
+          textContentType='password'
         />
         <FormField
           ref={confirmPasswordRef}
-          name="confirmPassword"
-          label="Confirm Password"
-          placeholder="Enter password"
-          autoCapitalize="none"
+          name='confirmPassword'
+          label='Confirm Password'
+          placeholder='Enter password'
+          autoCapitalize='none'
           autoCorrect={false}
           secureTextEntry={true}
           onSubmitEditing={() => formRef?.current?.submitForm()}
-          textContentType="password"
+          textContentType='password'
         />
         <FormButton title={'Register'} />
       </Form>
@@ -104,14 +112,16 @@ function RegisterScreen(props) {
   );
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state) =>
+{
   return {
     fetching: state.register.fetching,
     error: state.register.error,
   };
 };
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = (dispatch) =>
+{
   return {
     register: (account) => dispatch(RegisterActions.registerRequest(account)),
   };

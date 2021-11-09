@@ -1,12 +1,12 @@
 import * as React from 'react';
-import { AppState, Text, useWindowDimensions, View } from 'react-native';
+import {AppState, Text, useWindowDimensions, View} from 'react-native';
 import * as Linking from 'expo-linking';
 import * as SplashScreen from 'expo-splash-screen';
-import { NavigationContainer } from '@react-navigation/native';
-import { createDrawerNavigator } from '@react-navigation/drawer';
-import { createStackNavigator } from '@react-navigation/stack';
-import { useReduxDevToolsExtension } from '@react-navigation/devtools';
-import { connect } from 'react-redux';
+import {NavigationContainer} from '@react-navigation/native';
+import {createDrawerNavigator} from '@react-navigation/drawer';
+import {createStackNavigator} from '@react-navigation/stack';
+import {useReduxDevToolsExtension} from '@react-navigation/devtools';
+import {connect} from 'react-redux';
 
 // import screens
 import HomeScreen from '../modules/home/home-screen';
@@ -16,14 +16,14 @@ import RegisterScreen from '../modules/account/register/register-screen';
 import ForgotPasswordScreen from '../modules/account/password-reset/forgot-password-screen';
 import ChangePasswordScreen from '../modules/account/password/change-password-screen';
 import AccountActions from '../shared/reducers/account.reducer';
-import EntityStackScreen, { getEntityRoutes } from './entity-stack';
+import EntityStackScreen, {getEntityRoutes} from './entity-stack';
 import StorybookScreen from '../../storybook';
 import ChatScreen from '../modules/chat/chat-screen';
 import DrawerContent from './drawer/drawer-content';
-import { isReadyRef, navigationRef } from './nav-ref';
+import {isReadyRef, navigationRef} from './nav-ref';
 import NotFound from './not-found-screen';
-import { ModalScreen } from './modal-screen';
-import { DrawerButton } from './drawer/drawer-button';
+import {ModalScreen} from './modal-screen';
+import {DrawerButton} from './drawer/drawer-button';
 
 export const drawerScreens = [
   {
@@ -78,7 +78,8 @@ export const drawerScreens = [
     auth: true,
   },
 ];
-if (__DEV__) {
+if (__DEV__)
+{
   drawerScreens.push({
     name: 'Storybook',
     route: 'storybook',
@@ -86,10 +87,13 @@ if (__DEV__) {
     auth: false,
   });
 }
-export const getDrawerRoutes = () => {
+export const getDrawerRoutes = () =>
+{
   const routes = {};
-  drawerScreens.forEach((screen) => {
-    if (screen.route) {
+  drawerScreens.forEach((screen) =>
+  {
+    if (screen.route)
+    {
       routes[screen.name] = screen.route;
     }
   });
@@ -121,37 +125,50 @@ const linking = {
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
 
-const getScreens = (props) => {
+const getScreens = (props) =>
+{
   const isAuthed = props.account !== null;
-  return drawerScreens.map((screen, index) => {
-    if (screen.auth === null || screen.auth === undefined) {
+  return drawerScreens.map((screen, index) =>
+  {
+    if (screen.auth === null || screen.auth === undefined)
+    {
       return <Drawer.Screen name={screen.name} component={screen.component} options={screen.options} key={index} />;
-    } else if (screen.auth === isAuthed) {
+    }
+    else if (screen.auth === isAuthed)
+    {
       return <Drawer.Screen name={screen.name} component={screen.component} options={screen.options} key={index} />;
     }
     return null;
   });
 };
 
-function NavContainer(props) {
-  const { loaded, getAccount } = props;
+function NavContainer(props)
+{
+  const {loaded, getAccount} = props;
   const lastAppState = 'active';
 
-  React.useEffect(() => {
-    return () => {
+  React.useEffect(() =>
+  {
+    return () =>
+    {
       isReadyRef.current = false;
     };
   }, []);
 
-  React.useEffect(() => {
-    if (loaded) {
+  React.useEffect(() =>
+  {
+    if (loaded)
+    {
       SplashScreen.hideAsync();
     }
   }, [loaded]);
 
-  React.useEffect(() => {
-    const handleChange = (nextAppState) => {
-      if (lastAppState.match(/inactive|background/) && nextAppState === 'active') {
+  React.useEffect(() =>
+  {
+    const handleChange = (nextAppState) =>
+    {
+      if (lastAppState.match(/inactive|background/) && nextAppState === 'active')
+      {
         getAccount();
       }
     };
@@ -170,29 +187,30 @@ function NavContainer(props) {
     <NavigationContainer
       linking={linking}
       ref={navigationRef}
-      onReady={() => {
+      onReady={() =>
+      {
         isReadyRef.current = true;
       }}>
       <Stack.Navigator>
-        <Stack.Screen name="Home" options={{ headerShown: false }}>
+        <Stack.Screen name='Home' options={{headerShown: false}}>
           {() => (
             <Drawer.Navigator
               drawerContent={(p) => <DrawerContent {...p} />}
               initialRouteName={drawerScreens[0].name}
               drawerType={dimensions.width >= 768 ? 'permanent' : 'front'}
-              screenOptions={{ headerShown: true, headerLeft: DrawerButton }}>
+              screenOptions={{headerShown: true, headerLeft: DrawerButton}}>
               {getScreens(props)}
             </Drawer.Navigator>
           )}
         </Stack.Screen>
         <Stack.Screen
-          name="ModalScreen"
+          name='ModalScreen'
           component={ModalScreen}
           options={{
             headerShown: false,
-            cardStyle: { backgroundColor: 'transparent' },
+            cardStyle: {backgroundColor: 'transparent'},
             cardOverlayEnabled: true,
-            cardStyleInterpolator: ({ current: { progress } }) => ({
+            cardStyleInterpolator: ({current: {progress}}) => ({
               cardStyle: {
                 opacity: progress.interpolate({
                   inputRange: [0, 0.5, 0.9, 1],
@@ -209,20 +227,22 @@ function NavContainer(props) {
             }),
           }}
         />
-        <Stack.Screen name="NotFound" component={NotFound} options={{ title: 'Oops!' }} />
+        <Stack.Screen name='NotFound' component={NotFound} options={{title: 'Oops!'}} />
       </Stack.Navigator>
     </NavigationContainer>
   );
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state) =>
+{
   return {
     loaded: state.appState.rehydrationComplete,
     account: state.account.account,
   };
 };
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = (dispatch) =>
+{
   return {
     getAccount: () => dispatch(AccountActions.accountRequest()),
   };

@@ -1,28 +1,29 @@
-import { createDrawerNavigator } from '@react-navigation/drawer';
+import {createDrawerNavigator} from '@react-navigation/drawer';
 import React from 'react';
 import IMDrawerMenu from '../Core/ui/drawer/IMDrawerMenu/IMDrawerMenu';
 import {
-  InnerFeedNavigator,
   InnerChatSearchNavigator,
-  InnerFriendsSearchNavigator,
   InnerDiscoverNavigator,
+  InnerFeedNavigator,
+  InnerFriendsSearchNavigator,
   InnerProfileNavigator,
 } from './InnerStackNavigators';
 import AppStyles from '../AppStyles.js';
-import { authManager } from '../Core/onboarding/utils/api';
+import {authManager} from '../Core/onboarding/utils/api';
 import SocialNetworkConfig from '../SocialNetworkConfig';
 
 const Drawer = createDrawerNavigator();
-const DrawerNavigator = () => {
+const DrawerNavigator = () =>
+{
   return (
     <Drawer.Navigator
-      screenOptions={({ route }) => ({
+      screenOptions={({route}) => ({
         title: route.key,
       })}
-      initialRouteName="Feed"
-      drawerStyle={{ width: 250 }}
-      drawerPosition="left"
-      drawerContent={({ navigation }) => (
+      initialRouteName='Feed'
+      drawerStyle={{width: 250}}
+      drawerPosition='left'
+      drawerContent={({navigation}) => (
         <IMDrawerMenu
           navigation={navigation}
           menuItems={SocialNetworkConfig.drawerMenu.upperMenu}
@@ -32,11 +33,11 @@ const DrawerNavigator = () => {
           appConfig={SocialNetworkConfig}
         />
       )}>
-      <Drawer.Screen name="Feed" component={InnerFeedNavigator} />
-      <Drawer.Screen name="Discover" component={InnerDiscoverNavigator} />
-      <Drawer.Screen name="Chat" component={InnerChatSearchNavigator} />
-      <Drawer.Screen name="Friends" component={InnerFriendsSearchNavigator} />
-      <Drawer.Screen name="Profile" component={InnerProfileNavigator} />
+      <Drawer.Screen name='Feed' component={InnerFeedNavigator} />
+      <Drawer.Screen name='Discover' component={InnerDiscoverNavigator} />
+      <Drawer.Screen name='Chat' component={InnerChatSearchNavigator} />
+      <Drawer.Screen name='Friends' component={InnerFriendsSearchNavigator} />
+      <Drawer.Screen name='Profile' component={InnerProfileNavigator} />
     </Drawer.Navigator>
   );
 };

@@ -1,1 +1,1 @@
-export { default } from './IMChat';
+export {default} from './IMChat';

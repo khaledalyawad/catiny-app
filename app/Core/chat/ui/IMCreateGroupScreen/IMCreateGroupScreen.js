@@ -1,14 +1,14 @@
-import PropTypes from 'prop-types';
-import React, { Component, useEffect, useLayoutEffect, useState, useRef } from 'react';
-import { BackHandler, View } from 'react-native';
+import React, {useEffect, useLayoutEffect, useRef, useState} from 'react';
+import {BackHandler, View} from 'react-native';
 import TextButton from 'react-native-button';
-import { useSelector } from 'react-redux';
-import { IMCreateGroupComponent } from '../..';
-import { channelManager } from '../../api';
-import { IMLocalized } from '../../../localization/IMLocalization';
-import { useColorScheme } from 'react-native-appearance';
+import {useSelector} from 'react-redux';
+import {IMCreateGroupComponent} from '../..';
+import {channelManager} from '../../api';
+import {IMLocalized} from '../../../localization/IMLocalization';
+import {useColorScheme} from 'react-native-appearance';
 
-const IMCreateGroupScreen = (props) => {
+const IMCreateGroupScreen = (props) =>
+{
   const appStyles = props.route.params.appStyles;
   const colorScheme = useColorScheme();
   const currentTheme = appStyles.navThemeConstants[colorScheme];
@@ -22,16 +22,17 @@ const IMCreateGroupScreen = (props) => {
   const didFocusSubscription = useRef(null);
   const willBlurSubscription = useRef(null);
 
-  useLayoutEffect(() => {
+  useLayoutEffect(() =>
+  {
     props.navigation.setOptions({
       headerTitle: IMLocalized('Choose People'),
       headerRight:
         friends.length > 1
           ? () => (
-              <TextButton style={{ marginHorizontal: 7 }} onPress={onCreate}>
-                {IMLocalized('Create')}
-              </TextButton>
-            )
+            <TextButton style={{marginHorizontal: 7}} onPress={onCreate}>
+              {IMLocalized('Create')}
+            </TextButton>
+          )
           : () => <View />,
       headerStyle: {
         backgroundColor: currentTheme.backgroundColor,
@@ -40,11 +41,13 @@ const IMCreateGroupScreen = (props) => {
     });
   }, [friends]);
 
-  useEffect(() => {
+  useEffect(() =>
+  {
     setUiFriends(friends);
   }, [friends]);
 
-  useEffect(() => {
+  useEffect(() =>
+  {
     didFocusSubscription.current = props.navigation.addListener('focus', (payload) =>
       BackHandler.addEventListener('hardwareBackPress', onBackButtonPressAndroid),
     );
@@ -52,30 +55,39 @@ const IMCreateGroupScreen = (props) => {
     willBlurSubscription.current = props.navigation.addListener('beforeRemove', (payload) =>
       BackHandler.removeEventListener('hardwareBackPress', onBackButtonPressAndroid),
     );
-    return () => {
+    return () =>
+    {
       didFocusSubscription.current && didFocusSubscription.current();
       willBlurSubscription.current && willBlurSubscription.current();
     };
   }, []);
 
-  const onBackButtonPressAndroid = () => {
+  const onBackButtonPressAndroid = () =>
+  {
     props.navigation.goBack();
     return true;
   };
 
-  const onCreate = () => {
+  const onCreate = () =>
+  {
     const checkedFriends = friends.filter((friend) => friend.checked);
-    if (checkedFriends.length === 0) {
+    if (checkedFriends.length === 0)
+    {
       alert('Please choose at least two friends.');
-    } else {
+    }
+    else
+    {
       setIsNameDialogVisible(true);
     }
   };
 
-  const onCheck = (friend) => {
+  const onCheck = (friend) =>
+  {
     friend.checked = !friend.checked;
-    const newFriends = friends.map((item) => {
-      if (item.id == friend.id) {
+    const newFriends = friends.map((item) =>
+    {
+      if (item.id == friend.id)
+      {
         return friend;
       }
       return item;
@@ -83,27 +95,33 @@ const IMCreateGroupScreen = (props) => {
     setUiFriends(newFriends);
   };
 
-  const onCancel = () => {
+  const onCancel = () =>
+  {
     setGroupName('');
     setIsNameDialogVisible(false);
     setUiFriends(friends);
   };
 
-  const onSubmitName = (name) => {
+  const onSubmitName = (name) =>
+  {
     const participants = friends.filter((friend) => friend.checked);
-    if (participants.length < 2) {
+    if (participants.length < 2)
+    {
       alert(IMLocalized('Choose at least 2 friends to create a group.'));
       return;
     }
-    channelManager.createChannel(currentUser, participants, name).then((response) => {
-      if (response.success == true) {
+    channelManager.createChannel(currentUser, participants, name).then((response) =>
+    {
+      if (response.success == true)
+      {
         onCancel();
         props.navigation.goBack();
       }
     });
   };
 
-  const onEmptyStatePress = () => {
+  const onEmptyStatePress = () =>
+  {
     props.navigation.goBack();
   };
 

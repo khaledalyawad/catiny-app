@@ -1,15 +1,16 @@
 import React from 'react';
-import { ActivityIndicator, ScrollView, Text, View } from 'react-native';
-import { connect } from 'react-redux';
-import { useFocusEffect } from '@react-navigation/native';
+import {ActivityIndicator, ScrollView, Text, View} from 'react-native';
+import {connect} from 'react-redux';
+import {useFocusEffect} from '@react-navigation/native';
 
 import PageProfileActions from './page-profile.reducer';
 import RoundedButton from '../../../shared/components/rounded-button/rounded-button';
 import PageProfileDeleteModal from './page-profile-delete-modal';
 import styles from './page-profile-styles';
 
-function PageProfileDetailScreen(props) {
-  const { route, getPageProfile, navigation, pageProfile, fetching, error } = props;
+function PageProfileDetailScreen(props)
+{
+  const {route, getPageProfile, navigation, pageProfile, fetching, error} = props;
   const [deleteModalVisible, setDeleteModalVisible] = React.useState(false);
   // prevents display of stale reducer data
   const entityId = pageProfile?.id ?? null;
@@ -17,52 +18,58 @@ function PageProfileDetailScreen(props) {
   const correctEntityLoaded = routeEntityId && entityId && routeEntityId.toString() === entityId.toString();
 
   useFocusEffect(
-    React.useCallback(() => {
-      if (!routeEntityId) {
+    React.useCallback(() =>
+    {
+      if (!routeEntityId)
+      {
         navigation.navigate('PageProfile');
-      } else {
+      }
+      else
+      {
         setDeleteModalVisible(false);
         getPageProfile(routeEntityId);
       }
     }, [routeEntityId, getPageProfile, navigation]),
   );
 
-  if (!entityId && !fetching && error) {
+  if (!entityId && !fetching && error)
+  {
     return (
       <View style={styles.loading}>
         <Text>Something went wrong fetching the PageProfile.</Text>
       </View>
     );
   }
-  if (!entityId || fetching || !correctEntityLoaded) {
+  if (!entityId || fetching || !correctEntityLoaded)
+  {
     return (
       <View style={styles.loading}>
-        <ActivityIndicator size="large" />
+        <ActivityIndicator size='large' />
       </View>
     );
   }
   return (
-    <ScrollView style={styles.container} contentContainerStyle={styles.paddedScrollView} testID="pageProfileDetailScrollView">
+    <ScrollView style={styles.container} contentContainerStyle={styles.paddedScrollView} testID='pageProfileDetailScrollView'>
       <Text style={styles.label}>Id:</Text>
       <Text>{pageProfile.id}</Text>
       {/* Uuid Field */}
       <Text style={styles.label}>Uuid:</Text>
-      <Text testID="uuid">{pageProfile.uuid}</Text>
+      <Text testID='uuid'>{pageProfile.uuid}</Text>
       <Text style={styles.label}>Info:</Text>
-      <Text testID="info">{String(pageProfile.info ? pageProfile.info.id : '')}</Text>
+      <Text testID='info'>{String(pageProfile.info ? pageProfile.info.id : '')}</Text>
 
       <View style={styles.entityButtons}>
         <RoundedButton
-          text="Edit"
-          onPress={() => navigation.navigate('PageProfileEdit', { entityId })}
+          text='Edit'
+          onPress={() => navigation.navigate('PageProfileEdit', {entityId})}
           accessibilityLabel={'PageProfile Edit Button'}
-          testID="pageProfileEditButton"
+          testID='pageProfileEditButton'
         />
         <RoundedButton
-          text="Delete"
+          text='Delete'
           onPress={() => setDeleteModalVisible(true)}
           accessibilityLabel={'PageProfile Delete Button'}
-          testID="pageProfileDeleteButton"
+          testID='pageProfileDeleteButton'
         />
         {deleteModalVisible && (
           <PageProfileDeleteModal
@@ -70,7 +77,7 @@ function PageProfileDetailScreen(props) {
             visible={deleteModalVisible}
             setVisible={setDeleteModalVisible}
             entity={pageProfile}
-            testID="pageProfileDeleteModal"
+            testID='pageProfileDeleteModal'
           />
         )}
       </View>
@@ -78,7 +85,8 @@ function PageProfileDetailScreen(props) {
   );
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state) =>
+{
   return {
     pageProfile: state.pageProfiles.pageProfile,
     error: state.pageProfiles.errorOne,
@@ -88,7 +96,8 @@ const mapStateToProps = (state) => {
   };
 };
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = (dispatch) =>
+{
   return {
     getPageProfile: (id) => dispatch(PageProfileActions.pageProfileRequest(id)),
     getAllPageProfiles: (options) => dispatch(PageProfileActions.pageProfileAllRequest(options)),

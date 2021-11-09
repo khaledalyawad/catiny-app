@@ -1,21 +1,23 @@
-import React, { useState, useRef } from 'react';
-import { View, TouchableOpacity, ScrollView, Alert, TouchableHighlight, Platform } from 'react-native';
+import React, {useRef, useState} from 'react';
+import {Platform, ScrollView, TouchableHighlight, TouchableOpacity, View} from 'react-native';
 import ActionSheet from 'react-native-actionsheet';
 import ImageView from 'react-native-image-view';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import * as ImagePicker from 'expo-image-picker';
 import dynamicStyles from './styles';
-import { useColorScheme } from 'react-native-appearance';
-import { IMLocalized } from '../../localization/IMLocalization';
+import {useColorScheme} from 'react-native-appearance';
+import {IMLocalized} from '../../localization/IMLocalization';
 
 import FastImage from 'react-native-fast-image';
 
 const Image = FastImage;
 
-const TNProfilePictureSelector = (props) => {
+const TNProfilePictureSelector = (props) =>
+{
   const [profilePictureURL, setProfilePictureURL] = useState(props.profilePictureURL || '');
   const originalProfilePictureURL = useRef(props.profilePictureURL || '');
-  if (originalProfilePictureURL.current !== (props.profilePictureURL || '')) {
+  if (originalProfilePictureURL.current !== (props.profilePictureURL || ''))
+  {
     originalProfilePictureURL.current = props.profilePictureURL || '';
     setProfilePictureURL(props.profilePictureURL || '');
   }
@@ -24,12 +26,14 @@ const TNProfilePictureSelector = (props) => {
   const [isImageViewerVisible, setIsImageViewerVisible] = useState(false);
   const [tappedImage, setTappedImage] = useState([]);
   const actionSheet = useRef(null);
-  const { appStyles } = props;
+  const {appStyles} = props;
   const colorScheme = useColorScheme();
   const styles = dynamicStyles(appStyles, colorScheme);
 
-  const handleProfilePictureClick = (url) => {
-    if (url) {
+  const handleProfilePictureClick = (url) =>
+  {
+    if (url)
+    {
       const isAvatar = url.search('avatar');
       const image = [
         {
@@ -38,34 +42,44 @@ const TNProfilePictureSelector = (props) => {
           },
         },
       ];
-      if (isAvatar === -1) {
+      if (isAvatar === -1)
+      {
         setTappedImage(image);
         setIsImageViewerVisible(true);
-      } else {
+      }
+      else
+      {
         showActionSheet();
       }
-    } else {
+    }
+    else
+    {
       showActionSheet();
     }
   };
 
-  const onImageError = () => {
+  const onImageError = () =>
+  {
     console.log('Error loading profile photo at url ' + profilePictureURL);
     const defaultProfilePhotoURL = 'https://www.iosapptemplates.com/wp-content/uploads/2019/06/empty-avatar.jpg';
     setProfilePictureURL(defaultProfilePhotoURL);
   };
 
-  const getPermissionAsync = async () => {
-    if (Platform.OS === 'ios') {
+  const getPermissionAsync = async () =>
+  {
+    if (Platform.OS === 'ios')
+    {
       let permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync(false);
 
-      if (permissionResult.granted === false) {
+      if (permissionResult.granted === false)
+      {
         alert(IMLocalized('Sorry, we need camera roll permissions to make this work.'));
       }
     }
   };
 
-  const onPressAddPhotoBtn = async () => {
+  const onPressAddPhotoBtn = async () =>
+  {
     const options = {
       title: IMLocalized('Select photo'),
       cancelButtonTitle: IMLocalized('Cancel'),
@@ -90,7 +104,8 @@ const TNProfilePictureSelector = (props) => {
 
     console.log(result);
 
-    if (!result.cancelled) {
+    if (!result.cancelled)
+    {
       setProfilePictureURL(result.uri);
       props.setProfilePictureFile(result);
     }
@@ -102,18 +117,23 @@ const TNProfilePictureSelector = (props) => {
     </TouchableOpacity>
   );
 
-  const showActionSheet = (index) => {
+  const showActionSheet = (index) =>
+  {
     setSelectedPhotoIndex(index);
     actionSheet.current.show();
   };
 
-  const onActionDone = (index) => {
-    if (index == 0) {
+  const onActionDone = (index) =>
+  {
+    if (index == 0)
+    {
       onPressAddPhotoBtn();
     }
-    if (index == 2) {
+    if (index == 2)
+    {
       // Remove button
-      if (profilePictureURL) {
+      if (profilePictureURL)
+      {
         setProfilePictureURL(null);
         props.setProfilePictureFile(null);
       }
@@ -125,15 +145,15 @@ const TNProfilePictureSelector = (props) => {
       <View style={styles.imageBlock}>
         <TouchableHighlight style={styles.imageContainer} onPress={() => handleProfilePictureClick(profilePictureURL)}>
           <Image
-            style={[styles.image, { opacity: profilePictureURL ? 1 : 0.3 }]}
-            source={profilePictureURL ? { uri: profilePictureURL } : appStyles.iconSet.userAvatar}
-            resizeMode="cover"
+            style={[styles.image, {opacity: profilePictureURL ? 1 : 0.3}]}
+            source={profilePictureURL ? {uri: profilePictureURL} : appStyles.iconSet.userAvatar}
+            resizeMode='cover'
             onError={onImageError}
           />
         </TouchableHighlight>
 
         <TouchableOpacity onPress={showActionSheet} style={styles.addButton}>
-          <Icon name="camera" size={20} color="white" />
+          <Icon name='camera' size={20} color='white' />
         </TouchableOpacity>
       </View>
       <ScrollView showsVerticalScrollIndicator={false}>
@@ -143,7 +163,8 @@ const TNProfilePictureSelector = (props) => {
           options={[IMLocalized('Change Profile Photo'), IMLocalized('Cancel'), IMLocalized('Remove Profile Photo')]}
           cancelButtonIndex={1}
           destructiveButtonIndex={2}
-          onPress={(index) => {
+          onPress={(index) =>
+          {
             onActionDone(index);
           }}
         />
@@ -151,7 +172,7 @@ const TNProfilePictureSelector = (props) => {
           images={tappedImage}
           isVisible={isImageViewerVisible}
           onClose={() => setIsImageViewerVisible(false)}
-          controls={{ close: closeButton }}
+          controls={{close: closeButton}}
         />
       </ScrollView>
     </>

@@ -1,14 +1,15 @@
-import React, { memo } from 'react';
-import { View, TouchableOpacity, Text } from 'react-native';
+import React, {memo} from 'react';
+import {Text, TouchableOpacity, View} from 'react-native';
 
-import { IMConversationIconView } from '../../../../chat';
+import {IMConversationIconView} from '../../../../chat';
 import PropTypes from 'prop-types';
 import dynamicStyles from './styles';
-import { useColorScheme } from 'react-native-appearance';
-import { FriendshipConstants } from '../..';
+import {useColorScheme} from 'react-native-appearance';
+import {FriendshipConstants} from '../..';
 
-const IMFriendItem = memo((props) => {
-  const { item, index, onFriendAction, onFriendItemPress, displayActions, appStyles, followEnabled } = props;
+const IMFriendItem = memo((props) =>
+{
+  const {item, index, onFriendAction, onFriendItemPress, displayActions, appStyles, followEnabled} = props;
   const colorScheme = useColorScheme();
   const styles = dynamicStyles(appStyles, colorScheme);
   const user = item.user;
@@ -17,20 +18,27 @@ const IMFriendItem = memo((props) => {
     : FriendshipConstants.localizedActionTitle(item.type);
 
   var name = 'No name';
-  if (user.firstName && user.lastName) {
+  if (user.firstName && user.lastName)
+  {
     name = user.firstName + ' ' + user.lastName;
-  } else if (user.fullname) {
+  }
+  else if (user.fullname)
+  {
     name = user.fullname;
-  } else if (user.firstName) {
+  }
+  else if (user.firstName)
+  {
     name = user.firstName;
   }
 
-  const renderActions = (displayActions, actionTitle) => {
-    if (displayActions && actionTitle) {
+  const renderActions = (displayActions, actionTitle) =>
+  {
+    if (displayActions && actionTitle)
+    {
       return (
         <View style={followEnabled ? styles.addFlexContainerFollow : styles.addFlexContainer}>
           <TouchableOpacity onPress={() => onFriendAction(item, index)} style={followEnabled ? [styles.followButton] : [styles.addButton]}>
-            <Text style={followEnabled ? [styles.followActionTitle] : [styles.name, { padding: 0 }]}>{actionTitle}</Text>
+            <Text style={followEnabled ? [styles.followActionTitle] : [styles.name, {padding: 0}]}>{actionTitle}</Text>
           </TouchableOpacity>
         </View>
       );

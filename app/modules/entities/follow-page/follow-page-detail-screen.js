@@ -1,15 +1,16 @@
 import React from 'react';
-import { ActivityIndicator, ScrollView, Text, View } from 'react-native';
-import { connect } from 'react-redux';
-import { useFocusEffect } from '@react-navigation/native';
+import {ActivityIndicator, ScrollView, Text, View} from 'react-native';
+import {connect} from 'react-redux';
+import {useFocusEffect} from '@react-navigation/native';
 
 import FollowPageActions from './follow-page.reducer';
 import RoundedButton from '../../../shared/components/rounded-button/rounded-button';
 import FollowPageDeleteModal from './follow-page-delete-modal';
 import styles from './follow-page-styles';
 
-function FollowPageDetailScreen(props) {
-  const { route, getFollowPage, navigation, followPage, fetching, error } = props;
+function FollowPageDetailScreen(props)
+{
+  const {route, getFollowPage, navigation, followPage, fetching, error} = props;
   const [deleteModalVisible, setDeleteModalVisible] = React.useState(false);
   // prevents display of stale reducer data
   const entityId = followPage?.id ?? null;
@@ -17,54 +18,60 @@ function FollowPageDetailScreen(props) {
   const correctEntityLoaded = routeEntityId && entityId && routeEntityId.toString() === entityId.toString();
 
   useFocusEffect(
-    React.useCallback(() => {
-      if (!routeEntityId) {
+    React.useCallback(() =>
+    {
+      if (!routeEntityId)
+      {
         navigation.navigate('FollowPage');
-      } else {
+      }
+      else
+      {
         setDeleteModalVisible(false);
         getFollowPage(routeEntityId);
       }
     }, [routeEntityId, getFollowPage, navigation]),
   );
 
-  if (!entityId && !fetching && error) {
+  if (!entityId && !fetching && error)
+  {
     return (
       <View style={styles.loading}>
         <Text>Something went wrong fetching the FollowPage.</Text>
       </View>
     );
   }
-  if (!entityId || fetching || !correctEntityLoaded) {
+  if (!entityId || fetching || !correctEntityLoaded)
+  {
     return (
       <View style={styles.loading}>
-        <ActivityIndicator size="large" />
+        <ActivityIndicator size='large' />
       </View>
     );
   }
   return (
-    <ScrollView style={styles.container} contentContainerStyle={styles.paddedScrollView} testID="followPageDetailScrollView">
+    <ScrollView style={styles.container} contentContainerStyle={styles.paddedScrollView} testID='followPageDetailScrollView'>
       <Text style={styles.label}>Id:</Text>
       <Text>{followPage.id}</Text>
       {/* Uuid Field */}
       <Text style={styles.label}>Uuid:</Text>
-      <Text testID="uuid">{followPage.uuid}</Text>
+      <Text testID='uuid'>{followPage.uuid}</Text>
       <Text style={styles.label}>Info:</Text>
-      <Text testID="info">{String(followPage.info ? followPage.info.id : '')}</Text>
+      <Text testID='info'>{String(followPage.info ? followPage.info.id : '')}</Text>
       <Text style={styles.label}>Page Details:</Text>
-      <Text testID="pageDetails">{String(followPage.pageDetails ? followPage.pageDetails.id : '')}</Text>
+      <Text testID='pageDetails'>{String(followPage.pageDetails ? followPage.pageDetails.id : '')}</Text>
 
       <View style={styles.entityButtons}>
         <RoundedButton
-          text="Edit"
-          onPress={() => navigation.navigate('FollowPageEdit', { entityId })}
+          text='Edit'
+          onPress={() => navigation.navigate('FollowPageEdit', {entityId})}
           accessibilityLabel={'FollowPage Edit Button'}
-          testID="followPageEditButton"
+          testID='followPageEditButton'
         />
         <RoundedButton
-          text="Delete"
+          text='Delete'
           onPress={() => setDeleteModalVisible(true)}
           accessibilityLabel={'FollowPage Delete Button'}
-          testID="followPageDeleteButton"
+          testID='followPageDeleteButton'
         />
         {deleteModalVisible && (
           <FollowPageDeleteModal
@@ -72,7 +79,7 @@ function FollowPageDetailScreen(props) {
             visible={deleteModalVisible}
             setVisible={setDeleteModalVisible}
             entity={followPage}
-            testID="followPageDeleteModal"
+            testID='followPageDeleteModal'
           />
         )}
       </View>
@@ -80,7 +87,8 @@ function FollowPageDetailScreen(props) {
   );
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state) =>
+{
   return {
     followPage: state.followPages.followPage,
     error: state.followPages.errorOne,
@@ -90,7 +98,8 @@ const mapStateToProps = (state) => {
   };
 };
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = (dispatch) =>
+{
   return {
     getFollowPage: (id) => dispatch(FollowPageActions.followPageRequest(id)),
     getAllFollowPages: (options) => dispatch(FollowPageActions.followPageAllRequest(options)),

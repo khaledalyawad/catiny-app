@@ -1,12 +1,13 @@
-import React, { useRef, useState, useLayoutEffect, useEffect, useContext } from 'react';
-import { BackHandler } from 'react-native';
-import { ReactReduxContext, useSelector } from 'react-redux';
-import { FriendshipAPITracker, FriendshipManager } from '../../api';
-import { IMFriendsListComponent, FriendshipConstants } from '../..';
-import { IMLocalized } from '../../../../localization/IMLocalization';
-import { Appearance } from 'react-native-appearance';
+import React, {useContext, useEffect, useLayoutEffect, useRef, useState} from 'react';
+import {BackHandler} from 'react-native';
+import {ReactReduxContext, useSelector} from 'react-redux';
+import {FriendshipAPITracker, FriendshipManager} from '../../api';
+import {FriendshipConstants, IMFriendsListComponent} from '../..';
+import {IMLocalized} from '../../../../localization/IMLocalization';
+import {Appearance} from 'react-native-appearance';
 
-function IMAllFriendsScreen(props) {
+function IMAllFriendsScreen(props)
+{
   const appStyles = props.route.params.appStyles;
   let colorScheme = Appearance.getColorScheme();
   const currentTheme = appStyles.navThemeConstants[colorScheme];
@@ -36,19 +37,23 @@ function IMAllFriendsScreen(props) {
   const [friendships, setFriendships] = useState(null);
   const [loggedInUserFriendships, setLoggedInUserFriendships] = useState(null);
 
-  const { store } = useContext(ReactReduxContext);
+  const {store} = useContext(ReactReduxContext);
 
   const friendshipTracker = useRef(new FriendshipAPITracker(store, currentUser, true, followEnabled, true));
 
-  const onFriendshipsRetrieved = (reciprocalFriendships, inboundFriendships, outboundFriendships) => {
+  const onFriendshipsRetrieved = (reciprocalFriendships, inboundFriendships, outboundFriendships) =>
+  {
     var finalFriendships = [];
-    if (includeReciprocal) {
+    if (includeReciprocal)
+    {
       finalFriendships = finalFriendships.concat(reciprocalFriendships);
     }
-    if (includeInbound) {
+    if (includeInbound)
+    {
       finalFriendships = finalFriendships.concat(inboundFriendships);
     }
-    if (includeOutbound) {
+    if (includeOutbound)
+    {
       finalFriendships = finalFriendships.concat(outboundFriendships);
     }
     setIsLoading(false);
@@ -59,29 +64,36 @@ function IMAllFriendsScreen(props) {
 
   const friendshipManager = useRef(new FriendshipManager(followEnabled, onFriendshipsRetrieved));
 
-  useEffect(() => {
-    didFocusSubscription.current = props.navigation.addListener('focus', (payload) => {
+  useEffect(() =>
+  {
+    didFocusSubscription.current = props.navigation.addListener('focus', (payload) =>
+    {
       BackHandler.addEventListener('hardwareBackPress', onBackButtonPressAndroid);
     });
 
-    willBlurSubscription.current = props.navigation.addListener('beforeRemove', (payload) => {
+    willBlurSubscription.current = props.navigation.addListener('beforeRemove', (payload) =>
+    {
       isBlur = true;
       BackHandler.removeEventListener('hardwareBackPress', onBackButtonPressAndroid);
     });
-    return () => {
+    return () =>
+    {
       didFocusSubscription.current && didFocusSubscription.current();
       willBlurSubscription.current && willBlurSubscription.current();
     };
   }, []);
 
-  useEffect(() => {
+  useEffect(() =>
+  {
     friendshipManager.current.fetchFriendships(vieweeID);
-    return () => {
+    return () =>
+    {
       friendshipManager.current && friendshipManager.current.unsubscribe();
     };
   }, []);
 
-  useLayoutEffect(() => {
+  useLayoutEffect(() =>
+  {
     props.navigation.setOptions({
       headerTitle: props.route.params.title,
       headerStyle: {
@@ -92,9 +104,11 @@ function IMAllFriendsScreen(props) {
     });
   }, []);
 
-  const hydrateFriendshipStatusesForCurrentUser = (otherFriendships) => {
+  const hydrateFriendshipStatusesForCurrentUser = (otherFriendships) =>
+  {
     const myFriendships = stateFriendships;
-    return otherFriendships.map((otherFriendship) => {
+    return otherFriendships.map((otherFriendship) =>
+    {
       const friendship = myFriendships.find((friendship) => friendship.user.id == otherFriendship.user.id);
       const type = friendship ? friendship.type : 'none';
       return {
@@ -104,16 +118,20 @@ function IMAllFriendsScreen(props) {
     });
   };
 
-  const onBackButtonPressAndroid = () => {
+  const onBackButtonPressAndroid = () =>
+  {
     props.navigation.goBack();
     return true;
   };
 
-  const onFriendAction = (item, index) => {
-    if (isLoading) {
+  const onFriendAction = (item, index) =>
+  {
+    if (isLoading)
+    {
       return;
     }
-    switch (item.type) {
+    switch (item.type)
+    {
       case FriendshipConstants.FriendshipType.none:
         onAddFriend(item, index);
         break;
@@ -129,42 +147,54 @@ function IMAllFriendsScreen(props) {
     }
   };
 
-  const onUnfriend = (item, index) => {
+  const onUnfriend = (item, index) =>
+  {
     setIsLoading(true);
-    friendshipTracker.unfriend(currentUser, item.user, (respone) => {
+    friendshipTracker.unfriend(currentUser, item.user, (respone) =>
+    {
       setIsLoading(false);
     });
   };
 
-  const onAddFriend = (item, index) => {
+  const onAddFriend = (item, index) =>
+  {
     setIsLoading(true);
-    friendshipTracker.addFriendRequest(currentUser, item.user, (response) => {
+    friendshipTracker.addFriendRequest(currentUser, item.user, (response) =>
+    {
       setIsLoading(false);
     });
   };
 
-  const onCancel = (item, index) => {
+  const onCancel = (item, index) =>
+  {
     setIsLoading(true);
-    friendshipTracker.cancelFriendRequest(currentUser, item.user, (response) => {
+    friendshipTracker.cancelFriendRequest(currentUser, item.user, (response) =>
+    {
       setIsLoading(false);
     });
   };
 
-  const onAccept = (item, index) => {
+  const onAccept = (item, index) =>
+  {
     setIsLoading(true);
-    friendshipTracker.addFriendRequest(currentUser, item.user, (response) => {
+    friendshipTracker.addFriendRequest(currentUser, item.user, (response) =>
+    {
       setIsLoading(false);
     });
   };
 
-  const onFriendItemPress = (item) => {
+  const onFriendItemPress = (item) =>
+  {
     const user = item.user || item;
-    if (user.id === user.id) {
+    if (user.id === user.id)
+    {
       // my own profile
       props.navigation.push(stackKeyTitle, {
         stackKeyTitle: stackKeyTitle,
       });
-    } else {
+    }
+    else
+    {
       props.navigation.push(stackKeyTitle, {
         user,
         stackKeyTitle: stackKeyTitle,

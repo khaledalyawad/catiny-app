@@ -1,15 +1,16 @@
 import React from 'react';
-import { ActivityIndicator, ScrollView, Text, View } from 'react-native';
-import { connect } from 'react-redux';
-import { useFocusEffect } from '@react-navigation/native';
+import {ActivityIndicator, ScrollView, Text, View} from 'react-native';
+import {connect} from 'react-redux';
+import {useFocusEffect} from '@react-navigation/native';
 
 import NewsFeedActions from './news-feed.reducer';
 import RoundedButton from '../../../shared/components/rounded-button/rounded-button';
 import NewsFeedDeleteModal from './news-feed-delete-modal';
 import styles from './news-feed-styles';
 
-function NewsFeedDetailScreen(props) {
-  const { route, getNewsFeed, navigation, newsFeed, fetching, error } = props;
+function NewsFeedDetailScreen(props)
+{
+  const {route, getNewsFeed, navigation, newsFeed, fetching, error} = props;
   const [deleteModalVisible, setDeleteModalVisible] = React.useState(false);
   // prevents display of stale reducer data
   const entityId = newsFeed?.id ?? null;
@@ -17,57 +18,63 @@ function NewsFeedDetailScreen(props) {
   const correctEntityLoaded = routeEntityId && entityId && routeEntityId.toString() === entityId.toString();
 
   useFocusEffect(
-    React.useCallback(() => {
-      if (!routeEntityId) {
+    React.useCallback(() =>
+    {
+      if (!routeEntityId)
+      {
         navigation.navigate('NewsFeed');
-      } else {
+      }
+      else
+      {
         setDeleteModalVisible(false);
         getNewsFeed(routeEntityId);
       }
     }, [routeEntityId, getNewsFeed, navigation]),
   );
 
-  if (!entityId && !fetching && error) {
+  if (!entityId && !fetching && error)
+  {
     return (
       <View style={styles.loading}>
         <Text>Something went wrong fetching the NewsFeed.</Text>
       </View>
     );
   }
-  if (!entityId || fetching || !correctEntityLoaded) {
+  if (!entityId || fetching || !correctEntityLoaded)
+  {
     return (
       <View style={styles.loading}>
-        <ActivityIndicator size="large" />
+        <ActivityIndicator size='large' />
       </View>
     );
   }
   return (
-    <ScrollView style={styles.container} contentContainerStyle={styles.paddedScrollView} testID="newsFeedDetailScrollView">
+    <ScrollView style={styles.container} contentContainerStyle={styles.paddedScrollView} testID='newsFeedDetailScrollView'>
       <Text style={styles.label}>Id:</Text>
       <Text>{newsFeed.id}</Text>
       {/* Uuid Field */}
       <Text style={styles.label}>Uuid:</Text>
-      <Text testID="uuid">{newsFeed.uuid}</Text>
+      <Text testID='uuid'>{newsFeed.uuid}</Text>
       {/* PriorityIndex Field */}
       <Text style={styles.label}>PriorityIndex:</Text>
-      <Text testID="priorityIndex">{newsFeed.priorityIndex}</Text>
+      <Text testID='priorityIndex'>{newsFeed.priorityIndex}</Text>
       <Text style={styles.label}>Info:</Text>
-      <Text testID="info">{String(newsFeed.info ? newsFeed.info.id : '')}</Text>
+      <Text testID='info'>{String(newsFeed.info ? newsFeed.info.id : '')}</Text>
       <Text style={styles.label}>Post:</Text>
-      <Text testID="post">{String(newsFeed.post ? newsFeed.post.id : '')}</Text>
+      <Text testID='post'>{String(newsFeed.post ? newsFeed.post.id : '')}</Text>
 
       <View style={styles.entityButtons}>
         <RoundedButton
-          text="Edit"
-          onPress={() => navigation.navigate('NewsFeedEdit', { entityId })}
+          text='Edit'
+          onPress={() => navigation.navigate('NewsFeedEdit', {entityId})}
           accessibilityLabel={'NewsFeed Edit Button'}
-          testID="newsFeedEditButton"
+          testID='newsFeedEditButton'
         />
         <RoundedButton
-          text="Delete"
+          text='Delete'
           onPress={() => setDeleteModalVisible(true)}
           accessibilityLabel={'NewsFeed Delete Button'}
-          testID="newsFeedDeleteButton"
+          testID='newsFeedDeleteButton'
         />
         {deleteModalVisible && (
           <NewsFeedDeleteModal
@@ -75,7 +82,7 @@ function NewsFeedDetailScreen(props) {
             visible={deleteModalVisible}
             setVisible={setDeleteModalVisible}
             entity={newsFeed}
-            testID="newsFeedDeleteModal"
+            testID='newsFeedDeleteModal'
           />
         )}
       </View>
@@ -83,7 +90,8 @@ function NewsFeedDetailScreen(props) {
   );
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state) =>
+{
   return {
     newsFeed: state.newsFeeds.newsFeed,
     error: state.newsFeeds.errorOne,
@@ -93,7 +101,8 @@ const mapStateToProps = (state) => {
   };
 };
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = (dispatch) =>
+{
   return {
     getNewsFeed: (id) => dispatch(NewsFeedActions.newsFeedRequest(id)),
     getAllNewsFeeds: (options) => dispatch(NewsFeedActions.newsFeedAllRequest(options)),

@@ -11,7 +11,8 @@
  *
  * @postId - A callback method that gets called every time changes are identified in the server-side comment
  **/
-export const subscribeToUserReactions = (userID, callback) => {
+export const subscribeToUserReactions = (userID, callback) =>
+{
   // initialise reactionsRef
   // subscribe to the reactions collection based on userId
   // every time there are changes in reactions server side, we call the callback, e.g.
@@ -26,7 +27,8 @@ export const subscribeToUserReactions = (userID, callback) => {
     reaction: 'love',
     reactionAuthorID: 'i9OKO3xUufbUyaRbC3vtr2A8kF23',
   };
-  if (reaction.reactionAuthorID === userID) {
+  if (reaction.reactionAuthorID === userID)
+  {
     callback([...reaction]);
   }
 
@@ -42,7 +44,8 @@ export const subscribeToUserReactions = (userID, callback) => {
  *
  * @postId - A callback method that gets called every time changes are identified in the server-side comment
  **/
-export const subscribeComments = (postId, callback) => {
+export const subscribeComments = (postId, callback) =>
+{
   // every time there are changes in reactions server side, we call the callback, e.g.
   // callback(newComment)
   // format of comment:
@@ -81,7 +84,8 @@ export const subscribeComments = (postId, callback) => {
  *
  * @postId - A callback method that gets called every time changes are identified in the server-side reaction
  **/
-export const subscribeReactions = (callback, postId) => {
+export const subscribeReactions = (callback, postId) =>
+{
   // initialise reactionsRef
   // subscribe to the reactions collection using reactionsRef
   // format reactions
@@ -95,7 +99,8 @@ export const subscribeReactions = (callback, postId) => {
     reaction: 'love',
     reactionAuthorID: 'i9OKO3xUufbUyaRbC3vtr2A8kF23',
   };
-  if (reaction.postID === postId) {
+  if (reaction.postID === postId)
+  {
     callback(reaction);
   }
 
@@ -111,7 +116,8 @@ export const subscribeReactions = (callback, postId) => {
  *
  * @callback - A callback method that gets called every time changes are identified in the server-side reaction
  **/
-export const getUserReactions = (userId, callback) => {
+export const getUserReactions = (userId, callback) =>
+{
   // subscribe to the reactions collection, based on userID
   // every time there are changes in reactions server side, we call the callback, e.g.
   // callback({reaction: object, fetchCompleted: boolean})
@@ -121,7 +127,7 @@ export const getUserReactions = (userId, callback) => {
     reaction: 'love',
     reactionAuthorID: 'i9OKO3xUufbUyaRbC3vtr2A8kF23',
   };
-  callback({ reaction, fetchCompleted: true });
+  callback({reaction, fetchCompleted: true});
 };
 
 /**
@@ -130,9 +136,9 @@ export const getUserReactions = (userId, callback) => {
  * Parameters
  *
  * @comment - The comment to be submitted
- * 
- * format of comment: 
- * 
+ *
+ * format of comment:
+ *
  {
     authorID,
     commentID,
@@ -145,7 +151,7 @@ export const getUserReactions = (userId, callback) => {
  * @commentAuthor - The user object of the user that adds the comment
  *
  * @post - The post object being updated
- * 
+ *
  * format of post:
  {
     author: {
@@ -167,12 +173,13 @@ export const getUserReactions = (userId, callback) => {
  *
  * returns response object
  **/
-export const addComment = async (comment, commentAuthor, post, followEnabled) => {
+export const addComment = async (comment, commentAuthor, post, followEnabled) =>
+{
   // update comment
   // send out notification
   // update timeline
   // return { success: true, id: ref.id } or return { error, success: false };
-  return { error, success: false };
+  return {error, success: false};
 };
 
 /**
@@ -181,9 +188,9 @@ export const addComment = async (comment, commentAuthor, post, followEnabled) =>
  * Parameters
  *
  * @reaction - The reaction object
- * 
+ *
  * format of reaction
- * 
+ *
  {
     createdAt,
     postID,
@@ -191,27 +198,29 @@ export const addComment = async (comment, commentAuthor, post, followEnabled) =>
     reactionAuthorID,
   };
  *
- * 
+ *
  * @user - user object
- * 
+ *
  * format of user
- * 
-    {
+ *
+ {
       email,
       id,
       ....
     },
- * 
+ *
  * @post - The reaction being sent
- * 
- * @followEnabled - 
- * 
+ *
+ * @followEnabled -
+ *
  **/
-export const handleReaction = async (reaction, user, post, followEnabled) => {
+export const handleReaction = async (reaction, user, post, followEnabled) =>
+{
   const postId = post.id;
-  if (!postId || !user?.id) {
+  if (!postId || !user?.id)
+  {
     alert('Missing post or user. Please try again!');
-    return;
+
   }
   // update reactions by the user on the backend for the target post
   // Send push notification to author
@@ -226,7 +235,8 @@ export const handleReaction = async (reaction, user, post, followEnabled) => {
  *
  * @postId - The postID of reaction is being deleted
  **/
-export const deleteReaction = async (userId, postId) => {
+export const deleteReaction = async (userId, postId) =>
+{
   // delete reaction
 };
 
@@ -253,7 +263,8 @@ export const deleteReaction = async (userId, postId) => {
     reactionsCount,
   }
  * */
-export const updateReactionsCountForFollowers = async (post) => {
+export const updateReactionsCountForFollowers = async (post) =>
+{
   // After we added the reaction to the reactions table (the main source of truth for reactions), update the counts in the timeline of all people seeing this post
   // We compute the canonical reactions count
   // We update the canonical entry
@@ -269,7 +280,7 @@ export const updateReactionsCountForFollowers = async (post) => {
  * Parameters
  *
  * @post - The post of reaction is being updated
- * 
+ *
  * format of post:
  {
     author: {
@@ -286,9 +297,10 @@ export const updateReactionsCountForFollowers = async (post) => {
     postText,
     reactionsCount,
   }
- * 
+ *
  * */
-const updateReactionsCountForFriends = async (post) => {
+const updateReactionsCountForFriends = async (post) =>
+{
   // Fetch the current comment count
   // Update canonical posts table
   // We fetch all users who follow the author of the post and update their timelines
@@ -300,7 +312,8 @@ const updateReactionsCountForFriends = async (post) => {
  * @comment - The comment to be updated
  *
  * */
-const updateCommentCountOnAllTimelines = async (comment) => {
+const updateCommentCountOnAllTimelines = async (comment) =>
+{
   // Fetch the current comment count
   // Update canonical posts table
   // We fetch all friends of the author of the post and update their timelines

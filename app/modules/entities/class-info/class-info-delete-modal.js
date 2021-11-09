@@ -1,20 +1,22 @@
 import React from 'react';
-import { TouchableHighlight, Modal, Text, View } from 'react-native';
-import { connect } from 'react-redux';
+import {Modal, Text, TouchableHighlight, View} from 'react-native';
+import {connect} from 'react-redux';
 
 import ClassInfoActions from './class-info.reducer';
 
 import styles from './class-info-styles';
 
-function ClassInfoDeleteModal(props) {
-  const { visible, setVisible, entity, navigation, testID } = props;
+function ClassInfoDeleteModal(props)
+{
+  const {visible, setVisible, entity, navigation, testID} = props;
 
-  const deleteEntity = () => {
+  const deleteEntity = () =>
+  {
     props.deleteClassInfo(entity.id);
     navigation.canGoBack() ? navigation.goBack() : navigation.navigate('ClassInfo');
   };
   return (
-    <Modal animationType="slide" transparent={true} visible={visible}>
+    <Modal animationType='slide' transparent={true} visible={visible}>
       <View testID={testID} style={styles.centeredView}>
         <View style={styles.modalView}>
           <View style={[styles.flex, styles.flexRow]}>
@@ -23,12 +25,13 @@ function ClassInfoDeleteModal(props) {
           <View style={[styles.flexRow]}>
             <TouchableHighlight
               style={[styles.openButton, styles.cancelButton]}
-              onPress={() => {
+              onPress={() =>
+              {
                 setVisible(false);
               }}>
               <Text style={styles.textStyle}>Cancel</Text>
             </TouchableHighlight>
-            <TouchableHighlight style={[styles.openButton, styles.submitButton]} onPress={deleteEntity} testID="deleteButton">
+            <TouchableHighlight style={[styles.openButton, styles.submitButton]} onPress={deleteEntity} testID='deleteButton'>
               <Text style={styles.textStyle}>Delete</Text>
             </TouchableHighlight>
           </View>
@@ -38,7 +41,8 @@ function ClassInfoDeleteModal(props) {
   );
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state) =>
+{
   return {
     classInfo: state.classInfos.classInfo,
     fetching: state.classInfos.fetchingOne,
@@ -47,7 +51,8 @@ const mapStateToProps = (state) => {
   };
 };
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = (dispatch) =>
+{
   return {
     getClassInfo: (id) => dispatch(ClassInfoActions.classInfoRequest(id)),
     getAllClassInfos: (options) => dispatch(ClassInfoActions.classInfoAllRequest(options)),

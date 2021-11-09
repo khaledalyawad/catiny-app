@@ -1,10 +1,11 @@
-import React, { Component } from 'react';
-import { TouchableOpacity, Image } from 'react-native';
+import React from 'react';
+import {Image, TouchableOpacity} from 'react-native';
 import PropTypes from 'prop-types';
 
 const dismissImage = require('../../../CoreAssets/dismiss-rounded.png');
 
-export default function IMDismissButton() {
+export default function IMDismissButton()
+{
   return (
     <TouchableOpacity style={this.props.style} onPress={this.props.onPress}>
       <Image

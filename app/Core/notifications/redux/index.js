@@ -1,2 +1,2 @@
-export { notifications } from './reducers';
-export { setNotifications, setNotificationListenerDidSubscribe } from './actions';
+export {notifications} from './reducers';
+export {setNotifications, setNotificationListenerDidSubscribe} from './actions';

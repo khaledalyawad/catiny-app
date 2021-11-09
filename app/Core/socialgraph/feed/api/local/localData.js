@@ -1,4 +1,5 @@
-import { mockData as mockUserData } from '../../../../onboarding/utils/api/local/localData';
+import {mockData as mockUserData} from '../../../../onboarding/utils/api/local/localData';
+
 const dummyPhoneNumber = 22323232323;
 
 const mockStoriesData = [
@@ -15,7 +16,7 @@ const mockStoriesData = [
       profilePictureURL: 'https://i.pinimg.com/originals/fb/d7/2a/fbd72a1440f9b17f09d1fb9cc5ffcef6.jpg',
     },
     authorID: '113311313',
-    createdAt: { seconds: Date.now() / 1000, nanoseconds: 884000000 },
+    createdAt: {seconds: Date.now() / 1000, nanoseconds: 884000000},
     idx: '122',
     storyID: '122',
     storyMediaURL: 'https://i.pinimg.com/originals/f0/15/d5/f015d58b2f4e5947180d23ac2d84fd2e.png',
@@ -33,7 +34,7 @@ const mockStoriesData = [
     storyMediaURL:
       'https://firebasestorage.googleapis.com/v0/b/ios-app-templates.appspot.com/o/SocialNetwork_Posts%2F2847FE9F-76F9-4959-868F-A447ED115B3C1570782109.3707728?alt=media&token=fd34af0d-fa61-4928-aa22-c925994bc7ca',
     storyAuthorID: '0dvNKmihUtZsdHIttJS3yRdNYyG3',
-    createdAt: { seconds: Date.now() / 1000, nanoseconds: 884000000 },
+    createdAt: {seconds: Date.now() / 1000, nanoseconds: 884000000},
   },
   {
     author: {
@@ -52,7 +53,7 @@ const mockStoriesData = [
     storyType: 'video',
     storyMediaURL: 'https://www.arq.ro/html/media/photos/0/9/385/big/teren-fotbal.jpg',
     storyAuthorID: '0dvNKmihUtZsdHIttJS3yRdNYyG3adda',
-    createdAt: { seconds: Date.now() / 1000, nanoseconds: 884000000 },
+    createdAt: {seconds: Date.now() / 1000, nanoseconds: 884000000},
   },
   {
     author: {
@@ -73,7 +74,7 @@ const mockStoriesData = [
     storyMediaURL:
       'https://firebasestorage.googleapis.com/v0/b/ios-app-templates.appspot.com/o/SocialNetwork_Posts%2FFFA72C0B-8242-4155-AC3C-53E262DDCFC11562611486.2431211?alt=media&token=adf9998f-1a5a-4ab4-b1b4-8ab5a3233faf',
     storyAuthorID: '0dvNKmihUtZsdHIttJS3yRdNYyG3',
-    createdAt: { seconds: Date.now() / 1000, nanoseconds: 884000000 },
+    createdAt: {seconds: Date.now() / 1000, nanoseconds: 884000000},
   },
 ];
 
@@ -92,7 +93,7 @@ const mockPostsData = [
     },
     authorID: mockUserData.id,
     commentCount: 0,
-    createdAt: { nanoseconds: 944000000, seconds: 1597890533 },
+    createdAt: {nanoseconds: 944000000, seconds: 1597890533},
     hashtags: [],
     id: 'ApayhJmrfr6sD5uOzqWQ3d',
     location: 'Miami, FL.',
@@ -128,7 +129,7 @@ const mockPostsData = [
     },
     authorID: mockUserData.id,
     commentCount: 0,
-    createdAt: { nanoseconds: 944000000, seconds: 1597890533 },
+    createdAt: {nanoseconds: 944000000, seconds: 1597890533},
     hashtags: [],
     id: '12ee2eceev',
     location: 'Miami, FL.',
@@ -157,7 +158,7 @@ const mockPostsData = [
     },
     authorID: mockUserData.id,
     commentCount: 0,
-    createdAt: { nanoseconds: 944000000, seconds: 1597890533 },
+    createdAt: {nanoseconds: 944000000, seconds: 1597890533},
     hashtags: [],
     id: 'e2f2fe2vv2v',
     location: 'Houston, TX.',
@@ -193,7 +194,7 @@ const mockPostsData = [
     },
     authorID: mockUserData.id,
     commentCount: 0,
-    createdAt: { nanoseconds: 944000000, seconds: 1597890533 },
+    createdAt: {nanoseconds: 944000000, seconds: 1597890533},
     hashtags: [],
     id: 'wvvffv33vf3v',
     location: 'Lagos, Lagos.',
@@ -222,7 +223,7 @@ const mockPostsData = [
     },
     authorID: mockUserData.id,
     commentCount: 0,
-    createdAt: { nanoseconds: 944000000, seconds: 1597890533 },
+    createdAt: {nanoseconds: 944000000, seconds: 1597890533},
     hashtags: [],
     id: 'wvhjvk22v2v',
     location: 'Lagos, Lagos.',
@@ -251,7 +252,7 @@ const mockPostsData = [
     },
     authorID: mockUserData.id,
     commentCount: 0,
-    createdAt: { nanoseconds: 944000000, seconds: 1597890533 },
+    createdAt: {nanoseconds: 944000000, seconds: 1597890533},
     hashtags: [],
     id: 'jwvdkj113',
     location: 'Lagos, Lagos.',
@@ -280,7 +281,7 @@ const mockPostsData = [
     },
     authorID: mockUserData.id,
     commentCount: 0,
-    createdAt: { nanoseconds: 944000000, seconds: 1597890533 },
+    createdAt: {nanoseconds: 944000000, seconds: 1597890533},
     hashtags: [],
     id: 'wdvwdvwdvwdvwdv',
     location: 'Lagos, Lagos.',
@@ -309,7 +310,7 @@ const mockPostsData = [
     },
     authorID: mockUserData.id,
     commentCount: 0,
-    createdAt: { nanoseconds: 944000000, seconds: 1597890533 },
+    createdAt: {nanoseconds: 944000000, seconds: 1597890533},
     hashtags: [],
     id: 'qddvvdwwdv',
     location: 'Lagos, Lagos.',
@@ -345,7 +346,7 @@ const mockPostsData = [
     },
     authorID: mockUserData.id,
     commentCount: 0,
-    createdAt: { nanoseconds: 944000000, seconds: 1597890533 },
+    createdAt: {nanoseconds: 944000000, seconds: 1597890533},
     hashtags: [],
     id: 'ApayhJmrfr6sD5uOzqWQ1',
     location: 'Miami, FL.',
@@ -369,4 +370,4 @@ const mockPostsData = [
   },
 ];
 
-export { mockPostsData, mockStoriesData };
+export {mockPostsData, mockStoriesData};

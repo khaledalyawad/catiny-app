@@ -1,15 +1,16 @@
 import React from 'react';
-import { ActivityIndicator, ScrollView, Text, View } from 'react-native';
-import { connect } from 'react-redux';
-import { useFocusEffect } from '@react-navigation/native';
+import {ActivityIndicator, ScrollView, Text, View} from 'react-native';
+import {connect} from 'react-redux';
+import {useFocusEffect} from '@react-navigation/native';
 
 import GroupPostActions from './group-post.reducer';
 import RoundedButton from '../../../shared/components/rounded-button/rounded-button';
 import GroupPostDeleteModal from './group-post-delete-modal';
 import styles from './group-post-styles';
 
-function GroupPostDetailScreen(props) {
-  const { route, getGroupPost, navigation, groupPost, fetching, error } = props;
+function GroupPostDetailScreen(props)
+{
+  const {route, getGroupPost, navigation, groupPost, fetching, error} = props;
   const [deleteModalVisible, setDeleteModalVisible] = React.useState(false);
   // prevents display of stale reducer data
   const entityId = groupPost?.id ?? null;
@@ -17,63 +18,69 @@ function GroupPostDetailScreen(props) {
   const correctEntityLoaded = routeEntityId && entityId && routeEntityId.toString() === entityId.toString();
 
   useFocusEffect(
-    React.useCallback(() => {
-      if (!routeEntityId) {
+    React.useCallback(() =>
+    {
+      if (!routeEntityId)
+      {
         navigation.navigate('GroupPost');
-      } else {
+      }
+      else
+      {
         setDeleteModalVisible(false);
         getGroupPost(routeEntityId);
       }
     }, [routeEntityId, getGroupPost, navigation]),
   );
 
-  if (!entityId && !fetching && error) {
+  if (!entityId && !fetching && error)
+  {
     return (
       <View style={styles.loading}>
         <Text>Something went wrong fetching the GroupPost.</Text>
       </View>
     );
   }
-  if (!entityId || fetching || !correctEntityLoaded) {
+  if (!entityId || fetching || !correctEntityLoaded)
+  {
     return (
       <View style={styles.loading}>
-        <ActivityIndicator size="large" />
+        <ActivityIndicator size='large' />
       </View>
     );
   }
   return (
-    <ScrollView style={styles.container} contentContainerStyle={styles.paddedScrollView} testID="groupPostDetailScrollView">
+    <ScrollView style={styles.container} contentContainerStyle={styles.paddedScrollView} testID='groupPostDetailScrollView'>
       <Text style={styles.label}>Id:</Text>
       <Text>{groupPost.id}</Text>
       {/* Uuid Field */}
       <Text style={styles.label}>Uuid:</Text>
-      <Text testID="uuid">{groupPost.uuid}</Text>
+      <Text testID='uuid'>{groupPost.uuid}</Text>
       {/* Name Field */}
       <Text style={styles.label}>Name:</Text>
-      <Text testID="name">{groupPost.name}</Text>
+      <Text testID='name'>{groupPost.name}</Text>
       {/* Avatar Field */}
       <Text style={styles.label}>Avatar:</Text>
-      <Text testID="avatar">{groupPost.avatar}</Text>
+      <Text testID='avatar'>{groupPost.avatar}</Text>
       {/* QuickInfo Field */}
       <Text style={styles.label}>QuickInfo:</Text>
-      <Text testID="quickInfo">{groupPost.quickInfo}</Text>
+      <Text testID='quickInfo'>{groupPost.quickInfo}</Text>
       <Text style={styles.label}>Profile:</Text>
-      <Text testID="profile">{String(groupPost.profile ? groupPost.profile.id : '')}</Text>
+      <Text testID='profile'>{String(groupPost.profile ? groupPost.profile.id : '')}</Text>
       <Text style={styles.label}>Info:</Text>
-      <Text testID="info">{String(groupPost.info ? groupPost.info.id : '')}</Text>
+      <Text testID='info'>{String(groupPost.info ? groupPost.info.id : '')}</Text>
 
       <View style={styles.entityButtons}>
         <RoundedButton
-          text="Edit"
-          onPress={() => navigation.navigate('GroupPostEdit', { entityId })}
+          text='Edit'
+          onPress={() => navigation.navigate('GroupPostEdit', {entityId})}
           accessibilityLabel={'GroupPost Edit Button'}
-          testID="groupPostEditButton"
+          testID='groupPostEditButton'
         />
         <RoundedButton
-          text="Delete"
+          text='Delete'
           onPress={() => setDeleteModalVisible(true)}
           accessibilityLabel={'GroupPost Delete Button'}
-          testID="groupPostDeleteButton"
+          testID='groupPostDeleteButton'
         />
         {deleteModalVisible && (
           <GroupPostDeleteModal
@@ -81,7 +88,7 @@ function GroupPostDetailScreen(props) {
             visible={deleteModalVisible}
             setVisible={setDeleteModalVisible}
             entity={groupPost}
-            testID="groupPostDeleteModal"
+            testID='groupPostDeleteModal'
           />
         )}
       </View>
@@ -89,7 +96,8 @@ function GroupPostDetailScreen(props) {
   );
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state) =>
+{
   return {
     groupPost: state.groupPosts.groupPost,
     error: state.groupPosts.errorOne,
@@ -99,7 +107,8 @@ const mapStateToProps = (state) => {
   };
 };
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = (dispatch) =>
+{
   return {
     getGroupPost: (id) => dispatch(GroupPostActions.groupPostRequest(id)),
     getAllGroupPosts: (options) => dispatch(GroupPostActions.groupPostAllRequest(options)),

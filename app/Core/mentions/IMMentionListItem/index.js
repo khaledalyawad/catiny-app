@@ -1,18 +1,20 @@
 import React from 'react';
-import { Text, View, TouchableOpacity } from 'react-native';
+import {Text, TouchableOpacity, View} from 'react-native';
 import FastImage from 'react-native-fast-image';
-import { useColorScheme } from 'react-native-appearance';
+import {useColorScheme} from 'react-native-appearance';
 import dynamicStyles from './styles';
 
-export default function IMMentionListItem(props) {
+export default function IMMentionListItem(props)
+{
   const colorScheme = useColorScheme();
   const styles = dynamicStyles(colorScheme, props.appStyles);
 
-  const onSuggestionTap = (user, hidePanel) => {
+  const onSuggestionTap = (user, hidePanel) =>
+  {
     props.onSuggestionTap(user);
   };
 
-  const { item: user, index, editorStyles } = props;
+  const {item: user, index, editorStyles} = props;
 
   const fullname = `${user.firstName && user.firstName} ${user.lastName && user.lastName}`;
 
@@ -26,7 +28,7 @@ export default function IMMentionListItem(props) {
       ]}>
       <View style={styles.mentionPhotoContainer}>
         <View style={styles.mentionPhoto}>
-          <FastImage source={{ uri: user.profilePictureURL }} style={[styles.mentionPhoto]} />
+          <FastImage source={{uri: user.profilePictureURL}} style={[styles.mentionPhoto]} />
         </View>
       </View>
       <View style={styles.mentionNameContainer}>

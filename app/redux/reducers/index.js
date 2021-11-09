@@ -1,11 +1,11 @@
-import { combineReducers } from 'redux';
-import { auth } from '../../Core/onboarding/redux/auth';
-import { friends } from '../../Core/socialgraph/friendships/redux';
-import { feed } from '../../Core/socialgraph/feed/redux';
-import { chat } from '../../Core/chat/redux';
-import { userReports } from '../../Core/user-reporting/redux';
-import { notifications } from '../../Core/notifications/redux';
-import { users } from '../../Core/users/redux';
+import {combineReducers} from 'redux';
+import {auth} from '../../Core/onboarding/redux/auth';
+import {friends} from '../../Core/socialgraph/friendships/redux';
+import {feed} from '../../Core/socialgraph/feed/redux';
+import {chat} from '../../Core/chat/redux';
+import {userReports} from '../../Core/user-reporting/redux';
+import {notifications} from '../../Core/notifications/redux';
+import {users} from '../../Core/users/redux';
 
 const LOG_OUT = 'LOG_OUT';
 
@@ -20,8 +20,10 @@ const appReducer = combineReducers({
   users,
 });
 
-const rootReducer = (state, action) => {
-  if (action.type === LOG_OUT) {
+const rootReducer = (state, action) =>
+{
+  if (action.type === LOG_OUT)
+  {
     state = undefined;
   }
 

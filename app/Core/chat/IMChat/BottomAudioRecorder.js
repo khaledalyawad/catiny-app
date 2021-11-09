@@ -1,11 +1,11 @@
-import React, { useState, useRef, useEffect } from 'react';
-import { View, Text, TouchableOpacity, Alert } from 'react-native';
-import { useColorScheme } from 'react-native-appearance';
-import { KeyboardRegistry } from 'react-native-ui-lib/keyboard';
-import { Audio } from 'expo-av';
+import React, {useRef, useState} from 'react';
+import {Text, TouchableOpacity, View} from 'react-native';
+import {useColorScheme} from 'react-native-appearance';
+import {KeyboardRegistry} from 'react-native-ui-lib/keyboard';
+import {Audio} from 'expo-av';
 import * as FileSystem from 'expo-file-system';
 import dynamicStyles from './styles';
-import { IMLocalized } from '../../localization/IMLocalization';
+import {IMLocalized} from '../../localization/IMLocalization';
 
 const RECORDING_OPTIONS_PRESET_HIGH_QUALITY = {
   android: {
@@ -29,8 +29,9 @@ const RECORDING_OPTIONS_PRESET_HIGH_QUALITY = {
   },
 };
 
-function BottomAudioRecorder(props) {
-  const { appStyles } = props;
+function BottomAudioRecorder(props)
+{
+  const {appStyles} = props;
 
   const colorScheme = useColorScheme();
   const styles = dynamicStyles(appStyles, colorScheme);
@@ -65,19 +66,24 @@ function BottomAudioRecorder(props) {
 
   const multiButton = [cancelButton, sendButton];
 
-  const updateScreenForRecordingStatus = (status) => {
-    if (status.canRecord) {
+  const updateScreenForRecordingStatus = (status) =>
+  {
+    if (status.canRecord)
+    {
       setIsRecording(status.isRecording);
       setRecordingDuration(status.durationMillis);
       duration.current = status.durationMillis;
-    } else if (status.isDoneRecording) {
+    }
+    else if (status.isDoneRecording)
+    {
       setIsRecording(false);
       setRecordingDuration(status.durationMillis);
       duration.current = status.durationMillis;
     }
   };
 
-  const onRecordSend = async () => {
+  const onRecordSend = async () =>
+  {
     setIsLoading(true);
     await stopRecording();
     const info = await FileSystem.getInfoAsync(recording.current.getURI());
@@ -93,8 +99,10 @@ function BottomAudioRecorder(props) {
     KeyboardRegistry.onItemSelected('BottomAudioRecorder', audioSource);
   };
 
-  const onRecordStop = async () => {
-    if (isRecording) {
+  const onRecordStop = async () =>
+  {
+    if (isRecording)
+    {
       setIsLoading(true);
       setIsRecording(false);
       setIsLoading(false);
@@ -103,21 +111,28 @@ function BottomAudioRecorder(props) {
     }
   };
 
-  const onRecordStart = () => {
-    if (!isRecording) {
+  const onRecordStart = () =>
+  {
+    if (!isRecording)
+    {
       beginRecording();
     }
   };
 
-  const stopRecording = async () => {
-    try {
+  const stopRecording = async () =>
+  {
+    try
+    {
       await recording.current.stopAndUnloadAsync();
-    } catch (error) {
+    }
+    catch (error)
+    {
       // Do nothing -- we are already unloaded.
     }
   };
 
-  const beginRecording = async () => {
+  const beginRecording = async () =>
+  {
     setIsLoading(true);
 
     await Audio.setAudioModeAsync({
@@ -129,7 +144,8 @@ function BottomAudioRecorder(props) {
       playThroughEarpieceAndroid: false,
       staysActiveInBackground: false,
     });
-    if (recording.current !== null) {
+    if (recording.current !== null)
+    {
       recording.current.setOnRecordingStatusUpdate(null);
       recording.current = null;
     }
@@ -143,14 +159,17 @@ function BottomAudioRecorder(props) {
     setIsLoading(false);
   };
 
-  const getMMSSFromMillis = (millis) => {
+  const getMMSSFromMillis = (millis) =>
+  {
     const totalSeconds = millis / 1000;
     const seconds = Math.floor(totalSeconds % 60);
     const minutes = Math.floor(totalSeconds / 60);
 
-    const padWithZero = (number) => {
+    const padWithZero = (number) =>
+    {
       const string = number.toString();
-      if (number < 10) {
+      if (number < 10)
+      {
         return '0' + string;
       }
       return string;
@@ -158,14 +177,17 @@ function BottomAudioRecorder(props) {
     return padWithZero(minutes) + ':' + padWithZero(seconds);
   };
 
-  const getRecordingTimestamp = (duration) => {
-    if (duration != null) {
+  const getRecordingTimestamp = (duration) =>
+  {
+    if (duration != null)
+    {
       return `${getMMSSFromMillis(duration)}`;
     }
     return `${getMMSSFromMillis(0)}`;
   };
 
-  const renderButton = (button, buttonStyle) => {
+  const renderButton = (button, buttonStyle) =>
+  {
     return (
       <View key={button.id} style={styles.recorderButtonContainer}>
         <TouchableOpacity
@@ -179,7 +201,8 @@ function BottomAudioRecorder(props) {
     );
   };
 
-  const renderMultiButton = () => {
+  const renderMultiButton = () =>
+  {
     return multiButton.map((button) => renderButton(button));
   };
 

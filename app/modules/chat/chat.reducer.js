@@ -1,9 +1,9 @@
-import { createReducer, createActions } from 'reduxsauce';
+import {createActions, createReducer} from 'reduxsauce';
 import Immutable from 'seamless-immutable';
 
 /* ------------- Types and Action Creators ------------- */
 
-const { Types, Creators } = createActions({
+const {Types, Creators} = createActions({
   chatReset: [],
   chatSuccess: ['chat'],
 });
@@ -20,11 +20,13 @@ export const INITIAL_STATE = Immutable({
 /* ------------- Reducers ------------- */
 
 // request to add a single chat to list
-export const chatSuccess = (state, { chat }) => {
-  return state.merge({ chat });
+export const chatSuccess = (state, {chat}) =>
+{
+  return state.merge({chat});
 };
 
-export const reset = (state) => {
+export const reset = (state) =>
+{
   return INITIAL_STATE;
 };
 

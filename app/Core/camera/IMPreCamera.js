@@ -1,19 +1,20 @@
-import React, { useRef, useEffect, useState } from 'react';
-import { TouchableOpacity, Animated, Text, View, Image } from 'react-native';
+import React, {useEffect, useRef, useState} from 'react';
+import {Animated, Image, Text, TouchableOpacity, View} from 'react-native';
 import PropTypes from 'prop-types';
 import styles from './styles';
 
 const AnimatedButton = Animated.createAnimatedComponent(TouchableOpacity);
 
 const videoSpeedConfig = [
-  { title: '0.3x', rate: 0.35 },
-  { title: '0.5x', rate: 0.55 },
-  { title: '1x', rate: 1 },
-  { title: '2x', rate: 1.3 },
-  { title: '3x', rate: 2 },
+  {title: '0.3x', rate: 0.35},
+  {title: '0.5x', rate: 0.55},
+  {title: '1x', rate: 1},
+  {title: '2x', rate: 1.3},
+  {title: '3x', rate: 2},
 ];
 
-function IMPreCamera(props) {
+function IMPreCamera(props)
+{
   const {
     onCameraClose,
     onCameraFlip,
@@ -50,39 +51,52 @@ function IMPreCamera(props) {
     2: require('../../CoreAssets/flash-off.png'),
   };
 
-  useEffect(() => {
-    if (!soundDuration) {
+  useEffect(() =>
+  {
+    if (!soundDuration)
+    {
       return;
     }
     const currentDurration = Number(`${minutesCounter}${secondsCounter}`);
     const durationLimit = Number(soundDuration?.replace(/\:/g, ''));
-    if (soundDuration && currentDurration >= durationLimit) {
+    if (soundDuration && currentDurration >= durationLimit)
+    {
       onCaptureButtonPressOut();
     }
   }, [soundDuration, secondsCounter, minutesCounter]);
 
-  useEffect(() => {
-    return () => {
-      if (timer.current) {
+  useEffect(() =>
+  {
+    return () =>
+    {
+      if (timer.current)
+      {
         clearInterval(timer.current);
       }
     };
   }, []);
 
-  useEffect(() => {
-    if (isSpeedVisible) {
+  useEffect(() =>
+  {
+    if (isSpeedVisible)
+    {
       onVideoSpeedChange(videoSpeedConfig[selectedVideoSpeed].rate);
-    } else {
+    }
+    else
+    {
       onVideoSpeedChange(null);
     }
   }, [isSpeedVisible]);
 
-  const onTimerStart = () => {
-    timer.current = setInterval(() => {
+  const onTimerStart = () =>
+  {
+    timer.current = setInterval(() =>
+    {
       let num = (Number(secondsCounterRef.current) + 1).toString(),
         count = minutesCounterRef.current;
 
-      if (Number(secondsCounterRef.current) === 59) {
+      if (Number(secondsCounterRef.current) === 59)
+      {
         count = (Number(minutesCounterRef.current) + 1).toString();
         num = '00';
       }
@@ -95,11 +109,13 @@ function IMPreCamera(props) {
     }, 1000);
   };
 
-  const onTimerStop = () => {
+  const onTimerStop = () =>
+  {
     clearInterval(timer.current);
   };
 
-  const onTimerClear = () => {
+  const onTimerClear = () =>
+  {
     timer.current = null;
     minutesCounterRef.current = '00';
     secondsCounterRef.current = '00';
@@ -107,7 +123,8 @@ function IMPreCamera(props) {
     setSecondsCounter('00');
   };
 
-  const onRecordAnimate = () => {
+  const onRecordAnimate = () =>
+  {
     Animated.sequence([
       Animated.timing(recordAnimatedValue.current, {
         duration: 1000,
@@ -119,14 +136,17 @@ function IMPreCamera(props) {
         toValue: 1,
         useNativeDriver: false,
       }),
-    ]).start(() => {
-      if (shouldAnimate.current) {
+    ]).start(() =>
+    {
+      if (shouldAnimate.current)
+      {
         onRecordAnimate();
       }
     });
   };
 
-  const onButtonAnimate = (end) => {
+  const onButtonAnimate = (end) =>
+  {
     Animated.timing(caputureAnimatedValue.current, {
       duration: 1200,
       toValue: end,
@@ -134,8 +154,10 @@ function IMPreCamera(props) {
     }).start();
   };
 
-  const onCaptureButtonPressOut = () => {
-    if (longPressActive.current) {
+  const onCaptureButtonPressOut = () =>
+  {
+    if (longPressActive.current)
+    {
       longPressActive.current = false;
       onButtonAnimate(0);
       shouldAnimate.current = false;
@@ -146,7 +168,8 @@ function IMPreCamera(props) {
     }
   };
 
-  const startAnimation = () => {
+  const startAnimation = () =>
+  {
     longPressActive.current = true;
     shouldAnimate.current = true;
     onButtonAnimate(1);
@@ -184,7 +207,8 @@ function IMPreCamera(props) {
     ],
   };
 
-  const onVideoSpeedSelected = (speedConfig, index) => {
+  const onVideoSpeedSelected = (speedConfig, index) =>
+  {
     setSelectedVideoSpeed(index);
     onVideoSpeedChange(speedConfig.rate);
   };
@@ -192,8 +216,8 @@ function IMPreCamera(props) {
   return (
     <View style={styles.container}>
       <TouchableOpacity onPress={onCameraClose} style={styles.closeButton}>
-        <View style={[styles.closeCross, { transform: [{ rotate: '45deg' }] }]} />
-        <View style={[styles.closeCross, { transform: [{ rotate: '-45deg' }] }]} />
+        <View style={[styles.closeCross, {transform: [{rotate: '45deg'}]}]} />
+        <View style={[styles.closeCross, {transform: [{rotate: '-45deg'}]}]} />
       </TouchableOpacity>
       {longPressActive.current && (
         <View style={styles.timerContainer}>
@@ -230,7 +254,8 @@ function IMPreCamera(props) {
 
       {useExternalSound && isSpeedVisible && (
         <View style={styles.speedContainer}>
-          {videoSpeedConfig.map((speedConfig, index) => {
+          {videoSpeedConfig.map((speedConfig, index) =>
+          {
             const isSelectedSpeed = selectedVideoSpeed === index;
             return (
               <TouchableOpacity
@@ -248,8 +273,8 @@ function IMPreCamera(props) {
         <TouchableOpacity onPress={onCameraFlip}>
           <Image source={require('../../CoreAssets/camera-rotate.png')} style={styles.imageIcon} />
         </TouchableOpacity>
-        <View style={{ marginHorizontal: 11 }}>
-          <Animated.View style={[styles.capture, { backgroundColor }, transformScaleStyle, { opacity }]}></Animated.View>
+        <View style={{marginHorizontal: 11}}>
+          <Animated.View style={[styles.capture, {backgroundColor}, transformScaleStyle, {opacity}]}></Animated.View>
           <AnimatedButton
             activeOpacity={0.7}
             onLongPress={startAnimation}

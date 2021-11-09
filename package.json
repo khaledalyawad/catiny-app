@@ -24,7 +24,8 @@
     "native:android": "npm run gradle:clean && react-native run-android",
     "native:ios": "react-native run-ios",
     "gradle:clean": "cd android && ./gradlew clean && cd ..",
-    "linux:android": "chmod +x ./android/gradlew && npm run native:android && react-native start"
+    "native:start:ubuntu": "gnome-terminal -- sh -c \"react-native start\"",
+    "linux:android": "chmod +x ./android/gradlew && npm run native:start:ubuntu && npm run native:android"
   },
   "lint-staged": {
     "{,app/**/,test/**/}*.{js,json,yml,md,ts,tsx}": [
@@ -192,7 +193,6 @@
     "yup": "^0.32.11"
   },
   "devDependencies": {
-    "babel-eslint": "^10.1.0",
     "@babel/core": "^7.15.8",
     "@babel/plugin-proposal-decorators": "^7.15.8",
     "@babel/runtime": "^7.15.4",
@@ -204,6 +204,7 @@
     "@storybook/theming": "^6.3.12",
     "@types/react": "~17.0.31",
     "@types/react-native": "~0.65.9",
+    "babel-eslint": "^10.1.0",
     "babel-jest": "^27.3.1",
     "babel-plugin-transform-remove-console": "^6.9.4",
     "babel-preset-env": "^1.7.0",
@@ -213,8 +214,8 @@
     "enzyme-adapter-react-16": "^1.15.6",
     "eslint": "^7.32.0",
     "eslint-config-prettier": "^8.3.0",
-    "eslint-plugin-prettier": "^4.0.0",
     "eslint-plugin-editorconfig": "^3.2.0",
+    "eslint-plugin-prettier": "^4.0.0",
     "expect": "^27.3.1",
     "expo-detox-hook": "^1.0.10",
     "generator-jhipster-react-native": "^4.2.0",

@@ -1,11 +1,12 @@
-import React, { useLayoutEffect, useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
-import { useColorScheme } from 'react-native-appearance';
+import React, {useEffect, useLayoutEffect, useState} from 'react';
+import {useSelector} from 'react-redux';
+import {useColorScheme} from 'react-native-appearance';
 import IMBlockedUsersComponent from '../components/IMBlockedUsersComponent/IMBlockedUsersComponent';
-import { reportingManager } from '../../../user-reporting/index';
-import { IMLocalized } from '../../../localization/IMLocalization';
+import {reportingManager} from '../../../user-reporting/index';
+import {IMLocalized} from '../../../localization/IMLocalization';
 
-const IMBlockedUsersScreen = (props) => {
+const IMBlockedUsersScreen = (props) =>
+{
   const navigation = props.navigation;
   const appConfig = props.route.params.appConfig;
   const appStyles = props.route.params.appStyles;
@@ -17,40 +18,50 @@ const IMBlockedUsersScreen = (props) => {
 
   const currentUser = useSelector((state) => state.auth.user);
 
-  useEffect(() => {
-    const unsubscribe = reportingManager.hydrateAllReportedUsers(currentUser.id, (response) => {
+  useEffect(() =>
+  {
+    const unsubscribe = reportingManager.hydrateAllReportedUsers(currentUser.id, (response) =>
+    {
       response
-        .then((values) => {
+        .then((values) =>
+        {
           setBlockedUsers(values);
           setIsLoading(false);
         })
-        .catch((error) => {
+        .catch((error) =>
+        {
           console.log(error);
           setIsLoading(false);
         });
     });
-    return () => {
+    return () =>
+    {
       unsubscribe();
     };
   }, [currentUser?.id]);
 
-  const onUserUnblock = (userID) => {
+  const onUserUnblock = (userID) =>
+  {
     setIsLoading(true);
     reportingManager.unblockUser(
       currentUser.id,
       userID,
-      (response) => {
-        if (response) {
+      (response) =>
+      {
+        if (response)
+        {
           setIsLoading(response);
         }
       },
-      (error) => {
+      (error) =>
+      {
         console.error(error);
       },
     );
   };
 
-  useLayoutEffect(() => {
+  useLayoutEffect(() =>
+  {
     navigation.setOptions({
       headerTitle: IMLocalized('Blocked Users'),
       headerStyle: {

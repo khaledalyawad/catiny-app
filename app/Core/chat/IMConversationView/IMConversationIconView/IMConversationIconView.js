@@ -1,6 +1,6 @@
-import React, { useState, memo } from 'react';
-import { View } from 'react-native';
-import { useColorScheme } from 'react-native-appearance';
+import React, {memo, useState} from 'react';
+import {View} from 'react-native';
+import {useColorScheme} from 'react-native-appearance';
 import PropTypes from 'prop-types';
 import dynamicStyles from './styles';
 import FastImage from 'react-native-fast-image';
@@ -9,8 +9,9 @@ const Image = FastImage;
 
 const defaultAvatar = 'https://www.iosapptemplates.com/wp-content/uploads/2019/06/empty-avatar.jpg';
 
-const IMConversationIconView = memo((props) => {
-  const { participants, imageStyle, style, appStyles } = props;
+const IMConversationIconView = memo((props) =>
+{
+  const {participants, imageStyle, style, appStyles} = props;
   const colorScheme = useColorScheme();
   const styles = dynamicStyles(appStyles, colorScheme);
 
@@ -26,11 +27,13 @@ const IMConversationIconView = memo((props) => {
       ? participants[1].profilePictureURL
       : defaultAvatar;
 
-  const onImageError = () => {
+  const onImageError = () =>
+  {
     setImgErr(true);
   };
 
-  const onSecondImageError = () => {
+  const onSecondImageError = () =>
+  {
     setSecondImgErr(true);
   };
 
@@ -38,7 +41,7 @@ const IMConversationIconView = memo((props) => {
     <View style={styles.container}>
       {participants.length == 0 && (
         <View style={styles.singleParticipation}>
-          <Image style={styles.singleChatItemIcon} source={{ uri: defaultAvatar }} />
+          <Image style={styles.singleChatItemIcon} source={{uri: defaultAvatar}} />
         </View>
       )}
       {participants.length === 1 && (
@@ -46,7 +49,7 @@ const IMConversationIconView = memo((props) => {
           <Image
             style={[styles.singleChatItemIcon, imageStyle]}
             onError={onImageError}
-            source={imgErr ? { uri: defaultAvatar } : { uri: firstUri }}
+            source={imgErr ? {uri: defaultAvatar} : {uri: firstUri}}
           />
           {participants[0].isOnline && <View style={styles.onlineMark} />}
         </View>
@@ -56,13 +59,13 @@ const IMConversationIconView = memo((props) => {
           <Image
             style={[styles.multiPaticipationIcon, styles.bottomIcon]}
             onError={onImageError}
-            source={imgErr ? { uri: defaultAvatar } : { uri: firstUri }}
+            source={imgErr ? {uri: defaultAvatar} : {uri: firstUri}}
           />
           <View style={styles.middleIcon} />
           <Image
             style={[styles.multiPaticipationIcon, styles.topIcon]}
             onError={onSecondImageError}
-            source={secondImgErr ? { uri: defaultAvatar } : { uri: secondUri }}
+            source={secondImgErr ? {uri: defaultAvatar} : {uri: secondUri}}
           />
         </View>
       )}

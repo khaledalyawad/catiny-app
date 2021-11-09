@@ -1,4 +1,4 @@
-import { IMLocalized } from '../../localization/IMLocalization';
+import {IMLocalized} from '../../localization/IMLocalization';
 
 export const ErrorCode = {
   passwordInUse: 'passwordInUse',
@@ -18,8 +18,10 @@ export const ErrorCode = {
   requiresRecentLogin: 'requiresRecentLogin',
 };
 
-export const localizedErrorMessage = (errorCode) => {
-  switch (errorCode) {
+export const localizedErrorMessage = (errorCode) =>
+{
+  switch (errorCode)
+  {
     case ErrorCode.passwordInUse:
       return IMLocalized('The password is invalid or the user does not have a password');
     case ErrorCode.badEmailFormat:

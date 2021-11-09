@@ -1,11 +1,14 @@
-import { ErrorCode } from '../../onboarding/utils/ErrorCode';
-import { firebase } from './config';
-import { processMediaFile } from '../../helpers/mediaProcessor';
+import {ErrorCode} from '../../onboarding/utils/ErrorCode';
+import {firebase} from './config';
+import {processMediaFile} from '../../helpers/mediaProcessor';
 
-const getBlob = async (uri) => {
-  return await new Promise((resolve, reject) => {
+const getBlob = async (uri) =>
+{
+  return await new Promise((resolve, reject) =>
+  {
     const xhr = new XMLHttpRequest();
-    xhr.onload = () => {
+    xhr.onload = () =>
+    {
       resolve(xhr.response);
     };
     xhr.onerror = (error) => console.log('error');
@@ -15,7 +18,8 @@ const getBlob = async (uri) => {
   });
 };
 
-const uploadFile = async (processedUri, callbackProgress) => {
+const uploadFile = async (processedUri, callbackProgress) =>
+{
   let finished = false;
   const filename = processedUri.substring(processedUri.lastIndexOf('/') + 1);
   const blob = await getBlob(processedUri);
@@ -23,24 +27,31 @@ const uploadFile = async (processedUri, callbackProgress) => {
   const fileRef = storageRef.child(filename);
   const uploadTask = fileRef.put(blob);
 
-  return new Promise((resolve, reject) => {
+  return new Promise((resolve, reject) =>
+  {
     uploadTask.on(
       firebase.storage.TaskEvent.STATE_CHANGED,
-      (snapshot) => {
-        if (snapshot.state == firebase.storage.TaskState.SUCCESS) {
-          if (finished == true) {
+      (snapshot) =>
+      {
+        if (snapshot.state == firebase.storage.TaskState.SUCCESS)
+        {
+          if (finished == true)
+          {
             return;
           }
           finished = true;
         }
         callbackProgress && callbackProgress(snapshot);
       },
-      (error) => {
+      (error) =>
+      {
         console.log('upload error:', error);
         reject(error);
       },
-      () => {
-        uploadTask.snapshot.ref.getDownloadURL().then((downloadURL) => {
+      () =>
+      {
+        uploadTask.snapshot.ref.getDownloadURL().then((downloadURL) =>
+        {
           console.log('File available at', downloadURL);
           resolve(downloadURL);
         });
@@ -49,14 +60,19 @@ const uploadFile = async (processedUri, callbackProgress) => {
   });
 };
 
-const processAndUploadMediaFileWithProgressTracking = (file, callbackProgress, callbackSuccess, callbackError) => {
-  processMediaFile(file, ({ processedUri, thumbnail }) => {
+const processAndUploadMediaFileWithProgressTracking = (file, callbackProgress, callbackSuccess, callbackError) =>
+{
+  processMediaFile(file, ({processedUri, thumbnail}) =>
+  {
     // Success handler with SUCCESS is called multiple times on Android. We need work around that to ensure we only call it once
     uploadFile(processedUri, callbackProgress)
-      .then((downloadURL) => {
-        if (thumbnail) {
+      .then((downloadURL) =>
+      {
+        if (thumbnail)
+        {
           uploadFile(thumbnail, callbackProgress)
-            .then((thumbnailURL) => {
+            .then((thumbnailURL) =>
+            {
               callbackSuccess(downloadURL, thumbnailURL);
             })
             .catch(callbackError);
@@ -69,23 +85,29 @@ const processAndUploadMediaFileWithProgressTracking = (file, callbackProgress, c
   });
 };
 
-const processAndUploadMediaFile = (file) => {
-  return new Promise((resolve, _reject) => {
-    processMediaFile(file, ({ processedUri, thumbnail }) => {
+const processAndUploadMediaFile = (file) =>
+{
+  return new Promise((resolve, _reject) =>
+  {
+    processMediaFile(file, ({processedUri, thumbnail}) =>
+    {
       uploadFile(processedUri)
-        .then((downloadURL) => {
-          if (thumbnail) {
+        .then((downloadURL) =>
+        {
+          if (thumbnail)
+          {
             uploadFile(thumbnail)
-              .then((thumbnailURL) => {
-                resolve({ downloadURL, thumbnailURL });
+              .then((thumbnailURL) =>
+              {
+                resolve({downloadURL, thumbnailURL});
               })
-              .catch(() => resolve({ error: ErrorCode.photoUploadFailed }));
+              .catch(() => resolve({error: ErrorCode.photoUploadFailed}));
 
             return;
           }
-          resolve({ downloadURL });
+          resolve({downloadURL});
         })
-        .catch(() => resolve({ error: ErrorCode.photoUploadFailed }));
+        .catch(() => resolve({error: ErrorCode.photoUploadFailed}));
     });
   });
 };

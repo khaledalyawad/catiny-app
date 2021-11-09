@@ -1,14 +1,14 @@
-import React, { createRef } from 'react';
-import { ActivityIndicator, Text, View } from 'react-native';
-import { connect } from 'react-redux';
+import React, {createRef} from 'react';
+import {ActivityIndicator, Text, View} from 'react-native';
+import {connect} from 'react-redux';
 import * as Yup from 'yup';
 
 import HanhChinhVNActions from './hanh-chinh-vn.reducer';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import FormButton from '../../../shared/components/form/jhi-form-button';
 import FormField from '../../../shared/components/form/jhi-form-field';
 import Form from '../../../shared/components/form/jhi-form';
-import { useDidUpdateEffect } from '../../../shared/util/use-did-update-effect';
+import {useDidUpdateEffect} from '../../../shared/util/use-did-update-effect';
 import styles from './hanh-chinh-vn-styles';
 
 // set up validation schema for the form
@@ -21,8 +21,9 @@ const validationSchema = Yup.object().shape({
   parentCode: Yup.string().required(),
 });
 
-function HanhChinhVNEditScreen(props) {
-  const { getHanhChinhVN, updateHanhChinhVN, route, hanhChinhVN, fetching, updating, errorUpdating, updateSuccess, navigation, reset } =
+function HanhChinhVNEditScreen(props)
+{
+  const {getHanhChinhVN, updateHanhChinhVN, route, hanhChinhVN, fetching, updating, errorUpdating, updateSuccess, navigation, reset} =
     props;
 
   const [formValue, setFormValue] = React.useState();
@@ -30,42 +31,58 @@ function HanhChinhVNEditScreen(props) {
 
   const isNewEntity = !(route.params && route.params.entityId);
 
-  React.useEffect(() => {
-    if (!isNewEntity) {
+  React.useEffect(() =>
+  {
+    if (!isNewEntity)
+    {
       getHanhChinhVN(route.params.entityId);
-    } else {
+    }
+    else
+    {
       reset();
     }
   }, [isNewEntity, getHanhChinhVN, route, reset]);
 
-  React.useEffect(() => {
-    if (isNewEntity) {
+  React.useEffect(() =>
+  {
+    if (isNewEntity)
+    {
       setFormValue(entityToFormValue({}));
-    } else if (!fetching) {
+    }
+    else if (!fetching)
+    {
       setFormValue(entityToFormValue(hanhChinhVN));
     }
   }, [hanhChinhVN, fetching, isNewEntity]);
 
   // fetch related entities
-  React.useEffect(() => {}, []);
+  React.useEffect(() =>
+  {
+  }, []);
 
-  useDidUpdateEffect(() => {
-    if (updating === false) {
-      if (errorUpdating) {
+  useDidUpdateEffect(() =>
+  {
+    if (updating === false)
+    {
+      if (errorUpdating)
+      {
         setError(errorUpdating && errorUpdating.detail ? errorUpdating.detail : 'Something went wrong updating the entity');
-      } else if (updateSuccess) {
+      }
+      else if (updateSuccess)
+      {
         setError('');
-        isNewEntity || !navigation.canGoBack() ? navigation.replace('HanhChinhVNDetail', { entityId: hanhChinhVN?.id }) : navigation.pop();
+        isNewEntity || !navigation.canGoBack() ? navigation.replace('HanhChinhVNDetail', {entityId: hanhChinhVN?.id}) : navigation.pop();
       }
     }
   }, [updateSuccess, errorUpdating, navigation]);
 
   const onSubmit = (data) => updateHanhChinhVN(formValueToEntity(data));
 
-  if (fetching) {
+  if (fetching)
+  {
     return (
       <View style={styles.loading}>
-        <ActivityIndicator size="large" />
+        <ActivityIndicator size='large' />
       </View>
     );
   }
@@ -84,91 +101,91 @@ function HanhChinhVNEditScreen(props) {
     <View style={styles.container}>
       <KeyboardAwareScrollView
         enableResetScrollToCoords={false}
-        testID="hanhChinhVNEditScrollView"
-        keyboardShouldPersistTaps="handled"
-        keyboardDismissMode="on-drag"
+        testID='hanhChinhVNEditScrollView'
+        keyboardShouldPersistTaps='handled'
+        keyboardDismissMode='on-drag'
         contentContainerStyle={styles.paddedScrollView}>
         {!!error && <Text style={styles.errorText}>{error}</Text>}
         {formValue && (
           <Form initialValues={formValue} validationSchema={validationSchema} onSubmit={onSubmit} ref={formRef}>
             <FormField
-              name="name"
+              name='name'
               ref={nameRef}
-              label="Name"
-              placeholder="Enter Name"
-              testID="nameInput"
-              inputType="text"
-              autoCapitalize="none"
+              label='Name'
+              placeholder='Enter Name'
+              testID='nameInput'
+              inputType='text'
+              autoCapitalize='none'
               onSubmitEditing={() => slugRef.current?.focus()}
             />
             <FormField
-              name="slug"
+              name='slug'
               ref={slugRef}
-              label="Slug"
-              placeholder="Enter Slug"
-              testID="slugInput"
-              inputType="text"
-              autoCapitalize="none"
+              label='Slug'
+              placeholder='Enter Slug'
+              testID='slugInput'
+              inputType='text'
+              autoCapitalize='none'
               onSubmitEditing={() => typeRef.current?.focus()}
             />
             <FormField
-              name="type"
+              name='type'
               ref={typeRef}
-              label="Type"
-              placeholder="Enter Type"
-              testID="typeInput"
-              inputType="text"
-              autoCapitalize="none"
+              label='Type'
+              placeholder='Enter Type'
+              testID='typeInput'
+              inputType='text'
+              autoCapitalize='none'
               onSubmitEditing={() => nameWithTypeRef.current?.focus()}
             />
             <FormField
-              name="nameWithType"
+              name='nameWithType'
               ref={nameWithTypeRef}
-              label="Name With Type"
-              placeholder="Enter Name With Type"
-              testID="nameWithTypeInput"
-              inputType="text"
-              autoCapitalize="none"
+              label='Name With Type'
+              placeholder='Enter Name With Type'
+              testID='nameWithTypeInput'
+              inputType='text'
+              autoCapitalize='none'
               onSubmitEditing={() => codeRef.current?.focus()}
             />
             <FormField
-              name="code"
+              name='code'
               ref={codeRef}
-              label="Code"
-              placeholder="Enter Code"
-              testID="codeInput"
-              inputType="text"
-              autoCapitalize="none"
+              label='Code'
+              placeholder='Enter Code'
+              testID='codeInput'
+              inputType='text'
+              autoCapitalize='none'
               onSubmitEditing={() => parentCodeRef.current?.focus()}
             />
             <FormField
-              name="parentCode"
+              name='parentCode'
               ref={parentCodeRef}
-              label="Parent Code"
-              placeholder="Enter Parent Code"
-              testID="parentCodeInput"
-              inputType="text"
-              autoCapitalize="none"
+              label='Parent Code'
+              placeholder='Enter Parent Code'
+              testID='parentCodeInput'
+              inputType='text'
+              autoCapitalize='none'
               onSubmitEditing={() => pathRef.current?.focus()}
             />
             <FormField
-              name="path"
+              name='path'
               ref={pathRef}
-              label="Path"
-              placeholder="Enter Path"
-              testID="pathInput"
-              inputType="text"
-              autoCapitalize="none"
+              label='Path'
+              placeholder='Enter Path'
+              testID='pathInput'
+              inputType='text'
+              autoCapitalize='none'
               onSubmitEditing={() => pathWithTypeRef.current?.focus()}
             />
             <FormField
-              name="pathWithType"
+              name='pathWithType'
               ref={pathWithTypeRef}
-              label="Path With Type"
-              placeholder="Enter Path With Type"
-              testID="pathWithTypeInput"
-              inputType="text"
-              autoCapitalize="none"
+              label='Path With Type'
+              placeholder='Enter Path With Type'
+              testID='pathWithTypeInput'
+              inputType='text'
+              autoCapitalize='none'
               onSubmitEditing={() => formRef.current?.submitForm()}
             />
 
@@ -181,8 +198,10 @@ function HanhChinhVNEditScreen(props) {
 }
 
 // convenience methods for customizing the mapping of the entity to/from the form value
-const entityToFormValue = (value) => {
-  if (!value) {
+const entityToFormValue = (value) =>
+{
+  if (!value)
+  {
     return {};
   }
   return {
@@ -197,7 +216,8 @@ const entityToFormValue = (value) => {
     pathWithType: value.pathWithType ?? null,
   };
 };
-const formValueToEntity = (value) => {
+const formValueToEntity = (value) =>
+{
   const entity = {
     id: value.id ?? null,
     name: value.name ?? null,
@@ -212,7 +232,8 @@ const formValueToEntity = (value) => {
   return entity;
 };
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state) =>
+{
   return {
     hanhChinhVN: state.hanhChinhVNS.hanhChinhVN,
     fetching: state.hanhChinhVNS.fetchingOne,
@@ -222,7 +243,8 @@ const mapStateToProps = (state) => {
   };
 };
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = (dispatch) =>
+{
   return {
     getHanhChinhVN: (id) => dispatch(HanhChinhVNActions.hanhChinhVNRequest(id)),
     getAllHanhChinhVNS: (options) => dispatch(HanhChinhVNActions.hanhChinhVNAllRequest(options)),

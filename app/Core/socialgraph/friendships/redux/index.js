@@ -1,2 +1,2 @@
-export { friends } from './reducers';
-export { setFriends, setFriendships, setFriendsListenerDidSubscribe } from './actions';
+export {friends} from './reducers';
+export {setFriends, setFriendships, setFriendsListenerDidSubscribe} from './actions';

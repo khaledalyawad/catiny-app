@@ -1,12 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { TouchableOpacity, Image, Text } from 'react-native';
+import {Image, Text, TouchableOpacity} from 'react-native';
 
 import dynamicStyles from './styles';
-import { useColorScheme } from 'react-native-appearance';
+import {useColorScheme} from 'react-native-appearance';
 
-export default function SearchBarAlternate(props) {
-  const { onPress, appStyles, placeholderTitle } = props;
+export default function SearchBarAlternate(props)
+{
+  const {onPress, appStyles, placeholderTitle} = props;
   const colorScheme = useColorScheme();
   const styles = dynamicStyles(appStyles, colorScheme);
   const searchIcon = require('../../../CoreAssets/search.png');

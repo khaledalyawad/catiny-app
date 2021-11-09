@@ -1,1 +1,1 @@
-export { default } from './TNEmptyStateView';
+export {default} from './TNEmptyStateView';

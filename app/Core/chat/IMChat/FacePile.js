@@ -1,11 +1,11 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import { View, Text } from 'react-native';
-import { useColorScheme } from 'react-native-appearance';
+import {Text, View} from 'react-native';
+import {useColorScheme} from 'react-native-appearance';
 import FacePileCircleItem from './FacePileCircleItem';
 import dynamicStyles from './styles';
 
-export function renderFacePile(faces = [], numFaces) {
+export function renderFacePile(faces = [], numFaces)
+{
   const entities = [...faces.reverse()];
   if (!entities.length)
     return {
@@ -29,14 +29,16 @@ export function renderFacePile(faces = [], numFaces) {
   };
 }
 
-export default function FacePile(props) {
-  const { render, faces, numFaces, hideOverflow, containerStyle, appStyles } = props;
+export default function FacePile(props)
+{
+  const {render, faces, numFaces, hideOverflow, containerStyle, appStyles} = props;
 
   const colorScheme = useColorScheme();
   const styles = dynamicStyles(appStyles, colorScheme);
 
-  const renderOverflowCircle = (overflow) => {
-    const { circleStyle, overflowStyle, overflowLabelStyle, circleSize, offset } = props;
+  const renderOverflowCircle = (overflow) =>
+  {
+    const {circleStyle, overflowStyle, overflowLabelStyle, circleSize, offset} = props;
 
     const innerCircleSize = circleSize * 1.8;
     const marginLeft = circleSize * offset - circleSize / 1.6;
@@ -69,8 +71,9 @@ export default function FacePile(props) {
     );
   };
 
-  const renderFace = (face, index) => {
-    const { circleStyle, imageStyle, circleSize, offset } = props;
+  const renderFace = (face, index) =>
+  {
+    const {circleStyle, imageStyle, circleSize, offset} = props;
     if (face && !face.profilePictureURL) return null;
 
     return (
@@ -86,7 +89,7 @@ export default function FacePile(props) {
     );
   };
 
-  const { facesToRender, overflow } = renderFacePile(faces, numFaces);
+  const {facesToRender, overflow} = renderFacePile(faces, numFaces);
 
   return (
     <View style={[styles.facePileContainer, containerStyle]}>

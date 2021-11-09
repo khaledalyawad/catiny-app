@@ -1,10 +1,11 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { Text, Platform } from 'react-native';
+import React, {useEffect, useRef, useState} from 'react';
+import {Platform, Text} from 'react-native';
 import CustomTextInput from './CustomTextInput';
 import EU from './EditorUtils';
-import { mentionStyle } from './styles';
+import {mentionStyle} from './styles';
 
-function IMRichTextInput(props) {
+function IMRichTextInput(props)
+{
   const hasTrackingStarted = useRef(false);
   const previousChar = useRef(' ');
   const trigger = useRef('@');
@@ -13,12 +14,14 @@ function IMRichTextInput(props) {
   const mentionsMap = useRef(new Map());
   let msg = '';
   let formattedMsg = '';
-  if (props.initialValue && props.initialValue !== '') {
-    const { map, newValue } = EU.getMentionsWithInputText(props.initialValue);
+  if (props.initialValue && props.initialValue !== '')
+  {
+    const {map, newValue} = EU.getMentionsWithInputText(props.initialValue);
     mentionsMap.current = map;
     msg = newValue;
     formattedMsg = formatText(newValue);
-    setTimeout(() => {
+    setTimeout(() =>
+    {
       sendMessageToFooter(newValue);
     });
   }
@@ -36,27 +39,33 @@ function IMRichTextInput(props) {
   const [isTrackingStarted, setIsTrackingStarted] = useState(false);
   const [showMentions, setShowMentions] = useState(props.showMentions);
 
-  useEffect(() => {
-    if (props.clearInput !== clearInput) {
+  useEffect(() =>
+  {
+    if (props.clearInput !== clearInput)
+    {
       setClearInput(props.clearInput);
       return;
     }
 
-    if (props.showMentions && !showMentions) {
+    if (props.showMentions && !showMentions)
+    {
       const newInputText = `${inputText}${trigger.current}`;
       setInputText(newInputText);
       setShowMentions(props.showMentions);
       return;
     }
 
-    if (!props.showMentions) {
+    if (!props.showMentions)
+    {
       setShowMentions(props.showMentions);
-      return;
+
     }
   }, [props.clearInput, clearInput, props.showMentions]);
 
-  useEffect(() => {
-    if (inputText !== '' && clearInput) {
+  useEffect(() =>
+  {
+    if (inputText !== '' && clearInput)
+    {
       setInputText('');
       inputTextCopy.current = '';
       setFormattedText('');
@@ -65,15 +74,18 @@ function IMRichTextInput(props) {
     }
   }, [inputText, clearInput]);
 
-  useEffect(() => {
+  useEffect(() =>
+  {
     onChange(inputText, true);
   }, [props.showMentions]);
 
-  const updateMentionsMap = (selc, count, shouldAdd) => {
+  const updateMentionsMap = (selc, count, shouldAdd) =>
+  {
     mentionsMap.current = EU.updateRemainingMentionsIndexes(mentionsMap.current, selc, count, shouldAdd);
   };
 
-  const startTracking = (mentionIndex) => {
+  const startTracking = (mentionIndex) =>
+  {
     hasTrackingStarted.current = true;
     menIndex.current = mentionIndex;
 
@@ -82,7 +94,8 @@ function IMRichTextInput(props) {
     props.onTrackingStateChange(true);
   };
 
-  const stopTracking = () => {
+  const stopTracking = () =>
+  {
     hasTrackingStarted.current = false;
     // closeSuggestionsPanel();
     setIsTrackingStarted(false);
@@ -91,37 +104,46 @@ function IMRichTextInput(props) {
     props.onHideMentions();
   };
 
-  const updateSuggestions = (lastKeyword) => {
+  const updateSuggestions = (lastKeyword) =>
+  {
     props.onUpdateSuggestions(lastKeyword);
   };
 
-  const identifyKeyword = (input) => {
+  const identifyKeyword = (input) =>
+  {
     /**
      * filter the mentions list
      * according to what user type with
      * @ char e.g. @billroy
      */
-    if (hasTrackingStarted.current) {
+    if (hasTrackingStarted.current)
+    {
       let pattern = null;
-      if (triggerLocation.current === 'new-word-only') {
+      if (triggerLocation.current === 'new-word-only')
+      {
         pattern = new RegExp(`\\B${trigger.current}[a-z0-9_-]+|\\B${trigger.current}`, `gi`);
-      } else {
+      }
+      else
+      {
         //anywhere
         pattern = new RegExp(`\\${trigger.current}[a-z0-9_-]+|\\${trigger.current}`, `i`);
       }
       const str = input.substr(menIndex.current);
-      if (!str) {
+      if (!str)
+      {
         return;
       }
       const keywordArray = str?.match(pattern) ?? [];
-      if (keywordArray && !!keywordArray.length) {
+      if (keywordArray && !!keywordArray.length)
+      {
         const lastKeyword = keywordArray[keywordArray.length - 1];
         updateSuggestions(lastKeyword);
       }
     }
   };
 
-  const checkForMention = (input, selc) => {
+  const checkForMention = (input, selc) =>
+  {
     /**
      * Open mentions list if user
      * start typing @ in the string anywhere.
@@ -131,16 +153,20 @@ function IMRichTextInput(props) {
     const lastChar = input.substr(mentionIndex, 1);
     const wordBoundry = triggerLocation.current === 'new-word-only' ? previousChar.current.trim().length === 0 : true;
     // if (lastChar === trigger.current && wordBoundry) {
-    if (lastChar === trigger.current && input.length - 1 === mentionIndex && wordBoundry) {
+    if (lastChar === trigger.current && input.length - 1 === mentionIndex && wordBoundry)
+    {
       startTracking(mentionIndex);
-    } else if (lastChar.trim() === '' && hasTrackingStarted.current) {
+    }
+    else if (lastChar.trim() === '' && hasTrackingStarted.current)
+    {
       stopTracking();
     }
     previousChar.current = lastChar;
     identifyKeyword(input);
   };
 
-  const getInitialAndRemainingStrings = (input, mentionIndex) => {
+  const getInitialAndRemainingStrings = (input, mentionIndex) =>
+  {
     /**
      * extractInitialAndRemainingStrings
      * this function extract the initialStr and remainingStr
@@ -149,7 +175,8 @@ function IMRichTextInput(props) {
      * are any adjcent mentions text with the new one.
      */
     let initialStr = input.substr(0, mentionIndex).trim();
-    if (!EU.isEmpty(initialStr)) {
+    if (!EU.isEmpty(initialStr))
+    {
       initialStr = initialStr + ' ';
     }
     /**
@@ -174,7 +201,8 @@ function IMRichTextInput(props) {
       end: input.length - remStr.length - 1,
     };
     const mentionKeys = EU.getSelectedMentionKeys(mentionsMap.current, adjMentIndexes);
-    mentionKeys.forEach((key) => {
+    mentionKeys.forEach((key) =>
+    {
       remStr = `@${mentionsMap.current.get(key).username} ${remStr}`;
     });
 
@@ -184,13 +212,14 @@ function IMRichTextInput(props) {
     };
   };
 
-  const onSuggestionTap = (user) => {
+  const onSuggestionTap = (user) =>
+  {
     /**
      * When user select a mention.
      * Add a mention in the string.
      * Also add a mention in the map
      */
-    const { initialStr, remStr } = getInitialAndRemainingStrings(inputTextCopy.current, menIndex.current);
+    const {initialStr, remStr} = getInitialAndRemainingStrings(inputTextCopy.current, menIndex.current);
 
     const username = `@${user.username}`;
     const text = `${initialStr}${username} ${remStr}`;
@@ -225,10 +254,12 @@ function IMRichTextInput(props) {
     onSuggestionTap: (user) => onSuggestionTap(user),
   };
 
-  const handleSelectionChange = ({ nativeEvent: { selection: newSelection } }) => {
+  const handleSelectionChange = ({nativeEvent: {selection: newSelection}}) =>
+  {
     const prevSelc = selection;
-    let newSelc = { ...newSelection };
-    if (newSelc.start !== newSelc.end) {
+    let newSelc = {...newSelection};
+    if (newSelc.start !== newSelc.end)
+    {
       /**
        * if user make or remove selection
        * Automatically add or remove mentions
@@ -256,7 +287,8 @@ function IMRichTextInput(props) {
     </Text>
   );
 
-  const formatText = (input) => {
+  const formatText = (input) =>
+  {
     /**
      * Format the Mentions
      * and display them with
@@ -265,7 +297,8 @@ function IMRichTextInput(props) {
     if (input === '' || !mentionsMap.current.size) return input;
     const newFormattedText = [];
     let lastIndex = 0;
-    mentionsMap.current.forEach((men, [start, end]) => {
+    mentionsMap.current.forEach((men, [start, end]) =>
+    {
       const initialStr = start === 1 ? '' : input.substring(lastIndex, start);
       lastIndex = end + 1;
       newFormattedText.push(initialStr);
@@ -275,7 +308,8 @@ function IMRichTextInput(props) {
         `${start}-${men.id}-${end}`,
       );
       newFormattedText.push(formattedMention);
-      if (EU.isKeysAreSame(EU.getLastKeyInMap(mentionsMap.current), [start, end])) {
+      if (EU.isKeysAreSame(EU.getLastKeyInMap(mentionsMap.current), [start, end]))
+      {
         const lastStr = input.substr(lastIndex); //remaining string
         newFormattedText.push(lastStr);
       }
@@ -283,16 +317,19 @@ function IMRichTextInput(props) {
     return newFormattedText;
   };
 
-  const formatTextWithMentions = (input) => {
+  const formatTextWithMentions = (input) =>
+  {
     if (input === '' || !mentionsMap.current.size) return input;
     let newFormattedText = '';
     let lastIndex = 0;
-    mentionsMap.current.forEach((men, [start, end]) => {
+    mentionsMap.current.forEach((men, [start, end]) =>
+    {
       const initialStr = start === 1 ? '' : input.substring(lastIndex, start);
       lastIndex = end + 1;
       newFormattedText = newFormattedText.concat(initialStr);
       newFormattedText = newFormattedText.concat(`@[${men.username}](id:${men.id})`);
-      if (EU.isKeysAreSame(EU.getLastKeyInMap(mentionsMap.current), [start, end])) {
+      if (EU.isKeysAreSame(EU.getLastKeyInMap(mentionsMap.current), [start, end]))
+      {
         const lastStr = input.substr(lastIndex); //remaining string
         newFormattedText = newFormattedText.concat(lastStr);
       }
@@ -300,24 +337,28 @@ function IMRichTextInput(props) {
     return newFormattedText;
   };
 
-  const sendMessageToFooter = (text) => {
+  const sendMessageToFooter = (text) =>
+  {
     props.onChange({
       displayText: text,
       text: formatTextWithMentions(text),
     });
   };
 
-  const onChange = (input, fromAtBtn) => {
+  const onChange = (input, fromAtBtn) =>
+  {
     let text = input;
     const prevText = inputText;
-    let selectionCopy = { ...selection };
-    if (fromAtBtn) {
+    let selectionCopy = {...selection};
+    if (fromAtBtn)
+    {
       //update selection but don't set in state
       //it will be auto set by input
       selectionCopy.start = selectionCopy.start + 1;
       selectionCopy.end = selectionCopy.end + 1;
     }
-    if (text.length < prevText.length) {
+    if (text.length < prevText.length)
+    {
       /**
        * if user is back pressing and it
        * deletes the mention remove it from
@@ -332,10 +373,12 @@ function IMRichTextInput(props) {
       /**
        * REmove all the selected mentions
        */
-      if (totalSelection.start === totalSelection.end) {
+      if (totalSelection.start === totalSelection.end)
+      {
         //single char deleting
         const key = EU.findMentionKeyInMap(mentionsMap.current, totalSelection.start);
-        if (key && key.length) {
+        if (key && key.length)
+        {
           mentionsMap.current.delete(key);
           /**
            * don't need to worry about multi-char selection
@@ -351,10 +394,13 @@ function IMRichTextInput(props) {
           // }
           mentionsMap.current.delete(key);
         }
-      } else {
+      }
+      else
+      {
         //multi-char deleted
         const mentionKeys = EU.getSelectedMentionKeys(mentionsMap.current, totalSelection);
-        mentionKeys.forEach((key) => {
+        mentionKeys.forEach((key) =>
+        {
           mentionsMap.current.delete(key);
         });
       }
@@ -371,7 +417,9 @@ function IMRichTextInput(props) {
         charDeleted,
         false,
       );
-    } else {
+    }
+    else
+    {
       //update indexes on new charcter add
 
       let charAdded = Math.abs(text.length - prevText.length);
@@ -387,9 +435,11 @@ function IMRichTextInput(props) {
        * if user type anything on the mention
        * remove the mention from the mentions array
        * */
-      if (selectionCopy.start === selectionCopy.end) {
+      if (selectionCopy.start === selectionCopy.end)
+      {
         const key = EU.findMentionKeyInMap(mentionsMap.current, selectionCopy.start - 1);
-        if (key && key.length) {
+        if (key && key.length)
+        {
           mentionsMap.current.delete(key);
         }
       }
@@ -409,13 +459,15 @@ function IMRichTextInput(props) {
     sendMessageToFooter(text);
   };
 
-  const onContentSizeChange = (evt) => {
+  const onContentSizeChange = (evt) =>
+  {
     /**
      * this function will dynamically
      * calculate editor height w.r.t
      * the size of text in the input.
      */
-    if (evt) {
+    if (evt)
+    {
       // const iosTextHeight = 20.5
       const androidTextHeight = 20.5;
       // const textHeight = Platform.OS === 'ios' ? iosTextHeight : androidTextHeight
@@ -427,7 +479,7 @@ function IMRichTextInput(props) {
     }
   };
 
-  const { editorStyles = {} } = props;
+  const {editorStyles = {}} = props;
   if (!props.showEditor) return null;
 
   return (
@@ -448,7 +500,7 @@ function IMRichTextInput(props) {
 }
 
 IMRichTextInput.defaultProps = {
-  richTextInputRef: { current: {} },
+  richTextInputRef: {current: {}},
 };
 
 export default IMRichTextInput;

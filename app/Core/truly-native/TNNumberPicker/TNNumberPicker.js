@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
-import { Image, Text, TouchableOpacity, View } from 'react-native';
-import { useColorScheme } from 'react-native-appearance';
+import React, {useState} from 'react';
+import {Image, Text, TouchableOpacity, View} from 'react-native';
+import {useColorScheme} from 'react-native-appearance';
 import dynamicStyles from './styles';
 
 const assets = {
@@ -8,21 +8,26 @@ const assets = {
   minusIcon: require('./assets/minus-icon.png'),
 };
 
-const TNNumberPicker = (props) => {
+const TNNumberPicker = (props) =>
+{
   const colorScheme = useColorScheme();
   const styles = dynamicStyles(props.appStyles, colorScheme);
-  const { initialValue = 1, maxValue = 1000, minValue = 0, onChange } = props;
+  const {initialValue = 1, maxValue = 1000, minValue = 0, onChange} = props;
   const [value, setValue] = useState(initialValue);
 
-  const onDecrement = () => {
-    if (value > minValue) {
+  const onDecrement = () =>
+  {
+    if (value > minValue)
+    {
       setValue(value - 1);
       onChange(value - 1);
     }
   };
 
-  const onIncrement = () => {
-    if (value < maxValue) {
+  const onIncrement = () =>
+  {
+    if (value < maxValue)
+    {
       setValue(value + 1);
       onChange(value + 1);
     }

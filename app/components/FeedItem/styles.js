@@ -1,9 +1,10 @@
-import { StyleSheet } from 'react-native';
+import {StyleSheet} from 'react-native';
 import AppStyles from '../../AppStyles';
 
 const reactionIconSize = Math.floor(AppStyles.WINDOW_WIDTH * 0.09);
 
-const dynamicStyles = (colorScheme) => {
+const dynamicStyles = (colorScheme) =>
+{
   return new StyleSheet.create({
     container: {
       width: Math.floor(AppStyles.WINDOW_WIDTH * 0.97),

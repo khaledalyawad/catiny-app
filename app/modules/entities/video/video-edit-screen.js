@@ -1,16 +1,16 @@
-import React, { createRef } from 'react';
-import { ActivityIndicator, Text, View } from 'react-native';
-import { connect } from 'react-redux';
+import React, {createRef} from 'react';
+import {ActivityIndicator, Text, View} from 'react-native';
+import {connect} from 'react-redux';
 import * as Yup from 'yup';
 
 import VideoActions from './video.reducer';
 import FileInfoActions from '../file-info/file-info.reducer';
 import BaseInfoActions from '../base-info/base-info.reducer';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import FormButton from '../../../shared/components/form/jhi-form-button';
 import FormField from '../../../shared/components/form/jhi-form-field';
 import Form from '../../../shared/components/form/jhi-form';
-import { useDidUpdateEffect } from '../../../shared/util/use-did-update-effect';
+import {useDidUpdateEffect} from '../../../shared/util/use-did-update-effect';
 import styles from './video-styles';
 
 // set up validation schema for the form
@@ -21,7 +21,8 @@ const validationSchema = Yup.object().shape({
   quality: Yup.number().min(0).max(1),
 });
 
-function VideoEditScreen(props) {
+function VideoEditScreen(props)
+{
   const {
     getVideo,
     updateVideo,
@@ -44,45 +45,60 @@ function VideoEditScreen(props) {
 
   const isNewEntity = !(route.params && route.params.entityId);
 
-  React.useEffect(() => {
-    if (!isNewEntity) {
+  React.useEffect(() =>
+  {
+    if (!isNewEntity)
+    {
       getVideo(route.params.entityId);
-    } else {
+    }
+    else
+    {
       reset();
     }
   }, [isNewEntity, getVideo, route, reset]);
 
-  React.useEffect(() => {
-    if (isNewEntity) {
+  React.useEffect(() =>
+  {
+    if (isNewEntity)
+    {
       setFormValue(entityToFormValue({}));
-    } else if (!fetching) {
+    }
+    else if (!fetching)
+    {
       setFormValue(entityToFormValue(video));
     }
   }, [video, fetching, isNewEntity]);
 
   // fetch related entities
-  React.useEffect(() => {
+  React.useEffect(() =>
+  {
     getAllFileInfos();
     getAllBaseInfos();
   }, [getAllFileInfos, getAllBaseInfos]);
 
-  useDidUpdateEffect(() => {
-    if (updating === false) {
-      if (errorUpdating) {
+  useDidUpdateEffect(() =>
+  {
+    if (updating === false)
+    {
+      if (errorUpdating)
+      {
         setError(errorUpdating && errorUpdating.detail ? errorUpdating.detail : 'Something went wrong updating the entity');
-      } else if (updateSuccess) {
+      }
+      else if (updateSuccess)
+      {
         setError('');
-        isNewEntity || !navigation.canGoBack() ? navigation.replace('VideoDetail', { entityId: video?.id }) : navigation.pop();
+        isNewEntity || !navigation.canGoBack() ? navigation.replace('VideoDetail', {entityId: video?.id}) : navigation.pop();
       }
     }
   }, [updateSuccess, errorUpdating, navigation]);
 
   const onSubmit = (data) => updateVideo(formValueToEntity(data));
 
-  if (fetching) {
+  if (fetching)
+  {
     return (
       <View style={styles.loading}>
-        <ActivityIndicator size="large" />
+        <ActivityIndicator size='large' />
       </View>
     );
   }
@@ -106,131 +122,131 @@ function VideoEditScreen(props) {
     <View style={styles.container}>
       <KeyboardAwareScrollView
         enableResetScrollToCoords={false}
-        testID="videoEditScrollView"
-        keyboardShouldPersistTaps="handled"
-        keyboardDismissMode="on-drag"
+        testID='videoEditScrollView'
+        keyboardShouldPersistTaps='handled'
+        keyboardDismissMode='on-drag'
         contentContainerStyle={styles.paddedScrollView}>
         {!!error && <Text style={styles.errorText}>{error}</Text>}
         {formValue && (
           <Form initialValues={formValue} validationSchema={validationSchema} onSubmit={onSubmit} ref={formRef}>
             <FormField
-              name="uuid"
+              name='uuid'
               ref={uuidRef}
-              label="Uuid"
-              placeholder="Enter Uuid"
-              testID="uuidInput"
+              label='Uuid'
+              placeholder='Enter Uuid'
+              testID='uuidInput'
               onSubmitEditing={() => nameRef.current?.focus()}
             />
             <FormField
-              name="name"
+              name='name'
               ref={nameRef}
-              label="Name"
-              placeholder="Enter Name"
-              testID="nameInput"
-              inputType="text"
-              autoCapitalize="none"
+              label='Name'
+              placeholder='Enter Name'
+              testID='nameInput'
+              inputType='text'
+              autoCapitalize='none'
               onSubmitEditing={() => widthRef.current?.focus()}
             />
             <FormField
-              name="width"
+              name='width'
               ref={widthRef}
-              label="Width"
-              placeholder="Enter Width"
-              testID="widthInput"
-              inputType="number"
+              label='Width'
+              placeholder='Enter Width'
+              testID='widthInput'
+              inputType='number'
               onSubmitEditing={() => heightRef.current?.focus()}
             />
             <FormField
-              name="height"
+              name='height'
               ref={heightRef}
-              label="Height"
-              placeholder="Enter Height"
-              testID="heightInput"
-              inputType="number"
+              label='Height'
+              placeholder='Enter Height'
+              testID='heightInput'
+              inputType='number'
               onSubmitEditing={() => qualityImageRef.current?.focus()}
             />
             <FormField
-              name="qualityImage"
+              name='qualityImage'
               ref={qualityImageRef}
-              label="Quality Image"
-              placeholder="Enter Quality Image"
-              testID="qualityImageInput"
-              inputType="number"
+              label='Quality Image'
+              placeholder='Enter Quality Image'
+              testID='qualityImageInput'
+              inputType='number'
               onSubmitEditing={() => qualityAudioRef.current?.focus()}
             />
             <FormField
-              name="qualityAudio"
+              name='qualityAudio'
               ref={qualityAudioRef}
-              label="Quality Audio"
-              placeholder="Enter Quality Audio"
-              testID="qualityAudioInput"
-              inputType="number"
+              label='Quality Audio'
+              placeholder='Enter Quality Audio'
+              testID='qualityAudioInput'
+              inputType='number'
               onSubmitEditing={() => qualityRef.current?.focus()}
             />
             <FormField
-              name="quality"
+              name='quality'
               ref={qualityRef}
-              label="Quality"
-              placeholder="Enter Quality"
-              testID="qualityInput"
-              inputType="number"
+              label='Quality'
+              placeholder='Enter Quality'
+              testID='qualityInput'
+              inputType='number'
               onSubmitEditing={() => pixelSizeRef.current?.focus()}
             />
             <FormField
-              name="pixelSize"
+              name='pixelSize'
               ref={pixelSizeRef}
-              label="Pixel Size"
-              placeholder="Enter Pixel Size"
-              testID="pixelSizeInput"
-              inputType="number"
+              label='Pixel Size'
+              placeholder='Enter Pixel Size'
+              testID='pixelSizeInput'
+              inputType='number'
               onSubmitEditing={() => priorityIndexRef.current?.focus()}
             />
             <FormField
-              name="priorityIndex"
+              name='priorityIndex'
               ref={priorityIndexRef}
-              label="Priority Index"
-              placeholder="Enter Priority Index"
-              testID="priorityIndexInput"
-              inputType="number"
+              label='Priority Index'
+              placeholder='Enter Priority Index'
+              testID='priorityIndexInput'
+              inputType='number'
               onSubmitEditing={() => dataSizeRef.current?.focus()}
             />
             <FormField
-              name="dataSize"
+              name='dataSize'
               ref={dataSizeRef}
-              label="Data Size"
-              placeholder="Enter Data Size"
-              testID="dataSizeInput"
-              inputType="number"
+              label='Data Size'
+              placeholder='Enter Data Size'
+              testID='dataSizeInput'
+              inputType='number'
             />
             <FormField
-              name="fileInfo"
-              inputType="select-one"
+              name='fileInfo'
+              inputType='select-one'
               ref={fileInfoRef}
               listItems={fileInfoList}
-              listItemLabelField="id"
-              label="File Info"
-              placeholder="Select File Info"
-              testID="fileInfoSelectInput"
+              listItemLabelField='id'
+              label='File Info'
+              placeholder='Select File Info'
+              testID='fileInfoSelectInput'
             />
             <FormField
-              name="info"
-              inputType="select-one"
+              name='info'
+              inputType='select-one'
               ref={infoRef}
               listItems={baseInfoList}
-              listItemLabelField="id"
-              label="Info"
-              placeholder="Select Info"
-              testID="baseInfoSelectInput"
+              listItemLabelField='id'
+              label='Info'
+              placeholder='Select Info'
+              testID='baseInfoSelectInput'
             />
             <FormField
-              name="original"
-              inputType="select-one"
+              name='original'
+              inputType='select-one'
               ref={originalRef}
               listItems={videoList}
-              listItemLabelField="id"
-              label="Original"
-              placeholder="Select Original"
-              testID="videoSelectInput"
+              listItemLabelField='id'
+              label='Original'
+              placeholder='Select Original'
+              testID='videoSelectInput'
             />
 
             <FormButton title={'Save'} testID={'submitButton'} />
@@ -242,8 +258,10 @@ function VideoEditScreen(props) {
 }
 
 // convenience methods for customizing the mapping of the entity to/from the form value
-const entityToFormValue = (value) => {
-  if (!value) {
+const entityToFormValue = (value) =>
+{
+  if (!value)
+  {
     return {};
   }
   return {
@@ -263,7 +281,8 @@ const entityToFormValue = (value) => {
     original: value.original && value.original.id ? value.original.id : null,
   };
 };
-const formValueToEntity = (value) => {
+const formValueToEntity = (value) =>
+{
   const entity = {
     id: value.id ?? null,
     uuid: value.uuid ?? null,
@@ -277,13 +296,14 @@ const formValueToEntity = (value) => {
     priorityIndex: value.priorityIndex ?? null,
     dataSize: value.dataSize ?? null,
   };
-  entity.fileInfo = value.fileInfo ? { id: value.fileInfo } : null;
-  entity.info = value.info ? { id: value.info } : null;
-  entity.original = value.original ? { id: value.original } : null;
+  entity.fileInfo = value.fileInfo ? {id: value.fileInfo} : null;
+  entity.info = value.info ? {id: value.info} : null;
+  entity.original = value.original ? {id: value.original} : null;
   return entity;
 };
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state) =>
+{
   return {
     fileInfoList: state.fileInfos.fileInfoList ?? [],
     baseInfoList: state.baseInfos.baseInfoList ?? [],
@@ -295,7 +315,8 @@ const mapStateToProps = (state) => {
   };
 };
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = (dispatch) =>
+{
   return {
     getAllFileInfos: (options) => dispatch(FileInfoActions.fileInfoAllRequest(options)),
     getAllBaseInfos: (options) => dispatch(BaseInfoActions.baseInfoAllRequest(options)),

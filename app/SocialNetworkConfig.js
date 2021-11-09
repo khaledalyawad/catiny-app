@@ -1,6 +1,6 @@
 import AppStyles from './AppStyles';
-import { IMLocalized, setI18nConfig } from './Core/localization/IMLocalization';
-import { Platform } from 'react-native';
+import {IMLocalized, setI18nConfig} from './Core/localization/IMLocalization';
+import {Platform} from 'react-native';
 
 setI18nConfig();
 
@@ -249,12 +249,12 @@ const SocialNetworkConfig = {
           {
             ...(Platform.OS === 'ios'
               ? {
-                  displayName: IMLocalized('Enable Face ID / Touch ID'),
-                  type: 'switch',
-                  editable: true,
-                  key: 'face_id_enabled',
-                  value: false,
-                }
+                displayName: IMLocalized('Enable Face ID / Touch ID'),
+                type: 'switch',
+                editable: true,
+                key: 'face_id_enabled',
+                value: false,
+              }
               : {}),
           },
         ],

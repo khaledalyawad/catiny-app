@@ -1,26 +1,30 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { View, Text } from 'react-native';
+import {View} from 'react-native';
 import SearchBox from 'react-native-search-bar';
 import dynamicStyles from './styles';
-import { useColorScheme } from 'react-native-appearance';
-import { IMLocalized } from '../../localization/IMLocalization';
+import {useColorScheme} from 'react-native-appearance';
+import {IMLocalized} from '../../localization/IMLocalization';
 
-export default function SearchBar(props) {
-  const { onChangeText, onSearchBarCancel, onSearch, searchRef, appStyles, placeholder, searchContainerStyle } = props;
+export default function SearchBar(props)
+{
+  const {onChangeText, onSearchBarCancel, onSearch, searchRef, appStyles, placeholder, searchContainerStyle} = props;
   const colorScheme = useColorScheme();
   const styles = dynamicStyles(appStyles, colorScheme);
 
-  const onSearchTextChange = (text) => {
+  const onSearchTextChange = (text) =>
+  {
     onChangeText(text);
   };
 
-  const onCancel = () => {
+  const onCancel = () =>
+  {
     onSearchTextChange('');
     onSearchBarCancel();
   };
 
-  const onSearchClear = () => {
+  const onSearchClear = () =>
+  {
     onSearchTextChange('');
   };
 
@@ -32,7 +36,7 @@ export default function SearchBar(props) {
         onChangeText={onSearchTextChange}
         onSearchButtonPress={onSearch}
         showsCancelButton={true}
-        searchBarStyle="prominent"
+        searchBarStyle='prominent'
         cancelButtonText={IMLocalized('Cancel')}
         style={styles.searchInput}
         showsCancelButtonWhileEditing={true}

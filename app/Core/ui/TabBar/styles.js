@@ -1,7 +1,8 @@
-import { StyleSheet } from 'react-native';
-import { ifIphoneX } from 'react-native-iphone-x-helper';
+import {StyleSheet} from 'react-native';
+import {ifIphoneX} from 'react-native-iphone-x-helper';
 
-const dynamicStyles = (appStyles, colorScheme) => {
+const dynamicStyles = (appStyles, colorScheme) =>
+{
   return StyleSheet.create({
     tabBarContainer: {
       ...ifIphoneX(

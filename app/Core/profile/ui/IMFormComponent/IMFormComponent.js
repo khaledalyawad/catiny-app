@@ -1,49 +1,54 @@
 import PropTypes from 'prop-types';
-import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, Switch } from 'react-native';
+import React, {useState} from 'react';
+import {Switch, Text, TextInput, TouchableOpacity, View} from 'react-native';
 import ActionSheet from 'react-native-actionsheet';
 
 import dynamicStyles from './styles';
-import { useColorScheme } from 'react-native-appearance';
-import { IMLocalized } from '../../../localization/IMLocalization';
+import {useColorScheme} from 'react-native-appearance';
+import {IMLocalized} from '../../../localization/IMLocalization';
 
-function IMFormComponent(props) {
-  const { form, initialValuesDict, onFormChange, onFormButtonPress, appStyles } = props;
+function IMFormComponent(props)
+{
+  const {form, initialValuesDict, onFormChange, onFormButtonPress, appStyles} = props;
   const colorScheme = useColorScheme();
   const styles = dynamicStyles(appStyles, colorScheme);
 
   const [alteredFormDict, setAlteredFormDict] = useState({});
 
-  const onFormFieldValueChange = (formField, value) => {
-    var newFieldsDict = { ...alteredFormDict };
+  const onFormFieldValueChange = (formField, value) =>
+  {
+    var newFieldsDict = {...alteredFormDict};
     newFieldsDict[formField.key] = value;
     setAlteredFormDict(newFieldsDict);
     onFormChange(newFieldsDict);
   };
 
-  const renderSwitchField = (switchField, index) => {
+  const renderSwitchField = (switchField, index) =>
+  {
     return (
       <View key={index} style={[styles.settingsTypeContainer, styles.appSettingsTypeContainer]}>
         <Text style={styles.text}>{switchField.displayName}</Text>
         <Switch
           value={computeValue(switchField)}
           onValueChange={(value) => onFormFieldValueChange(switchField, value)}
-          style={{ transform: [{ scaleX: 0.8 }, { scaleY: 0.8 }] }}
+          style={{transform: [{scaleX: 0.8}, {scaleY: 0.8}]}}
         />
       </View>
     );
   };
 
-  const renderTextField = (formTextField, index, totalLen) => {
+  const renderTextField = (formTextField, index, totalLen) =>
+  {
     return (
       <View key={index}>
         <View style={[styles.settingsTypeContainer, styles.appSettingsTypeContainer]}>
           <Text style={styles.text}>{formTextField.displayName}</Text>
           <TextInput
-            underlineColorAndroid="transparent"
-            style={[styles.text, { textAlign: 'right' }]}
+            underlineColorAndroid='transparent'
+            style={[styles.text, {textAlign: 'right'}]}
             editable={formTextField.editable}
-            onChangeText={(text) => {
+            onChangeText={(text) =>
+            {
               onFormFieldValueChange(formTextField, text);
             }}
             placeholderTextColor={styles.placeholderTextColor}
@@ -56,7 +61,8 @@ function IMFormComponent(props) {
     );
   };
 
-  const renderButtonField = (buttonField, index) => {
+  const renderButtonField = (buttonField, index) =>
+  {
     return (
       <TouchableOpacity
         key={index}
@@ -67,18 +73,22 @@ function IMFormComponent(props) {
     );
   };
 
-  const onSelectFieldPress = (selectField, ref) => {
+  const onSelectFieldPress = (selectField, ref) =>
+  {
     ref.current.show();
   };
 
-  const onActionSheetValueSelected = (selectField, selectedIndex) => {
-    if (selectedIndex < selectField.options.length) {
+  const onActionSheetValueSelected = (selectField, selectedIndex) =>
+  {
+    if (selectedIndex < selectField.options.length)
+    {
       const newValue = selectField.options[selectedIndex];
       onFormFieldValueChange(selectField, newValue);
     }
   };
 
-  const renderSelectField = (selectField, index) => {
+  const renderSelectField = (selectField, index) =>
+  {
     const actionSheetRef = React.createRef();
     return (
       <TouchableOpacity
@@ -98,24 +108,30 @@ function IMFormComponent(props) {
     );
   };
 
-  const renderField = (formField, index, totalLen) => {
+  const renderField = (formField, index, totalLen) =>
+  {
     const type = formField.type;
-    if (type == 'text') {
+    if (type == 'text')
+    {
       return renderTextField(formField, index, totalLen);
     }
-    if (type == 'switch') {
+    if (type == 'switch')
+    {
       return renderSwitchField(formField, index);
     }
-    if (type == 'button') {
+    if (type == 'button')
+    {
       return renderButtonField(formField, index);
     }
-    if (type == 'select') {
+    if (type == 'select')
+    {
       return renderSelectField(formField, index);
     }
     return null;
   };
 
-  const renderSection = (section) => {
+  const renderSection = (section) =>
+  {
     return (
       <View key={section.title}>
         <View style={styles.settingsTitleContainer}>
@@ -128,23 +144,30 @@ function IMFormComponent(props) {
     );
   };
 
-  const displayValue = (field, value) => {
-    if (!field.displayOptions || !field.options) {
+  const displayValue = (field, value) =>
+  {
+    if (!field.displayOptions || !field.options)
+    {
       return value;
     }
-    for (var i = 0; i < field.options.length; ++i) {
-      if (i < field.displayOptions.length && field.options[i] == value) {
+    for (var i = 0; i < field.options.length; ++i)
+    {
+      if (i < field.displayOptions.length && field.options[i] == value)
+      {
         return field.displayOptions[i];
       }
     }
     return value;
   };
 
-  const computeValue = (field) => {
-    if (alteredFormDict[field.key] != null) {
+  const computeValue = (field) =>
+  {
+    if (alteredFormDict[field.key] != null)
+    {
       return displayValue(field, alteredFormDict[field.key]);
     }
-    if (initialValuesDict[field.key] != null) {
+    if (initialValuesDict[field.key] != null)
+    {
       return displayValue(field, initialValuesDict[field.key]);
     }
     return displayValue(field, field.value);

@@ -1,25 +1,27 @@
-import React, { memo } from 'react';
+import React, {memo} from 'react';
 import PropTypes from 'prop-types';
-import { View, FlatList, ActivityIndicator } from 'react-native';
+import {ActivityIndicator, FlatList, View} from 'react-native';
 
 import IMConversationView from '../IMConversationView';
 import dynamicStyles from './styles';
-import { useColorScheme } from 'react-native-appearance';
-import { TNEmptyStateView } from '../../truly-native';
+import {useColorScheme} from 'react-native-appearance';
+import {TNEmptyStateView} from '../../truly-native';
 
-const IMConversationList = memo((props) => {
-  const { onConversationPress, emptyStateConfig, conversations, loading, user, appStyles, headerComponent } = props;
+const IMConversationList = memo((props) =>
+{
+  const {onConversationPress, emptyStateConfig, conversations, loading, user, appStyles, headerComponent} = props;
   const colorScheme = useColorScheme();
   const styles = dynamicStyles(appStyles, colorScheme);
 
-  const renderConversationView = ({ item }) => (
+  const renderConversationView = ({item}) => (
     <IMConversationView onChatItemPress={onConversationPress} item={item} appStyles={appStyles} user={user} />
   );
 
-  if (loading) {
+  if (loading)
+  {
     return (
       <View style={styles.container}>
-        <ActivityIndicator style={{ marginTop: 15 }} size="small" />
+        <ActivityIndicator style={{marginTop: 15}} size='small' />
       </View>
     );
   }

@@ -8,4 +8,4 @@ import SingleChannelTracker from './local/singleChannelTracker';
 // import ChannelsTracker from './firebase/channelsTracker';
 // import SingleChannelTracker from './firebase/singleChannelTracker';
 
-export { channelManager, ChannelsTracker, SingleChannelTracker };
+export {channelManager, ChannelsTracker, SingleChannelTracker};

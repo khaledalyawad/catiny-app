@@ -1,9 +1,10 @@
-import { Dimensions } from 'react-native';
+import {Dimensions} from 'react-native';
 
 const device = Dimensions.get('window');
 let calculatedScale;
 
-switch (device.width) {
+switch (device.width)
+{
   // iPhone 4, 4S, 5, 5S
   case 320:
     calculatedScale = 0.77;

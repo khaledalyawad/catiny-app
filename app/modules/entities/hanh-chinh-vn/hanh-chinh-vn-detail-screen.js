@@ -1,15 +1,16 @@
 import React from 'react';
-import { ActivityIndicator, ScrollView, Text, View } from 'react-native';
-import { connect } from 'react-redux';
-import { useFocusEffect } from '@react-navigation/native';
+import {ActivityIndicator, ScrollView, Text, View} from 'react-native';
+import {connect} from 'react-redux';
+import {useFocusEffect} from '@react-navigation/native';
 
 import HanhChinhVNActions from './hanh-chinh-vn.reducer';
 import RoundedButton from '../../../shared/components/rounded-button/rounded-button';
 import HanhChinhVNDeleteModal from './hanh-chinh-vn-delete-modal';
 import styles from './hanh-chinh-vn-styles';
 
-function HanhChinhVNDetailScreen(props) {
-  const { route, getHanhChinhVN, navigation, hanhChinhVN, fetching, error } = props;
+function HanhChinhVNDetailScreen(props)
+{
+  const {route, getHanhChinhVN, navigation, hanhChinhVN, fetching, error} = props;
   const [deleteModalVisible, setDeleteModalVisible] = React.useState(false);
   // prevents display of stale reducer data
   const entityId = hanhChinhVN?.id ?? null;
@@ -17,71 +18,77 @@ function HanhChinhVNDetailScreen(props) {
   const correctEntityLoaded = routeEntityId && entityId && routeEntityId.toString() === entityId.toString();
 
   useFocusEffect(
-    React.useCallback(() => {
-      if (!routeEntityId) {
+    React.useCallback(() =>
+    {
+      if (!routeEntityId)
+      {
         navigation.navigate('HanhChinhVN');
-      } else {
+      }
+      else
+      {
         setDeleteModalVisible(false);
         getHanhChinhVN(routeEntityId);
       }
     }, [routeEntityId, getHanhChinhVN, navigation]),
   );
 
-  if (!entityId && !fetching && error) {
+  if (!entityId && !fetching && error)
+  {
     return (
       <View style={styles.loading}>
         <Text>Something went wrong fetching the HanhChinhVN.</Text>
       </View>
     );
   }
-  if (!entityId || fetching || !correctEntityLoaded) {
+  if (!entityId || fetching || !correctEntityLoaded)
+  {
     return (
       <View style={styles.loading}>
-        <ActivityIndicator size="large" />
+        <ActivityIndicator size='large' />
       </View>
     );
   }
   return (
-    <ScrollView style={styles.container} contentContainerStyle={styles.paddedScrollView} testID="hanhChinhVNDetailScrollView">
+    <ScrollView style={styles.container} contentContainerStyle={styles.paddedScrollView} testID='hanhChinhVNDetailScrollView'>
       <Text style={styles.label}>Id:</Text>
       <Text>{hanhChinhVN.id}</Text>
       {/* Name Field */}
       <Text style={styles.label}>Name:</Text>
-      <Text testID="name">{hanhChinhVN.name}</Text>
+      <Text testID='name'>{hanhChinhVN.name}</Text>
       {/* Slug Field */}
       <Text style={styles.label}>Slug:</Text>
-      <Text testID="slug">{hanhChinhVN.slug}</Text>
+      <Text testID='slug'>{hanhChinhVN.slug}</Text>
       {/* Type Field */}
       <Text style={styles.label}>Type:</Text>
-      <Text testID="type">{hanhChinhVN.type}</Text>
+      <Text testID='type'>{hanhChinhVN.type}</Text>
       {/* NameWithType Field */}
       <Text style={styles.label}>NameWithType:</Text>
-      <Text testID="nameWithType">{hanhChinhVN.nameWithType}</Text>
+      <Text testID='nameWithType'>{hanhChinhVN.nameWithType}</Text>
       {/* Code Field */}
       <Text style={styles.label}>Code:</Text>
-      <Text testID="code">{hanhChinhVN.code}</Text>
+      <Text testID='code'>{hanhChinhVN.code}</Text>
       {/* ParentCode Field */}
       <Text style={styles.label}>ParentCode:</Text>
-      <Text testID="parentCode">{hanhChinhVN.parentCode}</Text>
+      <Text testID='parentCode'>{hanhChinhVN.parentCode}</Text>
       {/* Path Field */}
       <Text style={styles.label}>Path:</Text>
-      <Text testID="path">{hanhChinhVN.path}</Text>
+      <Text testID='path'>{hanhChinhVN.path}</Text>
       {/* PathWithType Field */}
       <Text style={styles.label}>PathWithType:</Text>
-      <Text testID="pathWithType">{hanhChinhVN.pathWithType}</Text>
+      <Text testID='pathWithType'>{hanhChinhVN.pathWithType}</Text>
 
       <View style={styles.entityButtons}>
         <RoundedButton
-          text="Edit"
-          onPress={() => navigation.navigate('HanhChinhVNEdit', { entityId })}
+          text='Edit'
+          onPress={() => navigation.navigate('HanhChinhVNEdit', {entityId})}
           accessibilityLabel={'HanhChinhVN Edit Button'}
-          testID="hanhChinhVNEditButton"
+          testID='hanhChinhVNEditButton'
         />
         <RoundedButton
-          text="Delete"
+          text='Delete'
           onPress={() => setDeleteModalVisible(true)}
           accessibilityLabel={'HanhChinhVN Delete Button'}
-          testID="hanhChinhVNDeleteButton"
+          testID='hanhChinhVNDeleteButton'
         />
         {deleteModalVisible && (
           <HanhChinhVNDeleteModal
@@ -89,7 +96,7 @@ function HanhChinhVNDetailScreen(props) {
             visible={deleteModalVisible}
             setVisible={setDeleteModalVisible}
             entity={hanhChinhVN}
-            testID="hanhChinhVNDeleteModal"
+            testID='hanhChinhVNDeleteModal'
           />
         )}
       </View>
@@ -97,7 +104,8 @@ function HanhChinhVNDetailScreen(props) {
   );
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state) =>
+{
   return {
     hanhChinhVN: state.hanhChinhVNS.hanhChinhVN,
     error: state.hanhChinhVNS.errorOne,
@@ -107,7 +115,8 @@ const mapStateToProps = (state) => {
   };
 };
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = (dispatch) =>
+{
   return {
     getHanhChinhVN: (id) => dispatch(HanhChinhVNActions.hanhChinhVNRequest(id)),
     getAllHanhChinhVNS: (options) => dispatch(HanhChinhVNActions.hanhChinhVNAllRequest(options)),

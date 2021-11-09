@@ -1,10 +1,11 @@
 import React from 'react';
-import { TouchableOpacity, Image, Text } from 'react-native';
+import {Image, Text, TouchableOpacity} from 'react-native';
 import PropTypes from 'prop-types';
 import dynamicStyles from './styles';
-import { useColorScheme } from 'react-native-appearance';
+import {useColorScheme} from 'react-native-appearance';
 
-function TNTouchableIcon(props) {
+function TNTouchableIcon(props)
+{
   const {
     onPress,
     containerStyle,

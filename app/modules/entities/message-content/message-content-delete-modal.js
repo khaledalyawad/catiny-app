@@ -1,20 +1,22 @@
 import React from 'react';
-import { TouchableHighlight, Modal, Text, View } from 'react-native';
-import { connect } from 'react-redux';
+import {Modal, Text, TouchableHighlight, View} from 'react-native';
+import {connect} from 'react-redux';
 
 import MessageContentActions from './message-content.reducer';
 
 import styles from './message-content-styles';
 
-function MessageContentDeleteModal(props) {
-  const { visible, setVisible, entity, navigation, testID } = props;
+function MessageContentDeleteModal(props)
+{
+  const {visible, setVisible, entity, navigation, testID} = props;
 
-  const deleteEntity = () => {
+  const deleteEntity = () =>
+  {
     props.deleteMessageContent(entity.id);
     navigation.canGoBack() ? navigation.goBack() : navigation.navigate('MessageContent');
   };
   return (
-    <Modal animationType="slide" transparent={true} visible={visible}>
+    <Modal animationType='slide' transparent={true} visible={visible}>
       <View testID={testID} style={styles.centeredView}>
         <View style={styles.modalView}>
           <View style={[styles.flex, styles.flexRow]}>
@@ -23,12 +25,13 @@ function MessageContentDeleteModal(props) {
           <View style={[styles.flexRow]}>
             <TouchableHighlight
               style={[styles.openButton, styles.cancelButton]}
-              onPress={() => {
+              onPress={() =>
+              {
                 setVisible(false);
               }}>
               <Text style={styles.textStyle}>Cancel</Text>
             </TouchableHighlight>
-            <TouchableHighlight style={[styles.openButton, styles.submitButton]} onPress={deleteEntity} testID="deleteButton">
+            <TouchableHighlight style={[styles.openButton, styles.submitButton]} onPress={deleteEntity} testID='deleteButton'>
               <Text style={styles.textStyle}>Delete</Text>
             </TouchableHighlight>
           </View>
@@ -38,7 +41,8 @@ function MessageContentDeleteModal(props) {
   );
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state) =>
+{
   return {
     messageContent: state.messageContents.messageContent,
     fetching: state.messageContents.fetchingOne,
@@ -47,7 +51,8 @@ const mapStateToProps = (state) => {
   };
 };
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = (dispatch) =>
+{
   return {
     getMessageContent: (id) => dispatch(MessageContentActions.messageContentRequest(id)),
     getAllMessageContents: (options) => dispatch(MessageContentActions.messageContentAllRequest(options)),

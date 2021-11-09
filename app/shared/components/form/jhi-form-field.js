@@ -1,38 +1,44 @@
 import React from 'react';
-import { useFormikContext } from 'formik';
+import {useFormikContext} from 'formik';
 
 import AppTextInput from './inputs/jhi-text-input';
 import AppSwitchInput from './inputs/jhi-switch-input';
 import AppListInput from './inputs/jhi-list-input';
 import AppMultiListInput from './inputs/jhi-multi-list-input';
 import AppDateInput from './inputs/jhi-date-input';
-import { StyleSheet, Text } from 'react-native';
+import {StyleSheet, Text} from 'react-native';
 import ApplicationStyles from '../../themes/application.styles';
 
 const styles = StyleSheet.create({
   ...ApplicationStyles.screen,
 });
 
-export default React.forwardRef((props, ref) => {
-  let { name, inputType, ...otherProps } = props;
-  const { setFieldTouched, setFieldValue, values, errors, touched } = useFormikContext();
+export default React.forwardRef((props, ref) =>
+{
+  let {name, inputType, ...otherProps} = props;
+  const {setFieldTouched, setFieldValue, values, errors, touched} = useFormikContext();
 
-  if (!inputType) {
+  if (!inputType)
+  {
     inputType = 'text';
   }
-  if (!['text', 'boolean', 'number', 'date', 'datetime', 'select-one', 'select-multiple'].includes(inputType)) {
+  if (!['text', 'boolean', 'number', 'date', 'datetime', 'select-one', 'select-multiple'].includes(inputType))
+  {
     return <Text style={styles.errorText}>INVALID INPUT TYPE '{inputType}'</Text>;
   }
 
   // ensure fields are the correct format
-  if (inputType === 'date' || (inputType === 'datetime' && !(values[name] instanceof Date))) {
+  if (inputType === 'date' || (inputType === 'datetime' && !(values[name] instanceof Date)))
+  {
     // date values can't be strings
     values[name] = new Date(values[name]);
   }
-  if (inputType === 'boolean') {
+  if (inputType === 'boolean')
+  {
     values[name] = Boolean(values[name]);
   }
-  if (inputType === 'number' && (typeof values[name]).toLowerCase() === 'number') {
+  if (inputType === 'number' && (typeof values[name]).toLowerCase() === 'number')
+  {
     // number values have to be strings
     values[name] = String(values[name]);
   }
@@ -53,11 +59,13 @@ export default React.forwardRef((props, ref) => {
       {inputType === 'number' && (
         <AppTextInput
           ref={ref}
-          keyboardType="numeric"
+          keyboardType='numeric'
           value={values[name]}
-          onChangeText={(text) => {
+          onChangeText={(text) =>
+          {
             const numberRegex = new RegExp(/^-?(\d*)?\.?(\d+)?$/);
-            if (text.length === 0 || numberRegex.test(text.toString())) {
+            if (text.length === 0 || numberRegex.test(text.toString()))
+            {
               setFieldValue(name, text);
             }
           }}

@@ -1,15 +1,16 @@
 import React from 'react';
-import { ActivityIndicator, ScrollView, Text, View } from 'react-native';
-import { connect } from 'react-redux';
-import { useFocusEffect } from '@react-navigation/native';
+import {ActivityIndicator, ScrollView, Text, View} from 'react-native';
+import {connect} from 'react-redux';
+import {useFocusEffect} from '@react-navigation/native';
 
 import GroupProfileActions from './group-profile.reducer';
 import RoundedButton from '../../../shared/components/rounded-button/rounded-button';
 import GroupProfileDeleteModal from './group-profile-delete-modal';
 import styles from './group-profile-styles';
 
-function GroupProfileDetailScreen(props) {
-  const { route, getGroupProfile, navigation, groupProfile, fetching, error } = props;
+function GroupProfileDetailScreen(props)
+{
+  const {route, getGroupProfile, navigation, groupProfile, fetching, error} = props;
   const [deleteModalVisible, setDeleteModalVisible] = React.useState(false);
   // prevents display of stale reducer data
   const entityId = groupProfile?.id ?? null;
@@ -17,52 +18,58 @@ function GroupProfileDetailScreen(props) {
   const correctEntityLoaded = routeEntityId && entityId && routeEntityId.toString() === entityId.toString();
 
   useFocusEffect(
-    React.useCallback(() => {
-      if (!routeEntityId) {
+    React.useCallback(() =>
+    {
+      if (!routeEntityId)
+      {
         navigation.navigate('GroupProfile');
-      } else {
+      }
+      else
+      {
         setDeleteModalVisible(false);
         getGroupProfile(routeEntityId);
       }
     }, [routeEntityId, getGroupProfile, navigation]),
   );
 
-  if (!entityId && !fetching && error) {
+  if (!entityId && !fetching && error)
+  {
     return (
       <View style={styles.loading}>
         <Text>Something went wrong fetching the GroupProfile.</Text>
       </View>
     );
   }
-  if (!entityId || fetching || !correctEntityLoaded) {
+  if (!entityId || fetching || !correctEntityLoaded)
+  {
     return (
       <View style={styles.loading}>
-        <ActivityIndicator size="large" />
+        <ActivityIndicator size='large' />
       </View>
     );
   }
   return (
-    <ScrollView style={styles.container} contentContainerStyle={styles.paddedScrollView} testID="groupProfileDetailScrollView">
+    <ScrollView style={styles.container} contentContainerStyle={styles.paddedScrollView} testID='groupProfileDetailScrollView'>
       <Text style={styles.label}>Id:</Text>
       <Text>{groupProfile.id}</Text>
       {/* Uuid Field */}
       <Text style={styles.label}>Uuid:</Text>
-      <Text testID="uuid">{groupProfile.uuid}</Text>
+      <Text testID='uuid'>{groupProfile.uuid}</Text>
       <Text style={styles.label}>Info:</Text>
-      <Text testID="info">{String(groupProfile.info ? groupProfile.info.id : '')}</Text>
+      <Text testID='info'>{String(groupProfile.info ? groupProfile.info.id : '')}</Text>
 
       <View style={styles.entityButtons}>
         <RoundedButton
-          text="Edit"
-          onPress={() => navigation.navigate('GroupProfileEdit', { entityId })}
+          text='Edit'
+          onPress={() => navigation.navigate('GroupProfileEdit', {entityId})}
           accessibilityLabel={'GroupProfile Edit Button'}
-          testID="groupProfileEditButton"
+          testID='groupProfileEditButton'
         />
         <RoundedButton
-          text="Delete"
+          text='Delete'
           onPress={() => setDeleteModalVisible(true)}
           accessibilityLabel={'GroupProfile Delete Button'}
-          testID="groupProfileDeleteButton"
+          testID='groupProfileDeleteButton'
         />
         {deleteModalVisible && (
           <GroupProfileDeleteModal
@@ -70,7 +77,7 @@ function GroupProfileDetailScreen(props) {
             visible={deleteModalVisible}
             setVisible={setDeleteModalVisible}
             entity={groupProfile}
-            testID="groupProfileDeleteModal"
+            testID='groupProfileDeleteModal'
           />
         )}
       </View>
@@ -78,7 +85,8 @@ function GroupProfileDetailScreen(props) {
   );
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state) =>
+{
   return {
     groupProfile: state.groupProfiles.groupProfile,
     error: state.groupProfiles.errorOne,
@@ -88,7 +96,8 @@ const mapStateToProps = (state) => {
   };
 };
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = (dispatch) =>
+{
   return {
     getGroupProfile: (id) => dispatch(GroupProfileActions.groupProfileRequest(id)),
     getAllGroupProfiles: (options) => dispatch(GroupProfileActions.groupProfileAllRequest(options)),

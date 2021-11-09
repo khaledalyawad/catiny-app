@@ -1,32 +1,33 @@
-import React, { useEffect, useContext, useState, useRef, useLayoutEffect } from 'react';
-import { Alert, Platform, View, Share, Image, Text } from 'react-native';
-import { useSelector, ReactReduxContext } from 'react-redux';
+import React, {useContext, useEffect, useLayoutEffect, useRef, useState} from 'react';
+import {Alert, Image, Platform, Share, View} from 'react-native';
+import {ReactReduxContext, useSelector} from 'react-redux';
 import ImagePicker from 'react-native-image-crop-picker';
-import { Menu, MenuOptions, MenuOption, MenuTrigger } from 'react-native-popup-menu';
-import { Camera } from 'expo-camera';
-import { Feed } from '../../components';
-import { FriendshipAPITracker } from '../../Core/socialgraph/friendships/api';
-import { friendshipUtils } from '../../Core/socialgraph/friendships';
-import { storageAPI } from '../../Core/api';
-import { postAPIManager, storyAPIManager, commentAPIManager, FeedManager } from '../../Core/socialgraph/feed/api';
-import { groupBy } from '../../Core/helpers/collections';
+import {Menu, MenuOption, MenuOptions, MenuTrigger} from 'react-native-popup-menu';
+import {Camera} from 'expo-camera';
+import {Feed} from '../../components';
+import {FriendshipAPITracker} from '../../Core/socialgraph/friendships/api';
+import {friendshipUtils} from '../../Core/socialgraph/friendships';
+import {storageAPI} from '../../Core/api';
+import {commentAPIManager, FeedManager, postAPIManager, storyAPIManager} from '../../Core/socialgraph/feed/api';
+import {groupBy} from '../../Core/helpers/collections';
 import AppStyles from '../../AppStyles';
 import styles from './styles';
-import { IMLocalized } from '../../Core/localization/IMLocalization';
-import { TNTouchableIcon } from '../../Core/truly-native';
-import { reportingManager } from '../../Core/user-reporting';
+import {IMLocalized} from '../../Core/localization/IMLocalization';
+import {TNTouchableIcon} from '../../Core/truly-native';
+import {reportingManager} from '../../Core/user-reporting';
 import SocialNetworkConfig from '../../SocialNetworkConfig';
 import * as FacebookAds from 'expo-ads-facebook';
-import { useColorScheme } from 'react-native-appearance';
+import {useColorScheme} from 'react-native-appearance';
 
-const FeedScreen = (props) => {
+const FeedScreen = (props) =>
+{
   const currentUser = useSelector((state) => state.auth.user);
   const friends = useSelector((state) => state.friends.friends);
   const friendships = useSelector((state) => state.friends.friendships);
   const mainFeedPosts = useSelector((state) => state.feed.mainFeedPosts);
   const mainStories = useSelector((state) => state.feed.mainStories);
-  const { navigation } = props;
-  const { store } = useContext(ReactReduxContext);
+  const {navigation} = props;
+  const {store} = useContext(ReactReduxContext);
   const followTracker = useRef(null);
   const feedManager = useRef(null);
 
@@ -48,7 +49,8 @@ const FeedScreen = (props) => {
   const navMenuRef = useRef();
   const colorScheme = useColorScheme();
 
-  useLayoutEffect(() => {
+  useLayoutEffect(() =>
+  {
     let currentTheme = AppStyles.navThemeConstants[colorScheme];
 
     const androidNavIconOptions = [
@@ -72,7 +74,7 @@ const FeedScreen = (props) => {
       headerTitle: IMLocalized('Home'),
       headerLeft: () => (
         <TNTouchableIcon
-          imageStyle={{ tintColor: currentTheme.fontColor }}
+          imageStyle={{tintColor: currentTheme.fontColor}}
           iconSource={Platform.OS === 'ios' ? AppStyles.iconSet.camera : AppStyles.iconSet.menuHamburger}
           onPress={Platform.OS === 'ios' ? toggleCamera : openDrawer}
           appStyles={AppStyles}
@@ -118,7 +120,7 @@ const FeedScreen = (props) => {
             </Menu>
           )}
           <TNTouchableIcon
-            imageStyle={{ tintColor: currentTheme.fontColor }}
+            imageStyle={{tintColor: currentTheme.fontColor}}
             iconSource={AppStyles.iconSet.inscription}
             onPress={() => props.navigation.navigate('CreatePost')}
             appStyles={AppStyles}
@@ -133,99 +135,125 @@ const FeedScreen = (props) => {
     });
   }, []);
 
-  useEffect(() => {
-    return () => {
+  useEffect(() =>
+  {
+    return () =>
+    {
       followTracker.current && followTracker.current.unsubscribe();
       feedManager.current && feedManager.current.unsubscribe();
     };
   }, []);
 
-  useEffect(() => {
-    if (!currentUser?.id) {
+  useEffect(() =>
+  {
+    if (!currentUser?.id)
+    {
       return;
     }
     followTracker.current = new FriendshipAPITracker(store, currentUser.id || currentUser.userID, true, false, true);
     followTracker.current.subscribeIfNeeded();
   }, [currentUser?.id]);
 
-  useEffect(() => {
-    if (!currentUser?.id) {
+  useEffect(() =>
+  {
+    if (!currentUser?.id)
+    {
       return;
     }
-    if (!feedManager.current) {
+    if (!feedManager.current)
+    {
       feedManager.current = new FeedManager(store, currentUser.id);
     }
     feedManager.current.subscribeIfNeeded();
   }, [friends]);
 
-  useEffect(() => {
+  useEffect(() =>
+  {
     setIsStoryUpdating(false);
   }, [groupedStories, myRecentStory]);
 
-  useEffect(() => {
+  useEffect(() =>
+  {
     // FacebookAds.InterstitialAdManager.showAd("834318260403282_834371153731326")//"834318260403282_834319513736490")
     //   .then(didClick => {})
     //   .catch(error => {
     //     alert(error);
     //   });
     const placementID = SocialNetworkConfig.adsConfig && SocialNetworkConfig.adsConfig.facebookAdsPlacementID;
-    if (placementID) {
+    if (placementID)
+    {
       const manager = new FacebookAds.NativeAdsManager(placementID, 5);
       manager.onAdsLoaded(onAdsLoaded);
       setAdsManager(manager);
     }
   }, [1]);
 
-  useEffect(() => {
-    if (mainFeedPosts) {
-      if (SocialNetworkConfig.adsConfig && adsLoaded) {
+  useEffect(() =>
+  {
+    if (mainFeedPosts)
+    {
+      if (SocialNetworkConfig.adsConfig && adsLoaded)
+      {
         setFeed(postsWithInsertedAdSlots(mainFeedPosts));
-      } else {
+      }
+      else
+      {
         setFeed(mainFeedPosts);
       }
       setLoading(false);
       setIsFetching(false);
     }
-    if (mainStories) {
+    if (mainStories)
+    {
       const freshStories = filterStaleStories(mainStories);
       groupAndDisplayStories(freshStories);
     }
   }, [mainFeedPosts, mainStories, adsLoaded]);
 
-  const filterStaleStories = (stories) => {
+  const filterStaleStories = (stories) =>
+  {
     const oneDay = 60 * 60 * 24 * 1000;
     const now = +new Date();
 
-    return stories.filter((story) => {
-      if (!story.createdAt) {
+    return stories.filter((story) =>
+    {
+      if (!story.createdAt)
+      {
         return false;
       }
       let createdAt;
 
-      if (story.createdAt.seconds) {
+      if (story.createdAt.seconds)
+      {
         createdAt = +new Date(story.createdAt.seconds * 1000);
-      } else {
+      }
+      else
+      {
         createdAt = +new Date(story.createdAt * 1000);
       }
 
-      if (now - createdAt < oneDay) {
+      if (now - createdAt < oneDay)
+      {
         return story;
       }
     });
   };
 
-  const groupAndDisplayStories = (stories) => {
+  const groupAndDisplayStories = (stories) =>
+  {
     setIsStoryUpdating(true);
     const formattedStories = [];
     var myStory = null;
     const groupedByAuthorID = groupBy('authorID');
     const groupedStories = groupedByAuthorID(stories);
 
-    for (var key of Object.keys(groupedStories)) {
+    for (var key of Object.keys(groupedStories))
+    {
       const rawStory = groupedStories[key];
       const firstStoryInGroup = rawStory[0];
       const author = firstStoryInGroup.author;
-      if (!author) {
+      if (!author)
+      {
         continue;
       }
       const formattedStory = {
@@ -234,7 +262,8 @@ const FeedScreen = (props) => {
         idx: 0,
         profilePictureURL: author.profilePictureURL,
         firstName: author.firstName || author.fullname,
-        items: rawStory.map((item) => {
+        items: rawStory.map((item) =>
+        {
           return {
             src: item.storyMediaURL,
             type: item.storyType,
@@ -242,122 +271,161 @@ const FeedScreen = (props) => {
           };
         }),
       };
-      if (formattedStory.authorID === currentUser.id) {
+      if (formattedStory.authorID === currentUser.id)
+      {
         myStory = formattedStory;
-      } else {
+      }
+      else
+      {
         formattedStories.push(formattedStory);
       }
     }
     setGroupedStories(formattedStories);
-    if (myStory) {
+    if (myStory)
+    {
       setMyRecentStory(myStory);
     }
   };
 
-  const postsWithInsertedAdSlots = (posts) => {
-    if (!posts) {
+  const postsWithInsertedAdSlots = (posts) =>
+  {
+    if (!posts)
+    {
       return posts;
     }
     // We insert ad slots every X posts
     const interval = SocialNetworkConfig.adsConfig.adSlotInjectionInterval;
     var adSlotPositions = [];
-    for (var i = interval; i < posts.length; i += interval) {
+    for (var i = interval; i < posts.length; i += interval)
+    {
       adSlotPositions.push(i);
     }
-    for (var j = adSlotPositions.length - 1; j >= 0; --j) {
-      posts.splice(adSlotPositions[j], 0, { isAd: true });
+    for (var j = adSlotPositions.length - 1; j >= 0; --j)
+    {
+      posts.splice(adSlotPositions[j], 0, {isAd: true});
     }
     return posts;
   };
 
-  const onAdsLoaded = () => {
+  const onAdsLoaded = () =>
+  {
     setAdsLoaded(true);
   };
 
-  const onCommentPress = (item) => {
+  const onCommentPress = (item) =>
+  {
     props.navigation.navigate('FeedDetailPost', {
       item: item,
       lastScreenTitle: 'Feed',
     });
   };
 
-  const runIfCameraPermissionGranted = async (callback) => {
-    const { status } = await Camera.requestPermissionsAsync();
-    if (status === 'granted') {
+  const runIfCameraPermissionGranted = async (callback) =>
+  {
+    const {status} = await Camera.requestPermissionsAsync();
+    if (status === 'granted')
+    {
       callback && callback();
-    } else {
+    }
+    else
+    {
       Alert.alert(IMLocalized('Camera permission denied'), IMLocalized('You must enable camera permissions in order to take photos.'));
     }
   };
 
-  const toggleCamera = () => {
-    runIfCameraPermissionGranted(() => {
-      if (Platform.OS === 'ios') {
+  const toggleCamera = () =>
+  {
+    runIfCameraPermissionGranted(() =>
+    {
+      if (Platform.OS === 'ios')
+      {
         setIsCameraOpen(!isCameraOpen);
-      } else {
-        if (navMenuRef.current) {
+      }
+      else
+      {
+        if (navMenuRef.current)
+        {
           navMenuRef.current.open();
         }
       }
     });
   };
 
-  const openVideoRecorder = () => {
-    runIfCameraPermissionGranted(() => {
+  const openVideoRecorder = () =>
+  {
+    runIfCameraPermissionGranted(() =>
+    {
       ImagePicker.openCamera({
         mediaType: 'video',
-      }).then((image) => {
-        if (image.path) {
+      }).then((image) =>
+      {
+        if (image.path)
+        {
           onPostStory(image);
         }
       });
     });
   };
 
-  const openCamera = () => {
-    runIfCameraPermissionGranted(() => {
+  const openCamera = () =>
+  {
+    runIfCameraPermissionGranted(() =>
+    {
       ImagePicker.openCamera({
         mediaType: 'photo',
-      }).then((image) => {
-        if (image.path) {
+      }).then((image) =>
+      {
+        if (image.path)
+        {
           onPostStory(image);
         }
       });
     });
   };
 
-  const openMediaPicker = () => {
+  const openMediaPicker = () =>
+  {
     ImagePicker.openPicker({
       mediaType: 'any',
-    }).then((image) => {
+    }).then((image) =>
+    {
       const includesVideo = image.mime?.includes('video');
-      if (image.path) {
+      if (image.path)
+      {
         onPostStory(image);
       }
     });
   };
 
-  const openDrawer = () => {
+  const openDrawer = () =>
+  {
     props.navigation.openDrawer();
   };
 
-  const onCameraClose = () => {
+  const onCameraClose = () =>
+  {
     setIsCameraOpen(false);
   };
 
-  const onUserItemPress = (shouldOpenCamera) => {
-    if (shouldOpenCamera) {
+  const onUserItemPress = (shouldOpenCamera) =>
+  {
+    if (shouldOpenCamera)
+    {
       toggleCamera();
     }
   };
 
-  const onFeedUserItemPress = async (item) => {
-    if (item.id === currentUser.id) {
+  const onFeedUserItemPress = async (item) =>
+  {
+    if (item.id === currentUser.id)
+    {
       props.navigation.navigate('FeedProfile', {
         stackKeyTitle: 'FeedProfile',
         lastScreenTitle: 'Feed',
       });
-    } else {
+    }
+    else
+    {
       props.navigation.navigate('FeedProfile', {
         user: item,
         stackKeyTitle: 'FeedProfile',
@@ -366,14 +434,16 @@ const FeedScreen = (props) => {
     }
   };
 
-  const onMediaClose = () => {
+  const onMediaClose = () =>
+  {
     setIsMediaViewerOpen(false);
     navigation.setOptions({
       headerShown: true,
     });
   };
 
-  const onMediaPress = (media, mediaIndex) => {
+  const onMediaPress = (media, mediaIndex) =>
+  {
     setSelectedFeedItems(media);
     setSelectedMediaIndex(mediaIndex);
     setIsMediaViewerOpen(true);
@@ -382,7 +452,8 @@ const FeedScreen = (props) => {
     });
   };
 
-  const onPostStory = async (source) => {
+  const onPostStory = async (source) =>
+  {
     // We close down the camera modal, before uploading the story, to make the UX faster
     toggleCamera();
 
@@ -391,25 +462,31 @@ const FeedScreen = (props) => {
       storyMediaURL: '',
       storyType: source.mime,
     };
-    storageAPI.processAndUploadMediaFile(source).then((response) => {
-      if (!response.error) {
+    storageAPI.processAndUploadMediaFile(source).then((response) =>
+    {
+      if (!response.error)
+      {
         story.storyMediaURL = response.downloadURL;
         storyAPIManager.addStory(story, friendshipUtils.getFollowerIDs(friendships, friends, false), currentUser);
       }
     });
   };
 
-  const onReaction = async (reaction, item) => {
+  const onReaction = async (reaction, item) =>
+  {
     feedManager.current.applyReaction(reaction, item, false);
     commentAPIManager.handleReaction(reaction, currentUser, item, false);
   };
 
-  const onSharePost = async (item) => {
+  const onSharePost = async (item) =>
+  {
     let url = '';
-    if (item.postMedia?.length > 0) {
+    if (item.postMedia?.length > 0)
+    {
       url = item.postMedia[0]?.url || item.postMedia[0];
     }
-    try {
+    try
+    {
       const result = await Share.share(
         {
           title: 'Share SocialNetwork post.',
@@ -420,31 +497,41 @@ const FeedScreen = (props) => {
           dialogTitle: 'Share SocialNetwork post.',
         },
       );
-    } catch (error) {
+    }
+    catch (error)
+    {
       alert(error.message);
     }
   };
 
-  const onDeletePost = async (item) => {
+  const onDeletePost = async (item) =>
+  {
     const res = await postAPIManager.deletePost(item, true);
-    if (res.error) {
+    if (res.error)
+    {
       alert(res.error);
     }
   };
 
-  const onUserReport = async (item, type) => {
+  const onUserReport = async (item, type) =>
+  {
     reportingManager.markAbuse(currentUser.id, item.authorID, type);
   };
 
-  const handleOnEndReached = (distanceFromEnd) => {
-    if (isFetching) {
-      return;
+  const handleOnEndReached = (distanceFromEnd) =>
+  {
+    if (isFetching)
+    {
+
     }
   };
 
-  const onFeedScroll = () => {};
+  const onFeedScroll = () =>
+  {
+  };
 
-  const onEmptyStatePress = () => {
+  const onEmptyStatePress = () =>
+  {
     props.navigation.navigate('Friends');
   };
 

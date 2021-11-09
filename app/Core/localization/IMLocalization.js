@@ -1,7 +1,7 @@
 import memoize from 'lodash.memoize'; // Use for caching/memoize for better performance
 import i18n from 'i18n-js';
 import * as Localization from 'expo-localization';
-import { I18nManager } from 'react-native';
+import {I18nManager} from 'react-native';
 
 export const translationGetters = {
   // lazy requires (metro bundler does not support symlinks)
@@ -16,9 +16,10 @@ export const IMLocalized = memoize(
   (key, config) => (config ? key + JSON.stringify(config) : key),
 );
 
-export const setI18nConfig = () => {
+export const setI18nConfig = () =>
+{
   // fallback if no available language fits
-  const fallback = { languageTag: 'en', isRTL: false };
+  const fallback = {languageTag: 'en', isRTL: false};
 
   // const { languageTag, isRTL } =
   //   RNLocalize.findBestAvailableLanguage(Object.keys(translationGetters)) ||
@@ -26,7 +27,8 @@ export const setI18nConfig = () => {
   let localeLanguageTag = Localization.locale;
   let isRTL = Localization.isRTL;
 
-  if (localeLanguageTag) {
+  if (localeLanguageTag)
+  {
     localeLanguageTag = 'vi';
     isRTL = false;
   }

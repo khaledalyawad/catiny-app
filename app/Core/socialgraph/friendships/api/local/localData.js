@@ -81,9 +81,9 @@ const mockFriend5 = {
 export const mockFriends = [mockFriend1, mockFriend2, mockFriend3, mockFriend4, mockFriend5];
 
 export const mockFriendships = [
-  { type: 'reciprocal', user: mockFriend1 },
-  { type: 'reciprocal', user: mockFriend2 },
-  { type: 'reciprocal', user: mockFriend3 },
-  { type: 'reciprocal', user: mockFriend4 },
-  { type: 'reciprocal', user: mockFriend5 },
+  {type: 'reciprocal', user: mockFriend1},
+  {type: 'reciprocal', user: mockFriend2},
+  {type: 'reciprocal', user: mockFriend3},
+  {type: 'reciprocal', user: mockFriend4},
+  {type: 'reciprocal', user: mockFriend5},
 ];

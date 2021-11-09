@@ -1,32 +1,33 @@
 import React from 'react';
-import { ScrollView, Text, Image, View, Platform } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
-import { connect } from 'react-redux';
+import {Image, Platform, ScrollView, Text, View} from 'react-native';
+import {Ionicons} from '@expo/vector-icons';
+import {connect} from 'react-redux';
 
 import LearnMoreLinks from './learn-more-links.component.js';
-import { Images } from '../../shared/themes';
+import {Images} from '../../shared/themes';
 import styles from './home-screen.styles';
 
-function HomeScreen(props) {
-  const { account } = props;
+function HomeScreen(props)
+{
+  const {account} = props;
   return (
-    <View style={[styles.container, styles.mainContainer]} testID="homeScreen">
-      <ScrollView contentInsetAdjustmentBehavior="automatic" style={styles.scrollView}>
+    <View style={[styles.container, styles.mainContainer]} testID='homeScreen'>
+      <ScrollView contentInsetAdjustmentBehavior='automatic' style={styles.scrollView}>
         <View style={styles.centered}>
           <Image source={Images.logoJhipster} style={styles.logo} />
           <Text style={styles.welcomeText}>CatinyApp</Text>
           <Text style={styles.welcomeText}>Welcome to your JHipster React Native app.</Text>
         </View>
         {account && account.login ? (
-          <View style={[styles.authContainer, styles.authContainerTrue]} testID="authDisplayTrue">
+          <View style={[styles.authContainer, styles.authContainerTrue]} testID='authDisplayTrue'>
             <Text style={styles.authText}>
-              <Ionicons name="md-checkmark-circle" size={22} color={'white'} /> You are signed in as {account.login}
+              <Ionicons name='md-checkmark-circle' size={22} color={'white'} /> You are signed in as {account.login}
             </Text>
           </View>
         ) : (
-          <View style={[styles.authContainer, styles.authContainerFalse]} testID="authDisplayFalse">
+          <View style={[styles.authContainer, styles.authContainerFalse]} testID='authDisplayFalse'>
             <Text style={styles.authText}>
-              <Ionicons name="md-information-circle" size={22} color={'white'} /> You are not signed in.
+              <Ionicons name='md-information-circle' size={22} color={'white'} /> You are not signed in.
             </Text>
           </View>
         )}
@@ -64,6 +65,6 @@ function HomeScreen(props) {
   );
 }
 
-const mapStateToProps = (state) => ({ account: state.account.account });
+const mapStateToProps = (state) => ({account: state.account.account});
 const mapDispatchToProps = (dispatch) => ({});
 export default connect(mapStateToProps, mapDispatchToProps)(HomeScreen);

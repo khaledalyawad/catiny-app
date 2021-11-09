@@ -1,15 +1,16 @@
 import React from 'react';
-import { ActivityIndicator, ScrollView, Text, View } from 'react-native';
-import { connect } from 'react-redux';
-import { useFocusEffect } from '@react-navigation/native';
+import {ActivityIndicator, ScrollView, Text, View} from 'react-native';
+import {connect} from 'react-redux';
+import {useFocusEffect} from '@react-navigation/native';
 
 import UserProfileActions from './user-profile.reducer';
 import RoundedButton from '../../../shared/components/rounded-button/rounded-button';
 import UserProfileDeleteModal from './user-profile-delete-modal';
 import styles from './user-profile-styles';
 
-function UserProfileDetailScreen(props) {
-  const { route, getUserProfile, navigation, userProfile, fetching, error } = props;
+function UserProfileDetailScreen(props)
+{
+  const {route, getUserProfile, navigation, userProfile, fetching, error} = props;
   const [deleteModalVisible, setDeleteModalVisible] = React.useState(false);
   // prevents display of stale reducer data
   const entityId = userProfile?.id ?? null;
@@ -17,88 +18,94 @@ function UserProfileDetailScreen(props) {
   const correctEntityLoaded = routeEntityId && entityId && routeEntityId.toString() === entityId.toString();
 
   useFocusEffect(
-    React.useCallback(() => {
-      if (!routeEntityId) {
+    React.useCallback(() =>
+    {
+      if (!routeEntityId)
+      {
         navigation.navigate('UserProfile');
-      } else {
+      }
+      else
+      {
         setDeleteModalVisible(false);
         getUserProfile(routeEntityId);
       }
     }, [routeEntityId, getUserProfile, navigation]),
   );
 
-  if (!entityId && !fetching && error) {
+  if (!entityId && !fetching && error)
+  {
     return (
       <View style={styles.loading}>
         <Text>Something went wrong fetching the UserProfile.</Text>
       </View>
     );
   }
-  if (!entityId || fetching || !correctEntityLoaded) {
+  if (!entityId || fetching || !correctEntityLoaded)
+  {
     return (
       <View style={styles.loading}>
-        <ActivityIndicator size="large" />
+        <ActivityIndicator size='large' />
       </View>
     );
   }
   return (
-    <ScrollView style={styles.container} contentContainerStyle={styles.paddedScrollView} testID="userProfileDetailScrollView">
+    <ScrollView style={styles.container} contentContainerStyle={styles.paddedScrollView} testID='userProfileDetailScrollView'>
       <Text style={styles.label}>Id:</Text>
       <Text>{userProfile.id}</Text>
       {/* Uuid Field */}
       <Text style={styles.label}>Uuid:</Text>
-      <Text testID="uuid">{userProfile.uuid}</Text>
+      <Text testID='uuid'>{userProfile.uuid}</Text>
       {/* Work Field */}
       <Text style={styles.label}>Work:</Text>
-      <Text testID="work">{userProfile.work}</Text>
+      <Text testID='work'>{userProfile.work}</Text>
       {/* Education Field */}
       <Text style={styles.label}>Education:</Text>
-      <Text testID="education">{userProfile.education}</Text>
+      <Text testID='education'>{userProfile.education}</Text>
       {/* PlacesLived Field */}
       <Text style={styles.label}>PlacesLived:</Text>
-      <Text testID="placesLived">{userProfile.placesLived}</Text>
+      <Text testID='placesLived'>{userProfile.placesLived}</Text>
       {/* ContactInfo Field */}
       <Text style={styles.label}>ContactInfo:</Text>
-      <Text testID="contactInfo">{userProfile.contactInfo}</Text>
+      <Text testID='contactInfo'>{userProfile.contactInfo}</Text>
       {/* WebSocialLinks Field */}
       <Text style={styles.label}>WebSocialLinks:</Text>
-      <Text testID="webSocialLinks">{userProfile.webSocialLinks}</Text>
+      <Text testID='webSocialLinks'>{userProfile.webSocialLinks}</Text>
       {/* BasicInfo Field */}
       <Text style={styles.label}>BasicInfo:</Text>
-      <Text testID="basicInfo">{userProfile.basicInfo}</Text>
+      <Text testID='basicInfo'>{userProfile.basicInfo}</Text>
       {/* RelationshipInfo Field */}
       <Text style={styles.label}>RelationshipInfo:</Text>
-      <Text testID="relationshipInfo">{userProfile.relationshipInfo}</Text>
+      <Text testID='relationshipInfo'>{userProfile.relationshipInfo}</Text>
       {/* Family Field */}
       <Text style={styles.label}>Family:</Text>
-      <Text testID="family">{userProfile.family}</Text>
+      <Text testID='family'>{userProfile.family}</Text>
       {/* DetailAbout Field */}
       <Text style={styles.label}>DetailAbout:</Text>
-      <Text testID="detailAbout">{userProfile.detailAbout}</Text>
+      <Text testID='detailAbout'>{userProfile.detailAbout}</Text>
       {/* LifeEvents Field */}
       <Text style={styles.label}>LifeEvents:</Text>
-      <Text testID="lifeEvents">{userProfile.lifeEvents}</Text>
+      <Text testID='lifeEvents'>{userProfile.lifeEvents}</Text>
       {/* Hobbies Field */}
       <Text style={styles.label}>Hobbies:</Text>
-      <Text testID="hobbies">{userProfile.hobbies}</Text>
+      <Text testID='hobbies'>{userProfile.hobbies}</Text>
       {/* Featured Field */}
       <Text style={styles.label}>Featured:</Text>
-      <Text testID="featured">{userProfile.featured}</Text>
+      <Text testID='featured'>{userProfile.featured}</Text>
       <Text style={styles.label}>Info:</Text>
-      <Text testID="info">{String(userProfile.info ? userProfile.info.id : '')}</Text>
+      <Text testID='info'>{String(userProfile.info ? userProfile.info.id : '')}</Text>
 
       <View style={styles.entityButtons}>
         <RoundedButton
-          text="Edit"
-          onPress={() => navigation.navigate('UserProfileEdit', { entityId })}
+          text='Edit'
+          onPress={() => navigation.navigate('UserProfileEdit', {entityId})}
           accessibilityLabel={'UserProfile Edit Button'}
-          testID="userProfileEditButton"
+          testID='userProfileEditButton'
         />
         <RoundedButton
-          text="Delete"
+          text='Delete'
           onPress={() => setDeleteModalVisible(true)}
           accessibilityLabel={'UserProfile Delete Button'}
-          testID="userProfileDeleteButton"
+          testID='userProfileDeleteButton'
         />
         {deleteModalVisible && (
           <UserProfileDeleteModal
@@ -106,7 +113,7 @@ function UserProfileDetailScreen(props) {
             visible={deleteModalVisible}
             setVisible={setDeleteModalVisible}
             entity={userProfile}
-            testID="userProfileDeleteModal"
+            testID='userProfileDeleteModal'
           />
         )}
       </View>
@@ -114,7 +121,8 @@ function UserProfileDetailScreen(props) {
   );
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state) =>
+{
   return {
     userProfile: state.userProfiles.userProfile,
     error: state.userProfiles.errorOne,
@@ -124,7 +132,8 @@ const mapStateToProps = (state) => {
   };
 };
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = (dispatch) =>
+{
   return {
     getUserProfile: (id) => dispatch(UserProfileActions.userProfileRequest(id)),
     getAllUserProfiles: (options) => dispatch(UserProfileActions.userProfileAllRequest(options)),

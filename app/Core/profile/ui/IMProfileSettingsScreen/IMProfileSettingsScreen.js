@@ -1,11 +1,12 @@
-import React, { useLayoutEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import React, {useLayoutEffect} from 'react';
+import {useDispatch, useSelector} from 'react-redux';
 import IMProfileSettings from '../components/IMProfileSettings/IMProfileSettings';
-import { logout } from '../../../onboarding/redux/auth';
-import { IMLocalized } from '../../../localization/IMLocalization';
-import { useColorScheme } from 'react-native-appearance';
+import {logout} from '../../../onboarding/redux/auth';
+import {IMLocalized} from '../../../localization/IMLocalization';
+import {useColorScheme} from 'react-native-appearance';
 
-const IMProfileSettingsScreen = (props) => {
+const IMProfileSettingsScreen = (props) =>
+{
   const appStyles = props.route.params.appStyles;
   const colorScheme = useColorScheme();
   const currentTheme = appStyles.navThemeConstants[colorScheme];
@@ -17,7 +18,8 @@ const IMProfileSettingsScreen = (props) => {
 
   const dispatch = useDispatch();
 
-  useLayoutEffect(() => {
+  useLayoutEffect(() =>
+  {
     navigation.setOptions({
       headerTitle: IMLocalized('Settings'),
       headerStyle: {
@@ -28,7 +30,8 @@ const IMProfileSettingsScreen = (props) => {
     });
   }, []);
 
-  const onLogout = () => {
+  const onLogout = () =>
+  {
     dispatch(logout());
   };
 

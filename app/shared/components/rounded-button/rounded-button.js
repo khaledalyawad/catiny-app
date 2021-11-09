@@ -1,5 +1,5 @@
 import React from 'react';
-import { TouchableOpacity, Text } from 'react-native';
+import {Text, TouchableOpacity} from 'react-native';
 import styles from './rounded-button.styles';
 
 // type RoundedButtonProps: {
@@ -10,10 +10,12 @@ import styles from './rounded-button.styles';
 //     testID: PropTypes.string,
 // }
 
-export default function RoundedButton(props) {
-  const { onPress, text, children, navigator, ...otherProps } = props;
+export default function RoundedButton(props)
+{
+  const {onPress, text, children, navigator, ...otherProps} = props;
 
-  const getText = () => {
+  const getText = () =>
+  {
     const buttonText = text || children || '';
     return buttonText.toUpperCase();
   };

@@ -29,20 +29,22 @@ const nativePaymentMethod = {
   isNativePaymentMethod: true,
 };
 
-export default class PaymentMethodDataManager {
+export default class PaymentMethodDataManager
+{
   /**
    * Constructor call
    *
    * @param {object} appConfig app configuration
    */
-  constructor(appConfig) {
+  constructor(appConfig)
+  {
     //initialize appConfig
     this.appConfig = appConfig;
   }
 
   /**
    * Update payment details on the database
-   * 
+   *
    * @param {object} paymentDetails object  containing ownerID and card object
    * card = {
         addressCity,
@@ -53,7 +55,8 @@ export default class PaymentMethodDataManager {
       }
 
    */
-  updateUserPaymentMethods = async ({ ownerId, card }) => {
+  updateUserPaymentMethods = async ({ownerId, card}) =>
+  {
     // update user paymetn details
     // return { success: true };
     // return { error, success: false };
@@ -64,7 +67,8 @@ export default class PaymentMethodDataManager {
    *
    * @param {String} cardId cardID of the currently signed in user
    */
-  deleteFromUserPaymentMethods = async (cardId) => {
+  deleteFromUserPaymentMethods = async (cardId) =>
+  {
     // delete payment method from database
     //   return { success: true }
     //   return { error, success: false };
@@ -75,8 +79,10 @@ export default class PaymentMethodDataManager {
    * @param {String} ownerId the id of the logged in user
    * @param {function} callback a callback that is called when the user data changes on the payment methods backend
    */
-  subscribePaymentMethods = (ownerId, callback) => {
-    if (!ownerId) {
+  subscribePaymentMethods = (ownerId, callback) =>
+  {
+    if (!ownerId)
+    {
       return;
     }
     const ref = null; // object that will  be used to unsubscribed from the listener
@@ -91,7 +97,8 @@ export default class PaymentMethodDataManager {
    * @param {String} userId id of the current user
    * @param {String} source the value of source id
    */
-  savePaymentSource = async (userId, source) => {
+  savePaymentSource = async (userId, source) =>
+  {
     // save source id based on users' stripe customer id
     //   return { response, success: true }; if successful
     //   return { error, success: false };

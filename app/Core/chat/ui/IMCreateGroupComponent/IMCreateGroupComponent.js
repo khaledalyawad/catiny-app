@@ -1,16 +1,15 @@
-import React, { useState } from 'react';
-import { FlatList, TouchableOpacity, Text, View, Image } from 'react-native';
+import React, {useState} from 'react';
+import {FlatList, Image, Text, TouchableOpacity, View} from 'react-native';
 import DialogInput from 'react-native-dialog-input';
-
-import PropTypes from 'prop-types';
-import { IMConversationIconView } from '../..';
+import {IMConversationIconView} from '../..';
 import dynamicStyles from './styles';
-import { useColorScheme } from 'react-native-appearance';
-import { TNEmptyStateView } from '../../../truly-native';
-import { IMLocalized } from '../../../localization/IMLocalization';
+import {useColorScheme} from 'react-native-appearance';
+import {TNEmptyStateView} from '../../../truly-native';
+import {IMLocalized} from '../../../localization/IMLocalization';
 
-function IMCreateGroupComponent(props) {
-  const { onCancel, isNameDialogVisible, friends, onSubmitName, onCheck, appStyles, onEmptyStatePress } = props;
+function IMCreateGroupComponent(props)
+{
+  const {onCancel, isNameDialogVisible, friends, onSubmitName, onCheck, appStyles, onEmptyStatePress} = props;
 
   const colorScheme = useColorScheme();
   const styles = dynamicStyles(appStyles, colorScheme);
@@ -44,7 +43,7 @@ function IMCreateGroupComponent(props) {
   //   setNameDialogVisible(show);
   // };
 
-  const renderItem = ({ item }) => (
+  const renderItem = ({item}) => (
     <TouchableOpacity onPress={() => onCheck(item)} style={styles.itemContainer}>
       <View style={styles.chatIconContainer}>
         <IMConversationIconView style={styles.photo} imageStyle={styles.photo} participants={[item]} appStyles={appStyles} />
@@ -55,7 +54,8 @@ function IMCreateGroupComponent(props) {
     </TouchableOpacity>
   );
 
-  const onImageError = () => {
+  const onImageError = () =>
+  {
     setImgErr(true);
     console.log('oops an error occurred');
   };
@@ -86,10 +86,11 @@ function IMCreateGroupComponent(props) {
       <DialogInput
         isDialogVisible={isNameDialogVisible}
         title={IMLocalized('Type group name')}
-        hintInput="Group Name"
-        textInputProps={{ selectTextOnFocus: true }}
-        submitText="OK"
-        submitInput={(inputText) => {
+        hintInput='Group Name'
+        textInputProps={{selectTextOnFocus: true}}
+        submitText='OK'
+        submitInput={(inputText) =>
+        {
           onSubmitName(inputText);
         }}
         closeDialog={onCancel}

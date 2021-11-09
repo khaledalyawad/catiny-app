@@ -26,7 +26,8 @@
  * @param {function} callbackSuccess
  * @param {function} callbackError
  */
-const processAndUploadMediaFileWithProgressTracking = async (file, callbackProgress, callbackSuccess, callbackError) => {
+const processAndUploadMediaFileWithProgressTracking = async (file, callbackProgress, callbackSuccess, callbackError) =>
+{
   // process file (optionally using helper method) and start upload with progress tracking
   // resolve({ downloadURL: downloadURL }); if successful
   // resolve({ error: ErrorCode.photoUploadFailed }); if unsuccessful
@@ -44,8 +45,10 @@ const processAndUploadMediaFileWithProgressTracking = async (file, callbackProgr
  *
  *
  */
-const processAndUploadMediaFile = (file) => {
-  return new Promise((resolve, _reject) => {
+const processAndUploadMediaFile = (file) =>
+{
+  return new Promise((resolve, _reject) =>
+  {
     // process file (optionally using helper method) and start upload
     // resolve({ downloadURL: downloadURL }); if successful
     // resolve({ error: ErrorCode.photoUploadFailed }); if unsuccessful

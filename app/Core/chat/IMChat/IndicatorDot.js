@@ -1,18 +1,22 @@
-import React, { useRef, useEffect } from 'react';
-import { Animated } from 'react-native';
+import React, {useEffect, useRef} from 'react';
+import {Animated} from 'react-native';
 
-export default function IndicatorDot(props) {
+export default function IndicatorDot(props)
+{
   const animation = useRef(new Animated.Value(0));
 
-  const { startTime, radius } = props;
+  const {startTime, radius} = props;
 
-  useEffect(() => {
-    setTimeout(() => {
+  useEffect(() =>
+  {
+    setTimeout(() =>
+    {
       handleAnimation();
     }, startTime);
   }, []);
 
-  const handleAnimation = () => {
+  const handleAnimation = () =>
+  {
     Animated.sequence([
       Animated.timing(animation.current, {
         duration: 500,
@@ -24,7 +28,8 @@ export default function IndicatorDot(props) {
         toValue: 0,
         useNativeDriver: false,
       }),
-    ]).start(() => {
+    ]).start(() =>
+    {
       handleAnimation();
     });
   };

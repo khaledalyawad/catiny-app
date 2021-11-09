@@ -10,7 +10,7 @@ module.exports = {
     'react-hooks/exhaustive-deps': "off",
   },
   parser: "babel-eslint",
-  plugins: ['editorconfig', "react", "react-native","react-hooks"],
+  plugins: ['editorconfig', "react", "react-native", "react-hooks"],
   globals: {
     describe: 'readonly',
     test: 'readonly',

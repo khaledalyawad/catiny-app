@@ -1,6 +1,6 @@
-import { Platform } from 'react-native';
+import {Platform} from 'react-native';
 
-const platformFont = Platform.select({ android: 'Roboto', default: 'Avenir-Book' });
+const platformFont = Platform.select({android: 'Roboto', default: 'Avenir-Book'});
 
 const type = {
   base: platformFont,

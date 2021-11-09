@@ -1,22 +1,24 @@
 import React from 'react';
-import { FlatList, Text, TouchableOpacity, View } from 'react-native';
-import { connect } from 'react-redux';
-import { useFocusEffect } from '@react-navigation/native';
+import {FlatList, Text, TouchableOpacity, View} from 'react-native';
+import {connect} from 'react-redux';
+import {useFocusEffect} from '@react-navigation/native';
 import SearchBar from '../../../shared/components/search-bar/search-bar';
 import VideoStreamActions from './video-stream.reducer';
 import styles from './video-stream-styles';
 import AlertMessage from '../../../shared/components/alert-message/alert-message';
 
-function VideoStreamScreen(props) {
+function VideoStreamScreen(props)
+{
   const [page, setPage] = React.useState(0);
   const [sort /*, setSort*/] = React.useState('id,asc');
   const [size /*, setSize*/] = React.useState(20);
   const [searchTerm, setSearchTerm] = React.useState('');
 
-  const { videoStream, videoStreamList, getAllVideoStreams, fetching } = props;
+  const {videoStream, videoStreamList, getAllVideoStreams, fetching} = props;
 
   useFocusEffect(
-    React.useCallback(() => {
+    React.useCallback(() =>
+    {
       console.debug('VideoStream entity changed and the list screen is now in focus, refresh');
       setPage(0);
       fetchVideoStreams();
@@ -24,9 +26,10 @@ function VideoStreamScreen(props) {
     }, [videoStream, fetchVideoStreams]),
   );
 
-  const renderRow = ({ item }) => {
+  const renderRow = ({item}) =>
+  {
     return (
-      <TouchableOpacity onPress={() => props.navigation.navigate('VideoStreamDetail', { entityId: item.id })}>
+      <TouchableOpacity onPress={() => props.navigation.navigate('VideoStreamDetail', {entityId: item.id})}>
         <View style={styles.listRow}>
           <Text style={styles.whiteLabel}>ID: {item.id}</Text>
           {/* <Text style={styles.label}>{item.description}</Text> */}
@@ -39,39 +42,45 @@ function VideoStreamScreen(props) {
   const renderHeader = () => <SearchBar onSearch={performSearch} searchTerm={searchTerm} onCancel={cancelSearch} />;
 
   // Show this when data is empty
-  const renderEmpty = () => <AlertMessage title="No VideoStreams Found" show={!fetching} />;
+  const renderEmpty = () => <AlertMessage title='No VideoStreams Found' show={!fetching} />;
 
   const keyExtractor = (item, index) => `${index}`;
 
   // How many items should be kept im memory as we scroll?
   const oneScreensWorth = 20;
 
-  const cancelSearch = () => {
+  const cancelSearch = () =>
+  {
     setSearchTerm('');
     fetchVideoStreams();
   };
 
-  const performSearch = (query) => {
-    if (query === '') {
+  const performSearch = (query) =>
+  {
+    if (query === '')
+    {
       cancelSearch();
       return;
     }
     setSearchTerm(query);
     props.performSearch(query);
   };
-  const fetchVideoStreams = React.useCallback(() => {
-    getAllVideoStreams({ page: page - 1, sort, size });
+  const fetchVideoStreams = React.useCallback(() =>
+  {
+    getAllVideoStreams({page: page - 1, sort, size});
   }, [getAllVideoStreams, page, sort, size]);
 
-  const handleLoadMore = () => {
-    if (page < props.links.next || props.links.next === undefined || fetching) {
+  const handleLoadMore = () =>
+  {
+    if (page < props.links.next || props.links.next === undefined || fetching)
+    {
       return;
     }
     setPage(page + 1);
     fetchVideoStreams();
   };
   return (
-    <View style={styles.container} testID="videoStreamScreen">
+    <View style={styles.container} testID='videoStreamScreen'>
       <FlatList
         contentContainerStyle={styles.listContent}
         data={videoStreamList}
@@ -86,7 +95,8 @@ function VideoStreamScreen(props) {
   );
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state) =>
+{
   return {
     // ...redux state to props here
     videoStreamList: state.videoStreams.videoStreamList,
@@ -97,7 +107,8 @@ const mapStateToProps = (state) => {
   };
 };
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = (dispatch) =>
+{
   return {
     performSearch: (query) => dispatch(VideoStreamActions.videoStreamSearchRequest(query)),
     getAllVideoStreams: (options) => dispatch(VideoStreamActions.videoStreamAllRequest(options)),

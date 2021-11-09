@@ -1,25 +1,30 @@
 import React from 'react';
-import { StyleSheet, View, Animated } from 'react-native';
-import { observer } from 'mobx-react';
+import {Animated, StyleSheet, View} from 'react-native';
+import {observer} from 'mobx-react';
 import store from './Store';
 
 @observer
-export default class Indicator extends React.Component {
-  constructor(props) {
+export default class Indicator extends React.Component
+{
+  constructor(props)
+  {
     super(props);
-    this.state = { width: 0 };
+    this.state = {width: 0};
   }
 
-  setWidthFromLayout(event) {
-    const { width } = event.nativeEvent.layout;
-    this.setState({ width });
+  setWidthFromLayout(event)
+  {
+    const {width} = event.nativeEvent.layout;
+    this.setState({width});
   }
 
-  render() {
-    const { animate, seen, coming, story, i } = this.props;
+  render()
+  {
+    const {animate, seen, coming, story, i} = this.props;
     let style = {};
 
-    if (animate) {
+    if (animate)
+    {
       style = {
         width: store.indicatorAnim.interpolate({
           inputRange: [0, 1],
@@ -27,12 +32,16 @@ export default class Indicator extends React.Component {
           extrapolate: 'clamp',
         }),
       };
-    } else if (story.idx > i) {
+    }
+    else if (story.idx > i)
+    {
       // seen
-      style = { flex: 1 };
-    } else if (story.idx <= i) {
+      style = {flex: 1};
+    }
+    else if (story.idx <= i)
+    {
       // coming
-      style = { width: 0 };
+      style = {width: 0};
     }
 
     return (

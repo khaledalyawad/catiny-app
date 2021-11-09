@@ -1,10 +1,11 @@
 import React from 'react';
-import { Image, Text, TouchableHighlight, View } from 'react-native';
-import { useColorScheme } from 'react-native-appearance';
+import {Image, Text, TouchableHighlight, View} from 'react-native';
+import {useColorScheme} from 'react-native-appearance';
 import dynamicStyles from './styles';
 
-const IMMenuButton = (props) => {
-  const { appStyles } = props;
+const IMMenuButton = (props) =>
+{
+  const {appStyles} = props;
   const colorScheme = useColorScheme();
   const styles = dynamicStyles(appStyles, colorScheme);
 

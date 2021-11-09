@@ -1,16 +1,18 @@
 import React from 'react';
-import { SafeAreaView } from 'react-native';
+import {SafeAreaView} from 'react-native';
 
 import dynamicStyles from './styles';
-import { useColorScheme } from 'react-native-appearance';
+import {useColorScheme} from 'react-native-appearance';
 import Tab from './Tab';
 
-export function TabBarBuilder({ tabIcons, appStyles, route, state, navigation }) {
+export function TabBarBuilder({tabIcons, appStyles, route, state, navigation})
+{
   const colorScheme = useColorScheme();
   const styles = dynamicStyles(appStyles, colorScheme);
   return (
     <SafeAreaView style={styles.tabBarContainer}>
-      {state.routes.map((route, index) => {
+      {state.routes.map((route, index) =>
+      {
         return (
           <Tab
             key={index + ''}

@@ -1,11 +1,12 @@
-import { StyleSheet, Dimensions } from 'react-native';
+import {Dimensions, StyleSheet} from 'react-native';
 
 const height = Dimensions.get('window').height;
 
 const mentionItemContainerHeight = Math.floor(height * 0.066);
 const mentionPhotoSize = Math.floor(mentionItemContainerHeight * 0.66);
 
-const dynamicStyles = (colorScheme, appStyles) => {
+const dynamicStyles = (colorScheme, appStyles) =>
+{
   return new StyleSheet.create({
     mentionItemContainer: {
       width: ' 100%',

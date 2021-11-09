@@ -1,17 +1,18 @@
-import React, { createRef } from 'react';
-import { Text } from 'react-native';
-import { connect } from 'react-redux';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import React, {createRef} from 'react';
+import {Text} from 'react-native';
+import {connect} from 'react-redux';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import * as Yup from 'yup';
 
-import { useDidUpdateEffect } from '../../../shared/util/use-did-update-effect';
+import {useDidUpdateEffect} from '../../../shared/util/use-did-update-effect';
 import FormButton from '../../../shared/components/form/jhi-form-button';
 import FormField from '../../../shared/components/form/jhi-form-field';
 import Form from '../../../shared/components/form/jhi-form';
 import ForgotPasswordActions from './forgot-password.reducer';
 import styles from './forgot-password-screen.styles';
 
-function ForgotPasswordScreen(props) {
+function ForgotPasswordScreen(props)
+{
   const [error, setError] = React.useState('');
   const [success, setSuccess] = React.useState('');
 
@@ -20,17 +21,23 @@ function ForgotPasswordScreen(props) {
     email: Yup.string().required().email().label('Email'),
   });
 
-  const onSubmit = (data) => {
+  const onSubmit = (data) =>
+  {
     setSuccess('');
     setError('');
     props.resetPassword(data.email);
   };
 
-  useDidUpdateEffect(() => {
-    if (!props.fetching) {
-      if (props.error) {
+  useDidUpdateEffect(() =>
+  {
+    if (!props.fetching)
+    {
+      if (props.error)
+      {
         setError(props.error);
-      } else {
+      }
+      else
+      {
         setSuccess('Password reset email sent');
       }
     }
@@ -40,18 +47,18 @@ function ForgotPasswordScreen(props) {
   const formRef = createRef();
 
   return (
-    <KeyboardAwareScrollView contentContainerStyle={styles.container} keyboardShouldPersistTaps="handled" keyboardDismissMode="on-drag">
+    <KeyboardAwareScrollView contentContainerStyle={styles.container} keyboardShouldPersistTaps='handled' keyboardDismissMode='on-drag'>
       {!!error && <Text style={styles.errorText}>{error}</Text>}
       {!!success && <Text style={styles.successText}>{success}</Text>}
-      <Form initialValues={{ email: '' }} validationSchema={validationSchema} onSubmit={onSubmit} ref={formRef}>
+      <Form initialValues={{email: ''}} validationSchema={validationSchema} onSubmit={onSubmit} ref={formRef}>
         <FormField
-          name="email"
-          label="Email"
-          placeholder="Enter email"
+          name='email'
+          label='Email'
+          placeholder='Enter email'
           onSubmitEditing={() => formRef?.current?.submitForm()}
-          autoCapitalize="none"
-          keyboardType="email-address"
-          textContentType="username"
+          autoCapitalize='none'
+          keyboardType='email-address'
+          textContentType='username'
         />
         <FormButton title={'Reset Password'} />
       </Form>
@@ -59,14 +66,16 @@ function ForgotPasswordScreen(props) {
   );
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state) =>
+{
   return {
     fetching: state.forgotPassword.fetching,
     error: state.forgotPassword.error,
   };
 };
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = (dispatch) =>
+{
   return {
     resetPassword: (email) => dispatch(ForgotPasswordActions.forgotPasswordRequest(email)),
   };

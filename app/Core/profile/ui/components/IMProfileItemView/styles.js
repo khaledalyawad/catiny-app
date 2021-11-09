@@ -1,7 +1,7 @@
-import { StyleSheet } from 'react-native';
-import { I18nManager } from 'react-native';
+import {I18nManager, StyleSheet} from 'react-native';
 
-const dynamicStyles = (appStyles, colorScheme) => {
+const dynamicStyles = (appStyles, colorScheme) =>
+{
   return StyleSheet.create({
     container: {
       flexDirection: 'row',
@@ -30,7 +30,7 @@ const dynamicStyles = (appStyles, colorScheme) => {
       width: 20,
       marginRight: 10,
       tintColor: appStyles.colorSet[colorScheme].grey6,
-      transform: [{ scaleX: I18nManager.isRTL ? -1 : 1 }],
+      transform: [{scaleX: I18nManager.isRTL ? -1 : 1}],
     },
   });
 };

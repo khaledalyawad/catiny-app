@@ -1,9 +1,9 @@
-import { createReducer, createActions } from 'reduxsauce';
+import {createActions, createReducer} from 'reduxsauce';
 import Immutable from 'seamless-immutable';
 
 /* ------------- Types and Action Creators ------------- */
 
-const { Types, Creators } = createActions({
+const {Types, Creators} = createActions({
   userAllRequest: ['options'],
   userRequest: ['userId'],
   userUpdateRequest: ['user'],
@@ -66,8 +66,9 @@ export const deleteRequest = (state) =>
   });
 
 // successful api lookup for all entities
-export const allSuccess = (state, action) => {
-  const { userList } = action;
+export const allSuccess = (state, action) =>
+{
+  const {userList} = action;
   return state.merge({
     fetchingAll: false,
     errorAll: null,
@@ -76,8 +77,9 @@ export const allSuccess = (state, action) => {
 };
 
 // successful api lookup for single entity
-export const success = (state, action) => {
-  const { user } = action;
+export const success = (state, action) =>
+{
+  const {user} = action;
   return state.merge({
     fetchingOne: false,
     errorOne: null,
@@ -86,8 +88,9 @@ export const success = (state, action) => {
 };
 
 // successful api update
-export const updateSuccess = (state, action) => {
-  const { user } = action;
+export const updateSuccess = (state, action) =>
+{
+  const {user} = action;
   return state.merge({
     updating: false,
     errorUpdating: null,
@@ -95,7 +98,8 @@ export const updateSuccess = (state, action) => {
   });
 };
 // successful api delete
-export const deleteSuccess = (state) => {
+export const deleteSuccess = (state) =>
+{
   return state.merge({
     deleting: false,
     errorDeleting: null,
@@ -104,8 +108,9 @@ export const deleteSuccess = (state) => {
 };
 
 // Something went wrong fetching all entities.
-export const allFailure = (state, action) => {
-  const { error } = action;
+export const allFailure = (state, action) =>
+{
+  const {error} = action;
   return state.merge({
     fetchingAll: false,
     errorAll: error,
@@ -114,8 +119,9 @@ export const allFailure = (state, action) => {
 };
 
 // Something went wrong fetching a single entity.
-export const failure = (state, action) => {
-  const { error } = action;
+export const failure = (state, action) =>
+{
+  const {error} = action;
   return state.merge({
     fetchingOne: false,
     errorOne: error,
@@ -124,16 +130,18 @@ export const failure = (state, action) => {
 };
 
 // Something went wrong updating.
-export const updateFailure = (state, action) => {
-  const { error } = action;
+export const updateFailure = (state, action) =>
+{
+  const {error} = action;
   return state.merge({
     updating: false,
     errorUpdating: error,
   });
 };
 // Something went wrong deleting.
-export const deleteFailure = (state, action) => {
-  const { error } = action;
+export const deleteFailure = (state, action) =>
+{
+  const {error} = action;
   return state.merge({
     deleting: false,
     errorDeleting: error,

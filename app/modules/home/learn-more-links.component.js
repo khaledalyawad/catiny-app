@@ -7,10 +7,10 @@
  */
 // slightly modified version of https://github.com/facebook/react-native/blob/e028ac7af2d5b48860f01055f3bbacf91f6b6956/Libraries/NewAppScreen/components/LearnMoreLinks.js
 
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import * as Linking from 'expo-linking';
 import React from 'react';
-import { Colors } from '../../shared/themes';
+import {Colors} from '../../shared/themes';
 
 const links = [
   {
@@ -65,7 +65,8 @@ const links = [
 
 const LinkList = () => (
   <View style={styles.container}>
-    {links.map(({ id, title, link, description }) => {
+    {links.map(({id, title, link, description}) =>
+    {
       return (
         <React.Fragment key={id}>
           <View style={styles.separator} />

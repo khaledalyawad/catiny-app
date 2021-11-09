@@ -1,5 +1,5 @@
 import moment from 'moment';
-import { IMLocalized } from '../localization/IMLocalization';
+import {IMLocalized} from '../localization/IMLocalization';
 
 const monthNames = [
   IMLocalized('Jan'),
@@ -16,14 +16,21 @@ const monthNames = [
   IMLocalized('Dec'),
 ];
 
-const TNDateFormattedTimestamp = (timestamp) => {
-  if (timestamp) {
+const TNDateFormattedTimestamp = (timestamp) =>
+{
+  if (timestamp)
+  {
     let time = moment(timestamp.toDate());
-    if (moment().diff(time, 'days') == 0) {
+    if (moment().diff(time, 'days') == 0)
+    {
       return time.format('H:mm');
-    } else if (moment().diff(time, 'week') == 0) {
+    }
+    else if (moment().diff(time, 'week') == 0)
+    {
       return time.fromNow();
-    } else {
+    }
+    else
+    {
       return `${monthNames[timestamp.toDate().getMonth()]} ${time.format('D, Y')}`;
     }
   }

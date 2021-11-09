@@ -1,20 +1,21 @@
-import React, { useRef } from 'react';
-import { FlatList, View, ActivityIndicator, Dimensions } from 'react-native';
+import React, {useRef} from 'react';
+import {ActivityIndicator, Dimensions, FlatList, View} from 'react-native';
 import PropTypes from 'prop-types';
-import { Viewport } from '@skele/components';
-import { useColorScheme } from 'react-native-appearance';
+import {Viewport} from '@skele/components';
+import {useColorScheme} from 'react-native-appearance';
 import FeedItem from '../../FeedItem/FeedItem';
 import dynamicStyles from './styles';
 import IMCameraModal from '../../../Core/camera/IMCameraModal';
 import TNMediaViewerModal from '../../../Core/truly-native/TNMediaViewerModal';
 import FullStories from '../../../Core/stories/FullStories';
-import { TNEmptyStateView } from '../../../Core/truly-native';
-import { IMNativeFBAdComponentView } from '../../../Core/ads/facebook';
+import {TNEmptyStateView} from '../../../Core/truly-native';
+import {IMNativeFBAdComponentView} from '../../../Core/ads/facebook';
 import AppStyles from '../../../AppStyles';
 
 const HEIGHT = Dimensions.get('window').height;
 
-function Feed(props) {
+function Feed(props)
+{
   const {
     onCommentPress,
     feed,
@@ -58,7 +59,8 @@ function Feed(props) {
   const fullStoryRef = useRef();
   const mediaLayouts = useRef([]);
 
-  const onImagePost = (source) => {
+  const onImagePost = (source) =>
+  {
     onPostStory(source);
 
     // fullStoryRef.current.postStory(story);
@@ -71,7 +73,8 @@ function Feed(props) {
     index,
   });
 
-  const onTextFieldUserPress = (userInfo) => {
+  const onTextFieldUserPress = (userInfo) =>
+  {
     navigation.navigate('MainProfile', {
       user: userInfo,
       stackKeyTitle: 'MainProfile',
@@ -79,17 +82,21 @@ function Feed(props) {
     });
   };
 
-  const onTextFieldHashTagPress = (hashtag) => {
-    navigation.push('FeedSearch', { hashtag });
+  const onTextFieldHashTagPress = (hashtag) =>
+  {
+    navigation.push('FeedSearch', {hashtag});
   };
 
-  const renderItem = ({ item, index }) => {
+  const renderItem = ({item, index}) =>
+  {
     const isLastItem = index === feed?.length - 1;
     let shouldUpdate = false;
-    if (item.shouldUpdate) {
+    if (item.shouldUpdate)
+    {
       shouldUpdate = item.shouldUpdate;
     }
-    if (item.isAd) {
+    if (item.isAd)
+    {
       return <IMNativeFBAdComponentView key={index + 'ad'} adsManager={adsManager} />;
     }
     return (
@@ -116,8 +123,10 @@ function Feed(props) {
         shouldDisplayViewAllComments={true}
         onTextFieldUserPress={onTextFieldUserPress}
         onTextFieldHashTagPress={onTextFieldHashTagPress}
-        onLayout={(event) => {
-          if (event && event.nativeEvent && mediaLayouts && mediaLayouts.current) {
+        onLayout={(event) =>
+        {
+          if (event && event.nativeEvent && mediaLayouts && mediaLayouts.current)
+          {
             const layout = event.nativeEvent.layout;
             mediaLayouts.current[index] = layout.x;
           }
@@ -126,8 +135,10 @@ function Feed(props) {
     );
   };
 
-  const renderListHeader = () => {
-    if (displayStories) {
+  const renderListHeader = () =>
+  {
+    if (displayStories)
+    {
       return (
         <FullStories
           ref={fullStoryRef}
@@ -144,25 +155,30 @@ function Feed(props) {
     return null;
   };
 
-  const renderListFooter = () => {
-    if (isFetching) {
-      return <ActivityIndicator style={{ marginVertical: 7 }} size="small" />;
+  const renderListFooter = () =>
+  {
+    if (isFetching)
+    {
+      return <ActivityIndicator style={{marginVertical: 7}} size='small' />;
     }
     return null;
   };
 
-  const renderEmptyComponent = () => {
-    if (!feed) {
+  const renderEmptyComponent = () =>
+  {
+    if (!feed)
+    {
       return null;
     }
 
     return <TNEmptyStateView style={styles.emptyStateView} emptyStateConfig={emptyStateConfig} appStyles={AppStyles} />;
   };
 
-  if (loading) {
+  if (loading)
+  {
     return (
       <View style={styles.feedContainer}>
-        <ActivityIndicator style={{ marginTop: 15 }} size="small" />
+        <ActivityIndicator style={{marginTop: 15}} size='small' />
       </View>
     );
   }

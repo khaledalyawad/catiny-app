@@ -1,14 +1,15 @@
-import React, { memo } from 'react';
-import { View, Text, TouchableOpacity } from 'react-native';
+import React, {memo} from 'react';
+import {Text, TouchableOpacity, View} from 'react-native';
 
-import { TNStoryItem } from '../../truly-native';
+import {TNStoryItem} from '../../truly-native';
 import PropTypes from 'prop-types';
-import { timeFormat } from '../..';
+import {timeFormat} from '../..';
 import dynamicStyles from './styles';
-import { useColorScheme } from 'react-native-appearance';
+import {useColorScheme} from 'react-native-appearance';
 
-const IMNotificationItem = memo((props) => {
-  const { item, onNotificationPress, appStyles } = props;
+const IMNotificationItem = memo((props) =>
+{
+  const {item, onNotificationPress, appStyles} = props;
   const colorScheme = useColorScheme();
   const styles = dynamicStyles(appStyles, colorScheme);
 

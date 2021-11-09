@@ -2,13 +2,13 @@
  * Implement These Methods If You Are Adding Your Own Custom Backend
  */
 
-import { mockData } from './localData';
+import {mockData} from './localData';
 import configureStore from '../../../../../shared/reducers';
 import LoginActions from '../../../../../modules/login/login.reducer';
 import api from '../../../../../shared/services';
 import ForgotPasswordActions from '../../../../../modules/account/password-reset/forgot-password.reducer';
-import { imageUrl } from '../../../../../shared/util/image-tools-util';
-import { authAPI } from '../../../../api';
+import {imageUrl} from '../../../../../shared/util/image-tools-util';
+import {authAPI} from '../../../../api';
 import Geolocation from '@react-native-community/geolocation';
 import * as Location from 'expo-location';
 
@@ -21,10 +21,14 @@ const store = configureStore();
  *
  * returns a promise that resolves to user data
  **/
-const loginWithEmailAndPassword = (email, password) => {
-  return new Promise(async function (resolve, reject) {
-    api.getCurrentMasterUser().then((response) => {
-      if (!response.error) {
+const loginWithEmailAndPassword = (email, password) =>
+{
+  return new Promise(async function (resolve, reject)
+  {
+    api.getCurrentMasterUser().then((response) =>
+    {
+      if (!response.error)
+      {
         const masterUser = response?.data;
         resolve({
           user: {
@@ -37,9 +41,11 @@ const loginWithEmailAndPassword = (email, password) => {
             profilePictureURL: imageUrl(masterUser.avatar),
           },
         });
-      } else {
+      }
+      else
+      {
         store.dispatch(LoginActions.loginFailure(response));
-        resolve({ error: response.error });
+        resolve({error: response.error});
       }
     });
 
@@ -96,9 +102,11 @@ const loginWithEmailAndPassword = (email, password) => {
  *
  * returns a promise that resolves to user data
  **/
-const createAccountWithEmailAndPassword = (userDetails, appConfig) => {
-  return new Promise(function (resolve, _reject) {
-    resolve({ user: mockData });
+const createAccountWithEmailAndPassword = (userDetails, appConfig) =>
+{
+  return new Promise(function (resolve, _reject)
+  {
+    resolve({user: mockData});
     // morkData takes the format of:
     // const mockData = {
     //   id,
@@ -129,9 +137,11 @@ const createAccountWithEmailAndPassword = (userDetails, appConfig) => {
  * }
  * returns a promise that resolves to user data
  **/
-const loginOrSignUpWithFacebook = (appConfig) => {
-  return new Promise(function (resolve, _reject) {
-    resolve({ user: mockData });
+const loginOrSignUpWithFacebook = (appConfig) =>
+{
+  return new Promise(function (resolve, _reject)
+  {
+    resolve({user: mockData});
     // morkData takes the format of:
     // const mockData = {
     //   id,
@@ -163,9 +173,11 @@ const loginOrSignUpWithFacebook = (appConfig) => {
  *
  * returns a promise that resolves to user data
  **/
-const loginOrSignUpWithApple = () => {
-  return new Promise(function (resolve, _reject) {
-    resolve({ user: mockData });
+const loginOrSignUpWithApple = () =>
+{
+  return new Promise(function (resolve, _reject)
+  {
+    resolve({user: mockData});
     // morkData takes the format of:
     // const mockData = {
     //   id,
@@ -187,8 +199,10 @@ const loginOrSignUpWithApple = () => {
  *
  * returns a promise that resolves to user data
  **/
-const sendPasswordResetEmail = (email) => {
-  return new Promise(function (resolve, reject) {
+const sendPasswordResetEmail = (email) =>
+{
+  return new Promise(function (resolve, reject)
+  {
     store.dispatch(ForgotPasswordActions.forgotPasswordRequest(email));
     resolve({});
     // if (store.getState().forgotPassword.response) resolve({ data: store.getState().forgotPassword.response });
@@ -201,9 +215,11 @@ const sendPasswordResetEmail = (email) => {
  *
  * returns a promise that resolves to user data
  **/
-const loginWithSMSCode = () => {
-  return new Promise(function (resolve, _reject) {
-    resolve({ user: mockData });
+const loginWithSMSCode = () =>
+{
+  return new Promise(function (resolve, _reject)
+  {
+    resolve({user: mockData});
     // morkData takes the format of:
     // const mockData = {
     //   id,
@@ -223,23 +239,29 @@ const loginWithSMSCode = () => {
  **
  ** returns a promise that resolves to user data
  */
-const logout = () => {
-  return new Promise((resolve) => {
+const logout = () =>
+{
+  return new Promise((resolve) =>
+  {
     store.dispatch(LoginActions.logoutRequest());
     resolve(null);
   });
 };
 
-const retrievePersistedAuthUser = () => {
-  return new Promise((resolve) => {
+const retrievePersistedAuthUser = () =>
+{
+  return new Promise((resolve) =>
+  {
     console.log(store.getState().account);
     resolve(null);
   });
 };
 
-const validateUsernameFieldIfNeeded = (inputFields, appConfig) => {
-  return new Promise((resolve, reject) => {
-    resolve({ success: true });
+const validateUsernameFieldIfNeeded = (inputFields, appConfig) =>
+{
+  return new Promise((resolve, reject) =>
+  {
+    resolve({success: true});
 
     // Error format:
     // resolve({ error: IMLocalized('Invalid username') });
@@ -251,35 +273,42 @@ const validateUsernameFieldIfNeeded = (inputFields, appConfig) => {
  * @param {string} userId strting of the current user
  * @param {function} callback A callback to be called after the delete operation has finished
  */
-const deleteUser = (userID, callback) => {
+const deleteUser = (userID, callback) =>
+{
   // calls the removeUser from the auth API
 };
 
-const handleSuccessfulLogin = (user, accountCreated) => {
+const handleSuccessfulLogin = (user, accountCreated) =>
+{
   // After a successful login, we fetch & store the device token for push notifications, location, online status, etc.
   // we don't wait for fetching & updating the location or push token, for performance reasons (especially on Android)
   fetchAndStoreExtraInfoUponLogin(user, accountCreated);
 
-  return new Promise((resolve) => {
-    resolve({ user: { ...user } });
+  return new Promise((resolve) =>
+  {
+    resolve({user: {...user}});
   });
 };
 
-const fetchAndStoreExtraInfoUponLogin = async (user, accountCreated) => {
+const fetchAndStoreExtraInfoUponLogin = async (user, accountCreated) =>
+{
   authAPI.fetchAndStorePushTokenIfPossible(user);
 
-  getCurrentLocation(Geolocation).then(async (location) => {
+  getCurrentLocation(Geolocation).then(async (location) =>
+  {
     const latitude = location.coords.latitude;
     const longitude = location.coords.longitude;
     var locationData = {};
-    if (location) {
+    if (location)
+    {
       locationData = {
         location: {
           latitude: latitude,
           longitude: longitude,
         },
       };
-      if (accountCreated) {
+      if (accountCreated)
+      {
         locationData = {
           ...locationData,
           signUpLocation: {
@@ -299,20 +328,25 @@ const fetchAndStoreExtraInfoUponLogin = async (user, accountCreated) => {
   });
 };
 
-const getCurrentLocation = (geolocation) => {
-  return new Promise(async (resolve) => {
-    let { status } = await Location.requestForegroundPermissionsAsync();
-    if (status !== 'granted') {
-      resolve({ coords: { latitude: '', longitude: '' } });
+const getCurrentLocation = (geolocation) =>
+{
+  return new Promise(async (resolve) =>
+  {
+    let {status} = await Location.requestForegroundPermissionsAsync();
+    if (status !== 'granted')
+    {
+      resolve({coords: {latitude: '', longitude: ''}});
       return;
     }
 
     geolocation.getCurrentPosition(
-      (location) => {
+      (location) =>
+      {
         console.log(location);
         resolve(location);
       },
-      (error) => {
+      (error) =>
+      {
         console.log(error);
       },
     );

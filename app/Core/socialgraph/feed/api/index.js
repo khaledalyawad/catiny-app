@@ -9,4 +9,4 @@ import FeedManager from './local/FeedManager';
 // import * as storyAPIManager from './firebase/story';
 // import * as commentAPIManager from './firebase/comment';
 // import FeedManager from './firebase/FeedManager';
-export { postAPIManager, storyAPIManager, commentAPIManager, FeedManager };
+export {postAPIManager, storyAPIManager, commentAPIManager, FeedManager};

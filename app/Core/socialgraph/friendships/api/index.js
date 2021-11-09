@@ -7,4 +7,4 @@ import FriendshipManager from './firebase/friendshipManager';
 // import * as friendship from './firebase/friendship';
 // import FriendshipAPITracker from './firebase/tracker';
 // import FriendshipManager from './firebase/friendshipManager';
-export { friendship, FriendshipAPITracker, FriendshipManager };
+export {friendship, FriendshipAPITracker, FriendshipManager};

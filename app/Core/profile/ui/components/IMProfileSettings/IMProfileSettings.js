@@ -1,19 +1,22 @@
 import React from 'react';
-import { View, Text, TouchableOpacity } from 'react-native';
-import { useSelector } from 'react-redux';
-import { authManager } from '../../../../onboarding/utils/api';
+import {Text, TouchableOpacity, View} from 'react-native';
+import {useSelector} from 'react-redux';
+import {authManager} from '../../../../onboarding/utils/api';
 import dynamicStyles from './styles';
-import { useColorScheme } from 'react-native-appearance';
-import { IMLocalized } from '../../../../localization/IMLocalization';
+import {useColorScheme} from 'react-native-appearance';
+import {IMLocalized} from '../../../../localization/IMLocalization';
 
-function IMProfileSettings(props) {
-  const { navigation, onLogout, lastScreenTitle, appStyles, appConfig } = props;
+function IMProfileSettings(props)
+{
+  const {navigation, onLogout, lastScreenTitle, appStyles, appConfig} = props;
   const colorScheme = useColorScheme();
   const styles = dynamicStyles(appStyles, colorScheme);
   const currentUser = useSelector((state) => state.auth.user);
 
-  const onSettingsTypePress = async (type, routeName, form, screenTitle, phone) => {
-    if (type === 'Logout') {
+  const onSettingsTypePress = async (type, routeName, form, screenTitle, phone) =>
+  {
+    if (type === 'Logout')
+    {
       authManager.logout(currentUser);
       onLogout();
       props.navigation.reset({
@@ -21,11 +24,13 @@ function IMProfileSettings(props) {
         routes: [
           {
             name: 'LoadScreen',
-            params: { appStyles: appStyles, appConfig: appConfig },
+            params: {appStyles: appStyles, appConfig: appConfig},
           },
         ],
       });
-    } else {
+    }
+    else
+    {
       navigation.navigate(lastScreenTitle + routeName, {
         appStyles: appStyles,
         form,
@@ -35,7 +40,7 @@ function IMProfileSettings(props) {
     }
   };
 
-  const renderSettingsType = ({ type, routeName, form, screenTitle, phone }) => (
+  const renderSettingsType = ({type, routeName, form, screenTitle, phone}) => (
     <TouchableOpacity style={styles.settingsTypeContainer} onPress={() => onSettingsTypePress(type, routeName, form, screenTitle)}>
       <Text style={styles.settingsType}>{type}</Text>
     </TouchableOpacity>
@@ -71,7 +76,7 @@ function IMProfileSettings(props) {
           phone: appConfig.contactUsPhoneNumber,
           screenTitle: IMLocalized('Contact Us'),
         })}
-        {renderSettingsType({ type: 'Logout' })}
+        {renderSettingsType({type: 'Logout'})}
       </View>
     </View>
   );

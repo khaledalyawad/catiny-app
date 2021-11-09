@@ -1,11 +1,11 @@
-import React, { useRef, useState, useEffect } from 'react';
-import { View, TouchableOpacity, TouchableHighlight, Image, Text, Alert } from 'react-native';
-import { Audio } from 'expo-av';
-import { AutoGrowingTextInput } from 'react-native-autogrow-textinput';
-import { KeyboardAccessoryView, KeyboardTrackingView } from 'react-native-ui-lib/keyboard';
+import React, {useEffect, useRef, useState} from 'react';
+import {Alert, Image, Text, TouchableHighlight, TouchableOpacity, View} from 'react-native';
+import {Audio} from 'expo-av';
+import {AutoGrowingTextInput} from 'react-native-autogrow-textinput';
+import {KeyboardAccessoryView} from 'react-native-ui-lib/keyboard';
 import dynamicStyles from './styles';
-import { useColorScheme } from 'react-native-appearance';
-import { IMLocalized } from '../../localization/IMLocalization';
+import {useColorScheme} from 'react-native-appearance';
+import {IMLocalized} from '../../localization/IMLocalization';
 import './BottomAudioRecorder';
 
 const assets = {
@@ -15,8 +15,9 @@ const assets = {
   close: require('../assets/close-x-icon.png'),
 };
 
-function BottomInput(props) {
-  const { value, onChangeText, onAudioRecordDone, onSend, onAddMediaPress, uploadProgress, appStyles, inReplyToItem, onReplyingToDismiss } =
+function BottomInput(props)
+{
+  const {value, onChangeText, onAudioRecordDone, onSend, onAddMediaPress, uploadProgress, appStyles, inReplyToItem, onReplyingToDismiss} =
     props;
 
   const colorScheme = useColorScheme();
@@ -27,56 +28,73 @@ function BottomInput(props) {
     initialProps: undefined,
   });
 
-  useEffect(() => {
+  useEffect(() =>
+  {
     // textInputRef.current?.focus();
   }, []);
 
-  const isDisabled = () => {
-    if (/\S/.test(value)) {
+  const isDisabled = () =>
+  {
+    if (/\S/.test(value))
+    {
       return false;
-    } else {
+    }
+    else
+    {
       return true;
     }
   };
 
-  const onKeyboardResigned = () => {
+  const onKeyboardResigned = () =>
+  {
     resetKeyboardView();
   };
 
-  const resetKeyboardView = () => {
+  const resetKeyboardView = () =>
+  {
     setCustomKeyboard({});
   };
 
-  const onVoiceRecord = async () => {
+  const onVoiceRecord = async () =>
+  {
     const response = await Audio.getPermissionsAsync();
 
-    if (response.status === 'granted') {
+    if (response.status === 'granted')
+    {
       showKeyboardView('BottomAudioRecorder');
-    } else if (response.status === 'denied') {
+    }
+    else if (response.status === 'denied')
+    {
       Alert.alert(
         IMLocalized('Audio permission denied'),
         IMLocalized('You must enable audio recording permissions in order to send a voice note.'),
       );
-    } else {
+    }
+    else
+    {
       const response = await Audio.requestPermissionsAsync();
-      if (response.status === 'granted') {
+      if (response.status === 'granted')
+      {
         onVoiceRecord();
       }
     }
   };
 
-  const showKeyboardView = (component) => {
+  const showKeyboardView = (component) =>
+  {
     setCustomKeyboard({
       component,
-      initialProps: { appStyles },
+      initialProps: {appStyles},
     });
   };
 
-  const onCustomKeyboardItemSelected = (keyboardId, params) => {
+  const onCustomKeyboardItemSelected = (keyboardId, params) =>
+  {
     onAudioRecordDone(params);
   };
 
-  const renderBottomInput = () => {
+  const renderBottomInput = () =>
+  {
     return (
       <View style={styles.bottomContentContainer}>
         {inReplyToItem && (
@@ -91,7 +109,7 @@ function BottomInput(props) {
             </TouchableHighlight>
           </View>
         )}
-        <View style={[styles.progressBar, { width: `${uploadProgress}%` }]} />
+        <View style={[styles.progressBar, {width: `${uploadProgress}%`}]} />
         <View style={styles.inputBar}>
           <TouchableOpacity onPress={onAddMediaPress} style={styles.inputIconContainer}>
             <Image style={styles.inputIcon} source={assets.cameraFilled} />
@@ -108,7 +126,7 @@ function BottomInput(props) {
               multiline={true}
               placeholder={IMLocalized('Start typing...')}
               placeholderTextColor={appStyles.colorSet[colorScheme].mainSubtextColor}
-              underlineColorAndroid="transparent"
+              underlineColorAndroid='transparent'
               onChangeText={(text) => onChangeText(text)}
               onFocus={resetKeyboardView}
             />
@@ -116,7 +134,7 @@ function BottomInput(props) {
           <TouchableOpacity
             disabled={isDisabled()}
             onPress={onSend}
-            style={[styles.inputIconContainer, isDisabled() ? { opacity: 0.2 } : { opacity: 1 }]}>
+            style={[styles.inputIconContainer, isDisabled() ? {opacity: 0.2} : {opacity: 1}]}>
             <Image style={styles.inputIcon} source={assets.send} />
           </TouchableOpacity>
         </View>

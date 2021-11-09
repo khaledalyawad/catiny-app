@@ -1,6 +1,7 @@
-import { StyleSheet } from 'react-native';
+import {StyleSheet} from 'react-native';
 
-const dynamicStyles = (colorScheme, appStyles) => {
+const dynamicStyles = (colorScheme, appStyles) =>
+{
   return new StyleSheet.create({
     usersMentionContainer: {
       ...StyleSheet.absoluteFillObject,

@@ -1,16 +1,17 @@
 import React from 'react';
-import { View, StyleSheet, TextInput, Text } from 'react-native';
+import {StyleSheet, Text, TextInput, View} from 'react-native';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 /* eslint-disable react-native/no-inline-styles */
 
-export default React.forwardRef((props, ref) => {
-  const { label, labelStyle, error, inputType, ...otherProps } = props;
-  const CustomInput = ({ value, onClick }) => (
-    <TextInput ref={ref} style={[styles.input, { borderColor: error ? '#fc6d47' : '#c0cbd3' }]} value={value} onClick={onClick} />
+export default React.forwardRef((props, ref) =>
+{
+  const {label, labelStyle, error, inputType, ...otherProps} = props;
+  const CustomInput = ({value, onClick}) => (
+    <TextInput ref={ref} style={[styles.input, {borderColor: error ? '#fc6d47' : '#c0cbd3'}]} value={value} onClick={onClick} />
   );
   // show timepicker for datetime fields
-  const dateTimeProps = inputType === 'datetime' ? { showTimeSelect: true, timeFormat: 'p', dateFormat: 'Pp' } : {};
+  const dateTimeProps = inputType === 'datetime' ? {showTimeSelect: true, timeFormat: 'p', dateFormat: 'Pp'} : {};
   // these props prevent the popover from appearing below, when it appears below it appears behind other input fields
   const popperProps = {
     popperPlacement: 'top',
@@ -34,7 +35,7 @@ export default React.forwardRef((props, ref) => {
       <DatePicker
         customInputRef={ref}
         customInput={<CustomInput />}
-        popperPlacement="top"
+        popperPlacement='top'
         {...popperProps}
         {...dateTimeProps}
         {...otherProps}

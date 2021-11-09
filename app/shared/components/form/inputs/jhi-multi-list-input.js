@@ -1,19 +1,23 @@
 import React from 'react';
-import { View, StyleSheet, Text } from 'react-native';
-import { Colors } from '../../../themes';
-import { MaterialIcons } from '@expo/vector-icons';
+import {StyleSheet, Text, View} from 'react-native';
+import {Colors} from '../../../themes';
+import {MaterialIcons} from '@expo/vector-icons';
 import SectionedMultiSelect from 'react-native-sectioned-multi-select';
 
-export default React.forwardRef((props, ref) => {
-  const { value, label, labelStyle, error, listItems = [], placeholder, listItemLabelField, testID, ...otherProps } = props;
+export default React.forwardRef((props, ref) =>
+{
+  const {value, label, labelStyle, error, listItems = [], placeholder, listItemLabelField, testID, ...otherProps} = props;
   const actualPlaceholder = placeholder ? placeholder : 'Select an item...';
 
-  const memoizedItems = React.useMemo(() => {
+  const memoizedItems = React.useMemo(() =>
+  {
     // map the list items to the expected Picker format
-    const mapListItems = () => {
-      const children = listItems.map((listItem) => {
+    const mapListItems = () =>
+    {
+      const children = listItems.map((listItem) =>
+      {
         const itemLabel = listItem[listItemLabelField] || listItem.id || '';
-        return { name: `${itemLabel}`, id: listItem.id };
+        return {name: `${itemLabel}`, id: listItem.id};
       });
       return [
         {
@@ -26,7 +30,8 @@ export default React.forwardRef((props, ref) => {
     return mapListItems(listItems);
   }, [label, listItemLabelField, listItems]);
 
-  if (!listItems.length) {
+  if (!listItems.length)
+  {
     return <Text>Loading...</Text>;
   }
 
@@ -40,13 +45,13 @@ export default React.forwardRef((props, ref) => {
         items={memoizedItems}
         alwaysShowSelectText={true}
         expandDropDowns={true}
-        uniqueKey="id"
-        subKey="children"
+        uniqueKey='id'
+        subKey='children'
         selectText={actualPlaceholder}
         showDropDowns={true}
         readOnlyHeadings={true}
         selectedItems={value}
-        subItemsFlatListProps={{ initialNumToRender: 15 }}
+        subItemsFlatListProps={{initialNumToRender: 15}}
         ref={ref}
         styles={pickerStyles}
         // pickerProps={{ testID: `${testID}Picker` }}
@@ -75,7 +80,7 @@ const pickerStyles = StyleSheet.create({
     borderColor: '#c0cbd3',
     borderStyle: 'solid',
   },
-  button: { backgroundColor: Colors.jhipsterBlue },
+  button: {backgroundColor: Colors.jhipsterBlue},
 });
 
 const styles = StyleSheet.create({

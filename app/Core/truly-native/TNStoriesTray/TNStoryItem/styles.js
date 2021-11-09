@@ -1,9 +1,10 @@
-import { StyleSheet } from 'react-native';
+import {StyleSheet} from 'react-native';
 
 const imageContainerWidth = 66;
 const imageWidth = imageContainerWidth - 6;
 
-const dynamicStyles = (appStyles, colorScheme) => {
+const dynamicStyles = (appStyles, colorScheme) =>
+{
   return StyleSheet.create({
     container: {
       margin: 8,

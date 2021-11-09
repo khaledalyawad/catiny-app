@@ -2,11 +2,11 @@
  * Implement These Methods If You Are Adding Your Own Custom Backend
  */
 
-import { setFriends, setFriendships } from '../../redux';
-import { setUserData } from '../../../../onboarding/redux/auth';
-import { mockData } from '../../../../onboarding/utils/api/local/localData';
-import { mockFriendships, mockFriends } from './localData';
-export default class FriendshipTracker {
+import {setFriends, setFriendships} from '../../redux';
+import {mockFriends, mockFriendships} from './localData';
+
+export default class FriendshipTracker
+{
   /**
    *
    * @param {an object: redux store to update app state} reduxStore
@@ -15,7 +15,8 @@ export default class FriendshipTracker {
    * @param {a boolean:whether the users just became friends} extendFollowers
    * @param {a boolean: whether to enable feed update} enableFeedUpdates
    */
-  constructor(reduxStore, userID, persistFriendshipsCounts = false, extendFollowers = false, enableFeedUpdates = false) {
+  constructor(reduxStore, userID, persistFriendshipsCounts = false, extendFollowers = false, enableFeedUpdates = false)
+  {
     this.reduxStore = reduxStore;
     this.reduxStore.dispatch(setFriendships(mockFriendships));
     this.reduxStore.dispatch(setFriends(mockFriends));
@@ -25,12 +26,16 @@ export default class FriendshipTracker {
   /**
    * Subscribe to friendships, abuses and user apis if they have not been subscribed to
    */
-  subscribeIfNeeded = () => {};
+  subscribeIfNeeded = () =>
+  {
+  };
 
   /**
    * Unsubscribe to friendships, abuses and user apis
    */
-  unsubscribe = () => {};
+  unsubscribe = () =>
+  {
+  };
 
   /**
    * @function Add new friend
@@ -39,7 +44,8 @@ export default class FriendshipTracker {
    * @param {the object of the user being requested} toUser
    * @param {callback to be executed when a change occurs on the friendship backend} callback
    */
-  addFriendRequest = (fromUser, toUser, callback) => {
+  addFriendRequest = (fromUser, toUser, callback) =>
+  {
     callback(null);
   };
 
@@ -50,9 +56,10 @@ export default class FriendshipTracker {
    * @param {the object of the user being unfriended} toUser
    * @param {callback function be executed after the action has been executed} callback
    */
-  unfriend = (outBound, toUser, callback) => {
+  unfriend = (outBound, toUser, callback) =>
+  {
     callback(null);
-    return;
+
     // unfriend user
     // callback
   };
@@ -65,7 +72,8 @@ export default class FriendshipTracker {
    * @param {the object of the user friend request being cancelled } toUser
    * @param {callback function be executed after the action has been executed} callback
    */
-  cancelFriendRequest = (outBound, toUser, callback) => {
+  cancelFriendRequest = (outBound, toUser, callback) =>
+  {
     callback(null);
   };
 }

@@ -1,28 +1,32 @@
 import React from 'react';
-import { View, StyleSheet, Text, TextInput, TouchableOpacity } from 'react-native';
+import {StyleSheet, Text, TextInput, TouchableOpacity, View} from 'react-native';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 
-export default React.forwardRef((props, ref) => {
-  const { label, labelStyle, error, onChange, inputType, testID, ...otherProps } = props;
+export default React.forwardRef((props, ref) =>
+{
+  const {label, labelStyle, error, onChange, inputType, testID, ...otherProps} = props;
 
   const [showDatePicker, setShowDatePicker] = React.useState(false);
 
-  const toggleDatePickerButton = () => {
+  const toggleDatePickerButton = () =>
+  {
     setShowDatePicker(!showDatePicker);
   };
 
-  const onConfirm = (date) => {
+  const onConfirm = (date) =>
+  {
     onChange(date);
     toggleDatePickerButton();
   };
 
   let d = otherProps.value;
   let displayValue = '';
-  if (d instanceof Date && !isNaN(d.valueOf())) {
+  if (d instanceof Date && !isNaN(d.valueOf()))
+  {
     const opts =
       inputType === 'date'
-        ? { year: 'numeric', month: 'numeric', day: 'numeric' }
-        : { year: 'numeric', month: 'numeric', day: 'numeric', hour: 'numeric', minute: '2-digit' };
+        ? {year: 'numeric', month: 'numeric', day: 'numeric'}
+        : {year: 'numeric', month: 'numeric', day: 'numeric', hour: 'numeric', minute: '2-digit'};
     displayValue = `${d.toLocaleString([], opts)}`;
   }
 
@@ -32,7 +36,7 @@ export default React.forwardRef((props, ref) => {
       {label && <Text style={[styles.label, labelStyle]}>{label}</Text>}
       {/* render the date picker */}
       <TouchableOpacity onPress={toggleDatePickerButton}>
-        <View pointerEvents="none">
+        <View pointerEvents='none'>
           <TextInput editable={false} style={styles.input} value={displayValue} testID={testID} />
         </View>
       </TouchableOpacity>

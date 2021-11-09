@@ -1,37 +1,39 @@
-import React, { useState } from 'react';
-import PropTypes from 'prop-types';
-import { View, Text, Image, Platform } from 'react-native';
-import { useSelector, useDispatch } from 'react-redux';
-import { useColorScheme } from 'react-native-appearance';
+import React from 'react';
+import {Image, Text, View} from 'react-native';
+import {useDispatch, useSelector} from 'react-redux';
+import {useColorScheme} from 'react-native-appearance';
 import dynamicStyles from './styles';
-import { logout } from '../../../onboarding/redux/auth';
-import { IMLocalized } from '../../../localization/IMLocalization';
+import {logout} from '../../../onboarding/redux/auth';
+import {IMLocalized} from '../../../localization/IMLocalization';
 import IMMenuButton from '../IMMenuButton/IMMenuButton';
 
-const IMDrawerMenu = (props) => {
-  const { appStyles, menuItems, menuItemsSettings, authManager, appConfig } = props;
+const IMDrawerMenu = (props) =>
+{
+  const {appStyles, menuItems, menuItemsSettings, authManager, appConfig} = props;
   const colorScheme = useColorScheme();
   const styles = dynamicStyles(appStyles, colorScheme);
-  const { navigation } = props;
+  const {navigation} = props;
   const currentUser = useSelector((state) => state.auth.user);
   const dispatch = useDispatch();
 
   const defaultProfilePhotoURL = 'https://www.iosapptemplates.com/wp-content/uploads/2019/06/empty-avatar.jpg';
 
-  const actionLowerMenu = (action) => {
-    if (action == 'logout') {
+  const actionLowerMenu = (action) =>
+  {
+    if (action == 'logout')
+    {
       authManager?.logout(currentUser);
       dispatch(logout());
       navigation.navigate('LoadScreen', {
         appStyles: appStyles,
         appConfig: appConfig,
       });
-      return;
+
     }
     // if(action == 'signUp'){
     //   return ;
     // };
-    return;
+
   };
 
   const mappingMenuItems = menuItems.map((menuItem, index) => (
@@ -41,7 +43,8 @@ const IMDrawerMenu = (props) => {
       containerStyle={props.menuItemStyle}
       appStyles={appStyles}
       key={index}
-      onPress={() => {
+      onPress={() =>
+      {
         navigation.navigate(menuItem.navigationPath, {
           appStyles: appStyles,
           appConfig: appConfig,
@@ -57,7 +60,8 @@ const IMDrawerMenu = (props) => {
       source={menuItemsSetting.icon}
       containerStyle={props.menuItemStyle}
       appStyles={appStyles}
-      onPress={() => {
+      onPress={() =>
+      {
         actionLowerMenu(menuItemsSetting.action);
       }}
     />

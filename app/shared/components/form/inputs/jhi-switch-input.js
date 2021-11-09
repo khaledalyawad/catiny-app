@@ -1,8 +1,9 @@
 import React from 'react';
-import { View, StyleSheet, Text, Switch } from 'react-native';
+import {StyleSheet, Switch, Text, View} from 'react-native';
 
-export default React.forwardRef((props, ref) => {
-  const { label, labelStyle, error, ...otherProps } = props;
+export default React.forwardRef((props, ref) =>
+{
+  const {label, labelStyle, error, ...otherProps} = props;
 
   return (
     <View style={styles.container}>

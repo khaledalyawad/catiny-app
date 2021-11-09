@@ -1,21 +1,23 @@
 import React from 'react';
-import { StyleSheet, View, Dimensions, TouchableWithoutFeedback, Image } from 'react-native';
-import { observer } from 'mobx-react';
-import { ifIphoneX } from 'react-native-iphone-x-helper';
+import {Dimensions, StyleSheet, TouchableWithoutFeedback, View} from 'react-native';
+import {observer} from 'mobx-react';
+import {ifIphoneX} from 'react-native-iphone-x-helper';
 import CircleSnail from 'react-native-progress/CircleSnail';
 import TNVideo from '../../truly-native/TNVideo/TNVideo';
 import TNImage from '../../truly-native/TNImage/TNImage';
 import store from './Store';
 import Indicator from './Indicator';
 
-const circleSnailProps = { thickness: 1, color: '#ddd', size: 80 };
+const circleSnailProps = {thickness: 1, color: '#ddd', size: 80};
 
-const { width, height } = Dimensions.get('window');
+const {width, height} = Dimensions.get('window');
 const closeButtonSize = Math.floor(height * 0.032);
 
 @observer
-export default class FullStoryItem extends React.Component {
-  constructor(props) {
+export default class FullStoryItem extends React.Component
+{
+  constructor(props)
+  {
     super(props);
 
     this.state = {
@@ -33,21 +35,26 @@ export default class FullStoryItem extends React.Component {
     this.videoRef = React.createRef();
   }
 
-  handleBackOnPress = () => {
+  handleBackOnPress = () =>
+  {
     this.onPressActive = true;
     store.onPrevItem();
   };
 
-  handleOnLongPress = async () => {
+  handleOnLongPress = async () =>
+  {
     this.onLongPressActive = true;
     store.pause();
     await this.videoRef.current.pauseAsync();
   };
 
-  handleOnPressOut = async () => {
-    if (this.onLongPressActive) {
+  handleOnPressOut = async () =>
+  {
+    if (this.onLongPressActive)
+    {
       store.onNextItem();
-      if (this.videoRef.current) {
+      if (this.videoRef.current)
+      {
         await this.videoRef.current.playAsync();
       }
     }
@@ -57,7 +64,8 @@ export default class FullStoryItem extends React.Component {
     this.onLongPressActive = false;
   };
 
-  handleNextOnPress = () => {
+  handleNextOnPress = () =>
+  {
     this.onPressActive = true;
     store.onNextItem();
   };
@@ -67,32 +75,38 @@ export default class FullStoryItem extends React.Component {
   //   store.pause();
   // };
 
-  onVideoLoadStart = async () => {
+  onVideoLoadStart = async () =>
+  {
     this.videoLoading = true;
   };
 
-  onVideoLoad = async (payload) => {
+  onVideoLoad = async (payload) =>
+  {
     this.videoLoading = false;
     await store.setAnimDuration(payload.durationMillis);
     await store.animateIndicator(false);
 
-    if (this.videoRef.current) {
+    if (this.videoRef.current)
+    {
       this.videoRef.current.playAsync(true);
     }
   };
 
-  onImageLoad = (evt) => {
+  onImageLoad = (evt) =>
+  {
     const ImageHeight = evt.nativeEvent?.source?.height;
     const ImageWidth = evt.nativeEvent?.source?.width;
 
     const newHeight = Math.floor((ImageHeight / ImageWidth) * width);
 
-    if (newHeight) {
+    if (newHeight)
+    {
       this.setState(
         {
           calcImgHeight: newHeight,
         },
-        async () => {
+        async () =>
+        {
           await store.setAnimDuration(5000);
           await store.animateIndicator(false);
         },
@@ -100,19 +114,21 @@ export default class FullStoryItem extends React.Component {
     }
   };
 
-  renderCloseButton() {
+  renderCloseButton()
+  {
     return (
       <TouchableWithoutFeedback onPress={store.dismissCarousel}>
         <View style={styles.closeButton}>
-          <View style={[styles.closeCross, { transform: [{ rotate: '45deg' }] }]} />
-          <View style={[styles.closeCross, { transform: [{ rotate: '-45deg' }] }]} />
+          <View style={[styles.closeCross, {transform: [{rotate: '45deg'}]}]} />
+          <View style={[styles.closeCross, {transform: [{rotate: '-45deg'}]}]} />
         </View>
       </TouchableWithoutFeedback>
     );
   }
 
-  renderIndicators() {
-    const { story, currentDeck } = this.props;
+  renderIndicators()
+  {
+    const {story, currentDeck} = this.props;
 
     return (
       <View style={styles.indicatorWrap}>
@@ -125,7 +141,8 @@ export default class FullStoryItem extends React.Component {
     );
   }
 
-  renderBackButton() {
+  renderBackButton()
+  {
     return (
       <TouchableWithoutFeedback onPress={this.handleBackOnPress} onLongPress={this.handleOnLongPress} onPressOut={this.handleOnPressOut}>
         <View
@@ -140,7 +157,8 @@ export default class FullStoryItem extends React.Component {
     );
   }
 
-  renderNextButton() {
+  renderNextButton()
+  {
     return (
       <TouchableWithoutFeedback onPress={this.handleNextOnPress} onLongPress={this.handleOnLongPress} onPressOut={this.handleOnPressOut}>
         <View
@@ -155,32 +173,41 @@ export default class FullStoryItem extends React.Component {
     );
   }
 
-  renderMedia() {
-    const { story, currentDeck } = this.props;
-    const { calcImgHeight } = this.state;
+  renderMedia()
+  {
+    const {story, currentDeck} = this.props;
+    const {calcImgHeight} = this.state;
 
-    if (story.items[story.idx].type.startsWith('image')) {
-      if (currentDeck) {
+    if (story.items[story.idx].type.startsWith('image'))
+    {
+      if (currentDeck)
+      {
         return (
           <TNImage
             source={{
               uri: story.items[story.idx] && story.items[story.idx].src,
             }}
-            style={[styles.deck, { height: calcImgHeight }]}
+            style={[styles.deck, {height: calcImgHeight}]}
             resizeMode={'contain'}
             onLoad={this.onImageLoad}
-            onError={async () => {
+            onError={async () =>
+            {
               await store.pause();
             }}
           />
         );
-      } else {
+      }
+      else
+      {
         return null;
       }
-    } else {
-      if (currentDeck) {
+    }
+    else
+    {
+      if (currentDeck)
+      {
         return (
-          <View style={[{ flex: 1 }, styles.centerItem]}>
+          <View style={[{flex: 1}, styles.centerItem]}>
             {this.videoLoading && (
               <View
                 style={[
@@ -204,22 +231,26 @@ export default class FullStoryItem extends React.Component {
               resizeMode={'contain'}
               onLoadStart={this.onVideoLoadStart}
               style={styles.mediaVideo}
-              onError={async () => {
+              onError={async () =>
+              {
                 await store.pause();
               }}
             />
           </View>
         );
-      } else {
+      }
+      else
+      {
         return null;
       }
     }
   }
 
-  render() {
+  render()
+  {
     return (
       <TouchableWithoutFeedback onPress={store.onNextItem} delayPressIn={200} onPressIn={store.pause}>
-        <View style={{ flex: 1, justifyContent: 'center' }}>
+        <View style={{flex: 1, justifyContent: 'center'}}>
           {this.renderMedia()}
           {this.renderIndicators()}
           {this.renderCloseButton()}

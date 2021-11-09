@@ -1,10 +1,11 @@
-import React, { useRef } from 'react';
-import { Text, View, TextInput, Platform, ScrollView } from 'react-native';
-import { useColorScheme } from 'react-native-appearance';
+import React, {useRef} from 'react';
+import {ScrollView, Text, TextInput, View} from 'react-native';
+import {useColorScheme} from 'react-native-appearance';
 import dynamicStyles from './styles';
-import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
+import {TouchableWithoutFeedback} from 'react-native-gesture-handler';
 
-export default function CustomTextInput(props) {
+export default function CustomTextInput(props)
+{
   const {
     editorStyles = {},
     editorHeight,
@@ -23,7 +24,8 @@ export default function CustomTextInput(props) {
   const colorScheme = useColorScheme();
   const styles = dynamicStyles(colorScheme, appStyles);
 
-  const onTextFieldPress = () => {
+  const onTextFieldPress = () =>
+  {
     inputRef.current?.focus();
   };
   props.inputRef.current = inputRef.current;
@@ -34,11 +36,12 @@ export default function CustomTextInput(props) {
         <ScrollView
           keyboardShouldPersistTaps={'always'}
           ref={scrollRef}
-          onContentSizeChange={() => {
-            scrollRef.current?.scrollToEnd({ animated: true });
+          onContentSizeChange={() =>
+          {
+            scrollRef.current?.scrollToEnd({animated: true});
           }}
           style={[styles.editorContainer, editorStyles.editorContainer]}>
-          <View style={[{ height: editorHeight }]}>
+          <View style={[{height: editorHeight}]}>
             <TextInput
               ref={inputRef}
               style={[styles.input, editorStyles.input]}

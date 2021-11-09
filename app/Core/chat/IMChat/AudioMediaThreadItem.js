@@ -1,9 +1,9 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { View, TouchableOpacity, Text, Image, ActivityIndicator } from 'react-native';
-import { useColorScheme } from 'react-native-appearance';
-import { Audio } from 'expo-av';
+import React, {useEffect, useRef, useState} from 'react';
+import {ActivityIndicator, Image, Text, TouchableOpacity, View} from 'react-native';
+import {useColorScheme} from 'react-native-appearance';
+import {Audio} from 'expo-av';
 import Slider from 'react-native-slider';
-import { loadCachedItem } from '../../helpers/cacheManager';
+import {loadCachedItem} from '../../helpers/cacheManager';
 import dynamicStyles from './styles';
 
 const assets = {
@@ -11,8 +11,9 @@ const assets = {
   pause: require('../assets/pause.png'),
 };
 
-export default function AudioMediaThreadItem(props) {
-  const { appStyles, item, outBound } = props;
+export default function AudioMediaThreadItem(props)
+{
+  const {appStyles, item, outBound} = props;
   const colorScheme = useColorScheme();
   const styles = dynamicStyles(appStyles, colorScheme, outBound);
 
@@ -28,19 +29,23 @@ export default function AudioMediaThreadItem(props) {
   const isSeeking = useRef(false);
   const shouldPlayAtEndOfSeek = useRef(false);
 
-  useEffect(() => {
-    return () => {
+  useEffect(() =>
+  {
+    return () =>
+    {
       stopPlayback();
     };
   }, []);
 
-  const loadCachedAudio = async () => {
+  const loadCachedAudio = async () =>
+  {
     setIsLoading(true);
-    const path = await loadCachedItem({ uri: item.url });
+    const path = await loadCachedItem({uri: item.url});
     return loadAudio(path);
   };
 
-  const loadAudio = async (path) => {
+  const loadAudio = async (path) =>
+  {
     await Audio.setAudioModeAsync({
       allowsRecordingIOS: false,
       interruptionModeIOS: Audio.INTERRUPTION_MODE_IOS_DO_NOT_MIX,
@@ -55,7 +60,8 @@ export default function AudioMediaThreadItem(props) {
     soundRef.current = new Audio.Sound();
 
     soundRef.current.setOnPlaybackStatusUpdate(updateScreenForSoundStatus);
-    try {
+    try
+    {
       await soundRef.current.loadAsync(
         {
           uri: path,
@@ -71,13 +77,17 @@ export default function AudioMediaThreadItem(props) {
 
       setIsLoading(false);
       // sound can play!
-    } catch (error) {
+    }
+    catch (error)
+    {
       // An error occurred!
     }
   };
 
-  const stopPlayback = async () => {
-    if (soundRef.current !== null && !isLoading) {
+  const stopPlayback = async () =>
+  {
+    if (soundRef.current !== null && !isLoading)
+    {
       await soundRef.current.stopAsync();
       await soundRef.current.unloadAsync();
       soundRef.current.setOnPlaybackStatusUpdate(null);
@@ -86,8 +96,10 @@ export default function AudioMediaThreadItem(props) {
     }
   };
 
-  const updateScreenForSoundStatus = (status) => {
-    if (status.isLoaded) {
+  const updateScreenForSoundStatus = (status) =>
+  {
+    if (status.isLoaded)
+    {
       setIsPlaying(status.isPlaying);
       setSoundDuration(status.durationMillis);
       setSoundPosition(status.positionMillis);
@@ -95,28 +107,35 @@ export default function AudioMediaThreadItem(props) {
       setRate(status.rate);
       setIsPlaybackAllowed(true);
       shouldPlay.current = status.shouldPlay;
-    } else {
+    }
+    else
+    {
       setSoundDuration(null);
       setSoundPosition(null);
       setIsPlaybackAllowed(false);
 
-      if (status.error) {
+      if (status.error)
+      {
         console.log(`FATAL PLAYER ERROR: ${status.error}`);
       }
     }
   };
 
-  const getMMSSFromMillis = (millis) => {
-    if (!millis) {
+  const getMMSSFromMillis = (millis) =>
+  {
+    if (!millis)
+    {
       return '';
     }
     const totalSeconds = millis / 1000;
     const seconds = Math.floor(totalSeconds % 60);
     const minutes = Math.floor(totalSeconds / 60);
 
-    const padWithZero = (number) => {
+    const padWithZero = (number) =>
+    {
       const string = number.toString();
-      if (number < 10) {
+      if (number < 10)
+      {
         return '0' + string;
       }
       return string;
@@ -124,9 +143,12 @@ export default function AudioMediaThreadItem(props) {
     return padWithZero(minutes) + ':' + padWithZero(seconds);
   };
 
-  const getPlaybackTimestamp = (position, duration) => {
-    if (soundRef.current != null && position != null && duration != null) {
-      if (!shouldPlay.current) {
+  const getPlaybackTimestamp = (position, duration) =>
+  {
+    if (soundRef.current != null && position != null && duration != null)
+    {
+      if (!shouldPlay.current)
+      {
         return `${getMMSSFromMillis(duration)}`;
       }
       return `${getMMSSFromMillis(position)}`;
@@ -134,45 +156,62 @@ export default function AudioMediaThreadItem(props) {
     return '';
   };
 
-  const onPlayPausePressed = async () => {
-    if (soundRef.current != null) {
-      if (soundDuration === soundPosition) {
+  const onPlayPausePressed = async () =>
+  {
+    if (soundRef.current != null)
+    {
+      if (soundDuration === soundPosition)
+      {
         soundRef.current.replayAsync();
         return;
       }
-      if (isPlaying) {
+      if (isPlaying)
+      {
         soundRef.current.pauseAsync();
-      } else {
+      }
+      else
+      {
         soundRef.current.playAsync();
       }
-    } else {
+    }
+    else
+    {
       await loadCachedAudio();
       await soundRef.current.playAsync();
     }
   };
 
-  const onSeekSliderValueChange = (value) => {
-    if (soundRef.current != null && !isSeeking.current) {
+  const onSeekSliderValueChange = (value) =>
+  {
+    if (soundRef.current != null && !isSeeking.current)
+    {
       isSeeking.current = true;
       shouldPlayAtEndOfSeek.current = shouldPlay.current;
       soundRef.current.pauseAsync();
     }
   };
 
-  const onSeekSliderSlidingComplete = async (value, duration) => {
-    if (soundRef.current != null) {
+  const onSeekSliderSlidingComplete = async (value, duration) =>
+  {
+    if (soundRef.current != null)
+    {
       isSeeking.current = false;
       const seekPosition = value * duration;
-      if (shouldPlayAtEndOfSeek.current) {
+      if (shouldPlayAtEndOfSeek.current)
+      {
         soundRef.current.playFromPositionAsync(seekPosition);
-      } else {
+      }
+      else
+      {
         soundRef.current.setPositionAsync(seekPosition);
       }
     }
   };
 
-  const getSeekSliderPosition = (position, duration) => {
-    if (soundRef.current != null && position != null && duration != null) {
+  const getSeekSliderPosition = (position, duration) =>
+  {
+    if (soundRef.current != null && position != null && duration != null)
+    {
       return position / duration;
     }
     return 0;
@@ -183,7 +222,7 @@ export default function AudioMediaThreadItem(props) {
       <TouchableOpacity disabled={isLoading} onPress={onPlayPausePressed} style={styles.audioPlayPauseIconContainer}>
         <View style={styles.playPauseIconContainer}>
           <Image
-            style={[styles.audioPlayIcon, isPlaying ? { marginLeft: 0 } : { marginLeft: 2 }]}
+            style={[styles.audioPlayIcon, isPlaying ? {marginLeft: 0} : {marginLeft: 2}]}
             source={isPlaying ? assets.pause : assets.play}
           />
         </View>

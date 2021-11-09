@@ -1,15 +1,16 @@
 import React from 'react';
-import { ActivityIndicator, ScrollView, Text, View } from 'react-native';
-import { connect } from 'react-redux';
-import { useFocusEffect } from '@react-navigation/native';
+import {ActivityIndicator, ScrollView, Text, View} from 'react-native';
+import {connect} from 'react-redux';
+import {useFocusEffect} from '@react-navigation/native';
 
 import ClassInfoActions from './class-info.reducer';
 import RoundedButton from '../../../shared/components/rounded-button/rounded-button';
 import ClassInfoDeleteModal from './class-info-delete-modal';
 import styles from './class-info-styles';
 
-function ClassInfoDetailScreen(props) {
-  const { route, getClassInfo, navigation, classInfo, fetching, error } = props;
+function ClassInfoDetailScreen(props)
+{
+  const {route, getClassInfo, navigation, classInfo, fetching, error} = props;
   const [deleteModalVisible, setDeleteModalVisible] = React.useState(false);
   // prevents display of stale reducer data
   const entityId = classInfo?.id ?? null;
@@ -17,59 +18,65 @@ function ClassInfoDetailScreen(props) {
   const correctEntityLoaded = routeEntityId && entityId && routeEntityId.toString() === entityId.toString();
 
   useFocusEffect(
-    React.useCallback(() => {
-      if (!routeEntityId) {
+    React.useCallback(() =>
+    {
+      if (!routeEntityId)
+      {
         navigation.navigate('ClassInfo');
-      } else {
+      }
+      else
+      {
         setDeleteModalVisible(false);
         getClassInfo(routeEntityId);
       }
     }, [routeEntityId, getClassInfo, navigation]),
   );
 
-  if (!entityId && !fetching && error) {
+  if (!entityId && !fetching && error)
+  {
     return (
       <View style={styles.loading}>
         <Text>Something went wrong fetching the ClassInfo.</Text>
       </View>
     );
   }
-  if (!entityId || fetching || !correctEntityLoaded) {
+  if (!entityId || fetching || !correctEntityLoaded)
+  {
     return (
       <View style={styles.loading}>
-        <ActivityIndicator size="large" />
+        <ActivityIndicator size='large' />
       </View>
     );
   }
   return (
-    <ScrollView style={styles.container} contentContainerStyle={styles.paddedScrollView} testID="classInfoDetailScrollView">
+    <ScrollView style={styles.container} contentContainerStyle={styles.paddedScrollView} testID='classInfoDetailScrollView'>
       <Text style={styles.label}>Id:</Text>
       <Text>{classInfo.id}</Text>
       {/* Uuid Field */}
       <Text style={styles.label}>Uuid:</Text>
-      <Text testID="uuid">{classInfo.uuid}</Text>
+      <Text testID='uuid'>{classInfo.uuid}</Text>
       {/* NamePackage Field */}
       <Text style={styles.label}>NamePackage:</Text>
-      <Text testID="namePackage">{classInfo.namePackage}</Text>
+      <Text testID='namePackage'>{classInfo.namePackage}</Text>
       {/* FullName Field */}
       <Text style={styles.label}>FullName:</Text>
-      <Text testID="fullName">{classInfo.fullName}</Text>
+      <Text testID='fullName'>{classInfo.fullName}</Text>
       {/* ClassName Field */}
       <Text style={styles.label}>ClassName:</Text>
-      <Text testID="className">{classInfo.className}</Text>
+      <Text testID='className'>{classInfo.className}</Text>
 
       <View style={styles.entityButtons}>
         <RoundedButton
-          text="Edit"
-          onPress={() => navigation.navigate('ClassInfoEdit', { entityId })}
+          text='Edit'
+          onPress={() => navigation.navigate('ClassInfoEdit', {entityId})}
           accessibilityLabel={'ClassInfo Edit Button'}
-          testID="classInfoEditButton"
+          testID='classInfoEditButton'
         />
         <RoundedButton
-          text="Delete"
+          text='Delete'
           onPress={() => setDeleteModalVisible(true)}
           accessibilityLabel={'ClassInfo Delete Button'}
-          testID="classInfoDeleteButton"
+          testID='classInfoDeleteButton'
         />
         {deleteModalVisible && (
           <ClassInfoDeleteModal
@@ -77,7 +84,7 @@ function ClassInfoDetailScreen(props) {
             visible={deleteModalVisible}
             setVisible={setDeleteModalVisible}
             entity={classInfo}
-            testID="classInfoDeleteModal"
+            testID='classInfoDeleteModal'
           />
         )}
       </View>
@@ -85,7 +92,8 @@ function ClassInfoDetailScreen(props) {
   );
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state) =>
+{
   return {
     classInfo: state.classInfos.classInfo,
     error: state.classInfos.errorOne,
@@ -95,7 +103,8 @@ const mapStateToProps = (state) => {
   };
 };
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = (dispatch) =>
+{
   return {
     getClassInfo: (id) => dispatch(ClassInfoActions.classInfoRequest(id)),
     getAllClassInfos: (options) => dispatch(ClassInfoActions.classInfoAllRequest(options)),

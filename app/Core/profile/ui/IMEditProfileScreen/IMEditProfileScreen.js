@@ -1,17 +1,18 @@
-import React, { useLayoutEffect, useEffect, useRef, useState } from 'react';
-import { BackHandler, Alert, View } from 'react-native';
-import { useSelector, useDispatch } from 'react-redux';
+import React, {useEffect, useLayoutEffect, useRef, useState} from 'react';
+import {Alert, BackHandler, View} from 'react-native';
+import {useDispatch, useSelector} from 'react-redux';
 import TextButton from 'react-native-button';
-import { userAPIManager } from '../../../api';
+import {userAPIManager} from '../../../api';
 import IMFormComponent from '../IMFormComponent/IMFormComponent';
-import { setUserData } from '../../../onboarding/redux/auth';
-import { IMLocalized } from '../../../localization/IMLocalization';
-import { Appearance } from 'react-native-appearance';
-import { ErrorCode, localizedErrorMessage } from '../../../onboarding/utils/ErrorCode';
-import { authManager } from '../../../onboarding/utils/api';
+import {setUserData} from '../../../onboarding/redux/auth';
+import {IMLocalized} from '../../../localization/IMLocalization';
+import {Appearance} from 'react-native-appearance';
+import {ErrorCode, localizedErrorMessage} from '../../../onboarding/utils/ErrorCode';
+import {authManager} from '../../../onboarding/utils/api';
 import dynamicStyles from './styles';
 
-export default function IMEditProfileScreen(props) {
+export default function IMEditProfileScreen(props)
+{
   const appStyles = props.route.params.appStyles;
   const appConfig = props.route.params.appConfig;
   let screenTitle = props.route.params.screenTitle;
@@ -30,11 +31,12 @@ export default function IMEditProfileScreen(props) {
   const didFocusSubscription = useRef(null);
   const willBlurSubscription = useRef(null);
 
-  useLayoutEffect(() => {
+  useLayoutEffect(() =>
+  {
     props.navigation.setOptions({
       headerTitle: screenTitle,
       headerRight: () => (
-        <TextButton style={{ marginRight: 12 }} onPress={onFormSubmit}>
+        <TextButton style={{marginRight: 12}} onPress={onFormSubmit}>
           Done
         </TextButton>
       ),
@@ -45,7 +47,8 @@ export default function IMEditProfileScreen(props) {
     });
   }, []);
 
-  useEffect(() => {
+  useEffect(() =>
+  {
     didFocusSubscription.current = props.navigation.addListener('focus', (payload) =>
       BackHandler.addEventListener('hardwareBackPress', onBackButtonPressAndroid),
     );
@@ -53,62 +56,80 @@ export default function IMEditProfileScreen(props) {
       BackHandler.removeEventListener('hardwareBackPress', onBackButtonPressAndroid),
     );
 
-    return () => {
+    return () =>
+    {
       didFocusSubscription.current && didFocusSubscription.current();
       willBlurSubscription.current && willBlurSubscription.current();
     };
   }, []);
 
-  const onBackButtonPressAndroid = () => {
+  const onBackButtonPressAndroid = () =>
+  {
     props.navigation.goBack();
     return true;
   };
 
-  const isInvalid = (value, regex) => {
+  const isInvalid = (value, regex) =>
+  {
     const regexResult = regex.test(value);
 
-    if (value.length > 0 && !regexResult) {
+    if (value.length > 0 && !regexResult)
+    {
       return true;
     }
-    if (value.length > 0 && regexResult) {
+    if (value.length > 0 && regexResult)
+    {
       return false;
     }
   };
 
-  const onFormSubmit = () => {
-    var newUser = { ...currentUser };
+  const onFormSubmit = () =>
+  {
+    var newUser = {...currentUser};
     var allFieldsAreValid = true;
 
-    form.sections.forEach((section) => {
-      section.fields.forEach((field) => {
+    form.sections.forEach((section) =>
+    {
+      section.fields.forEach((field) =>
+      {
         const newValue = alteredFormDict[field.key]?.trim();
-        if (newValue != null) {
-          if (field.regex && isInvalid(newValue, field.regex)) {
+        if (newValue != null)
+        {
+          if (field.regex && isInvalid(newValue, field.regex))
+          {
             allFieldsAreValid = false;
-          } else {
+          }
+          else
+          {
             newUser[field.key] = alteredFormDict[field.key]?.trim();
           }
         }
       });
     });
 
-    if (allFieldsAreValid) {
+    if (allFieldsAreValid)
+    {
       userAPIManager.updateUserData(currentUser.id, newUser);
-      dispatch(setUserData({ user: newUser }));
+      dispatch(setUserData({user: newUser}));
       props.navigation.goBack();
-      if (onComplete) {
+      if (onComplete)
+      {
         onComplete();
       }
-    } else {
+    }
+    else
+    {
       alert(IMLocalized('An error occurred while trying to update your account. Please make sure all fields are valid.'));
     }
   };
 
-  const onFormChange = (alteredFormDict) => {
+  const onFormChange = (alteredFormDict) =>
+  {
     setAlteredFormDict(alteredFormDict);
   };
 
-  const onDeletePrompt = () => {
+  const onDeletePrompt = () =>
+  {
     Alert.alert(
       IMLocalized('Confirmation'),
       IMLocalized('Are you sure you want to remove your account? This will delete all your data and the action is not reversible.'),
@@ -127,23 +148,27 @@ export default function IMEditProfileScreen(props) {
     );
   };
 
-  const onDeleteAccount = () => {
-    authManager.deleteUser(currentUser?.id, (response) => {
-      if (response.success) {
+  const onDeleteAccount = () =>
+  {
+    authManager.deleteUser(currentUser?.id, (response) =>
+    {
+      if (response.success)
+      {
         Alert.alert(IMLocalized('Success'), IMLocalized('Successfully deleted account'));
         props.navigation.reset({
           index: 0,
           routes: [
             {
               name: 'LoadScreen',
-              params: { appStyles, appConfig },
+              params: {appStyles, appConfig},
             },
           ],
         });
 
         return;
       }
-      if (response.error === ErrorCode.requiresRecentLogin) {
+      if (response.error === ErrorCode.requiresRecentLogin)
+      {
         Alert.alert(IMLocalized(IMLocalized('Error')), IMLocalized(localizedErrorMessage(response.error)));
         return;
       }

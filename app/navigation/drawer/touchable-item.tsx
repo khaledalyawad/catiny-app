@@ -31,7 +31,7 @@ SOFTWARE.
  * On other platforms, you can pass the props of TouchableOpacity.
  */
 import * as React from 'react';
-import { Platform, TouchableNativeFeedback, TouchableOpacity, View, ViewProps } from 'react-native';
+import {Platform, TouchableNativeFeedback, TouchableOpacity, View, ViewProps} from 'react-native';
 
 export type Props = ViewProps & {
   pressColor?: string;
@@ -44,7 +44,8 @@ export type Props = ViewProps & {
 
 const ANDROID_VERSION_LOLLIPOP = 21;
 
-export default function TouchableItem({ borderless = false, pressColor = 'rgba(0, 0, 0, .32)', style, children, ...rest }: Props) {
+export default function TouchableItem({borderless = false, pressColor = 'rgba(0, 0, 0, .32)', style, children, ...rest}: Props)
+{
   /*
    * TouchableNativeFeedback.Ripple causes a crash on old Android versions,
    * therefore only enable it on Android Lollipop and above.
@@ -53,7 +54,8 @@ export default function TouchableItem({ borderless = false, pressColor = 'rgba(0
    * platform design guidelines.
    * We need to pass the background prop to specify a borderless ripple effect.
    */
-  if (Platform.OS === 'android' && Platform.Version >= ANDROID_VERSION_LOLLIPOP) {
+  if (Platform.OS === 'android' && Platform.Version >= ANDROID_VERSION_LOLLIPOP)
+  {
     return (
       <TouchableNativeFeedback
         {...rest}
@@ -62,7 +64,9 @@ export default function TouchableItem({ borderless = false, pressColor = 'rgba(0
         <View style={style}>{React.Children.only(children)}</View>
       </TouchableNativeFeedback>
     );
-  } else {
+  }
+  else
+  {
     return (
       <TouchableOpacity style={style} {...rest}>
         {children}

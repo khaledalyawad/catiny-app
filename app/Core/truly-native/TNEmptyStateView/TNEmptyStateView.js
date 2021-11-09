@@ -1,12 +1,13 @@
 import React from 'react';
-import { View, Text, TouchableOpacity } from 'react-native';
-import { useColorScheme } from 'react-native-appearance';
+import {Text, TouchableOpacity, View} from 'react-native';
+import {useColorScheme} from 'react-native-appearance';
 import dynamicStyles from './styles';
 
-const TNEmptyStateView = (props) => {
+const TNEmptyStateView = (props) =>
+{
   const colorScheme = useColorScheme();
   const styles = dynamicStyles(props.appStyles, colorScheme);
-  const { emptyStateConfig } = props;
+  const {emptyStateConfig} = props;
   return (
     <View style={[props.style, styles.container]}>
       <Text style={styles.title}>{emptyStateConfig.title}</Text>

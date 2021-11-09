@@ -1,30 +1,38 @@
-import React, { useRef } from 'react';
-import { Linking } from 'react-native';
+import React from 'react';
+import {Linking} from 'react-native';
 import ParsedText from 'react-native-parsed-text';
 import styles from './styles';
 
-export default function IMRichTextView(props) {
-  const { children, onHashTagPress, defaultTextStyle, usernameStyle, hashTagStyle } = props;
+export default function IMRichTextView(props)
+{
+  const {children, onHashTagPress, defaultTextStyle, usernameStyle, hashTagStyle} = props;
 
-  const onEmailPress = async (email, matchIndex) => {
+  const onEmailPress = async (email, matchIndex) =>
+  {
     await Linking.openURL(`mailto:${email}`);
   };
 
-  const onPhonePress = async (phoneNumber, matchIndex) => {
+  const onPhonePress = async (phoneNumber, matchIndex) =>
+  {
     await Linking.openURL(`tel:${phoneNumber}`);
   };
 
-  const onUrlPress = async (url, matchIndex) => {
+  const onUrlPress = async (url, matchIndex) =>
+  {
     const followsProtocol = url.startsWith('http');
 
-    if (followsProtocol) {
+    if (followsProtocol)
+    {
       await Linking.openURL(url);
-    } else {
+    }
+    else
+    {
       await Linking.openURL(`https://${url}`);
     }
   };
 
-  const onUserPress = (user, matchIndex) => {
+  const onUserPress = (user, matchIndex) =>
+  {
     let pattern = /@\[([^\]]+?)\]\(id:([^\]]+?)\)/gim;
     let match = pattern.exec(user);
     const userInfo = {
@@ -36,7 +44,8 @@ export default function IMRichTextView(props) {
     props.onUserPress(userInfo);
   };
 
-  const renderText = (matchingString, matches) => {
+  const renderText = (matchingString, matches) =>
+  {
     let pattern = /@\[([^\]]+?)\]\(id:([^\]]+?)\)/gim;
     let match = pattern.exec(matchingString);
 
@@ -47,7 +56,7 @@ export default function IMRichTextView(props) {
     <ParsedText
       style={defaultTextStyle}
       parse={[
-        { type: 'url', style: styles.url, onPress: onUrlPress },
+        {type: 'url', style: styles.url, onPress: onUrlPress},
         {
           type: 'phone',
           style: styles.phone,
@@ -70,7 +79,7 @@ export default function IMRichTextView(props) {
           onPress: onHashTagPress,
         },
       ]}
-      childrenProps={{ allowFontScaling: false }}>
+      childrenProps={{allowFontScaling: false}}>
       {children}
     </ParsedText>
   );

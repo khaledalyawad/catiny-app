@@ -1,10 +1,10 @@
-import { Dimensions } from 'react-native';
-import { StyleSheet } from 'react-native';
+import {Dimensions, StyleSheet} from 'react-native';
 
-const { height } = Dimensions.get('window');
+const {height} = Dimensions.get('window');
 const imageSize = height * 0.14;
 
-const dynamicStyles = (appStyles, colorScheme) => {
+const dynamicStyles = (appStyles, colorScheme) =>
+{
   return StyleSheet.create({
     container: {
       flex: 1,

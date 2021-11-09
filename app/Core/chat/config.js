@@ -4,4 +4,4 @@ const pushKitEndpoint = 'https://us-central1-production-a9404.cloudfunctions.net
 
 const iOSBundleID = 'io.instamobile.chat.rn.ios';
 
-export { callID, pushKitEndpoint, iOSBundleID };
+export {callID, pushKitEndpoint, iOSBundleID};

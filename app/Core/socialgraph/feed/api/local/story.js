@@ -2,7 +2,7 @@
  * Implement These Methods If You Are Adding Your Own Custom Backend
  */
 
-import { mockStoriesData } from './localData';
+import {mockStoriesData} from './localData';
 
 /**
  * Subscribe to stories collection
@@ -14,7 +14,8 @@ import { mockStoriesData } from './localData';
  * @callback - A callback method that gets called every time changes are identified in the server-side stories
  *
  **/
-export const subscribeToStoriesFeed = (userID, callback) => {
+export const subscribeToStoriesFeed = (userID, callback) =>
+{
   // subscribe to the stories collection based on userID provided
   // every time there are changes in stories server side, we call the callback, e.g.
   // return callback(stories) or callback([]) in case of fails
@@ -37,7 +38,8 @@ export const subscribeToStoriesFeed = (userID, callback) => {
  * @callback - A callback method that gets called every time changes are identified in the server-side stories
  *
  **/
-export const subscribeStories = (friends, callback) => {
+export const subscribeStories = (friends, callback) =>
+{
   // subscribe to the stories collection
   // every time there are changes in stories server side, we call the callback, e.g.
   // return callback(stories) or callback([])
@@ -60,12 +62,13 @@ export const subscribeStories = (friends, callback) => {
  *
  * @author - The author object
  **/
-export const addStory = async (story, followerIDs, author) => {
+export const addStory = async (story, followerIDs, author) =>
+{
   // initialize story data
   // upload to server
   // return { success: true, id: ref.id } or { error, success: false };
 
-  return { error, success: false };
+  return {error, success: false};
 };
 
 /**
@@ -76,7 +79,8 @@ export const addStory = async (story, followerIDs, author) => {
  * @destUserID - The ID of the user
  * @sourceUserID - the ID of the author of the post
  **/
-export const hydrateStoriesForNewFriendship = async (destUserID, sourceUserID) => {
+export const hydrateStoriesForNewFriendship = async (destUserID, sourceUserID) =>
+{
   // we take all stories from sourceUserID and populate the stories of destUserID
 };
 
@@ -88,6 +92,7 @@ export const hydrateStoriesForNewFriendship = async (destUserID, sourceUserID) =
  * @destUserID - The ID of the user
  * @sourceID - the ID of the author of the post
  **/
-export const removeStoriesForOldFriendship = async (destUserID, oldFriendID) => {
+export const removeStoriesForOldFriendship = async (destUserID, oldFriendID) =>
+{
   // We remove all stories authored by oldFriendID from destUserID's stories tray
 };

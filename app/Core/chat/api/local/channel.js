@@ -1,6 +1,6 @@
-import { IMLocalized } from '../../../localization/IMLocalization';
+import {IMLocalized} from '../../../localization/IMLocalization';
 import uuidv4 from 'uuidv4';
-import { mockThread } from './localData';
+import {mockThread} from './localData';
 
 /**
  * Implement These Methods If You Are Adding Your Own Custom Backend
@@ -38,7 +38,8 @@ const chatFeed = [
  ** @userID - The user ID whose chat channels we subscribe to
  ** @callback - A callback method that gets called every time changes are identified in the server-side channels
  */
-export const subscribeChannels = (userID, callback) => {
+export const subscribeChannels = (userID, callback) =>
+{
   // subscribe to the channels collection, based on userID
   // every time there are changes in channels server side, we call the callback, e.g.
   // callback(listOfChannels)
@@ -54,7 +55,8 @@ export const subscribeChannels = (userID, callback) => {
  *
  * @callback - A callback method that gets called every time changes are identified in the server-side chat feed
  **/
-export const subscribeSingleChannel = (channelID, callback) => {
+export const subscribeSingleChannel = (channelID, callback) =>
+{
   // subscribe to the chat_feed collection, based on userID
   const chatRef = null; // this object will be used to unsubscribe from this listener
   // every time there are changes in channels server side, we call the callback, e.g.
@@ -68,13 +70,14 @@ export const subscribeSingleChannel = (channelID, callback) => {
 /**
  * Subscribes to message thread snapshot
  * Parameters
- 
+
  * @channel - A callback method that gets called every time changes are identified in the server-side channels
 
  [{channelID, creatorID, id, channelName, participantProfilePictureURLs, readUserIDs, typingUsers}, ...];
  * @callback - A callback method that gets called every time changes are identified in the server-side chat feed
  */
-export const subscribeThreadSnapshot = (channel, callback) => {
+export const subscribeThreadSnapshot = (channel, callback) =>
+{
   const threadRef = null; //this is used to unsubscribe from the listener
 
   callback(mockThread);
@@ -90,11 +93,13 @@ export const subscribeThreadSnapshot = (channel, callback) => {
  * @inReplyToItem - The message being replied if any
  * @participantProfilePictureURLs - Profile picture urls of the participants
  */
-export const sendMessage = (sender, channel, message, downloadURL, inReplyToItem, participantProfilePictureURLs) => {
+export const sendMessage = (sender, channel, message, downloadURL, inReplyToItem, participantProfilePictureURLs) =>
+{
   // update channel thread
   // hydrate chat feed
-  return new Promise((resolve) => {
-    resolve({ success: true });
+  return new Promise((resolve) =>
+  {
+    resolve({success: true});
   });
 };
 
@@ -102,9 +107,9 @@ export const sendMessage = (sender, channel, message, downloadURL, inReplyToItem
  * Delete message
  *
  * @message - The message object being deleted
- * 
+ *
  * message format
- * 
+ *
  * {
     sender,
     channel,
@@ -114,7 +119,8 @@ export const sendMessage = (sender, channel, message, downloadURL, inReplyToItem
    }
  *
  */
-export const deleteMessage = ({ sender, channel, threadItemID, isLastCreatedThreadItem, newLastCreatedThreadItem }) => {
+export const deleteMessage = ({sender, channel, threadItemID, isLastCreatedThreadItem, newLastCreatedThreadItem}) =>
+{
   // if (isLastCreatedThreadItem && newLastCreatedThreadItem) {
   //   const {
   //     content,
@@ -137,7 +143,8 @@ export const deleteMessage = ({ sender, channel, threadItemID, isLastCreatedThre
  * @typingUsers - The array of users typing
  *
  */
-export const markChannelTypingUsers = async (channelID, typingUsers) => {
+export const markChannelTypingUsers = async (channelID, typingUsers) =>
+{
   // update typingUsers ref
 };
 
@@ -151,7 +158,8 @@ export const markChannelTypingUsers = async (channelID, typingUsers) => {
  * @participants - participants of the thread
  *
  */
-export const markChannelThreadItemAsRead = async (channelID, userID, threadMessageID, readUserIDs, participants) => {
+export const markChannelThreadItemAsRead = async (channelID, userID, threadMessageID, readUserIDs, participants) =>
+{
   // mark thread item as read
   // mark last message as read
   // update chat_feed using channelID
@@ -165,14 +173,16 @@ export const markChannelThreadItemAsRead = async (channelID, userID, threadMessa
  * @name - The name of the group being create
  *
  */
-export const createChannel = (creator, otherParticipants, name) => {
+export const createChannel = (creator, otherParticipants, name) =>
+{
   // subscribe to the group collection, based on userID
   // every time there are changes in channels server side, we call the callback, e.g.
   // callback(listOfChannels)
   // listOfChannels is an array containing the channels with the following format:
   // [{channelID, creatorID, id, channelName, participantProfilePictureURLs, readUserIDs, typingUsers}, ...];
 
-  return new Promise((resolve) => {
+  return new Promise((resolve) =>
+  {
     var channelID = uuidv4(); //random id
     const channelData = {
       creatorID: 212112,
@@ -181,7 +191,7 @@ export const createChannel = (creator, otherParticipants, name) => {
       name: name || '',
       participants: [...otherParticipants, creator],
     };
-    resolve({ success: true, channel: channelData });
+    resolve({success: true, channel: channelData});
   });
 };
 
@@ -193,7 +203,8 @@ export const createChannel = (creator, otherParticipants, name) => {
  * @callback - A callback method that gets called after removing user from group
  *
  */
-export const onLeaveGroup = async (channelId, userId, callback) => {
+export const onLeaveGroup = async (channelId, userId, callback) =>
+{
   // subscribe to the group collection, based on userID
   // every time there are changes in channels server side, we call the callback, e.g.
   // callback({ success: true });
@@ -212,7 +223,8 @@ export const onLeaveGroup = async (channelId, userId, callback) => {
  * @callback - A callback method that gets called every time changes are identified in the server-side channels
  *
  */
-export const onRenameGroup = (text, channel, callback) => {
+export const onRenameGroup = (text, channel, callback) =>
+{
   // rename the channel with text
   // callback({ success: true, newChannel });
 
@@ -226,6 +238,7 @@ export const onRenameGroup = (text, channel, callback) => {
  *
  * returns timestamp
  */
-export const currentTimestamp = () => {
+export const currentTimestamp = () =>
+{
   // return timestamp
 };

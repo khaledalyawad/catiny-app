@@ -1,9 +1,8 @@
-export { groupBy } from '../../../../helpers/collections';
-import { friendship, FriendshipManager } from '../../../friendships/api';
-import { friends } from '../../../friendships/redux';
-import { notificationManager } from '../../../../notifications';
-import { IMLocalized } from '../../../../localization/IMLocalization';
-import { firebase } from '../../../../api/firebase/config';
+export {groupBy} from '../../../../helpers/collections';
+import {friendship, FriendshipManager} from '../../../friendships/api';
+import {notificationManager} from '../../../../notifications';
+import {IMLocalized} from '../../../../localization/IMLocalization';
+import {firebase} from '../../../../api/firebase/config';
 
 export const commentsRef = firebase.firestore().collection('socialnetwork_comments');
 
@@ -13,21 +12,25 @@ export const postsRef = firebase.firestore().collection('SocialNetwork_Posts');
 
 const usersRef = firebase.firestore().collection('users');
 
-export const subscribeToUserReactions = (userID, callback) => {
+export const subscribeToUserReactions = (userID, callback) =>
+{
   const reactionsRef = firebase
     .firestore()
     .collection('socialnetwork_reactions')
     .where('reactionAuthorID', '==', userID)
     .onSnapshot(
-      (querySnapshot) => {
+      (querySnapshot) =>
+      {
         const reactions = [];
-        querySnapshot.forEach((doc) => {
+        querySnapshot.forEach((doc) =>
+        {
           const reaction = doc.data();
           reactions.push(reaction);
         });
         return callback(reactions);
       },
-      (error) => {
+      (error) =>
+      {
         console.log(error);
         callback([]);
       },
@@ -35,21 +38,26 @@ export const subscribeToUserReactions = (userID, callback) => {
   return reactionsRef;
 };
 
-const onQueryCollectionUpdate = (querySnapshot, postId) => {
+const onQueryCollectionUpdate = (querySnapshot, postId) =>
+{
   const data = [];
-  querySnapshot.forEach((doc) => {
+  querySnapshot.forEach((doc) =>
+  {
     const temp = doc.data();
     temp.id = doc.id;
-    if (postId === temp.postID) {
+    if (postId === temp.postID)
+    {
       data.push(temp);
     }
   });
   return data;
 };
 
-const onCollectionUpdate = (querySnapshot, postId) => {
+const onCollectionUpdate = (querySnapshot, postId) =>
+{
   const data = [];
-  querySnapshot.forEach((doc) => {
+  querySnapshot.forEach((doc) =>
+  {
     const temp = doc.data();
     temp.id = doc.id;
     data.push(temp);
@@ -57,11 +65,14 @@ const onCollectionUpdate = (querySnapshot, postId) => {
   return data;
 };
 
-export const subscribeComments = (postId, callback) => {
-  return commentsRef.orderBy('createdAt', 'asc').onSnapshot((querySnapshot) => {
+export const subscribeComments = (postId, callback) =>
+{
+  return commentsRef.orderBy('createdAt', 'asc').onSnapshot((querySnapshot) =>
+  {
     let comments = onQueryCollectionUpdate(querySnapshot, postId);
     comments = comments.filter((comment) => comment.authorID);
-    comments = comments.map(async (comment) => {
+    comments = comments.map(async (comment) =>
+    {
       const userDoc = await usersRef.doc(comment.authorID).get();
       const promiseComment = {
         ...comment,
@@ -71,18 +82,24 @@ export const subscribeComments = (postId, callback) => {
 
       return promiseComment;
     });
-    Promise.all(comments).then((newComment) => {
+    Promise.all(comments).then((newComment) =>
+    {
       return callback(newComment);
     });
   });
 };
 
-export const subscribeReactions = (callback, postId) => {
-  return reactionsRef.onSnapshot((querySnapshot) => {
+export const subscribeReactions = (callback, postId) =>
+{
+  return reactionsRef.onSnapshot((querySnapshot) =>
+  {
     let reactions = [];
-    if (postId) {
+    if (postId)
+    {
       reactions = onQueryCollectionUpdate(querySnapshot, postId);
-    } else {
+    }
+    else
+    {
       reactions = onCollectionUpdate(querySnapshot);
     }
 
@@ -90,7 +107,8 @@ export const subscribeReactions = (callback, postId) => {
     const groupedReactions = groupedByReaction(reactions);
     const formattedReactions = [];
 
-    for (var key of Object.keys(groupedReactions)) {
+    for (var key of Object.keys(groupedReactions))
+    {
       const rawReaction = groupedReactions[key];
       const formattedReaction = {
         type: rawReaction[0].reaction,
@@ -105,12 +123,15 @@ export const subscribeReactions = (callback, postId) => {
   });
 };
 
-export const getUserReactions = (userId, callback) => {
-  return reactionsRef.where('reactionAuthorID', '==', userId).onSnapshot((querySnapshot) => {
+export const getUserReactions = (userId, callback) =>
+{
+  return reactionsRef.where('reactionAuthorID', '==', userId).onSnapshot((querySnapshot) =>
+  {
     const date = new Date();
     const seconds = date.getTime() / 1000;
 
-    const reactions = querySnapshot.docs.map((doc) => {
+    const reactions = querySnapshot.docs.map((doc) =>
+    {
       const temp = doc.data();
       temp.id = doc.id;
       return temp;
@@ -120,17 +141,19 @@ export const getUserReactions = (userId, callback) => {
     const groupedReactionsByPostId = groupedByPostId(reactions);
     const formattedReactions = [];
 
-    for (var key of Object.keys(groupedReactionsByPostId)) {
+    for (var key of Object.keys(groupedReactionsByPostId))
+    {
       const rawReaction = groupedReactionsByPostId[key];
       const formattedReaction = {
         reactionAuthorID: rawReaction[0].reactionAuthorID,
         postID: rawReaction[0].postID,
-        reactions: rawReaction.map((item) => {
+        reactions: rawReaction.map((item) =>
+        {
           return {
             type: item.reaction,
             reactionAuthorID: item.reactionAuthorID,
             postID: item.postID,
-            createdAt: item.createdAt || { seconds },
+            createdAt: item.createdAt || {seconds},
             id: item.id,
           };
         }),
@@ -138,17 +161,19 @@ export const getUserReactions = (userId, callback) => {
       formattedReactions.push(formattedReaction);
     }
 
-    callback({ reactions: formattedReactions, fetchCompleted: true });
+    callback({reactions: formattedReactions, fetchCompleted: true});
   });
 };
 
-export const addComment = async (comment, commentAuthor, post, followEnabled) => {
-  try {
+export const addComment = async (comment, commentAuthor, post, followEnabled) =>
+{
+  try
+  {
     const ref = await commentsRef.add({
       ...comment,
       createdAt: firebase.firestore.FieldValue.serverTimestamp(),
     });
-    await commentsRef.doc(ref.id).update({ ...comment, commentID: ref.id, id: ref.id });
+    await commentsRef.doc(ref.id).update({...comment, commentID: ref.id, id: ref.id});
 
     // Send push notification to author
     notificationManager.sendPushNotification(
@@ -156,42 +181,58 @@ export const addComment = async (comment, commentAuthor, post, followEnabled) =>
       IMLocalized('Instamobile'),
       commentAuthor.firstName + ' ' + IMLocalized('commented on your post.'),
       'social_comment',
-      { outBound: commentAuthor },
+      {outBound: commentAuthor},
     );
 
-    if (followEnabled) {
+    if (followEnabled)
+    {
       updateCommentCountOnAllTimelines(comment);
-    } else {
+    }
+    else
+    {
       updateCommentCountOnAllFriendsTimelines(comment);
     }
-    return { success: true, id: ref.id };
-  } catch (error) {
-    return { error, success: false };
+    return {success: true, id: ref.id};
+  }
+  catch (error)
+  {
+    return {error, success: false};
   }
 };
 
-export const handleReaction = async (reaction, user, post, followEnabled) => {
-  try {
+export const handleReaction = async (reaction, user, post, followEnabled) =>
+{
+  try
+  {
     const postId = post.id;
-    if (!postId || !user?.id) {
+    if (!postId || !user?.id)
+    {
       alert('Missing post or user. Please try again!');
       return;
     }
     const documentSnapshots = await reactionsRef.where('reactionAuthorID', '==', user.id).where('postID', '==', postId).get();
 
-    if (documentSnapshots.docs.length > 0) {
-      if (followEnabled || reaction == null) {
+    if (documentSnapshots.docs.length > 0)
+    {
+      if (followEnabled || reaction == null)
+      {
         // this is simply an unlike
-        documentSnapshots.docs.forEach(async (docRef) => {
+        documentSnapshots.docs.forEach(async (docRef) =>
+        {
           await reactionsRef.doc(docRef.id).delete();
         });
-      } else {
+      }
+      else
+      {
         // this is modifying a previous reaction into a different reaction, facebook style (e.g. angry into love)
-        documentSnapshots.docs.forEach(async (docRef) => {
-          await reactionsRef.doc(docRef.id).update({ reaction });
+        documentSnapshots.docs.forEach(async (docRef) =>
+        {
+          await reactionsRef.doc(docRef.id).update({reaction});
         });
       }
-    } else {
+    }
+    else
+    {
       const newReaction = {
         postID: postId,
         reaction,
@@ -209,33 +250,44 @@ export const handleReaction = async (reaction, user, post, followEnabled) => {
         reaction,
       });
     }
-    if (followEnabled) {
+    if (followEnabled)
+    {
       updateReactionsCountForFollowers(post);
-    } else {
+    }
+    else
+    {
       updateReactionsCountForFriends(post);
     }
-  } catch (error) {
+  }
+  catch (error)
+  {
     console.log(error);
   }
 };
 
-export const deleteReaction = async (userId, postId) => {
+export const deleteReaction = async (userId, postId) =>
+{
   await reactionsRef
     .where('reactionAuthorID', '==', userId)
     .where('postID', '==', postId)
     .get()
-    .then((querySnapshot) => {
-      querySnapshot.forEach((doc) => {
+    .then((querySnapshot) =>
+    {
+      querySnapshot.forEach((doc) =>
+      {
         doc.ref.delete();
       });
     })
-    .catch((error) => {
+    .catch((error) =>
+    {
       console.log(error);
     });
 };
 
-export const updateReactionsCountForFollowers = async (post) => {
-  if (!post?.id) {
+export const updateReactionsCountForFollowers = async (post) =>
+{
+  if (!post?.id)
+  {
     alert('Missing post ID. Please try again');
     return;
   }
@@ -245,17 +297,20 @@ export const updateReactionsCountForFollowers = async (post) => {
   const allReactionsCount = allReactions.docs.length;
 
   // We update the canonical entry
-  postsRef.doc(post.id).update({ reactionsCount: allReactionsCount });
+  postsRef.doc(post.id).update({reactionsCount: allReactionsCount});
 
   // We fetch all users who follow the author of the post and update their timelines
-  const unsubscribe = friendship.subscribeToInboundFriendships(post.authorID, (inboundFriendships) => {
+  const unsubscribe = friendship.subscribeToInboundFriendships(post.authorID, (inboundFriendships) =>
+  {
     const inboundUserIDs = inboundFriendships.map((friendship) => friendship.id);
     const allUserIDsToBeUpdated = [post.authorID].concat(inboundUserIDs);
 
     const db = firebase.firestore();
     let batch = db.batch();
-    allUserIDsToBeUpdated.forEach((userID) => {
-      if (!userID) {
+    allUserIDsToBeUpdated.forEach((userID) =>
+    {
+      if (!userID)
+      {
         return;
       }
       const feedPostsRef = firebase.firestore().collection('social_feeds').doc(userID).collection('main_feed').doc(post.id);
@@ -275,8 +330,10 @@ export const updateReactionsCountForFollowers = async (post) => {
   });
 };
 
-const updateReactionsCountForFriends = async (post) => {
-  if (!post?.id) {
+const updateReactionsCountForFriends = async (post) =>
+{
+  if (!post?.id)
+  {
     alert('Missing post ID. Please try again');
     return;
   }
@@ -286,15 +343,17 @@ const updateReactionsCountForFriends = async (post) => {
   const allReactionsCount = allReactions.docs.length;
 
   // We update the canonical entry
-  postsRef.doc(post.id).update({ reactionsCount: allReactionsCount });
+  postsRef.doc(post.id).update({reactionsCount: allReactionsCount});
 
   // We get all friends of the author and update their timelines
-  const manager = new FriendshipManager(false, (friendships, inbound, outbound) => {
+  const manager = new FriendshipManager(false, (friendships, inbound, outbound) =>
+  {
     const friendsUserIDs = friendships.map((friendship) => friendship.user.id);
     const allUserIDsToBeUpdated = [post.authorID].concat(friendsUserIDs);
     const db = firebase.firestore();
     let batch = db.batch();
-    allUserIDsToBeUpdated.forEach((userID) => {
+    allUserIDsToBeUpdated.forEach((userID) =>
+    {
       const feedPostsRef = firebase.firestore().collection('social_feeds').doc(userID).collection('main_feed').doc(post.id);
       batch.set(
         feedPostsRef,
@@ -313,23 +372,27 @@ const updateReactionsCountForFriends = async (post) => {
   manager.fetchFriendships(post.authorID);
 };
 
-const updateCommentCountOnAllTimelines = async (comment) => {
+const updateCommentCountOnAllTimelines = async (comment) =>
+{
   // Fetch the current comment count
   const allCommentsForThisPost = await commentsRef.where('postID', '==', comment.postID).get();
   const commentCount = allCommentsForThisPost.docs.length;
 
   // Update canonical posts table
-  postsRef.doc(comment.postID).update({ commentCount: commentCount });
+  postsRef.doc(comment.postID).update({commentCount: commentCount});
 
   // We fetch all users who follow the author of the post and update their timelines
-  const unsubscribe = friendship.subscribeToInboundFriendships(comment.authorID, (inboundFriendships) => {
+  const unsubscribe = friendship.subscribeToInboundFriendships(comment.authorID, (inboundFriendships) =>
+  {
     const inboundUserIDs = inboundFriendships.map((friendship) => friendship.id);
     const allUserIDsToBeUpdated = [comment.authorID].concat(inboundUserIDs);
 
     const db = firebase.firestore();
     const batch = db.batch();
-    allUserIDsToBeUpdated.forEach((userID) => {
-      if (!userID) {
+    allUserIDsToBeUpdated.forEach((userID) =>
+    {
+      if (!userID)
+      {
         return;
       }
       const otherUserMainFeedRef = firebase.firestore().collection('social_feeds').doc(userID).collection('main_feed').doc(comment.postID);
@@ -348,24 +411,29 @@ const updateCommentCountOnAllTimelines = async (comment) => {
   });
 };
 
-const updateCommentCountOnAllFriendsTimelines = async (comment) => {
+const updateCommentCountOnAllFriendsTimelines = async (comment) =>
+{
   // Fetch the current comment count
   const allCommentsForThisPost = await commentsRef.where('postID', '==', comment.postID).get();
   const commentCount = allCommentsForThisPost.docs.length;
 
   // Update canonical posts table
-  postsRef.doc(comment.postID).update({ commentCount: commentCount });
+  postsRef.doc(comment.postID).update({commentCount: commentCount});
 
   // We fetch all friends of the author of the post and update their timelines
-  const unsubscribeInbound = friendship.subscribeToInboundFriendships(comment.authorID, (inboundFriendships) => {
-    const unsubscribeOutbound = friendship.subscribeToOutboundFriendships(comment.authorID, (outboundFriendships) => {
+  const unsubscribeInbound = friendship.subscribeToInboundFriendships(comment.authorID, (inboundFriendships) =>
+  {
+    const unsubscribeOutbound = friendship.subscribeToOutboundFriendships(comment.authorID, (outboundFriendships) =>
+    {
       const inboundUserIDs = inboundFriendships.map((friendship) => friendship.id);
       const outboundUserIDs = outboundFriendships.map((friendship) => friendship.id);
       const allUserIDsToBeUpdated = [comment.authorID].concat(inboundUserIDs.filter((id) => outboundUserIDs.includes(id))); // author + all mutual friendships
       const db = firebase.firestore();
       const batch = db.batch();
-      allUserIDsToBeUpdated.forEach((userID) => {
-        if (!userID) {
+      allUserIDsToBeUpdated.forEach((userID) =>
+      {
+        if (!userID)
+        {
           return;
         }
         const otherUserMainFeedRef = firebase

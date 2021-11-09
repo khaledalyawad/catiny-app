@@ -1,9 +1,9 @@
-import { createReducer, createActions } from 'reduxsauce';
+import {createActions, createReducer} from 'reduxsauce';
 import Immutable from 'seamless-immutable';
 
 /* ------------- Types and Action Creators ------------- */
 
-const { Types, Creators } = createActions({
+const {Types, Creators} = createActions({
   setRehydrationComplete: null,
 });
 
@@ -19,7 +19,7 @@ export const INITIAL_STATE = Immutable({
 /* ------------- Reducers ------------- */
 
 // rehydration is complete
-export const setRehydrationComplete = (state) => state.merge({ rehydrationComplete: true });
+export const setRehydrationComplete = (state) => state.merge({rehydrationComplete: true});
 
 /* ------------- Hookup Reducers To Types ------------- */
 

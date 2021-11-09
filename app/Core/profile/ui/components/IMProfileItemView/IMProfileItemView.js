@@ -1,10 +1,11 @@
 import React from 'react';
-import { Text, View, TouchableOpacity, Image } from 'react-native';
+import {Image, Text, TouchableOpacity, View} from 'react-native';
 import dynamicStyles from './styles';
-import { useColorScheme } from 'react-native-appearance';
+import {useColorScheme} from 'react-native-appearance';
 
-const IMProfileItemView = (props) => {
-  const { appStyles } = props;
+const IMProfileItemView = (props) =>
+{
+  const {appStyles} = props;
   const colorScheme = useColorScheme();
   const styles = dynamicStyles(appStyles, colorScheme);
   const rightArrowIcon = require('../../../../../CoreAssets/right-arrow.png');

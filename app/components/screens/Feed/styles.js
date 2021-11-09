@@ -1,7 +1,8 @@
-import { StyleSheet } from 'react-native';
+import {StyleSheet} from 'react-native';
 import AppStyles from '../../../AppStyles';
 
-const dynamicStyles = (colorScheme) => {
+const dynamicStyles = (colorScheme) =>
+{
   return new StyleSheet.create({
     feedContainer: {
       flex: 1,

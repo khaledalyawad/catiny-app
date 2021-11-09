@@ -1,6 +1,6 @@
-import { Platform, Dimensions, I18nManager } from 'react-native';
+import {Dimensions, I18nManager, Platform} from 'react-native';
 import TNColor from './Core/truly-native/TNColor';
-import { AppleButton } from '@invertase/react-native-apple-authentication';
+import {AppleButton} from '@invertase/react-native-apple-authentication';
 
 const WINDOW_WIDTH = Dimensions.get('window').width;
 const WINDOW_HEIGHT = Dimensions.get('window').height;
@@ -207,7 +207,7 @@ const styleSet = {
     height: 25,
     marginTop: Platform.OS === 'ios' ? 50 : 20,
     marginLeft: 10,
-    transform: [{ scaleX: I18nManager.isRTL ? -1 : 1 }],
+    transform: [{scaleX: I18nManager.isRTL ? -1 : 1}],
   },
 };
 

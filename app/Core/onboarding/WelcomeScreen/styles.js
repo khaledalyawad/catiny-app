@@ -1,7 +1,7 @@
-import { StyleSheet } from 'react-native';
-import { Platform } from 'react-native';
+import {Platform, StyleSheet} from 'react-native';
 
-const dynamicStyles = (appStyles, colorScheme) => {
+const dynamicStyles = (appStyles, colorScheme) =>
+{
   return StyleSheet.create({
     container: {
       flex: 1,

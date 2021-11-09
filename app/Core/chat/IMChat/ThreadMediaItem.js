@@ -1,17 +1,17 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { View } from 'react-native';
-import { Video } from 'expo-av';
+import React, {useEffect, useState} from 'react';
+import {View} from 'react-native';
+import {Video} from 'expo-av';
 import CircleSnail from 'react-native-progress/CircleSnail';
 import AudioMediaThreadItem from './AudioMediaThreadItem';
-import { loadCachedItem } from '../../helpers/cacheManager';
-import { createImageProgress } from 'react-native-image-progress';
+import {createImageProgress} from 'react-native-image-progress';
 import FastImage from 'react-native-fast-image';
 
 const Image = createImageProgress(FastImage);
 
-const circleSnailProps = { thickness: 1, color: '#D0D0D0', size: 50 };
+const circleSnailProps = {thickness: 1, color: '#D0D0D0', size: 50};
 
-export default function ThreadMediaItem({ dynamicStyles, appStyles, videoRef, item, outBound, updateItemImagePath }) {
+export default function ThreadMediaItem({dynamicStyles, appStyles, videoRef, item, outBound, updateItemImagePath})
+{
   const isValidUrl = item.url.url && item.url.url.startsWith('http');
   const isValidLegacyUrl = !item.url.url && item.url.startsWith('http');
   const uri = isValidUrl || isValidLegacyUrl ? item.url.url || item.url : '';
@@ -26,25 +26,34 @@ export default function ThreadMediaItem({ dynamicStyles, appStyles, videoRef, it
   const isVideo = item.url && item.url.mime && item.url.mime.startsWith('video');
   const noTypeStated = item.url && !item.url.mime;
 
-  useEffect(() => {
-    if (!videoLoading) {
+  useEffect(() =>
+  {
+    if (!videoLoading)
+    {
       setVideoPaused(true);
     }
   }, [videoLoading]);
 
-  const onVideoLoadStart = () => {
+  const onVideoLoadStart = () =>
+  {
     setVideoLoading(true);
   };
 
-  const onVideoLoad = (payload) => {
+  const onVideoLoad = (payload) =>
+  {
     setVideoLoading(false);
   };
 
-  if (isImage) {
-    return <Image source={{ uri: cachedImage }} style={dynamicStyles.mediaMessage} />;
-  } else if (isAudio) {
+  if (isImage)
+  {
+    return <Image source={{uri: cachedImage}} style={dynamicStyles.mediaMessage} />;
+  }
+  else if (isAudio)
+  {
     return <AudioMediaThreadItem outBound={outBound} item={item.url} appStyles={appStyles} />;
-  } else if (isVideo) {
+  }
+  else if (isVideo)
+  {
     return (
       <View>
         {videoLoading && (
@@ -61,13 +70,15 @@ export default function ThreadMediaItem({ dynamicStyles, appStyles, videoRef, it
           onLoad={onVideoLoad}
           onLoadStart={onVideoLoadStart}
           resizeMode={'cover'}
-          style={[dynamicStyles.mediaMessage, { display: videoLoading ? 'none' : 'flex' }]}
+          style={[dynamicStyles.mediaMessage, {display: videoLoading ? 'none' : 'flex'}]}
         />
         {!videoLoading && <Image source={appStyles.iconSet.playButton} style={dynamicStyles.playButton} resizeMode={'contain'} />}
       </View>
     );
-  } else {
+  }
+  else
+  {
     // To handle old format of an array of url stings. Before video feature
-    return <Image source={{ uri: cachedImage }} style={dynamicStyles.mediaMessage} />;
+    return <Image source={{uri: cachedImage}} style={dynamicStyles.mediaMessage} />;
   }
 }

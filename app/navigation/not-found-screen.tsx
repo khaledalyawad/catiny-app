@@ -1,8 +1,9 @@
 import * as React from 'react';
-import { StyleSheet, Text, View, Button } from 'react-native';
-import type { StackScreenProps } from '@react-navigation/stack';
+import {Button, StyleSheet, Text, View} from 'react-native';
+import type {StackScreenProps} from '@react-navigation/stack';
 
-const NotFoundScreen = ({ navigation }: StackScreenProps<{ Home: undefined }>) => {
+const NotFoundScreen = ({navigation}: StackScreenProps<{ Home: undefined }>) =>
+{
   return (
     <View style={styles.container}>
       <Text style={styles.title}>404 Not Found</Text>

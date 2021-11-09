@@ -1,8 +1,8 @@
-import { Image, Platform, View, StyleSheet } from 'react-native';
+import {Image, Platform, StyleSheet, View} from 'react-native';
 import TouchableItem from './touchable-item';
-import { Images } from '../../shared/themes';
+import {Images} from '../../shared/themes';
 import * as React from 'react';
-import { toggleDrawer } from '../nav-ref';
+import {toggleDrawer} from '../nav-ref';
 
 const styles = StyleSheet.create({
   wrapper: {
@@ -19,7 +19,8 @@ const styles = StyleSheet.create({
   },
 });
 
-export const DrawerButton = (props) => {
+export const DrawerButton = (props) =>
+{
   // const dimensions = useWindowDimensions();
   // hide the menu button since it's permanent on large screens
   const largeScreen = false; //dimensions.width >= 768;
@@ -32,7 +33,7 @@ export const DrawerButton = (props) => {
         style={styles.touchableItem}
         hitSlop={Platform.select({
           ios: undefined,
-          default: { top: 16, right: 16, bottom: 16, left: 16 },
+          default: {top: 16, right: 16, bottom: 16, left: 16},
         })}>
         {/* Button Image */}
         <Image source={Images.toggleDrawerIcon} style={styles.image} />

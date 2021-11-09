@@ -1,13 +1,13 @@
-import { StyleSheet, Dimensions } from 'react-native';
-import { I18nManager } from 'react-native';
-import { modedColor } from '../../helpers/colors';
+import {Dimensions, I18nManager, StyleSheet} from 'react-native';
+import {modedColor} from '../../helpers/colors';
 import TNColor from '../../truly-native/TNColor';
 
 const width = Dimensions.get('window').width;
 
 const codeInptCellWidth = width * 0.13;
 
-const dynamicStyles = (appStyles, colorScheme) => {
+const dynamicStyles = (appStyles, colorScheme) =>
+{
   return StyleSheet.create({
     container: {
       flex: 1,
@@ -56,7 +56,7 @@ const dynamicStyles = (appStyles, colorScheme) => {
       borderColor: appStyles.colorSet[colorScheme].mainTextColor,
       borderBottomLeftRadius: 25,
       borderTopLeftRadius: 25,
-      transform: [{ scaleX: I18nManager.isRTL ? -1 : 1 }],
+      transform: [{scaleX: I18nManager.isRTL ? -1 : 1}],
     },
     phoneInputTextStyle: {
       borderLeftWidth: I18nManager.isRTL ? 0 : 1,

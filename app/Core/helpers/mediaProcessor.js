@@ -1,23 +1,26 @@
-import { Platform } from 'react-native';
-import * as _ from 'lodash';
+import {Platform} from 'react-native';
 import * as FileSystem from 'expo-file-system';
-import { createThumbnail } from 'react-native-create-thumbnail';
-import { RNFFmpeg } from 'react-native-ffmpeg';
+import {createThumbnail} from 'react-native-create-thumbnail';
+import {RNFFmpeg} from 'react-native-ffmpeg';
 import ImageResizer from 'react-native-image-resizer';
 import uuidv4 from 'uuidv4';
 
 const BASE_DIR = `${FileSystem.cacheDirectory}expo-cache/`;
 
 // Checks if given directory exists. If not, creates it
-async function ensureDirExists(givenDir) {
+async function ensureDirExists(givenDir)
+{
   const dirInfo = await FileSystem.getInfoAsync(givenDir);
-  if (!dirInfo.exists) {
-    await FileSystem.makeDirectoryAsync(givenDir, { intermediates: true });
+  if (!dirInfo.exists)
+  {
+    await FileSystem.makeDirectoryAsync(givenDir, {intermediates: true});
   }
 }
 
-const compressVideo = async (sourceUri) => {
-  FileSystem.getInfoAsync(sourceUri).then((fileInfo) => {
+const compressVideo = async (sourceUri) =>
+{
+  FileSystem.getInfoAsync(sourceUri).then((fileInfo) =>
+  {
     console.log('compressing video of initial size ' + fileInfo.size / (1024 * 1024) + 'M');
     console.log(sourceUri);
   });
@@ -25,17 +28,22 @@ const compressVideo = async (sourceUri) => {
   await ensureDirExists(BASE_DIR);
 
   // On iOS, videos are already compressed, so we just return the original
-  if (Platform.OS === 'ios') {
-    return new Promise((resolve) => {
+  if (Platform.OS === 'ios')
+  {
+    return new Promise((resolve) =>
+    {
       console.log("no compression needed, as it's iOS");
       resolve(sourceUri);
     });
   }
 
   const processedUri = `${BASE_DIR}${uuidv4()}.mp4`;
-  return new Promise((resolve) => {
-    RNFFmpeg.execute(`-i ${sourceUri} -c:v mpeg4 ${processedUri}`).then((result) => {
-      FileSystem.getInfoAsync(processedUri).then((fileInfo) => {
+  return new Promise((resolve) =>
+  {
+    RNFFmpeg.execute(`-i ${sourceUri} -c:v mpeg4 ${processedUri}`).then((result) =>
+    {
+      FileSystem.getInfoAsync(processedUri).then((fileInfo) =>
+      {
         console.log('compressed video to size ' + fileInfo.size / (1024 * 1024) + 'M');
         console.log(processedUri);
       });
@@ -45,39 +53,49 @@ const compressVideo = async (sourceUri) => {
   });
 };
 
-const createThumbnailFromVideo = (videoUri) => {
+const createThumbnailFromVideo = (videoUri) =>
+{
   let processedUri = videoUri;
-  if (Platform.OS === 'android' && !processedUri.includes('file:///')) {
+  if (Platform.OS === 'android' && !processedUri.includes('file:///'))
+  {
     processedUri = `file://${processedUri}`;
   }
   console.log('createThumbnailFromVideo processedUri ' + processedUri);
-  return new Promise((resolve) => {
-    createThumbnail({ url: processedUri })
-      .then((newThumbnailSource) => {
+  return new Promise((resolve) =>
+  {
+    createThumbnail({url: processedUri})
+      .then((newThumbnailSource) =>
+      {
         resolve(newThumbnailSource.path);
       })
-      .catch((error) => {
+      .catch((error) =>
+      {
         console.log(error);
         resolve(null);
       });
   });
 };
 
-const resizeImage = async ({ image, newWidth = 1100, newHeight = 1100, compressFormat = 'JPEG', quality = 100 }, callback) => {
+const resizeImage = async ({image, newWidth = 1100, newHeight = 1100, compressFormat = 'JPEG', quality = 100}, callback) =>
+{
   const imagePath = image?.path || image?.uri;
 
-  if (image?.height < newHeight) {
+  if (image?.height < newHeight)
+  {
     callback(imagePath);
     return;
   }
 
   ImageResizer.createResizedImage(imagePath, newWidth, newHeight, compressFormat, quality)
-    .then((newSource) => {
-      if (newSource) {
+    .then((newSource) =>
+    {
+      if (newSource)
+      {
         callback(newSource.uri);
       }
     })
-    .catch((err) => {
+    .catch((err) =>
+    {
       callback(imagePath);
     });
 };
@@ -91,40 +109,49 @@ const resizeImage = async ({ image, newWidth = 1100, newHeight = 1100, compressF
  * @param {object} file
  * @param {function} callback
  */
-export const processMediaFile = (file, callback) => {
-  const { mime, type, uri, path } = file;
+export const processMediaFile = (file, callback) =>
+{
+  const {mime, type, uri, path} = file;
   const fileSource = uri || path;
   const includesVideo = mime?.includes('video') || type?.includes('video');
   const includesImage = mime?.includes('image') || type?.includes('image');
 
-  if (includesVideo) {
-    compressVideo(fileSource).then((processedUri) => {
-      createThumbnailFromVideo(processedUri).then((thumbnail) => {
-        callback({ thumbnail, processedUri });
+  if (includesVideo)
+  {
+    compressVideo(fileSource).then((processedUri) =>
+    {
+      createThumbnailFromVideo(processedUri).then((thumbnail) =>
+      {
+        callback({thumbnail, processedUri});
       });
     });
     return;
   }
 
-  if (includesImage) {
-    resizeImage({ image: file }, (processedUri) => {
-      callback({ processedUri });
+  if (includesImage)
+  {
+    resizeImage({image: file}, (processedUri) =>
+    {
+      callback({processedUri});
     });
     return;
   }
-  callback({ processedUri: fileSource });
+  callback({processedUri: fileSource});
 };
 
-export const blendVideoWithAudio = async ({ videoStream, audioStream, videoRate }, callback) => {
+export const blendVideoWithAudio = async ({videoStream, audioStream, videoRate}, callback) =>
+{
   await ensureDirExists(BASE_DIR);
   const processedUri = `${BASE_DIR}${uuidv4()}.mp4`;
   let command = `-i ${videoStream} -i ${audioStream} -shortest ${processedUri}`;
 
-  if (videoRate) {
+  if (videoRate)
+  {
     command = `-i ${videoStream} -i ${audioStream} -filter:v "setpts=PTS/${videoRate}" -shortest ${processedUri}`;
   }
 
-  RNFFmpeg.execute(command).then((result) => {
+  RNFFmpeg.execute(command).then((result) =>
+  {
     callback(processedUri);
   });
 };

@@ -7,12 +7,16 @@ const SHOULD_SHOW_ONBOARDING_FLOW = 'SHOULD_SHOW_ONBOARDING_FLOW';
  * @param {String} value
  * @returns {Boolean}
  */
-const getShouldShowOnboardingFlow = async () => {
-  try {
+const getShouldShowOnboardingFlow = async () =>
+{
+  try
+  {
     const result = await AsyncStorage.getItem(SHOULD_SHOW_ONBOARDING_FLOW);
 
     return result !== null ? false : true;
-  } catch (err) {
+  }
+  catch (err)
+  {
     console.log(err);
   }
 };
@@ -22,10 +26,14 @@ const getShouldShowOnboardingFlow = async () => {
  * @param {String} value
  *
  */
-const setShouldShowOnboardingFlow = async (value) => {
-  try {
+const setShouldShowOnboardingFlow = async (value) =>
+{
+  try
+  {
     await AsyncStorage.setItem(SHOULD_SHOW_ONBOARDING_FLOW, value);
-  } catch (err) {
+  }
+  catch (err)
+  {
     console.log(err);
   }
 };

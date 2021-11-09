@@ -1,19 +1,20 @@
-import React, { useState, useEffect } from 'react';
-import { YellowBox, StatusBar, Text, Button } from 'react-native';
-import { Provider } from 'react-redux';
-import { Appearance, AppearanceProvider } from 'react-native-appearance';
+import React, {useEffect, useState} from 'react';
+import {Button, StatusBar, Text, YellowBox} from 'react-native';
+import {Provider} from 'react-redux';
+import {Appearance, AppearanceProvider} from 'react-native-appearance';
 import SplashScreen from 'react-native-splash-screen';
 import * as JHSplashScreen from 'expo-splash-screen';
-import { MenuProvider } from 'react-native-popup-menu';
+import {MenuProvider} from 'react-native-popup-menu';
 import configureStore from './shared/reducers';
 import AppContainer from './screens/AppContainer';
-import { setI18nConfig } from './Core/localization/IMLocalization';
+import {setI18nConfig} from './Core/localization/IMLocalization';
 import * as FacebookAds from 'expo-ads-facebook';
 import SocialNetworkConfig from './SocialNetworkConfig';
-import { enableScreens } from 'react-native-screens';
+import {enableScreens} from 'react-native-screens';
 import NavContainer from './navigation/nav-container';
 
-if (SocialNetworkConfig.adsConfig) {
+if (SocialNetworkConfig.adsConfig)
+{
   FacebookAds.AdSettings.addTestDevice(FacebookAds.AdSettings.currentDeviceHash);
   FacebookAds.AdSettings.setLogLevel('debug');
 }
@@ -21,27 +22,33 @@ if (SocialNetworkConfig.adsConfig) {
 const MainNavigator = AppContainer;
 
 const store = configureStore();
-const handleLocalizationChange = () => {
+const handleLocalizationChange = () =>
+{
   setI18nConfig();
 };
 
-const App = (props) => {
+const App = (props) =>
+{
   const [colorScheme, setColorScheme] = useState(Appearance.getColorScheme());
   enableScreens();
 
-  useEffect(() => {
+  useEffect(() =>
+  {
     SplashScreen.hide();
     YellowBox.ignoreWarnings(['Remote Debugger']);
     console.disableYellowBox = true;
     setI18nConfig();
-    Appearance.addChangeListener(({ colorScheme }) => {
+    Appearance.addChangeListener(({colorScheme}) =>
+    {
       setColorScheme(colorScheme);
     });
   }, []);
 
   const [displayApp, setDisplayApp] = React.useState(false);
-  React.useEffect(() => {
-    if (!displayApp) {
+  React.useEffect(() =>
+  {
+    if (!displayApp)
+    {
       JHSplashScreen.preventAutoHideAsync()
         .then(() => setDisplayApp(true))
         .catch(() => setDisplayApp(true));
@@ -59,7 +66,7 @@ const App = (props) => {
         <AppearanceProvider>
           <MenuProvider>
             <StatusBar />
-            <MainNavigator screenProps={{ theme: colorScheme }} />
+            <MainNavigator screenProps={{theme: colorScheme}} />
           </MenuProvider>
         </AppearanceProvider>
       )}

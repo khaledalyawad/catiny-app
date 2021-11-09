@@ -1,23 +1,22 @@
-import React, { useRef } from 'react';
-import { View, FlatList, Text, ActivityIndicator } from 'react-native';
+import React, {useRef} from 'react';
+import {ActivityIndicator, FlatList, Text, View} from 'react-native';
 
 import PropTypes from 'prop-types';
 import ActionSheet from 'react-native-actionsheet';
 import ImagePicker from 'react-native-image-crop-picker';
-import { useColorScheme } from 'react-native-appearance';
-import { TNStoryItem } from '../../../Core/truly-native';
+import {useColorScheme} from 'react-native-appearance';
+import {TNActivityIndicator, TNEmptyStateView, TNMediaViewerModal, TNStoryItem} from '../../../Core/truly-native';
 import FeedItem from '../../FeedItem/FeedItem';
 import ProfileButton from './ProfileButton';
 import dynamicStyles from './styles';
-import { IMLocalized } from '../../../Core/localization/IMLocalization';
-import { TNEmptyStateView } from '../../../Core/truly-native';
+import {IMLocalized} from '../../../Core/localization/IMLocalization';
 import AppStyles from '../../../AppStyles';
 import FriendCard from './FriendCard';
-import { TNActivityIndicator, TNMediaViewerModal } from '../../../Core/truly-native';
-import { reportingManager } from '../../../Core/user-reporting';
-import { useSelector } from 'react-redux';
+import {reportingManager} from '../../../Core/user-reporting';
+import {useSelector} from 'react-redux';
 
-function Profile(props) {
+function Profile(props)
+{
   const colorScheme = useColorScheme();
   const styles = dynamicStyles(colorScheme);
   const {
@@ -58,55 +57,69 @@ function Profile(props) {
 
   const currentUser = useSelector((state) => state.auth.user);
 
-  const onProfilePicturePress = () => {
-    if (isOtherUser) {
+  const onProfilePicturePress = () =>
+  {
+    if (isOtherUser)
+    {
       return;
     }
     updatePhotoDialogActionSheet.current.show();
   };
 
-  const onUpdatePhotoDialogDone = (index) => {
-    if (index === 0) {
+  const onUpdatePhotoDialogDone = (index) =>
+  {
+    if (index === 0)
+    {
       photoUploadDialogActionSheet.current.show();
     }
 
-    if (index === 1) {
+    if (index === 1)
+    {
       removePhoto();
     }
   };
 
-  const onPhotoUploadDialogDone = (index) => {
-    if (index === 0) {
+  const onPhotoUploadDialogDone = (index) =>
+  {
+    if (index === 0)
+    {
       onLaunchCamera();
     }
 
-    if (index === 1) {
+    if (index === 1)
+    {
       onOpenPhotos();
     }
   };
 
-  const onUserReport = async (item, type) => {
+  const onUserReport = async (item, type) =>
+  {
     await reportingManager.markAbuse(currentUser.id, item.authorID, type);
     props.navigation.goBack();
   };
 
-  const onLaunchCamera = () => {
+  const onLaunchCamera = () =>
+  {
     ImagePicker.openCamera({
       cropping: false,
-    }).then((image) => {
+    }).then((image) =>
+    {
       startUpload(image);
     });
   };
 
-  const onOpenPhotos = () => {
+  const onOpenPhotos = () =>
+  {
     ImagePicker.openPicker({
       cropping: false,
-    }).then((image) => {
+    }).then((image) =>
+    {
       startUpload(image);
     });
   };
 
-  const onTextFieldUserPress = (userInfo) => {
+  const onTextFieldUserPress = (userInfo) =>
+  {
     navigation.navigate('MainProfile', {
       user: userInfo,
       stackKeyTitle: 'MainProfile',
@@ -114,13 +127,16 @@ function Profile(props) {
     });
   };
 
-  const onTextFieldHashTagPress = (hashtag) => {
-    navigation.push('FeedSearch', { hashtag });
+  const onTextFieldHashTagPress = (hashtag) =>
+  {
+    navigation.push('FeedSearch', {hashtag});
   };
 
-  const renderItem = ({ item, index }) => {
+  const renderItem = ({item, index}) =>
+  {
     let shouldUpdate = false;
-    if (item.shouldUpdate) {
+    if (item.shouldUpdate)
+    {
       shouldUpdate = item.shouldUpdate;
     }
     return (
@@ -144,17 +160,21 @@ function Profile(props) {
     );
   };
 
-  const renderListFooter = () => {
-    if (loading) {
+  const renderListFooter = () =>
+  {
+    if (loading)
+    {
       return null;
     }
-    if (isFetching) {
-      return <ActivityIndicator style={{ marginVertical: 7 }} size="small" />;
+    if (isFetching)
+    {
+      return <ActivityIndicator style={{marginVertical: 7}} size='small' />;
     }
     return null;
   };
 
-  const renderListHeader = () => {
+  const renderListHeader = () =>
+  {
     return (
       <View style={styles.subContainer}>
         <TNStoryItem
@@ -185,8 +205,8 @@ function Profile(props) {
                 marginVertical: 22,
               },
               styles.subButtonColor,
-              loading && { display: 'none' },
-              displaySubButton ? { opacity: 1 } : { opacity: 0, marginTop: -20, zIndex: -1 },
+              loading && {display: 'none'},
+              displaySubButton ? {opacity: 1} : {opacity: 0, marginTop: -20, zIndex: -1},
             ]}
             titleStyle={styles.titleStyleColor}
           />
@@ -194,19 +214,21 @@ function Profile(props) {
 
         {loading && (
           <View style={styles.container}>
-            <ActivityIndicator style={{ marginTop: 15, alignSelf: 'center' }} size="small" />
+            <ActivityIndicator style={{marginTop: 15, alignSelf: 'center'}} size='small' />
           </View>
         )}
       </View>
     );
   };
 
-  const renderEmptyComponent = () => {
+  const renderEmptyComponent = () =>
+  {
     var emptyStateConfig = {
       title: IMLocalized('No Posts'),
       description: IMLocalized('There are currently no posts on this profile. All the posts will show up here.'),
     };
-    if (!isOtherUser) {
+    if (!isOtherUser)
+    {
       emptyStateConfig = {
         ...emptyStateConfig,
         buttonName: IMLocalized('Add Your First Post'),
@@ -228,7 +250,7 @@ function Profile(props) {
   };
   return (
     <View style={styles.container}>
-      <View style={[styles.progressBar, { width: `${uploadProgress}%` }]} />
+      <View style={[styles.progressBar, {width: `${uploadProgress}%`}]} />
       {recentUserFeeds && (
         <FlatList
           scrollEventThrottle={16}

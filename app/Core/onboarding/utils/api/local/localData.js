@@ -11,4 +11,4 @@ const mockData = {
   profilePictureURL: 'https://static2.thethingsimages.com/wordpress/wp-content/uploads/2020/05/15-Sickest-Concept-Cars-In-2020-1.jpg',
 };
 
-export { mockData };
+export {mockData};

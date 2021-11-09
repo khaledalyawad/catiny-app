@@ -23,8 +23,10 @@
  * Parse the header link element and return all links inside.
  * @param header header of link
  */
-export const parseHeaderForLinks = (header) => {
-  if (header.length === 0) {
+export const parseHeaderForLinks = (header) =>
+{
+  if (header.length === 0)
+  {
     throw new Error('input must not be of zero length');
   }
 
@@ -33,10 +35,12 @@ export const parseHeaderForLinks = (header) => {
   const links = {};
 
   // Parse each part into a named link
-  parts.forEach((p) => {
+  parts.forEach((p) =>
+  {
     const section = p.split(';');
 
-    if (section.length !== 2) {
+    if (section.length !== 2)
+    {
       throw new Error('section could not be split on ";"');
     }
 
@@ -47,7 +51,8 @@ export const parseHeaderForLinks = (header) => {
 
     let page = queryString.page;
 
-    if (typeof page === 'string') {
+    if (typeof page === 'string')
+    {
       page = parseInt(page, 10);
     }
 

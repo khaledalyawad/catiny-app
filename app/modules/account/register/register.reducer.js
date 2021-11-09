@@ -1,8 +1,8 @@
-import { createReducer, createActions } from 'reduxsauce';
+import {createActions, createReducer} from 'reduxsauce';
 import Immutable from 'seamless-immutable';
 /* ------------- Types and Action Creators ------------- */
 
-const { Types, Creators } = createActions({
+const {Types, Creators} = createActions({
   registerRequest: ['user'],
   registerSuccess: [],
   registerFailure: ['error'],
@@ -21,13 +21,13 @@ export const INITIAL_STATE = Immutable({
 /* ------------- Reducers ------------- */
 
 // we're attempting to register
-export const request = (state) => state.merge({ fetching: true });
+export const request = (state) => state.merge({fetching: true});
 
 // we've successfully registered
-export const success = (state) => state.merge({ fetching: false, error: null });
+export const success = (state) => state.merge({fetching: false, error: null});
 
 // we've had a problem registering
-export const failure = (state, { error }) => state.merge({ fetching: false, error });
+export const failure = (state, {error}) => state.merge({fetching: false, error});
 
 /* ------------- Hookup Reducers To Types ------------- */
 

@@ -1,17 +1,17 @@
-import { combineReducers } from 'redux';
-import { persistReducer } from 'redux-persist';
+import {combineReducers} from 'redux';
+import {persistReducer} from 'redux-persist';
 
 import configureStore from './create-store';
 import rootSaga from '../sagas';
 import ReduxPersist from '../../config/redux-persist';
 
-import { auth } from '../../Core/onboarding/redux/auth';
-import { friends } from '../../Core/socialgraph/friendships/redux';
-import { feed } from '../../Core/socialgraph/feed/redux';
-import { chat } from '../../Core/chat/redux';
-import { userReports } from '../../Core/user-reporting/redux';
-import { notifications } from '../../Core/notifications/redux';
-import { users } from '../../Core/users/redux';
+import {auth} from '../../Core/onboarding/redux/auth';
+import {friends} from '../../Core/socialgraph/friendships/redux';
+import {feed} from '../../Core/socialgraph/feed/redux';
+import {chat} from '../../Core/chat/redux';
+import {userReports} from '../../Core/user-reporting/redux';
+import {notifications} from '../../Core/notifications/redux';
+import {users} from '../../Core/users/redux';
 
 /* ------------- Assemble The Reducers ------------- */
 export const reducers = combineReducers({
@@ -69,24 +69,29 @@ export const reducers = combineReducers({
   users,
 });
 
-export default () => {
+export default () =>
+{
   let finalReducers = reducers;
   // If rehydration is on use persistReducer otherwise default combineReducers
-  if (ReduxPersist.active) {
+  if (ReduxPersist.active)
+  {
     const persistConfig = ReduxPersist.storeConfig;
     finalReducers = persistReducer(persistConfig, reducers);
   }
 
-  let { store, sagasManager, sagaMiddleware } = configureStore(finalReducers, rootSaga);
+  let {store, sagasManager, sagaMiddleware} = configureStore(finalReducers, rootSaga);
 
-  if (module.hot) {
-    module.hot.accept(() => {
+  if (module.hot)
+  {
+    module.hot.accept(() =>
+    {
       const nextRootReducer = require('./index').reducers;
       store.replaceReducer(nextRootReducer);
 
       const newYieldedSagas = require('../sagas').default;
       sagasManager.cancel();
-      sagasManager.done.then(() => {
+      sagasManager.done.then(() =>
+      {
         sagasManager = sagaMiddleware.run(newYieldedSagas);
       });
     });

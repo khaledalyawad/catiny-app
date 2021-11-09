@@ -1,14 +1,15 @@
 import React from 'react';
-import { Animated } from 'react-native';
+import {Animated} from 'react-native';
 import FastImage from 'react-native-fast-image';
 
-export default function FacePileCircleItem(props) {
-  const { imageStyle, circleSize, face, offset, dynamicStyle } = props;
+export default function FacePileCircleItem(props)
+{
+  const {imageStyle, circleSize, face, offset, dynamicStyle} = props;
   const innerCircleSize = circleSize * 2;
   const marginRight = circleSize * offset;
 
   return (
-    <Animated.View style={{ marginRight: -marginRight }}>
+    <Animated.View style={{marginRight: -marginRight}}>
       <FastImage
         style={[
           dynamicStyle.facePileCircleImage,
@@ -19,7 +20,7 @@ export default function FacePileCircleItem(props) {
           },
           imageStyle,
         ]}
-        source={{ uri: face.profilePictureURL }}
+        source={{uri: face.profilePictureURL}}
       />
     </Animated.View>
   );

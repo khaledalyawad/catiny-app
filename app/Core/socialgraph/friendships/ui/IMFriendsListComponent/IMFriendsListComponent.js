@@ -1,16 +1,16 @@
 import React from 'react';
-import { FlatList, View } from 'react-native';
+import {FlatList, View} from 'react-native';
 
 import PropTypes from 'prop-types';
-import { IMFriendItem } from '../..';
-import { IMUserSearchModal } from '../..';
-import { SearchBarAlternate } from '../../../..';
+import {IMFriendItem} from '../..';
+import {SearchBarAlternate} from '../../../..';
 import dynamicStyles from './styles';
-import { useColorScheme } from 'react-native-appearance';
-import { IMLocalized } from '../../../../localization/IMLocalization';
-import { TNEmptyStateView, TNActivityIndicator } from '../../../../truly-native';
+import {useColorScheme} from 'react-native-appearance';
+import {IMLocalized} from '../../../../localization/IMLocalization';
+import {TNActivityIndicator, TNEmptyStateView} from '../../../../truly-native';
 
-function IMFriendsListComponent(props) {
+function IMFriendsListComponent(props)
+{
   const {
     containerStyle,
     onFriendAction,
@@ -27,7 +27,7 @@ function IMFriendsListComponent(props) {
   } = props;
   const colorScheme = useColorScheme();
   const styles = dynamicStyles(appStyles, colorScheme);
-  const renderItem = ({ item }) => (
+  const renderItem = ({item}) => (
     <IMFriendItem
       onFriendItemPress={onFriendItemPress}
       item={item}
@@ -47,11 +47,11 @@ function IMFriendsListComponent(props) {
         <FlatList data={friendsData} renderItem={renderItem} keyExtractor={(item) => item.user.id} />
       )}
       {!friendsData ||
-        (friendsData.length <= 0 && (
-          <View style={styles.emptyViewContainer}>
-            <TNEmptyStateView emptyStateConfig={emptyStateConfig} appStyles={appStyles} />
-          </View>
-        ))}
+      (friendsData.length <= 0 && (
+        <View style={styles.emptyViewContainer}>
+          <TNEmptyStateView emptyStateConfig={emptyStateConfig} appStyles={appStyles} />
+        </View>
+      ))}
       {(isLoading || friendsData == null) && <TNActivityIndicator appStyles={appStyles} />}
     </View>
   );

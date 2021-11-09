@@ -1,25 +1,26 @@
-import React, { useState, useEffect, useRef, useContext } from 'react';
-import { Share, View } from 'react-native';
-import { connect, ReactReduxContext } from 'react-redux';
-import { useColorScheme } from 'react-native-appearance';
+import React, {useContext, useEffect, useRef, useState} from 'react';
+import {Share, View} from 'react-native';
+import {connect, ReactReduxContext} from 'react-redux';
+import {useColorScheme} from 'react-native-appearance';
 import SearchBar from '../../Core/ui/SearchBar/SearchBar';
-import { Feed } from '../../components';
-import { postAPIManager, commentAPIManager, FeedManager } from '../../Core/socialgraph/feed/api';
+import {Feed} from '../../components';
+import {commentAPIManager, FeedManager, postAPIManager} from '../../Core/socialgraph/feed/api';
 import dynamicStyles from './styles';
 import AppStyles from '../../AppStyles';
-import { IMLocalized } from '../../Core/localization/IMLocalization';
+import {IMLocalized} from '../../Core/localization/IMLocalization';
 
 const emptyStateConfig = {
   title: IMLocalized('No Posts'),
   description: IMLocalized(''),
 };
 
-function FeedSearchScreen(props) {
+function FeedSearchScreen(props)
+{
   const colorScheme = useColorScheme();
   const styles = dynamicStyles(AppStyles, colorScheme);
   const hashtag = props.route.params.hashtag;
 
-  const { store } = useContext(ReactReduxContext);
+  const {store} = useContext(ReactReduxContext);
 
   const [isMediaViewerOpen, setIsMediaViewerOpen] = useState(false);
   const [feed, setFeed] = useState(null);
@@ -33,27 +34,33 @@ function FeedSearchScreen(props) {
   const unsubscribeFeed = useRef(null);
   const willBlurSubscription = useRef(null);
   const didFocusSubscription = useRef(
-    props.navigation.addListener('focus', (payload) => {
+    props.navigation.addListener('focus', (payload) =>
+    {
       setWillBlur(false);
     }),
   );
 
-  useEffect(() => {
-    setTimeout(() => {
+  useEffect(() =>
+  {
+    setTimeout(() =>
+    {
       searchBarRef.current?.focus(hashtag);
     }, 1500);
-    willBlurSubscription.current = props.navigation.addListener('blur', (payload) => {
+    willBlurSubscription.current = props.navigation.addListener('blur', (payload) =>
+    {
       setWillBlur(true);
     });
     props.navigation.setParams({
       openDrawer: openDrawer,
     });
     feedManager.current.subscribeUserFeedRelatedActions();
-    feedManager.current.subscribeHashtagFeedPosts(hashtag, (posts) => {
+    feedManager.current.subscribeHashtagFeedPosts(hashtag, (posts) =>
+    {
       setFeed(posts);
     });
 
-    return () => {
+    return () =>
+    {
       feedManager.current.unsubscribeHashtagFeedPosts();
       feedManager.current.unsubscribe();
       willBlurSubscription.current && willBlurSubscription.current();
@@ -61,25 +68,31 @@ function FeedSearchScreen(props) {
     };
   }, []);
 
-  const openDrawer = () => {
+  const openDrawer = () =>
+  {
     props.navigation.openDrawer();
   };
 
-  const onCommentPress = (item) => {
-    let copyItem = { ...item };
+  const onCommentPress = (item) =>
+  {
+    let copyItem = {...item};
     props.navigation.navigate('MainDetailPost', {
-      item: { ...copyItem },
+      item: {...copyItem},
       lastScreenTitle: 'Main',
     });
   };
 
-  const onFeedUserItemPress = async (author) => {
-    if (author.id === props.user.id) {
+  const onFeedUserItemPress = async (author) =>
+  {
+    if (author.id === props.user.id)
+    {
       props.navigation.navigate('MainProfile', {
         stackKeyTitle: 'MainProfile',
         lastScreenTitle: 'MainProfile',
       });
-    } else {
+    }
+    else
+    {
       props.navigation.navigate('MainProfile', {
         user: author,
         stackKeyTitle: 'MainProfile',
@@ -88,27 +101,33 @@ function FeedSearchScreen(props) {
     }
   };
 
-  const onMediaClose = () => {
+  const onMediaClose = () =>
+  {
     setIsMediaViewerOpen(false);
   };
 
-  const onMediaPress = (media, mediaIndex) => {
+  const onMediaPress = (media, mediaIndex) =>
+  {
     setSelectedFeedItems(media);
     setSelectedMediaIndex(mediaIndex);
     setIsMediaViewerOpen(true);
   };
 
-  const onReaction = async (reaction, item) => {
+  const onReaction = async (reaction, item) =>
+  {
     feedManager.applyReaction(reaction, item, false);
     commentAPIManager.handleReaction(reaction, props.user, item, false);
   };
 
-  const onSharePost = async (item) => {
+  const onSharePost = async (item) =>
+  {
     let url = '';
-    if (item.postMedia?.length > 0) {
+    if (item.postMedia?.length > 0)
+    {
       url = item.postMedia[0]?.url || item.postMedia[0];
     }
-    try {
+    try
+    {
       const result = await Share.share(
         {
           title: 'Share SocialNetwork post.',
@@ -119,35 +138,47 @@ function FeedSearchScreen(props) {
           dialogTitle: 'Share SocialNetwork post.',
         },
       );
-    } catch (error) {
+    }
+    catch (error)
+    {
       alert(error.message);
     }
   };
 
-  const onDeletePost = async (item) => {
+  const onDeletePost = async (item) =>
+  {
     const res = await postAPIManager.deletePost(item, true);
-    if (res.error) {
+    if (res.error)
+    {
       alert(res.error);
     }
   };
 
-  const onSearchTextChange = (text) => {};
+  const onSearchTextChange = (text) =>
+  {
+  };
 
-  const onSearchBarCancel = () => {
+  const onSearchBarCancel = () =>
+  {
     props.navigation.goBack();
   };
 
-  const onSearch = (text) => {
+  const onSearch = (text) =>
+  {
     setFeed(null);
     feedManager.current.unsubscribeHashtagFeedPosts();
-    feedManager.current.subscribeHashtagFeedPosts(text, (posts) => {
+    feedManager.current.subscribeHashtagFeedPosts(text, (posts) =>
+    {
       setFeed(posts);
     });
   };
 
-  const onSearchClear = () => {};
+  const onSearchClear = () =>
+  {
+  };
 
-  const handleOnEndReached = (distanceFromEnd) => {
+  const handleOnEndReached = (distanceFromEnd) =>
+  {
     // if (!flatlistReady) {
     //   return;
     // }
@@ -159,17 +190,21 @@ function FeedSearchScreen(props) {
     // }
   };
 
-  const onFeedScroll = () => {
+  const onFeedScroll = () =>
+  {
     // flatlistReady = true;
   };
 
-  const filterOutRelatedPosts = (posts) => {
+  const filterOutRelatedPosts = (posts) =>
+  {
     // we filter out posts with no media from self & friends
-    if (!posts) {
+    if (!posts)
+    {
       return posts;
     }
     const defaultAvatar = 'https://www.iosapptemplates.com/wp-content/uploads/2019/06/empty-avatar.jpg';
-    return posts.filter((post) => {
+    return posts.filter((post) =>
+    {
       return (
         post &&
         // post.authorID != props.user.id &&
@@ -222,7 +257,8 @@ function FeedSearchScreen(props) {
   );
 }
 
-const mapStateToProps = ({ feed, auth, friends }) => {
+const mapStateToProps = ({feed, auth, friends}) =>
+{
   return {
     discoverFeedPosts: feed.discoverFeedPosts,
     user: auth.user,

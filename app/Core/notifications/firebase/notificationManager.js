@@ -1,6 +1,6 @@
-import { firebase } from '../../api/firebase/config';
-import { updateUser, getUserByID } from '../../api/firebase/auth';
-import { userAPIManager } from '../../api';
+import {firebase} from '../../api/firebase/config';
+import {getUserByID, updateUser} from '../../api/firebase/auth';
+import {userAPIManager} from '../../api';
 
 const notificationsRef = firebase.firestore().collection('notifications');
 
@@ -8,27 +8,33 @@ const fcmURL = 'https://fcm.googleapis.com/fcm/send';
 const firebaseServerKey =
   'AAAAeliTfEs:APA91bGve5fyExjSiUCB0oI09Br1yGUSb0tPHelAk7L0FUytHWGOMlBPexJubTwSjjJTaIlK7oto3jDevoj9c5Q4Qalk6QEtQ9Y3tYfTxHD7OrmPZuVJjVGGciPBJXThG9QHCZQqx9Id';
 
-const handleUserBadgeCount = async (userID) => {
+const handleUserBadgeCount = async (userID) =>
+{
   const user = await getUserByID(userID);
-  if (user?.badgeCount) {
+  if (user?.badgeCount)
+  {
     const newBadgeCount = user.badgeCount + 1;
-    updateUser(userID, { badgeCount: newBadgeCount });
+    updateUser(userID, {badgeCount: newBadgeCount});
     return newBadgeCount;
   }
   return 0;
 };
 
-const sendPushNotification = async (toUser, title, body, type, metadata = {}) => {
-  if (metadata && metadata.outBound && toUser.id == metadata.outBound.id) {
+const sendPushNotification = async (toUser, title, body, type, metadata = {}) =>
+{
+  if (metadata && metadata.outBound && toUser.id == metadata.outBound.id)
+  {
     return;
   }
-  if (toUser.settings && toUser.settings.push_notifications_enabled == false) {
+  if (toUser.settings && toUser.settings.push_notifications_enabled == false)
+  {
     return;
   }
   // first, we fetch the latest push token of the recipient
   const userData = await userAPIManager.getUserData(toUser.id);
   const recipientData = userData?.data;
-  if (!recipientData || !recipientData.pushToken) {
+  if (!recipientData || !recipientData.pushToken)
+  {
     return;
   }
 
@@ -46,7 +52,7 @@ const sendPushNotification = async (toUser, title, body, type, metadata = {}) =>
     ...notification,
     createdAt: firebase.firestore.FieldValue.serverTimestamp(),
   });
-  notificationsRef.doc(ref.id).update({ id: ref.id });
+  notificationsRef.doc(ref.id).update({id: ref.id});
 
   const userBadgeCount = await handleUserBadgeCount(toUser.id || toUser.userID);
 
@@ -58,7 +64,7 @@ const sendPushNotification = async (toUser, title, body, type, metadata = {}) =>
       sound: 'default',
       badge: userBadgeCount,
     },
-    data: { type, toUserID: toUser.id, ...metadata },
+    data: {type, toUserID: toUser.id, ...metadata},
     priority: 'high',
   };
 
@@ -73,15 +79,18 @@ const sendPushNotification = async (toUser, title, body, type, metadata = {}) =>
   console.log('sent push notifications ' + body + ' to ' + toUser.pushToken);
 };
 
-const sendCallNotification = async (sender, recipient, callType, callID) => {
-  if (!recipient.id) {
+const sendCallNotification = async (sender, recipient, callType, callID) =>
+{
+  if (!recipient.id)
+  {
     return;
   }
 
   // first, we fetch the latest push token of the recipient
   const userData = await userAPIManager.getUserData(recipient.id);
   const recipientData = userData?.data;
-  if (!recipientData || !recipientData.pushToken) {
+  if (!recipientData || !recipientData.pushToken)
+  {
     return;
   }
 
@@ -99,7 +108,8 @@ const sendCallNotification = async (sender, recipient, callType, callID) => {
     },
   };
 
-  try {
+  try
+  {
     const response = await fetch(fcmURL, {
       method: 'post',
       headers: new Headers({
@@ -110,7 +120,9 @@ const sendCallNotification = async (sender, recipient, callType, callID) => {
     });
     console.log('jjj push notif ' + JSON.stringify(pushNotification));
     console.log(JSON.stringify(response));
-  } catch (error) {
+  }
+  catch (error)
+  {
     console.log(error);
   }
 };

@@ -1,9 +1,9 @@
-import { I18nManager } from 'react-native';
-import { StyleSheet } from 'react-native';
-import { modedColor } from '../../helpers/colors';
+import {I18nManager, StyleSheet} from 'react-native';
+import {modedColor} from '../../helpers/colors';
 import TNColor from '../../truly-native/TNColor';
 
-const dynamicStyles = (appStyles, colorScheme) => {
+const dynamicStyles = (appStyles, colorScheme) =>
+{
   return StyleSheet.create({
     container: {
       flex: 1,

@@ -1,36 +1,44 @@
-import React, { useState, useEffect } from 'react';
+import React, {useEffect, useState} from 'react';
 import PropTypes from 'prop-types';
-import { FlatList, View } from 'react-native';
-import { useColorScheme } from 'react-native-appearance';
+import {FlatList, View} from 'react-native';
+import {useColorScheme} from 'react-native-appearance';
 import ThreadItem from './ThreadItem';
 import TypingIndicator from './TypingIndicator';
 import dynamicStyles from './styles';
 
-function MessageThread(props) {
-  const { thread, user, onChatMediaPress, appStyles, onSenderProfilePicturePress, onMessageLongPress, channelItem } = props;
+function MessageThread(props)
+{
+  const {thread, user, onChatMediaPress, appStyles, onSenderProfilePicturePress, onMessageLongPress, channelItem} = props;
   const colorScheme = useColorScheme();
   const styles = dynamicStyles(appStyles, colorScheme);
 
   const [isParticipantTyping, setIsParticipantTyping] = useState(false);
 
-  useEffect(() => {
-    if (channelItem?.typingUsers) {
+  useEffect(() =>
+  {
+    if (channelItem?.typingUsers)
+    {
       getUsersTyping();
     }
   }, [channelItem]);
 
-  const getUsersTyping = () => {
+  const getUsersTyping = () =>
+  {
     const userID = user.id || user.userID;
     const typingUsers = channelItem.typingUsers?.filter((typingUser) => typingUser.isTyping && typingUser.userID !== userID);
 
-    if (typingUsers?.length > 0) {
+    if (typingUsers?.length > 0)
+    {
       setIsParticipantTyping(true);
-    } else {
+    }
+    else
+    {
       setIsParticipantTyping(false);
     }
   };
 
-  const renderListHeaderComponent = () => {
+  const renderListHeaderComponent = () =>
+  {
     return (
       isParticipantTyping && (
         <View style={[styles.receiveItemContainer]}>
@@ -46,13 +54,14 @@ function MessageThread(props) {
     );
   };
 
-  const renderChatItem = ({ item, index }) => {
+  const renderChatItem = ({item, index}) =>
+  {
     const isRecentItem = 0 === index;
     return (
       <ThreadItem
         item={item}
         key={'chatitem' + index}
-        user={{ ...user, userID: user.id }}
+        user={{...user, userID: user.id}}
         appStyles={appStyles}
         onChatMediaPress={onChatMediaPress}
         onSenderProfilePicturePress={onSenderProfilePicturePress}

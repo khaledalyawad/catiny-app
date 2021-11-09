@@ -1,4 +1,4 @@
-import { IMLocalized } from '../../localization/IMLocalization';
+import {IMLocalized} from '../../localization/IMLocalization';
 
 const FriendshipType = {
   none: 'none',
@@ -7,8 +7,10 @@ const FriendshipType = {
   reciprocal: 'reciprocal',
 };
 
-const localizedActionTitle = (friendshipType) => {
-  switch (friendshipType) {
+const localizedActionTitle = (friendshipType) =>
+{
+  switch (friendshipType)
+  {
     case FriendshipType.none:
       return IMLocalized('Add');
     case FriendshipType.inbound:
@@ -21,8 +23,10 @@ const localizedActionTitle = (friendshipType) => {
   return null;
 };
 
-const localizedFollowActionTitle = (friendshipType) => {
-  switch (friendshipType) {
+const localizedFollowActionTitle = (friendshipType) =>
+{
+  switch (friendshipType)
+  {
     case FriendshipType.none:
       return IMLocalized('Follow');
     case FriendshipType.inbound:

@@ -1,4 +1,4 @@
-export { feed } from './reducers';
+export {feed} from './reducers';
 export {
   setMainFeedPosts,
   setDiscoverFeedPosts,

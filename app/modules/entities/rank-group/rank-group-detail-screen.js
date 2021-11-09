@@ -1,15 +1,16 @@
 import React from 'react';
-import { ActivityIndicator, ScrollView, Text, View } from 'react-native';
-import { connect } from 'react-redux';
-import { useFocusEffect } from '@react-navigation/native';
+import {ActivityIndicator, ScrollView, Text, View} from 'react-native';
+import {connect} from 'react-redux';
+import {useFocusEffect} from '@react-navigation/native';
 
 import RankGroupActions from './rank-group.reducer';
 import RoundedButton from '../../../shared/components/rounded-button/rounded-button';
 import RankGroupDeleteModal from './rank-group-delete-modal';
 import styles from './rank-group-styles';
 
-function RankGroupDetailScreen(props) {
-  const { route, getRankGroup, navigation, rankGroup, fetching, error } = props;
+function RankGroupDetailScreen(props)
+{
+  const {route, getRankGroup, navigation, rankGroup, fetching, error} = props;
   const [deleteModalVisible, setDeleteModalVisible] = React.useState(false);
   // prevents display of stale reducer data
   const entityId = rankGroup?.id ?? null;
@@ -17,52 +18,58 @@ function RankGroupDetailScreen(props) {
   const correctEntityLoaded = routeEntityId && entityId && routeEntityId.toString() === entityId.toString();
 
   useFocusEffect(
-    React.useCallback(() => {
-      if (!routeEntityId) {
+    React.useCallback(() =>
+    {
+      if (!routeEntityId)
+      {
         navigation.navigate('RankGroup');
-      } else {
+      }
+      else
+      {
         setDeleteModalVisible(false);
         getRankGroup(routeEntityId);
       }
     }, [routeEntityId, getRankGroup, navigation]),
   );
 
-  if (!entityId && !fetching && error) {
+  if (!entityId && !fetching && error)
+  {
     return (
       <View style={styles.loading}>
         <Text>Something went wrong fetching the RankGroup.</Text>
       </View>
     );
   }
-  if (!entityId || fetching || !correctEntityLoaded) {
+  if (!entityId || fetching || !correctEntityLoaded)
+  {
     return (
       <View style={styles.loading}>
-        <ActivityIndicator size="large" />
+        <ActivityIndicator size='large' />
       </View>
     );
   }
   return (
-    <ScrollView style={styles.container} contentContainerStyle={styles.paddedScrollView} testID="rankGroupDetailScrollView">
+    <ScrollView style={styles.container} contentContainerStyle={styles.paddedScrollView} testID='rankGroupDetailScrollView'>
       <Text style={styles.label}>Id:</Text>
       <Text>{rankGroup.id}</Text>
       {/* Uuid Field */}
       <Text style={styles.label}>Uuid:</Text>
-      <Text testID="uuid">{rankGroup.uuid}</Text>
+      <Text testID='uuid'>{rankGroup.uuid}</Text>
       <Text style={styles.label}>Info:</Text>
-      <Text testID="info">{String(rankGroup.info ? rankGroup.info.id : '')}</Text>
+      <Text testID='info'>{String(rankGroup.info ? rankGroup.info.id : '')}</Text>
 
       <View style={styles.entityButtons}>
         <RoundedButton
-          text="Edit"
-          onPress={() => navigation.navigate('RankGroupEdit', { entityId })}
+          text='Edit'
+          onPress={() => navigation.navigate('RankGroupEdit', {entityId})}
           accessibilityLabel={'RankGroup Edit Button'}
-          testID="rankGroupEditButton"
+          testID='rankGroupEditButton'
         />
         <RoundedButton
-          text="Delete"
+          text='Delete'
           onPress={() => setDeleteModalVisible(true)}
           accessibilityLabel={'RankGroup Delete Button'}
-          testID="rankGroupDeleteButton"
+          testID='rankGroupDeleteButton'
         />
         {deleteModalVisible && (
           <RankGroupDeleteModal
@@ -70,7 +77,7 @@ function RankGroupDetailScreen(props) {
             visible={deleteModalVisible}
             setVisible={setDeleteModalVisible}
             entity={rankGroup}
-            testID="rankGroupDeleteModal"
+            testID='rankGroupDeleteModal'
           />
         )}
       </View>
@@ -78,7 +85,8 @@ function RankGroupDetailScreen(props) {
   );
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state) =>
+{
   return {
     rankGroup: state.rankGroups.rankGroup,
     error: state.rankGroups.errorOne,
@@ -88,7 +96,8 @@ const mapStateToProps = (state) => {
   };
 };
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = (dispatch) =>
+{
   return {
     getRankGroup: (id) => dispatch(RankGroupActions.rankGroupRequest(id)),
     getAllRankGroups: (options) => dispatch(RankGroupActions.rankGroupAllRequest(options)),

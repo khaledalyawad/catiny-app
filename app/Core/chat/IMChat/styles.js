@@ -1,10 +1,11 @@
-import { StyleSheet, Dimensions } from 'react-native';
-import { ifIphoneX } from 'react-native-iphone-x-helper';
-import { size } from '../../helpers/devices';
+import {Dimensions, StyleSheet} from 'react-native';
+import {ifIphoneX} from 'react-native-iphone-x-helper';
+import {size} from '../../helpers/devices';
 
 const WINDOW_WIDTH = Dimensions.get('window').width;
 
-const dynamicStyles = (appStyles, colorScheme, outBound) => {
+const dynamicStyles = (appStyles, colorScheme, outBound) =>
+{
   const chatBackgroundColor = appStyles.colorSet[colorScheme].mainThemeBackgroundColor;
   const audioPlayPauseContainerSize = 24;
   const audioPlayIconSize = 15;

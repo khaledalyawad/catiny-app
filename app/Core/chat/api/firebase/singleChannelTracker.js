@@ -1,12 +1,15 @@
-import { subscribeSingleChannel, subscribeThreadSnapshot } from './channel';
+import {subscribeSingleChannel, subscribeThreadSnapshot} from './channel';
 
-export default class SingleChannelTracker {
-  constructor(channel, userID) {
+export default class SingleChannelTracker
+{
+  constructor(channel, userID)
+  {
     this.channel = channel;
     this.userID = userID;
   }
 
-  subscribe = (onMetadataChangeCallback, onMessagesChangeCallback) => {
+  subscribe = (onMetadataChangeCallback, onMessagesChangeCallback) =>
+  {
     // We need to subscribe to the messages in this channelID
     this.unsubscribeThreadSnapshot = subscribeThreadSnapshot(this.channel, onMessagesChangeCallback, this.userID);
 
@@ -14,7 +17,8 @@ export default class SingleChannelTracker {
     this.unsubscribeSingleChannel = subscribeSingleChannel(this.channel.id, onMetadataChangeCallback);
   };
 
-  unsubscribe = () => {
+  unsubscribe = () =>
+  {
     this.unsubscribeThreadSnapshot && this.unsubscribeThreadSnapshot();
     this.unsubscribeSingleChannel && this.unsubscribeSingleChannel();
   };

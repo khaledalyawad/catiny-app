@@ -1,15 +1,19 @@
-import { firebase } from '../api/firebase/config';
+import {firebase} from '../api/firebase/config';
 
 const abuseDBRef = firebase.firestore().collection('reports');
 const usersDBRef = firebase.firestore().collection('users');
 
-export const markAbuse = (outBoundID, toUserID, abuseType) => {
-  if (outBoundID == toUserID) {
-    return Promise((r) => {
+export const markAbuse = (outBoundID, toUserID, abuseType) =>
+{
+  if (outBoundID == toUserID)
+  {
+    return Promise((r) =>
+    {
       r();
     });
   }
-  return new Promise((resolve) => {
+  return new Promise((resolve) =>
+  {
     const data = {
       dest: toUserID,
       source: outBoundID,
@@ -18,65 +22,82 @@ export const markAbuse = (outBoundID, toUserID, abuseType) => {
     };
     abuseDBRef
       .add(data)
-      .then(() => {
-        resolve({ success: true });
+      .then(() =>
+      {
+        resolve({success: true});
       })
-      .catch((error) => {
-        resolve({ error: error });
+      .catch((error) =>
+      {
+        resolve({error: error});
       });
   });
 };
 
-export const unsubscribeAbuseDB = (userID, callback) => {
-  abuseDBRef.where('source', '==', userID).onSnapshot((querySnapshot) => {
+export const unsubscribeAbuseDB = (userID, callback) =>
+{
+  abuseDBRef.where('source', '==', userID).onSnapshot((querySnapshot) =>
+  {
     const abuses = [];
-    querySnapshot.forEach((doc) => {
+    querySnapshot.forEach((doc) =>
+    {
       abuses.push(doc.data());
     });
     return callback(abuses);
   });
 };
 
-export const unblockUser = async (currentUserID, blockedUserID, callback) => {
+export const unblockUser = async (currentUserID, blockedUserID, callback) =>
+{
   await abuseDBRef
     .where('source', '==', currentUserID)
     .where('dest', '==', blockedUserID)
     .get()
-    .then((querySnapshot) => {
-      querySnapshot.forEach((doc) => {
+    .then((querySnapshot) =>
+    {
+      querySnapshot.forEach((doc) =>
+      {
         doc.ref.delete();
       });
       return callback(true);
     });
 };
 
-export const hydrateAllReportedUsers = (userID, callback) => {
-  return abuseDBRef.where('source', '==', userID).onSnapshot((snapshot) => {
+export const hydrateAllReportedUsers = (userID, callback) =>
+{
+  return abuseDBRef.where('source', '==', userID).onSnapshot((snapshot) =>
+  {
     const list = [];
     snapshot.forEach(
-      (childSnapshot) => {
+      (childSnapshot) =>
+      {
         let blockedUser = childSnapshot.data();
-        let promise = new Promise((resolve, fail) => {
+        let promise = new Promise((resolve, fail) =>
+        {
           usersDBRef
             .doc(blockedUser.dest)
             .get()
             .then(
-              (snap) => {
+              (snap) =>
+              {
                 let info = snap.data();
-                if (info) {
+                if (info)
+                {
                   resolve(info);
                 }
               },
-              (error) => {
+              (error) =>
+              {
                 fail(error);
               },
             );
         });
-        if (promise) {
+        if (promise)
+        {
           list.push(promise);
         }
       },
-      (error) => {
+      (error) =>
+      {
         console.error(error);
       },
     );

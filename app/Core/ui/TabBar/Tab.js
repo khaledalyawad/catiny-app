@@ -1,10 +1,11 @@
 import React from 'react';
-import { TouchableOpacity, Image } from 'react-native';
+import {Image, TouchableOpacity} from 'react-native';
 
 import dynamicStyles from './styles';
-import { useColorScheme } from 'react-native-appearance';
+import {useColorScheme} from 'react-native-appearance';
 
-function Tab({ route, onPress, focus, tabIcons, appStyles }) {
+function Tab({route, onPress, focus, tabIcons, appStyles})
+{
   const colorScheme = useColorScheme();
   const styles = dynamicStyles(appStyles, colorScheme);
   return (

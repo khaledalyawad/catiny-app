@@ -1,17 +1,19 @@
-import { decode, encode } from 'base-64';
+import {decode, encode} from 'base-64';
 import './timerConfig';
-global.addEventListener = (x) => x;
-if (!global.btoa) {
-  global.btoa = encode;
-}
-
-if (!global.atob) {
-  global.atob = decode;
-}
-
 import * as firebase from 'firebase';
 import '@firebase/auth';
 import '@firebase/firestore';
+
+global.addEventListener = (x) => x;
+if (!global.btoa)
+{
+  global.btoa = encode;
+}
+
+if (!global.atob)
+{
+  global.atob = decode;
+}
 
 const firebaseConfig = {
   apiKey: 'AIzaSyAOWHBpPhKoNhcGFKHH_Q_0AtL2gV-imgQ',
@@ -25,4 +27,4 @@ const firebaseConfig = {
 
 if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
 
-export { firebase };
+export {firebase};

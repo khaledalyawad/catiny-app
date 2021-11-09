@@ -1,8 +1,8 @@
-import { createReducer, createActions } from 'reduxsauce';
+import {createActions, createReducer} from 'reduxsauce';
 import Immutable from 'seamless-immutable';
 /* ------------- Types and Action Creators ------------- */
 
-const { Types, Creators } = createActions({
+const {Types, Creators} = createActions({
   accountRequest: [],
   accountSuccess: ['account'],
   accountFailure: ['error'],
@@ -27,25 +27,26 @@ export const INITIAL_STATE = Immutable({
 /* ------------- Reducers ------------- */
 
 // we're attempting to account
-export const request = (state) => state.merge({ fetching: true });
+export const request = (state) => state.merge({fetching: true});
 
 // we've successfully logged in
-export const success = (state, data) => {
-  const { account } = data;
-  return state.merge({ fetching: false, error: null, account });
+export const success = (state, data) =>
+{
+  const {account} = data;
+  return state.merge({fetching: false, error: null, account});
 };
 
 // we've had a problem getting the account
-export const failure = (state, { error }) => state.merge({ fetching: false, updating: false, account: null, error });
+export const failure = (state, {error}) => state.merge({fetching: false, updating: false, account: null, error});
 
 // we're attempting to updating account settings
-export const updateRequest = (state) => state.merge({ updating: true });
+export const updateRequest = (state) => state.merge({updating: true});
 
 // we've successfully updated the account settings
-export const updateSuccess = (state) => state.merge({ error: null, updating: false });
+export const updateSuccess = (state) => state.merge({error: null, updating: false});
 
 // we've had a problem updating the account settings
-export const updateFailure = (state, { error }) => state.merge({ updating: false, error });
+export const updateFailure = (state, {error}) => state.merge({updating: false, error});
 
 // reset the account reducer
 export const reset = () => INITIAL_STATE;

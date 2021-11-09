@@ -1,13 +1,14 @@
-import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
-import { BackHandler } from 'react-native';
-import { useDispatch, useSelector } from 'react-redux';
-import { IMLocalized } from '../../../localization/IMLocalization';
-import { setUserData } from '../../../onboarding/redux/auth';
-import { userAPIManager } from '../../../api';
+import React, {useEffect, useLayoutEffect, useRef, useState} from 'react';
+import {BackHandler} from 'react-native';
+import {useDispatch, useSelector} from 'react-redux';
+import {IMLocalized} from '../../../localization/IMLocalization';
+import {setUserData} from '../../../onboarding/redux/auth';
+import {userAPIManager} from '../../../api';
 import IMFormComponent from '../IMFormComponent/IMFormComponent';
-import { Appearance } from 'react-native-appearance';
+import {Appearance} from 'react-native-appearance';
 
-export default function IMUserSettingsScreen(props) {
+export default function IMUserSettingsScreen(props)
+{
   const appStyles = props.route.params.appStyles;
   let screenTitle = props.route.params.screenTitle || IMLocalized('Settings');
   let COLOR_SCHEME = Appearance.getColorScheme();
@@ -24,7 +25,8 @@ export default function IMUserSettingsScreen(props) {
   // const [form] = useState(props.form);
   const [alteredFormDict, setAlteredFormDict] = useState({});
 
-  useLayoutEffect(() => {
+  useLayoutEffect(() =>
+  {
     props.navigation.setOptions({
       headerTitle: screenTitle,
       headerStyle: {
@@ -34,46 +36,55 @@ export default function IMUserSettingsScreen(props) {
     });
   }, []);
 
-  useEffect(() => {
+  useEffect(() =>
+  {
     willBlurSubscription.current = props.navigation.addListener('beforeRemove', (payload) =>
       BackHandler.removeEventListener('hardwareBackPress', onBackButtonPressAndroid),
     );
     didFocusSubscription.current = props.navigation.addListener('focus', (payload) =>
       BackHandler.addEventListener('hardwareBackPress', onBackButtonPressAndroid),
     );
-    return () => {
+    return () =>
+    {
       didFocusSubscription.current && didFocusSubscription.current();
       willBlurSubscription.current && willBlurSubscription.current();
     };
   }, []);
-  const onBackButtonPressAndroid = () => {
+  const onBackButtonPressAndroid = () =>
+  {
     props.navigation.goBack();
     return true;
   };
 
-  const onFormSubmit = () => {
+  const onFormSubmit = () =>
+  {
     var newSettings = currentUser.settings || {};
 
-    form.sections.forEach((section) => {
-      section.fields.forEach((field) => {
+    form.sections.forEach((section) =>
+    {
+      section.fields.forEach((field) =>
+      {
         const newValue = alteredFormDict[field.key];
-        if (newValue != null) {
+        if (newValue != null)
+        {
           newSettings[field.key] = alteredFormDict[field.key];
         }
       });
     });
 
-    let newUser = { ...currentUser, settings: newSettings };
+    let newUser = {...currentUser, settings: newSettings};
     userAPIManager.updateUserData(currentUser.id, newUser);
-    dispatch(setUserData({ user: newUser }));
+    dispatch(setUserData({user: newUser}));
     props.navigation.goBack();
   };
 
-  const onFormChange = (alteredFormDict) => {
+  const onFormChange = (alteredFormDict) =>
+  {
     setAlteredFormDict(alteredFormDict);
   };
 
-  const onFormButtonPress = (buttonField) => {
+  const onFormButtonPress = (buttonField) =>
+  {
     onFormSubmit();
   };
 

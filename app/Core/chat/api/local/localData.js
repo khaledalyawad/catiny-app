@@ -4,7 +4,7 @@ export const mockChannelsData = [
     channelID: '131313',
     creatorID: '131313',
     id: '12112128',
-    createdAt: { nanoseconds: 658000000, seconds: 1608056047 },
+    createdAt: {nanoseconds: 658000000, seconds: 1608056047},
     title: 'Holiday team',
     content: 'We should have fun this summer',
     channelName: 'Test Channel',
@@ -42,7 +42,7 @@ export const mockChannelsData = [
     title: 'Work chat',
     channelName: 'Test Channel',
     lastMessage: 'Hey bro',
-    createdAt: { nanoseconds: 658000000, seconds: 1608146047 },
+    createdAt: {nanoseconds: 658000000, seconds: 1608146047},
     content: 'I have turned in my monthly review',
     lastMessageSenderId: 'advvwdv2v2v22v1',
     participants: [
@@ -78,9 +78,8 @@ export const mockChannelsData = [
     id: '121121i2',
     title: 'Family',
     channelName: 'Test Channel',
-    createdAt: { nanoseconds: 658000000, seconds: 1608156047 },
+    createdAt: {nanoseconds: 658000000, seconds: 1608156047},
     lastMessage: 'Hey bro',
-    createdAt: '2020-10-01T11:53:44.598Z',
     content: "We're out for breakfast",
     lastMessageSenderId: 'advvwdv2v2v22v1',
     participants: [
@@ -137,7 +136,7 @@ export const mockChannelsData = [
     channelName: 'Test Channel',
     content: 'The pizza is on the way',
     lastMessage: 'Hey bro',
-    createdAt: { nanoseconds: 658000000, seconds: 1608156047 },
+    createdAt: {nanoseconds: 658000000, seconds: 1608156047},
     lastMessageSenderId: 'advvwdv2v2v22v1',
     participants: [
       // contains user data
@@ -185,7 +184,6 @@ export const mockThread = [
     id: 'a3RZKhGT7G2WwzP2vCJt5',
     content: 'Thanks man Have fun too',
     createdAt: '2020-10-08T23:04:08.646Z',
-    id: 'a3RZKhGT7G2WwzP2vCJt0',
     inReplyToItem: null,
     participantProfilePictureURLs: [
       {
@@ -214,7 +212,6 @@ export const mockThread = [
     id: 'a3RZKhGT7G2WwzP2vCJt3',
     content: 'Sorry mate I have to be at the gym in an hour and I have to prepare, Have fun',
     createdAt: '2020-10-08T23:04:08.646Z',
-    id: 'a3RZKhGT7G2WwzP2vCJth',
     inReplyToItem: null,
     participantProfilePictureURLs: [
       {
@@ -243,7 +240,6 @@ export const mockThread = [
     id: 'a3RZKhGT7G2WwzP2vCJt5',
     content: 'I guess you are not then',
     createdAt: '2020-10-08T23:04:08.646Z',
-    id: 'a3RZKhGT7G2WwzP2vCJtb',
     inReplyToItem: null,
     participantProfilePictureURLs: [
       {
@@ -272,7 +268,6 @@ export const mockThread = [
     id: 'a3RZKhGT7G2WwzP2vCJt4',
     content: "I'm watching soccer at the park, are you coming?",
     createdAt: '2020-10-08T23:04:08.646Z',
-    id: 'a3RZKhGT7G2WwzP2vCJt1a',
     inReplyToItem: null,
     participantProfilePictureURLs: [
       {
@@ -301,7 +296,6 @@ export const mockThread = [
     id: 'a3RZKhGT7G2WwzP2vCJt3',
     content: 'What are you up to?',
     createdAt: '2020-10-08T23:04:08.646Z',
-    id: 'a3RZKhGT7G2WwzP2vCJtok',
     inReplyToItem: null,
     participantProfilePictureURLs: [
       {
@@ -330,7 +324,6 @@ export const mockThread = [
     id: 'a3RZKhGT7G2WwzP2vCJt2',
     content: 'Hello',
     createdAt: '2020-10-08T23:04:08.646Z',
-    id: 'a3RZKhGT7G2WwzP2vCJt0i',
     inReplyToItem: null,
     participantProfilePictureURLs: [
       {
@@ -359,7 +352,6 @@ export const mockThread = [
     id: 'a3RZKhGT7G2WwzP2vCJt1',
     content: "What's happening?",
     createdAt: '2020-10-08T23:04:08.646Z',
-    id: 'a3RZKhGT7G2WwzP2vCJ9t',
     inReplyToItem: null,
     participantProfilePictureURLs: [
       {

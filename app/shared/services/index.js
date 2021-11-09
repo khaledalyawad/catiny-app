@@ -1,3 +1,3 @@
-import { api as apiSaga } from '../sagas';
+import {api as apiSaga} from '../sagas';
 
 export default apiSaga;

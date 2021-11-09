@@ -1,11 +1,11 @@
-import { createReducer, createActions } from 'reduxsauce';
+import {createActions, createReducer} from 'reduxsauce';
 import Immutable from 'seamless-immutable';
-import { loadMoreDataWhenScrolled } from '../../../shared/util/pagination-utils';
-import { parseHeaderForLinks } from '../../../shared/util/url-utils';
+import {loadMoreDataWhenScrolled} from '../../../shared/util/pagination-utils';
+import {parseHeaderForLinks} from '../../../shared/util/url-utils';
 
 /* ------------- Types and Action Creators ------------- */
 
-const { Types, Creators } = createActions({
+const {Types, Creators} = createActions({
   followGroupRequest: ['followGroupId'],
   followGroupAllRequest: ['options'],
   followGroupUpdateRequest: ['followGroup'],
@@ -39,14 +39,14 @@ export const INITIAL_STATE = Immutable({
   searching: false,
   deleting: false,
   updateSuccess: false,
-  followGroup: { id: undefined },
+  followGroup: {id: undefined},
   followGroupList: [],
   errorOne: null,
   errorAll: null,
   errorUpdating: null,
   errorSearching: null,
   errorDeleting: null,
-  links: { next: 0 },
+  links: {next: 0},
   totalItems: 0,
 });
 
@@ -85,8 +85,9 @@ export const deleteRequest = (state) =>
   });
 
 // successful api lookup for single entity
-export const success = (state, action) => {
-  const { followGroup } = action;
+export const success = (state, action) =>
+{
+  const {followGroup} = action;
   return state.merge({
     fetchingOne: false,
     errorOne: null,
@@ -94,8 +95,9 @@ export const success = (state, action) => {
   });
 };
 // successful api lookup for all entities
-export const allSuccess = (state, action) => {
-  const { followGroupList, headers } = action;
+export const allSuccess = (state, action) =>
+{
+  const {followGroupList, headers} = action;
   const links = parseHeaderForLinks(headers.link);
   return state.merge({
     fetchingAll: false,
@@ -106,8 +108,9 @@ export const allSuccess = (state, action) => {
   });
 };
 // successful api update
-export const updateSuccess = (state, action) => {
-  const { followGroup } = action;
+export const updateSuccess = (state, action) =>
+{
+  const {followGroup} = action;
   return state.merge({
     updateSuccess: true,
     updating: false,
@@ -116,8 +119,9 @@ export const updateSuccess = (state, action) => {
   });
 };
 // successful api search
-export const searchSuccess = (state, action) => {
-  const { followGroupList } = action;
+export const searchSuccess = (state, action) =>
+{
+  const {followGroupList} = action;
   return state.merge({
     searching: false,
     errorSearching: null,
@@ -125,7 +129,8 @@ export const searchSuccess = (state, action) => {
   });
 };
 // successful api delete
-export const deleteSuccess = (state) => {
+export const deleteSuccess = (state) =>
+{
   return state.merge({
     deleting: false,
     errorDeleting: null,
@@ -134,8 +139,9 @@ export const deleteSuccess = (state) => {
 };
 
 // Something went wrong fetching a single entity.
-export const failure = (state, action) => {
-  const { error } = action;
+export const failure = (state, action) =>
+{
+  const {error} = action;
   return state.merge({
     fetchingOne: false,
     errorOne: error,
@@ -143,8 +149,9 @@ export const failure = (state, action) => {
   });
 };
 // Something went wrong fetching all entities.
-export const allFailure = (state, action) => {
-  const { error } = action;
+export const allFailure = (state, action) =>
+{
+  const {error} = action;
   return state.merge({
     fetchingAll: false,
     errorAll: error,
@@ -152,8 +159,9 @@ export const allFailure = (state, action) => {
   });
 };
 // Something went wrong updating.
-export const updateFailure = (state, action) => {
-  const { error } = action;
+export const updateFailure = (state, action) =>
+{
+  const {error} = action;
   return state.merge({
     updateSuccess: false,
     updating: false,
@@ -162,8 +170,9 @@ export const updateFailure = (state, action) => {
   });
 };
 // Something went wrong deleting.
-export const deleteFailure = (state, action) => {
-  const { error } = action;
+export const deleteFailure = (state, action) =>
+{
+  const {error} = action;
   return state.merge({
     deleting: false,
     errorDeleting: error,
@@ -171,8 +180,9 @@ export const deleteFailure = (state, action) => {
   });
 };
 // Something went wrong searching the entities.
-export const searchFailure = (state, action) => {
-  const { error } = action;
+export const searchFailure = (state, action) =>
+{
+  const {error} = action;
   return state.merge({
     searching: false,
     errorSearching: error,

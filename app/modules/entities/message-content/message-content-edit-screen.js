@@ -1,16 +1,16 @@
-import React, { createRef } from 'react';
-import { ActivityIndicator, Text, View } from 'react-native';
-import { connect } from 'react-redux';
+import React, {createRef} from 'react';
+import {ActivityIndicator, Text, View} from 'react-native';
+import {connect} from 'react-redux';
 import * as Yup from 'yup';
 
 import MessageContentActions from './message-content.reducer';
 import BaseInfoActions from '../base-info/base-info.reducer';
 import MessageGroupActions from '../message-group/message-group.reducer';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import FormButton from '../../../shared/components/form/jhi-form-button';
 import FormField from '../../../shared/components/form/jhi-form-field';
 import Form from '../../../shared/components/form/jhi-form';
-import { useDidUpdateEffect } from '../../../shared/util/use-did-update-effect';
+import {useDidUpdateEffect} from '../../../shared/util/use-did-update-effect';
 import styles from './message-content-styles';
 
 // set up validation schema for the form
@@ -18,7 +18,8 @@ const validationSchema = Yup.object().shape({
   uuid: Yup.string().required(),
 });
 
-function MessageContentEditScreen(props) {
+function MessageContentEditScreen(props)
+{
   const {
     getMessageContent,
     updateMessageContent,
@@ -41,36 +42,50 @@ function MessageContentEditScreen(props) {
 
   const isNewEntity = !(route.params && route.params.entityId);
 
-  React.useEffect(() => {
-    if (!isNewEntity) {
+  React.useEffect(() =>
+  {
+    if (!isNewEntity)
+    {
       getMessageContent(route.params.entityId);
-    } else {
+    }
+    else
+    {
       reset();
     }
   }, [isNewEntity, getMessageContent, route, reset]);
 
-  React.useEffect(() => {
-    if (isNewEntity) {
+  React.useEffect(() =>
+  {
+    if (isNewEntity)
+    {
       setFormValue(entityToFormValue({}));
-    } else if (!fetching) {
+    }
+    else if (!fetching)
+    {
       setFormValue(entityToFormValue(messageContent));
     }
   }, [messageContent, fetching, isNewEntity]);
 
   // fetch related entities
-  React.useEffect(() => {
+  React.useEffect(() =>
+  {
     getAllBaseInfos();
     getAllMessageGroups();
   }, [getAllBaseInfos, getAllMessageGroups]);
 
-  useDidUpdateEffect(() => {
-    if (updating === false) {
-      if (errorUpdating) {
+  useDidUpdateEffect(() =>
+  {
+    if (updating === false)
+    {
+      if (errorUpdating)
+      {
         setError(errorUpdating && errorUpdating.detail ? errorUpdating.detail : 'Something went wrong updating the entity');
-      } else if (updateSuccess) {
+      }
+      else if (updateSuccess)
+      {
         setError('');
         isNewEntity || !navigation.canGoBack()
-          ? navigation.replace('MessageContentDetail', { entityId: messageContent?.id })
+          ? navigation.replace('MessageContentDetail', {entityId: messageContent?.id})
           : navigation.pop();
       }
     }
@@ -78,10 +93,11 @@ function MessageContentEditScreen(props) {
 
   const onSubmit = (data) => updateMessageContent(formValueToEntity(data));
 
-  if (fetching) {
+  if (fetching)
+  {
     return (
       <View style={styles.loading}>
-        <ActivityIndicator size="large" />
+        <ActivityIndicator size='large' />
       </View>
     );
   }
@@ -100,81 +116,81 @@ function MessageContentEditScreen(props) {
     <View style={styles.container}>
       <KeyboardAwareScrollView
         enableResetScrollToCoords={false}
-        testID="messageContentEditScrollView"
-        keyboardShouldPersistTaps="handled"
-        keyboardDismissMode="on-drag"
+        testID='messageContentEditScrollView'
+        keyboardShouldPersistTaps='handled'
+        keyboardDismissMode='on-drag'
         contentContainerStyle={styles.paddedScrollView}>
         {!!error && <Text style={styles.errorText}>{error}</Text>}
         {formValue && (
           <Form initialValues={formValue} validationSchema={validationSchema} onSubmit={onSubmit} ref={formRef}>
             <FormField
-              name="uuid"
+              name='uuid'
               ref={uuidRef}
-              label="Uuid"
-              placeholder="Enter Uuid"
-              testID="uuidInput"
+              label='Uuid'
+              placeholder='Enter Uuid'
+              testID='uuidInput'
               onSubmitEditing={() => senderNameRef.current?.focus()}
             />
             <FormField
-              name="senderName"
+              name='senderName'
               ref={senderNameRef}
-              label="Sender Name"
-              placeholder="Enter Sender Name"
-              testID="senderNameInput"
-              inputType="text"
-              autoCapitalize="none"
+              label='Sender Name'
+              placeholder='Enter Sender Name'
+              testID='senderNameInput'
+              inputType='text'
+              autoCapitalize='none'
               onSubmitEditing={() => attachRef.current?.focus()}
             />
             <FormField
-              name="attach"
+              name='attach'
               ref={attachRef}
-              label="Attach"
-              placeholder="Enter Attach"
-              testID="attachInput"
+              label='Attach'
+              placeholder='Enter Attach'
+              testID='attachInput'
               onSubmitEditing={() => contentRef.current?.focus()}
             />
             <FormField
-              name="content"
+              name='content'
               ref={contentRef}
-              label="Content"
-              placeholder="Enter Content"
-              testID="contentInput"
+              label='Content'
+              placeholder='Enter Content'
+              testID='contentInput'
               onSubmitEditing={() => statusRef.current?.focus()}
             />
             <FormField
-              name="status"
+              name='status'
               ref={statusRef}
-              label="Status"
-              placeholder="Enter Status"
-              testID="statusInput"
+              label='Status'
+              placeholder='Enter Status'
+              testID='statusInput'
               onSubmitEditing={() => searchFieldRef.current?.focus()}
             />
             <FormField
-              name="searchField"
+              name='searchField'
               ref={searchFieldRef}
-              label="Search Field"
-              placeholder="Enter Search Field"
-              testID="searchFieldInput"
+              label='Search Field'
+              placeholder='Enter Search Field'
+              testID='searchFieldInput'
             />
             <FormField
-              name="info"
-              inputType="select-one"
+              name='info'
+              inputType='select-one'
               ref={infoRef}
               listItems={baseInfoList}
-              listItemLabelField="id"
-              label="Info"
-              placeholder="Select Info"
-              testID="baseInfoSelectInput"
+              listItemLabelField='id'
+              label='Info'
+              placeholder='Select Info'
+              testID='baseInfoSelectInput'
             />
             <FormField
-              name="group"
-              inputType="select-one"
+              name='group'
+              inputType='select-one'
               ref={groupRef}
               listItems={messageGroupList}
-              listItemLabelField="id"
-              label="Group"
-              placeholder="Select Group"
-              testID="messageGroupSelectInput"
+              listItemLabelField='id'
+              label='Group'
+              placeholder='Select Group'
+              testID='messageGroupSelectInput'
             />
 
             <FormButton title={'Save'} testID={'submitButton'} />
@@ -186,8 +202,10 @@ function MessageContentEditScreen(props) {
 }
 
 // convenience methods for customizing the mapping of the entity to/from the form value
-const entityToFormValue = (value) => {
-  if (!value) {
+const entityToFormValue = (value) =>
+{
+  if (!value)
+  {
     return {};
   }
   return {
@@ -202,7 +220,8 @@ const entityToFormValue = (value) => {
     group: value.group && value.group.id ? value.group.id : null,
   };
 };
-const formValueToEntity = (value) => {
+const formValueToEntity = (value) =>
+{
   const entity = {
     id: value.id ?? null,
     uuid: value.uuid ?? null,
@@ -212,12 +231,13 @@ const formValueToEntity = (value) => {
     status: value.status ?? null,
     searchField: value.searchField ?? null,
   };
-  entity.info = value.info ? { id: value.info } : null;
-  entity.group = value.group ? { id: value.group } : null;
+  entity.info = value.info ? {id: value.info} : null;
+  entity.group = value.group ? {id: value.group} : null;
   return entity;
 };
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state) =>
+{
   return {
     baseInfoList: state.baseInfos.baseInfoList ?? [],
     messageGroupList: state.messageGroups.messageGroupList ?? [],
@@ -229,7 +249,8 @@ const mapStateToProps = (state) => {
   };
 };
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = (dispatch) =>
+{
   return {
     getAllBaseInfos: (options) => dispatch(BaseInfoActions.baseInfoAllRequest(options)),
     getAllMessageGroups: (options) => dispatch(MessageGroupActions.messageGroupAllRequest(options)),

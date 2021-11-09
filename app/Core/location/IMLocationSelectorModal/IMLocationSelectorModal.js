@@ -1,19 +1,20 @@
-import React, { useState, useEffect } from 'react';
-import { Modal, View, SafeAreaView } from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {Modal, SafeAreaView, View} from 'react-native';
 import PropTypes from 'prop-types';
-import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
-import { useColorScheme } from 'react-native-appearance';
-import MapView, { Marker } from 'react-native-maps';
+import {GooglePlacesAutocomplete} from 'react-native-google-places-autocomplete';
+import {useColorScheme} from 'react-native-appearance';
+import MapView, {Marker} from 'react-native-maps';
 import * as Location from 'expo-location';
 import Geolocation from '@react-native-community/geolocation';
 import TextButton from 'react-native-button';
 import dynamicStyles from './styles';
 
-const locationDelta = { latitudeDelta: 0.0922, longitudeDelta: 0.0421 };
+const locationDelta = {latitudeDelta: 0.0922, longitudeDelta: 0.0421};
 const defaultGoogleApiKey = 'AIzaSyCc-7cU3-_x1VTV5eW3g2pVnl3vi9lvv7w';
 
-function IMLocationSelectorModal(props) {
-  const { onCancel, isVisible, onChangeLocation, onDone, appStyles, apiKey } = props;
+function IMLocationSelectorModal(props)
+{
+  const {onCancel, isVisible, onChangeLocation, onDone, appStyles, apiKey} = props;
   const colorScheme = useColorScheme();
   const styles = dynamicStyles(appStyles, colorScheme);
 
@@ -23,59 +24,71 @@ function IMLocationSelectorModal(props) {
   });
   const [address, setAddress] = useState(' ');
 
-  useEffect(() => {
+  useEffect(() =>
+  {
     getCurrentPosition();
   }, []);
 
-  const getCurrentPosition = () => {
+  const getCurrentPosition = () =>
+  {
     Geolocation.getCurrentPosition(
-      (position) => {
+      (position) =>
+      {
         setRegion(position.coords);
         onLocationChange(position.coords);
       },
-      (error) => {
+      (error) =>
+      {
         console.log(error.message);
       },
     );
   };
 
-  const onLocationChange = async (location) => {
-    try {
+  const onLocationChange = async (location) =>
+  {
+    try
+    {
       let json = await Location.reverseGeocodeAsync(location);
 
       const choosenIndex = Math.floor(json.length * 0.8);
       const formatted_address = `${json[choosenIndex].city}, ${json[choosenIndex].region}.`;
       setAddress(formatted_address);
       onChangeLocation(formatted_address);
-    } catch (error) {
+    }
+    catch (error)
+    {
       console.log(error);
       setAddress('');
     }
   };
 
-  const setLocationDetails = (data, details) => {
-    const { geometry, name } = details;
-    if (geometry) {
+  const setLocationDetails = (data, details) =>
+  {
+    const {geometry, name} = details;
+    if (geometry)
+    {
       setRegion({
         longitude: geometry.location.lng,
         latitude: geometry.location.lat,
       });
     }
 
-    if (name) {
+    if (name)
+    {
       setAddress(name);
       onChangeLocation(name);
     }
   };
 
-  const onMapMarkerDragEnd = (location) => {
+  const onMapMarkerDragEnd = (location) =>
+  {
     const region = location.nativeEvent.coordinate;
     setRegion(region);
     onLocationChange(region);
   };
 
   return (
-    <Modal animationType="slide" transparent={false} visible={isVisible} onRequestClose={onCancel}>
+    <Modal animationType='slide' transparent={false} visible={isVisible} onRequestClose={onCancel}>
       <SafeAreaView style={styles.container}>
         <View style={styles.navBarContainer}>
           <View style={styles.leftButtonContainer}>
@@ -97,11 +110,12 @@ function IMLocationSelectorModal(props) {
           autoFocus={false}
           returnKeyType={'search'} // Can be left out for default return key https://facebook.github.io/react-native/docs/textinput.html#returnkeytype
           keyboardAppearance={'light'} // Can be left out for default keyboardAppearance https://facebook.github.io/react-native/docs/textinput.html#keyboardappearance
-          listViewDisplayed="auto" // true/false/undefined
+          listViewDisplayed='auto' // true/false/undefined
           fetchDetails={true}
           renderDescription={(row) => row.description} // custom description render
-          onPress={(data, details = null) => {
-            const { formatted_address } = details;
+          onPress={(data, details = null) =>
+          {
+            const {formatted_address} = details;
             setAddress(formatted_address);
             onChangeLocation(formatted_address);
             setLocationDetails(data, details);
@@ -120,7 +134,7 @@ function IMLocationSelectorModal(props) {
             predefinedPlacesDescription: styles.predefinedPlacesDescription,
             poweredContainer: styles.predefinedPlacesPoweredContainer,
           }}
-          nearbyPlacesAPI="GooglePlacesSearch" // Which API to use: GoogleReverseGeocoding or GooglePlacesSearch
+          nearbyPlacesAPI='GooglePlacesSearch' // Which API to use: GoogleReverseGeocoding or GooglePlacesSearch
           GoogleReverseGeocodingQuery={
             {
               // available options for GoogleReverseGeocoding API : https://developers.google.com/maps/documentation/geocoding/intro

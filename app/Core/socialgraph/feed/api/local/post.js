@@ -2,7 +2,7 @@
  * Implement These Methods If You Are Adding Your Own Custom Backend
  */
 
-import { mockPostsData } from './localData';
+import {mockPostsData} from './localData';
 
 // Mock data format:
 // [
@@ -54,7 +54,8 @@ import { mockPostsData } from './localData';
  * @userID - ID of logged in user
  * @callback - A callback method that gets called every time changes are identified in the server-side main_feeds
  **/
-export const subscribeToMainFeedPosts = (userID, callback) => {
+export const subscribeToMainFeedPosts = (userID, callback) =>
+{
   const postRef = null;
   // subscribe to the main_feeds collection with a limit of 100 entries
   // every time there are changes in hashtags server side, we call the callback, e.g.
@@ -71,7 +72,8 @@ export const subscribeToMainFeedPosts = (userID, callback) => {
  *
  * @callback - A callback method that gets called every time changes are identified in the server-side channels
  **/
-export const subscribeToDiscoverFeedPosts = (callback) => {
+export const subscribeToDiscoverFeedPosts = (callback) =>
+{
   const postRef = null;
   // subscribe to the hashtags collection with a limit of 100 entries
   // every time there are changes in hashtags server side, we call the callback, e.g.
@@ -89,7 +91,8 @@ export const subscribeToDiscoverFeedPosts = (callback) => {
  * @hashtag - The ID of the user whose profile we're trying to subscribe to
  * @callback - A callback method that gets called every time changes are identified in the server-side hashtags
  **/
-export const subscribeToHashtagFeedPosts = (hashtag, callback) => {
+export const subscribeToHashtagFeedPosts = (hashtag, callback) =>
+{
   const postRef = null;
   // subscribe to the hashtags collection with a limit of 100 entries
   // every time there are changes in hashtags server side, we call the callback, e.g.
@@ -107,7 +110,8 @@ export const subscribeToHashtagFeedPosts = (hashtag, callback) => {
  * @userID - The ID of the user whose profile we're trying to subscribe to
  * @callback - A callback method that gets called every time changes are identified in the server-side profile-feeds
  **/
-export const subscribeToProfileFeedPosts = (userID, callback) => {
+export const subscribeToProfileFeedPosts = (userID, callback) =>
+{
   const postRef = null;
   // subscribe to the posts collection, based on userID
   // every time there are changes in channels server side, we call the callback, e.g.
@@ -125,7 +129,8 @@ export const subscribeToProfileFeedPosts = (userID, callback) => {
  * @postID - The ID of the post we're trying to subscribe to
  * @callback - A callback method that gets called every time changes are identified in the server-side single-post
  **/
-export const subscribeToSinglePost = (postID, callback) => {
+export const subscribeToSinglePost = (postID, callback) =>
+{
   // if (!postID) {
   //   alert('No post ID in subscribeToSinglePost. Please try again');
   //   return;
@@ -146,7 +151,8 @@ export const subscribeToSinglePost = (postID, callback) => {
  * @destUserID - The ID of the user
  * @sourceUserID - the ID of the author of the post
  **/
-export const hydrateFeedForNewFriendship = async (destUserID, sourceUserID) => {
+export const hydrateFeedForNewFriendship = async (destUserID, sourceUserID) =>
+{
   // we take all posts & stories from sourceUserID and populate the feed & stories of destUserID
   // we subscribe to mainfeedposts collections and update main feed posts
   // unsubscribe
@@ -159,9 +165,9 @@ export const hydrateFeedForNewFriendship = async (destUserID, sourceUserID) => {
  *
  * @destUserID - The ID of the user
  * @post - The ID of the user's oldfriend
- * 
+ *
  * format of post:
-  {
+ {
     author: {
       email,
       id,
@@ -176,9 +182,10 @@ export const hydrateFeedForNewFriendship = async (destUserID, sourceUserID) => {
     postText,
     reactionsCount,
   }
- * 
+ *
  **/
-export const removeFeedForOldFriendship = async (destUserID, oldFriendID) => {
+export const removeFeedForOldFriendship = async (destUserID, oldFriendID) =>
+{
   // We remove all posts authored by oldFriendID from destUserID's feed
   // we subscribe to mainfeedposts collections and delete post from old friend timeline
   // unsubscribe
@@ -191,9 +198,9 @@ export const removeFeedForOldFriendship = async (destUserID, oldFriendID) => {
  *
  * @reactions - An array of reactions
  * @post - the post object
- * 
+ *
  * format of post:
-  {
+ {
     author: {
       email,
       id,
@@ -208,9 +215,10 @@ export const removeFeedForOldFriendship = async (destUserID, oldFriendID) => {
     postText,
     reactionsCount,
   }
- * 
+ *
  **/
-const filterForReactions = (reactions, post) => {
+const filterForReactions = (reactions, post) =>
+{
   // reactions.forEach((reaction) => {
   //   if (reaction.postID === post.id) {
   //     post.userReactions = reaction.reactions.sort((a, b) => {
@@ -227,8 +235,8 @@ const filterForReactions = (reactions, post) => {
  *
  * Parameters
  * @body - body object
- * 
-  {
+ *
+ {
     feedBatchLimit,
     lastVisibleFeed,
     acceptedFriends,
@@ -239,10 +247,11 @@ const filterForReactions = (reactions, post) => {
   }
  *
  * returns response object
- * 
- * 
+ *
+ *
  **/
-export const getNewPosts = async (body) => {
+export const getNewPosts = async (body) =>
+{
   // let {
   //   feedBatchLimit,
   //   lastVisibleFeed,
@@ -275,19 +284,20 @@ export const getNewPosts = async (body) => {
  * Parameters
  *
  * @users - An array of users data
- * 
-  [{
-    email,
-    id,
-    ...
-  },...]
- * 
- * 
+ *
+ [{
+ email,
+ id,
+ ...
+ },...]
+ *
+ *
  * @callback - callback to update posts on UI
  *
  * returns the response of callback supplied
  **/
-export const subscribeNewPost = (users, callback) => {
+export const subscribeNewPost = (users, callback) =>
+{
   // subscribe for new post based on new users and update user reaction for each post
   // return callback(posts);
   return callback(mockPostsData);
@@ -301,19 +311,20 @@ export const subscribeNewPost = (users, callback) => {
  * @postID - The id of the post
  * @followerIDs - the ids of the user's followers
  * @author - The author object
- * 
+ *
  * format of author:
-    {
+ {
       email,
       id,
       ....
     },
  **/
-export const addPost = async (post, followerIDs, author) => {
+export const addPost = async (post, followerIDs, author) =>
+{
   // update post on the backend using postId
   // for each of the followerIDs update the post for other followers
   //return return response { success: true }; or return { error, success: true };
-  return { error: { message: 'Error' }, success: true };
+  return {error: {message: 'Error'}, success: true};
 };
 
 /**
@@ -323,7 +334,7 @@ export const addPost = async (post, followerIDs, author) => {
  *
  * @postID - The id of the post
  * @post - The post object
- * 
+ *
  * format of post:
  {
     author: {
@@ -345,11 +356,12 @@ export const addPost = async (post, followerIDs, author) => {
  *
  * returns response object
  **/
-export const updatePost = async (postId, post, followerIDs) => {
+export const updatePost = async (postId, post, followerIDs) =>
+{
   // update post on the backend using postId
   // for each of the followerIDs update the post for other followers
   //return return response { success: true }; or return { error, success: true };
-  return { error, success: true };
+  return {error, success: true};
 };
 
 /**
@@ -357,7 +369,7 @@ export const updatePost = async (postId, post, followerIDs) => {
  * Parameters
  *
  * @post - The 'post' object
- * 
+ *
  * format of post:
  {
     author: {
@@ -377,7 +389,8 @@ export const updatePost = async (postId, post, followerIDs) => {
  *
  * returns response object
  **/
-export const getPost = async (postId) => {
+export const getPost = async (postId) =>
+{
   // initialize postRef using the postId
   // fetch post based on postID
   // if success
@@ -399,7 +412,7 @@ export const getPost = async (postId) => {
  * Parameters
  *
  * @post - The 'post' object
- * 
+ *
  * format of post:
  {
     author: {
@@ -416,12 +429,13 @@ export const getPost = async (postId) => {
     postText,
     reactionsCount,
   }
- * 
+ *
  * @followEnabled - Whether follow is enabled
  *
  * returns response object
  **/
-export const deletePost = async (post, followEnabled) => {
+export const deletePost = async (post, followEnabled) =>
+{
   // initialize post using post.id
   // delete post using initialized collection
   // if followEnabled is true call removePostFromAllTimelines else removePostFromAllFriendsTimelines
@@ -438,7 +452,8 @@ export const deletePost = async (post, followEnabled) => {
   };
 };
 
-const removePostFromAllTimelines = async (post) => {
+const removePostFromAllTimelines = async (post) =>
+{
   // We fetch all users who follow the author of the post and update their timelines
 };
 
@@ -448,7 +463,7 @@ const removePostFromAllTimelines = async (post) => {
  * Parameters
  *
  * @post - The 'post' object
- * 
+ *
  * format of post:
  {
     author: {
@@ -468,7 +483,8 @@ const removePostFromAllTimelines = async (post) => {
  *
  * returns a promise that resolves to user data
  **/
-const removePostFromAllFriendsTimelines = async (post) => {
+const removePostFromAllFriendsTimelines = async (post) =>
+{
   // subscribe to friendships collection
   // then delete all of them
 };
@@ -479,7 +495,7 @@ const removePostFromAllFriendsTimelines = async (post) => {
  * Parameters
  *
  * @post - The 'post' object
- * 
+ *
  * format of post:
  {
     author: {
@@ -498,7 +514,8 @@ const removePostFromAllFriendsTimelines = async (post) => {
   }
 
  **/
-const removePostFromAllEntities = (post) => {
+const removePostFromAllEntities = (post) =>
+{
   // check if post has hashtags
   // then loop over post hashtags and delete them
   // commit the operation

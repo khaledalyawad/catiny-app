@@ -1,8 +1,8 @@
-import { createReducer, createActions } from 'reduxsauce';
+import {createActions, createReducer} from 'reduxsauce';
 import Immutable from 'seamless-immutable';
 /* ------------- Types and Action Creators ------------- */
 
-const { Types, Creators } = createActions({
+const {Types, Creators} = createActions({
   loginRequest: ['username', 'password'],
   loginSuccess: ['authToken', 'idToken'],
   loginFailure: ['error'],
@@ -28,21 +28,22 @@ export const INITIAL_STATE = Immutable({
 /* ------------- Reducers ------------- */
 
 // we're attempting to login
-export const request = (state) => state.merge({ fetching: true, error: null });
+export const request = (state) => state.merge({fetching: true, error: null});
 
 // we've successfully logged in
-export const success = (state, data) => {
-  const { authToken, idToken } = data;
-  return state.merge({ fetching: false, error: null, authToken, idToken });
+export const success = (state, data) =>
+{
+  const {authToken, idToken} = data;
+  return state.merge({fetching: false, error: null, authToken, idToken});
 };
 
 // we've had a problem logging in
-export const failure = (state, { error }) => state.merge({ fetching: false, error, authToken: null });
+export const failure = (state, {error}) => state.merge({fetching: false, error, authToken: null});
 
 // we're attempting to load token from startup sagas
-export const load = (state) => state.merge({ loading: true });
+export const load = (state) => state.merge({loading: true});
 
-export const loadSuccess = (state) => state.merge({ loading: false });
+export const loadSuccess = (state) => state.merge({loading: false});
 
 // we need to logout, meaning clear access tokens and account
 export const logoutRequest = (state) => state;

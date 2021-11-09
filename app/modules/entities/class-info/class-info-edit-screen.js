@@ -1,14 +1,14 @@
-import React, { createRef } from 'react';
-import { ActivityIndicator, Text, View } from 'react-native';
-import { connect } from 'react-redux';
+import React, {createRef} from 'react';
+import {ActivityIndicator, Text, View} from 'react-native';
+import {connect} from 'react-redux';
 import * as Yup from 'yup';
 
 import ClassInfoActions from './class-info.reducer';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import FormButton from '../../../shared/components/form/jhi-form-button';
 import FormField from '../../../shared/components/form/jhi-form-field';
 import Form from '../../../shared/components/form/jhi-form';
-import { useDidUpdateEffect } from '../../../shared/util/use-did-update-effect';
+import {useDidUpdateEffect} from '../../../shared/util/use-did-update-effect';
 import styles from './class-info-styles';
 
 // set up validation schema for the form
@@ -17,50 +17,67 @@ const validationSchema = Yup.object().shape({
   fullName: Yup.string().required(),
 });
 
-function ClassInfoEditScreen(props) {
-  const { getClassInfo, updateClassInfo, route, classInfo, fetching, updating, errorUpdating, updateSuccess, navigation, reset } = props;
+function ClassInfoEditScreen(props)
+{
+  const {getClassInfo, updateClassInfo, route, classInfo, fetching, updating, errorUpdating, updateSuccess, navigation, reset} = props;
 
   const [formValue, setFormValue] = React.useState();
   const [error, setError] = React.useState('');
 
   const isNewEntity = !(route.params && route.params.entityId);
 
-  React.useEffect(() => {
-    if (!isNewEntity) {
+  React.useEffect(() =>
+  {
+    if (!isNewEntity)
+    {
       getClassInfo(route.params.entityId);
-    } else {
+    }
+    else
+    {
       reset();
     }
   }, [isNewEntity, getClassInfo, route, reset]);
 
-  React.useEffect(() => {
-    if (isNewEntity) {
+  React.useEffect(() =>
+  {
+    if (isNewEntity)
+    {
       setFormValue(entityToFormValue({}));
-    } else if (!fetching) {
+    }
+    else if (!fetching)
+    {
       setFormValue(entityToFormValue(classInfo));
     }
   }, [classInfo, fetching, isNewEntity]);
 
   // fetch related entities
-  React.useEffect(() => {}, []);
+  React.useEffect(() =>
+  {
+  }, []);
 
-  useDidUpdateEffect(() => {
-    if (updating === false) {
-      if (errorUpdating) {
+  useDidUpdateEffect(() =>
+  {
+    if (updating === false)
+    {
+      if (errorUpdating)
+      {
         setError(errorUpdating && errorUpdating.detail ? errorUpdating.detail : 'Something went wrong updating the entity');
-      } else if (updateSuccess) {
+      }
+      else if (updateSuccess)
+      {
         setError('');
-        isNewEntity || !navigation.canGoBack() ? navigation.replace('ClassInfoDetail', { entityId: classInfo?.id }) : navigation.pop();
+        isNewEntity || !navigation.canGoBack() ? navigation.replace('ClassInfoDetail', {entityId: classInfo?.id}) : navigation.pop();
       }
     }
   }, [updateSuccess, errorUpdating, navigation]);
 
   const onSubmit = (data) => updateClassInfo(formValueToEntity(data));
 
-  if (fetching) {
+  if (fetching)
+  {
     return (
       <View style={styles.loading}>
-        <ActivityIndicator size="large" />
+        <ActivityIndicator size='large' />
       </View>
     );
   }
@@ -75,49 +92,49 @@ function ClassInfoEditScreen(props) {
     <View style={styles.container}>
       <KeyboardAwareScrollView
         enableResetScrollToCoords={false}
-        testID="classInfoEditScrollView"
-        keyboardShouldPersistTaps="handled"
-        keyboardDismissMode="on-drag"
+        testID='classInfoEditScrollView'
+        keyboardShouldPersistTaps='handled'
+        keyboardDismissMode='on-drag'
         contentContainerStyle={styles.paddedScrollView}>
         {!!error && <Text style={styles.errorText}>{error}</Text>}
         {formValue && (
           <Form initialValues={formValue} validationSchema={validationSchema} onSubmit={onSubmit} ref={formRef}>
             <FormField
-              name="uuid"
+              name='uuid'
               ref={uuidRef}
-              label="Uuid"
-              placeholder="Enter Uuid"
-              testID="uuidInput"
+              label='Uuid'
+              placeholder='Enter Uuid'
+              testID='uuidInput'
               onSubmitEditing={() => namePackageRef.current?.focus()}
             />
             <FormField
-              name="namePackage"
+              name='namePackage'
               ref={namePackageRef}
-              label="Name Package"
-              placeholder="Enter Name Package"
-              testID="namePackageInput"
-              inputType="text"
-              autoCapitalize="none"
+              label='Name Package'
+              placeholder='Enter Name Package'
+              testID='namePackageInput'
+              inputType='text'
+              autoCapitalize='none'
               onSubmitEditing={() => fullNameRef.current?.focus()}
             />
             <FormField
-              name="fullName"
+              name='fullName'
               ref={fullNameRef}
-              label="Full Name"
-              placeholder="Enter Full Name"
-              testID="fullNameInput"
-              inputType="text"
-              autoCapitalize="none"
+              label='Full Name'
+              placeholder='Enter Full Name'
+              testID='fullNameInput'
+              inputType='text'
+              autoCapitalize='none'
               onSubmitEditing={() => classNameRef.current?.focus()}
             />
             <FormField
-              name="className"
+              name='className'
               ref={classNameRef}
-              label="Class Name"
-              placeholder="Enter Class Name"
-              testID="classNameInput"
-              inputType="text"
-              autoCapitalize="none"
+              label='Class Name'
+              placeholder='Enter Class Name'
+              testID='classNameInput'
+              inputType='text'
+              autoCapitalize='none'
               onSubmitEditing={() => formRef.current?.submitForm()}
             />
 
@@ -130,8 +147,10 @@ function ClassInfoEditScreen(props) {
 }
 
 // convenience methods for customizing the mapping of the entity to/from the form value
-const entityToFormValue = (value) => {
-  if (!value) {
+const entityToFormValue = (value) =>
+{
+  if (!value)
+  {
     return {};
   }
   return {
@@ -142,7 +161,8 @@ const entityToFormValue = (value) => {
     className: value.className ?? null,
   };
 };
-const formValueToEntity = (value) => {
+const formValueToEntity = (value) =>
+{
   const entity = {
     id: value.id ?? null,
     uuid: value.uuid ?? null,
@@ -153,7 +173,8 @@ const formValueToEntity = (value) => {
   return entity;
 };
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state) =>
+{
   return {
     classInfo: state.classInfos.classInfo,
     fetching: state.classInfos.fetchingOne,
@@ -163,7 +184,8 @@ const mapStateToProps = (state) => {
   };
 };
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = (dispatch) =>
+{
   return {
     getClassInfo: (id) => dispatch(ClassInfoActions.classInfoRequest(id)),
     getAllClassInfos: (options) => dispatch(ClassInfoActions.classInfoAllRequest(options)),

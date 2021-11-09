@@ -1,17 +1,21 @@
-import { call, put } from 'redux-saga/effects';
+import {call, put} from 'redux-saga/effects';
 
 import ChangePasswordActions from './change-password.reducer';
-import { callApi } from '../../../shared/sagas/call-api.saga';
+import {callApi} from '../../../shared/sagas/call-api.saga';
 
 // attempts to request a password change
-export function* changePassword(api, { currentPassword, newPassword }) {
+export function* changePassword(api, {currentPassword, newPassword})
+{
   const apiCall = call(api.changePassword, currentPassword, newPassword);
   const response = yield call(callApi, apiCall);
   // success?
-  if (response.ok) {
+  if (response.ok)
+  {
     console.log('ChangePasswordRequest - OK');
     yield put(ChangePasswordActions.changePasswordSuccess());
-  } else {
+  }
+  else
+  {
     console.log('ChangePassword - FAIL');
     yield put(ChangePasswordActions.changePasswordFailure((response.data && response.data.title) || 'Failed to change password'));
   }

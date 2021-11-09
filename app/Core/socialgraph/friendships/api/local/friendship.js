@@ -8,7 +8,9 @@ const usersRef = null;
 // initialize socialGraphRef
 const socialGraphRef = null;
 
-const onCollectionUpdate = (querySnapshot, callback) => {};
+const onCollectionUpdate = (querySnapshot, callback) =>
+{
+};
 
 /**
  * Subscribe to inbound friendships
@@ -16,7 +18,8 @@ const onCollectionUpdate = (querySnapshot, callback) => {};
  * @param {id of current user} userId
  * @param {a function gets called anything there} callback
  */
-export const subscribeToInboundFriendships = (userId, callback) => {
+export const subscribeToInboundFriendships = (userId, callback) =>
+{
   // initialise ref
   const ref = null;
   // listen for changes on the inbound server and call callback(data, usersRef )
@@ -46,7 +49,8 @@ export const subscribeToInboundFriendships = (userId, callback) => {
  * @param {id of current user} userId
  * @param {a function gets called anything there} callback
  */
-export const subscribeToOutboundFriendships = (userId, callback) => {
+export const subscribeToOutboundFriendships = (userId, callback) =>
+{
   // initialise ref
   const ref = null;
   // listen for changes on the inbound server and call callback(data, usersRef )
@@ -72,27 +76,28 @@ export const subscribeToOutboundFriendships = (userId, callback) => {
 };
 
 /** Adds a friend request to toUser from fromUser
- * 
- * @param {an object: object of the user that user} fromUser 
- * 
-    {
+ *
+ * @param {an object: object of the user that user} fromUser
+ *
+ {
       email,
       id,
       ....
     }
- * 
+ *
  * @param {an object: object of the user that user being added} toUser
  *  {
       email,
       id,
       ....
     }
- * @param {a boolean whether to persist friendship count on server} persistFriendshipsCounts 
- * @param {a boolean whether to use friends or followers} extendFollowers 
- * @param {a boolean whether to update feed after unfriend} enableFeedUpdates 
- * @param {a function a callback that get called after the unfriend is done} callback 
+ * @param {a boolean whether to persist friendship count on server} persistFriendshipsCounts
+ * @param {a boolean whether to use friends or followers} extendFollowers
+ * @param {a boolean whether to update feed after unfriend} enableFeedUpdates
+ * @param {a function a callback that get called after the unfriend is done} callback
  */
-export const addFriendRequest = async (fromUser, toUser, persistFriendshipsCounts, extendFollowers, enableFeedUpdates, callback) => {
+export const addFriendRequest = async (fromUser, toUser, persistFriendshipsCounts, extendFollowers, enableFeedUpdates, callback) =>
+{
   // if fromUser is the same as toUser then call callback(null) and return
   //intialize toUserRef and fromUserRef
   // update outbounduser and inbounduser
@@ -108,7 +113,8 @@ export const addFriendRequest = async (fromUser, toUser, persistFriendshipsCount
  * @param {a boolean: whether to update feed after unfriend} enableFeedUpdates
  * @param {a function: a callback that get called after the unfriend is done} callback
  */
-export const cancelFriendRequest = async (currentUserID, toUserID, persistFriendshipsCounts, enableFeedUpdates, callback) => {
+export const cancelFriendRequest = async (currentUserID, toUserID, persistFriendshipsCounts, enableFeedUpdates, callback) =>
+{
   // if fromUser is the same as toUser then call callback(null) and return
 
   // initialize ref
@@ -122,7 +128,7 @@ export const cancelFriendRequest = async (currentUserID, toUserID, persistFriend
   // if enableFeedUpdates is true then update old and new friends feed
 
   // call callback({ success: true }); or callback({ success: false }); if there is an error
-  callback({ success: true });
+  callback({success: true});
 };
 
 /**
@@ -134,7 +140,8 @@ export const cancelFriendRequest = async (currentUserID, toUserID, persistFriend
  * @param {a boolean: whether to update feed after unfriend} enableFeedUpdates
  * @param {a function: a callback that get called after the unfriend is done} callback
  */
-export const unfriend = async (currentUserID, toUserID, persistFriendshipsCounts, enableFeedUpdates, callback) => {
+export const unfriend = async (currentUserID, toUserID, persistFriendshipsCounts, enableFeedUpdates, callback) =>
+{
   // if fromUser is the same as toUser then call callback(null) and return
   //unfriend user and callback(response) response format: { success: true }
 };
@@ -146,7 +153,8 @@ export const unfriend = async (currentUserID, toUserID, persistFriendshipsCounts
  * @param {a String: user id of the first user } userID1
  * @param {a String: user id of the second user } userID2
  */
-export const updateFeedsForNewFriends = (userID1, userID2) => {
+export const updateFeedsForNewFriends = (userID1, userID2) =>
+{
   // hydrate stories and posts for users with userID1 and userID2
 };
 
@@ -154,7 +162,8 @@ export const updateFeedsForNewFriends = (userID1, userID2) => {
  *
  * @param {a String: user Id of the current user} userID
  */
-const updateFriendshipsCounts = async (userID) => {
+const updateFriendshipsCounts = async (userID) =>
+{
   //update inbound users
   //update outbound users
 };

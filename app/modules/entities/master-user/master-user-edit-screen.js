@@ -1,6 +1,6 @@
-import React, { createRef } from 'react';
-import { ActivityIndicator, Text, View } from 'react-native';
-import { connect } from 'react-redux';
+import React, {createRef} from 'react';
+import {ActivityIndicator, Text, View} from 'react-native';
+import {connect} from 'react-redux';
 import * as Yup from 'yup';
 
 import MasterUserActions from './master-user.reducer';
@@ -8,11 +8,11 @@ import UserActions from '../../../shared/reducers/user.reducer';
 import RankUserActions from '../rank-user/rank-user.reducer';
 import BaseInfoActions from '../base-info/base-info.reducer';
 import TopicInterestActions from '../topic-interest/topic-interest.reducer';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import FormButton from '../../../shared/components/form/jhi-form-button';
 import FormField from '../../../shared/components/form/jhi-form-field';
 import Form from '../../../shared/components/form/jhi-form';
-import { useDidUpdateEffect } from '../../../shared/util/use-did-update-effect';
+import {useDidUpdateEffect} from '../../../shared/util/use-did-update-effect';
 import styles from './master-user-styles';
 
 // set up validation schema for the form
@@ -21,7 +21,8 @@ const validationSchema = Yup.object().shape({
   fullName: Yup.string().required(),
 });
 
-function MasterUserEditScreen(props) {
+function MasterUserEditScreen(props)
+{
   const {
     getMasterUser,
     updateMasterUser,
@@ -48,47 +49,62 @@ function MasterUserEditScreen(props) {
 
   const isNewEntity = !(route.params && route.params.entityId);
 
-  React.useEffect(() => {
-    if (!isNewEntity) {
+  React.useEffect(() =>
+  {
+    if (!isNewEntity)
+    {
       getMasterUser(route.params.entityId);
-    } else {
+    }
+    else
+    {
       reset();
     }
   }, [isNewEntity, getMasterUser, route, reset]);
 
-  React.useEffect(() => {
-    if (isNewEntity) {
+  React.useEffect(() =>
+  {
+    if (isNewEntity)
+    {
       setFormValue(entityToFormValue({}));
-    } else if (!fetching) {
+    }
+    else if (!fetching)
+    {
       setFormValue(entityToFormValue(masterUser));
     }
   }, [masterUser, fetching, isNewEntity]);
 
   // fetch related entities
-  React.useEffect(() => {
+  React.useEffect(() =>
+  {
     getAllUsers();
     getAllRankUsers();
     getAllBaseInfos();
     getAllTopicInterests();
   }, [getAllUsers, getAllRankUsers, getAllBaseInfos, getAllTopicInterests]);
 
-  useDidUpdateEffect(() => {
-    if (updating === false) {
-      if (errorUpdating) {
+  useDidUpdateEffect(() =>
+  {
+    if (updating === false)
+    {
+      if (errorUpdating)
+      {
         setError(errorUpdating && errorUpdating.detail ? errorUpdating.detail : 'Something went wrong updating the entity');
-      } else if (updateSuccess) {
+      }
+      else if (updateSuccess)
+      {
         setError('');
-        isNewEntity || !navigation.canGoBack() ? navigation.replace('MasterUserDetail', { entityId: masterUser?.id }) : navigation.pop();
+        isNewEntity || !navigation.canGoBack() ? navigation.replace('MasterUserDetail', {entityId: masterUser?.id}) : navigation.pop();
       }
     }
   }, [updateSuccess, errorUpdating, navigation]);
 
   const onSubmit = (data) => updateMasterUser(formValueToEntity(data));
 
-  if (fetching) {
+  if (fetching)
+  {
     return (
       <View style={styles.loading}>
-        <ActivityIndicator size="large" />
+        <ActivityIndicator size='large' />
       </View>
     );
   }
@@ -108,89 +124,89 @@ function MasterUserEditScreen(props) {
     <View style={styles.container}>
       <KeyboardAwareScrollView
         enableResetScrollToCoords={false}
-        testID="masterUserEditScrollView"
-        keyboardShouldPersistTaps="handled"
-        keyboardDismissMode="on-drag"
+        testID='masterUserEditScrollView'
+        keyboardShouldPersistTaps='handled'
+        keyboardDismissMode='on-drag'
         contentContainerStyle={styles.paddedScrollView}>
         {!!error && <Text style={styles.errorText}>{error}</Text>}
         {formValue && (
           <Form initialValues={formValue} validationSchema={validationSchema} onSubmit={onSubmit} ref={formRef}>
             <FormField
-              name="uuid"
+              name='uuid'
               ref={uuidRef}
-              label="Uuid"
-              placeholder="Enter Uuid"
-              testID="uuidInput"
+              label='Uuid'
+              placeholder='Enter Uuid'
+              testID='uuidInput'
               onSubmitEditing={() => fullNameRef.current?.focus()}
             />
             <FormField
-              name="fullName"
+              name='fullName'
               ref={fullNameRef}
-              label="Full Name"
-              placeholder="Enter Full Name"
-              testID="fullNameInput"
-              inputType="text"
-              autoCapitalize="none"
+              label='Full Name'
+              placeholder='Enter Full Name'
+              testID='fullNameInput'
+              inputType='text'
+              autoCapitalize='none'
               onSubmitEditing={() => nicknameRef.current?.focus()}
             />
             <FormField
-              name="nickname"
+              name='nickname'
               ref={nicknameRef}
-              label="Nickname"
-              placeholder="Enter Nickname"
-              testID="nicknameInput"
-              inputType="text"
-              autoCapitalize="none"
+              label='Nickname'
+              placeholder='Enter Nickname'
+              testID='nicknameInput'
+              inputType='text'
+              autoCapitalize='none'
               onSubmitEditing={() => avatarRef.current?.focus()}
             />
             <FormField
-              name="avatar"
+              name='avatar'
               ref={avatarRef}
-              label="Avatar"
-              placeholder="Enter Avatar"
-              testID="avatarInput"
+              label='Avatar'
+              placeholder='Enter Avatar'
+              testID='avatarInput'
               onSubmitEditing={() => quickInfoRef.current?.focus()}
             />
-            <FormField name="quickInfo" ref={quickInfoRef} label="Quick Info" placeholder="Enter Quick Info" testID="quickInfoInput" />
+            <FormField name='quickInfo' ref={quickInfoRef} label='Quick Info' placeholder='Enter Quick Info' testID='quickInfoInput' />
             <FormField
-              name="user"
-              inputType="select-one"
+              name='user'
+              inputType='select-one'
               ref={userRef}
               listItems={userList}
-              listItemLabelField="id"
-              label="User"
-              placeholder="Select User"
-              testID="userSelectInput"
+              listItemLabelField='id'
+              label='User'
+              placeholder='Select User'
+              testID='userSelectInput'
             />
             <FormField
-              name="myRank"
-              inputType="select-one"
+              name='myRank'
+              inputType='select-one'
               ref={myRankRef}
               listItems={rankUserList}
-              listItemLabelField="id"
-              label="My Rank"
-              placeholder="Select My Rank"
-              testID="rankUserSelectInput"
+              listItemLabelField='id'
+              label='My Rank'
+              placeholder='Select My Rank'
+              testID='rankUserSelectInput'
             />
             <FormField
-              name="info"
-              inputType="select-one"
+              name='info'
+              inputType='select-one'
               ref={infoRef}
               listItems={baseInfoList}
-              listItemLabelField="id"
-              label="Info"
-              placeholder="Select Info"
-              testID="baseInfoSelectInput"
+              listItemLabelField='id'
+              label='Info'
+              placeholder='Select Info'
+              testID='baseInfoSelectInput'
             />
             <FormField
-              name="topicInterests"
-              inputType="select-multiple"
+              name='topicInterests'
+              inputType='select-multiple'
               ref={topicInterestsRef}
               listItems={topicInterestList}
-              listItemLabelField="id"
-              label="Topic Interest"
-              placeholder="Select Topic Interest"
-              testID="topicInterestSelectInput"
+              listItemLabelField='id'
+              label='Topic Interest'
+              placeholder='Select Topic Interest'
+              testID='topicInterestSelectInput'
             />
 
             <FormButton title={'Save'} testID={'submitButton'} />
@@ -202,8 +218,10 @@ function MasterUserEditScreen(props) {
 }
 
 // convenience methods for customizing the mapping of the entity to/from the form value
-const entityToFormValue = (value) => {
-  if (!value) {
+const entityToFormValue = (value) =>
+{
+  if (!value)
+  {
     return {};
   }
   return {
@@ -219,7 +237,8 @@ const entityToFormValue = (value) => {
     topicInterests: value.topicInterests?.map((i) => i.id),
   };
 };
-const formValueToEntity = (value) => {
+const formValueToEntity = (value) =>
+{
   const entity = {
     id: value.id ?? null,
     uuid: value.uuid ?? null,
@@ -228,14 +247,15 @@ const formValueToEntity = (value) => {
     avatar: value.avatar ?? null,
     quickInfo: value.quickInfo ?? null,
   };
-  entity.user = value.user ? { id: value.user } : null;
-  entity.myRank = value.myRank ? { id: value.myRank } : null;
-  entity.info = value.info ? { id: value.info } : null;
-  entity.topicInterests = value.topicInterests.map((id) => ({ id }));
+  entity.user = value.user ? {id: value.user} : null;
+  entity.myRank = value.myRank ? {id: value.myRank} : null;
+  entity.info = value.info ? {id: value.info} : null;
+  entity.topicInterests = value.topicInterests.map((id) => ({id}));
   return entity;
 };
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state) =>
+{
   return {
     userList: state.users.userList ?? [],
     rankUserList: state.rankUsers.rankUserList ?? [],
@@ -249,7 +269,8 @@ const mapStateToProps = (state) => {
   };
 };
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = (dispatch) =>
+{
   return {
     getAllUsers: (options) => dispatch(UserActions.userAllRequest(options)),
     getAllRankUsers: (options) => dispatch(RankUserActions.rankUserAllRequest(options)),

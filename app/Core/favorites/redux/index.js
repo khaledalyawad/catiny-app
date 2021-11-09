@@ -9,10 +9,14 @@ const initialState = {
   favoriteItems: null,
 };
 
-export const favorites = (state = initialState, action) => {
-  if (action.type === SET_FAVORITE_ITEMS) {
-    return { ...state, favoriteItems: action.data };
-  } else {
+export const favorites = (state = initialState, action) =>
+{
+  if (action.type === SET_FAVORITE_ITEMS)
+  {
+    return {...state, favoriteItems: action.data};
+  }
+  else
+  {
     return state;
   }
 };

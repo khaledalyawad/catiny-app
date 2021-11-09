@@ -1,9 +1,9 @@
 import * as React from 'react';
-import { createStackNavigator, HeaderBackButton } from '@react-navigation/stack';
-import { Ionicons } from '@expo/vector-icons';
+import {createStackNavigator, HeaderBackButton} from '@react-navigation/stack';
+import {Ionicons} from '@expo/vector-icons';
 
-import { DrawerButton } from './drawer/drawer-button';
-import { navigate, goBackOrIfParamsOrDefault } from './nav-ref';
+import {DrawerButton} from './drawer/drawer-button';
+import {goBackOrIfParamsOrDefault, navigate} from './nav-ref';
 
 // import screens
 import EntitiesScreen from '../modules/entities/entities-screen';
@@ -132,9 +132,9 @@ export const entityScreens = [
       headerLeft: () => <HeaderBackButton onPress={() => navigate('Entities')} />,
       headerRight: () => (
         <HeaderBackButton
-          label=" New "
-          onPress={() => navigate('MessageGroupEdit', { id: undefined })}
-          backImage={(props) => <Ionicons name="md-add-circle-outline" size={32} color={props.tintColor} />}
+          label=' New '
+          onPress={() => navigate('MessageGroupEdit', {id: undefined})}
+          backImage={(props) => <Ionicons name='md-add-circle-outline' size={32} color={props.tintColor} />}
         />
       ),
     },
@@ -143,7 +143,7 @@ export const entityScreens = [
     name: 'MessageGroupDetail',
     route: 'message-group/detail',
     component: MessageGroupDetailScreen,
-    options: { title: 'View MessageGroup', headerLeft: () => <HeaderBackButton onPress={() => navigate('MessageGroup')} /> },
+    options: {title: 'View MessageGroup', headerLeft: () => <HeaderBackButton onPress={() => navigate('MessageGroup')} />},
   },
   {
     name: 'MessageGroupEdit',
@@ -163,9 +163,9 @@ export const entityScreens = [
       headerLeft: () => <HeaderBackButton onPress={() => navigate('Entities')} />,
       headerRight: () => (
         <HeaderBackButton
-          label=" New "
-          onPress={() => navigate('MessageContentEdit', { id: undefined })}
-          backImage={(props) => <Ionicons name="md-add-circle-outline" size={32} color={props.tintColor} />}
+          label=' New '
+          onPress={() => navigate('MessageContentEdit', {id: undefined})}
+          backImage={(props) => <Ionicons name='md-add-circle-outline' size={32} color={props.tintColor} />}
         />
       ),
     },
@@ -174,7 +174,7 @@ export const entityScreens = [
     name: 'MessageContentDetail',
     route: 'message-content/detail',
     component: MessageContentDetailScreen,
-    options: { title: 'View MessageContent', headerLeft: () => <HeaderBackButton onPress={() => navigate('MessageContent')} /> },
+    options: {title: 'View MessageContent', headerLeft: () => <HeaderBackButton onPress={() => navigate('MessageContent')} />},
   },
   {
     name: 'MessageContentEdit',
@@ -194,9 +194,9 @@ export const entityScreens = [
       headerLeft: () => <HeaderBackButton onPress={() => navigate('Entities')} />,
       headerRight: () => (
         <HeaderBackButton
-          label=" New "
-          onPress={() => navigate('HanhChinhVNEdit', { id: undefined })}
-          backImage={(props) => <Ionicons name="md-add-circle-outline" size={32} color={props.tintColor} />}
+          label=' New '
+          onPress={() => navigate('HanhChinhVNEdit', {id: undefined})}
+          backImage={(props) => <Ionicons name='md-add-circle-outline' size={32} color={props.tintColor} />}
         />
       ),
     },
@@ -205,7 +205,7 @@ export const entityScreens = [
     name: 'HanhChinhVNDetail',
     route: 'hanh-chinh-vn/detail',
     component: HanhChinhVNDetailScreen,
-    options: { title: 'View HanhChinhVN', headerLeft: () => <HeaderBackButton onPress={() => navigate('HanhChinhVN')} /> },
+    options: {title: 'View HanhChinhVN', headerLeft: () => <HeaderBackButton onPress={() => navigate('HanhChinhVN')} />},
   },
   {
     name: 'HanhChinhVNEdit',
@@ -225,9 +225,9 @@ export const entityScreens = [
       headerLeft: () => <HeaderBackButton onPress={() => navigate('Entities')} />,
       headerRight: () => (
         <HeaderBackButton
-          label=" New "
-          onPress={() => navigate('MasterUserEdit', { id: undefined })}
-          backImage={(props) => <Ionicons name="md-add-circle-outline" size={32} color={props.tintColor} />}
+          label=' New '
+          onPress={() => navigate('MasterUserEdit', {id: undefined})}
+          backImage={(props) => <Ionicons name='md-add-circle-outline' size={32} color={props.tintColor} />}
         />
       ),
     },
@@ -236,7 +236,7 @@ export const entityScreens = [
     name: 'MasterUserDetail',
     route: 'master-user/detail',
     component: MasterUserDetailScreen,
-    options: { title: 'View MasterUser', headerLeft: () => <HeaderBackButton onPress={() => navigate('MasterUser')} /> },
+    options: {title: 'View MasterUser', headerLeft: () => <HeaderBackButton onPress={() => navigate('MasterUser')} />},
   },
   {
     name: 'MasterUserEdit',
@@ -256,9 +256,9 @@ export const entityScreens = [
       headerLeft: () => <HeaderBackButton onPress={() => navigate('Entities')} />,
       headerRight: () => (
         <HeaderBackButton
-          label=" New "
-          onPress={() => navigate('UserProfileEdit', { id: undefined })}
-          backImage={(props) => <Ionicons name="md-add-circle-outline" size={32} color={props.tintColor} />}
+          label=' New '
+          onPress={() => navigate('UserProfileEdit', {id: undefined})}
+          backImage={(props) => <Ionicons name='md-add-circle-outline' size={32} color={props.tintColor} />}
         />
       ),
     },
@@ -267,7 +267,7 @@ export const entityScreens = [
     name: 'UserProfileDetail',
     route: 'user-profile/detail',
     component: UserProfileDetailScreen,
-    options: { title: 'View UserProfile', headerLeft: () => <HeaderBackButton onPress={() => navigate('UserProfile')} /> },
+    options: {title: 'View UserProfile', headerLeft: () => <HeaderBackButton onPress={() => navigate('UserProfile')} />},
   },
   {
     name: 'UserProfileEdit',
@@ -287,9 +287,9 @@ export const entityScreens = [
       headerLeft: () => <HeaderBackButton onPress={() => navigate('Entities')} />,
       headerRight: () => (
         <HeaderBackButton
-          label=" New "
-          onPress={() => navigate('AccountStatusEdit', { id: undefined })}
-          backImage={(props) => <Ionicons name="md-add-circle-outline" size={32} color={props.tintColor} />}
+          label=' New '
+          onPress={() => navigate('AccountStatusEdit', {id: undefined})}
+          backImage={(props) => <Ionicons name='md-add-circle-outline' size={32} color={props.tintColor} />}
         />
       ),
     },
@@ -298,7 +298,7 @@ export const entityScreens = [
     name: 'AccountStatusDetail',
     route: 'account-status/detail',
     component: AccountStatusDetailScreen,
-    options: { title: 'View AccountStatus', headerLeft: () => <HeaderBackButton onPress={() => navigate('AccountStatus')} /> },
+    options: {title: 'View AccountStatus', headerLeft: () => <HeaderBackButton onPress={() => navigate('AccountStatus')} />},
   },
   {
     name: 'AccountStatusEdit',
@@ -318,9 +318,9 @@ export const entityScreens = [
       headerLeft: () => <HeaderBackButton onPress={() => navigate('Entities')} />,
       headerRight: () => (
         <HeaderBackButton
-          label=" New "
-          onPress={() => navigate('DeviceStatusEdit', { id: undefined })}
-          backImage={(props) => <Ionicons name="md-add-circle-outline" size={32} color={props.tintColor} />}
+          label=' New '
+          onPress={() => navigate('DeviceStatusEdit', {id: undefined})}
+          backImage={(props) => <Ionicons name='md-add-circle-outline' size={32} color={props.tintColor} />}
         />
       ),
     },
@@ -329,7 +329,7 @@ export const entityScreens = [
     name: 'DeviceStatusDetail',
     route: 'device-status/detail',
     component: DeviceStatusDetailScreen,
-    options: { title: 'View DeviceStatus', headerLeft: () => <HeaderBackButton onPress={() => navigate('DeviceStatus')} /> },
+    options: {title: 'View DeviceStatus', headerLeft: () => <HeaderBackButton onPress={() => navigate('DeviceStatus')} />},
   },
   {
     name: 'DeviceStatusEdit',
@@ -349,9 +349,9 @@ export const entityScreens = [
       headerLeft: () => <HeaderBackButton onPress={() => navigate('Entities')} />,
       headerRight: () => (
         <HeaderBackButton
-          label=" New "
-          onPress={() => navigate('FriendEdit', { id: undefined })}
-          backImage={(props) => <Ionicons name="md-add-circle-outline" size={32} color={props.tintColor} />}
+          label=' New '
+          onPress={() => navigate('FriendEdit', {id: undefined})}
+          backImage={(props) => <Ionicons name='md-add-circle-outline' size={32} color={props.tintColor} />}
         />
       ),
     },
@@ -360,7 +360,7 @@ export const entityScreens = [
     name: 'FriendDetail',
     route: 'friend/detail',
     component: FriendDetailScreen,
-    options: { title: 'View Friend', headerLeft: () => <HeaderBackButton onPress={() => navigate('Friend')} /> },
+    options: {title: 'View Friend', headerLeft: () => <HeaderBackButton onPress={() => navigate('Friend')} />},
   },
   {
     name: 'FriendEdit',
@@ -380,9 +380,9 @@ export const entityScreens = [
       headerLeft: () => <HeaderBackButton onPress={() => navigate('Entities')} />,
       headerRight: () => (
         <HeaderBackButton
-          label=" New "
-          onPress={() => navigate('FollowUserEdit', { id: undefined })}
-          backImage={(props) => <Ionicons name="md-add-circle-outline" size={32} color={props.tintColor} />}
+          label=' New '
+          onPress={() => navigate('FollowUserEdit', {id: undefined})}
+          backImage={(props) => <Ionicons name='md-add-circle-outline' size={32} color={props.tintColor} />}
         />
       ),
     },
@@ -391,7 +391,7 @@ export const entityScreens = [
     name: 'FollowUserDetail',
     route: 'follow-user/detail',
     component: FollowUserDetailScreen,
-    options: { title: 'View FollowUser', headerLeft: () => <HeaderBackButton onPress={() => navigate('FollowUser')} /> },
+    options: {title: 'View FollowUser', headerLeft: () => <HeaderBackButton onPress={() => navigate('FollowUser')} />},
   },
   {
     name: 'FollowUserEdit',
@@ -411,9 +411,9 @@ export const entityScreens = [
       headerLeft: () => <HeaderBackButton onPress={() => navigate('Entities')} />,
       headerRight: () => (
         <HeaderBackButton
-          label=" New "
-          onPress={() => navigate('FollowGroupEdit', { id: undefined })}
-          backImage={(props) => <Ionicons name="md-add-circle-outline" size={32} color={props.tintColor} />}
+          label=' New '
+          onPress={() => navigate('FollowGroupEdit', {id: undefined})}
+          backImage={(props) => <Ionicons name='md-add-circle-outline' size={32} color={props.tintColor} />}
         />
       ),
     },
@@ -422,7 +422,7 @@ export const entityScreens = [
     name: 'FollowGroupDetail',
     route: 'follow-group/detail',
     component: FollowGroupDetailScreen,
-    options: { title: 'View FollowGroup', headerLeft: () => <HeaderBackButton onPress={() => navigate('FollowGroup')} /> },
+    options: {title: 'View FollowGroup', headerLeft: () => <HeaderBackButton onPress={() => navigate('FollowGroup')} />},
   },
   {
     name: 'FollowGroupEdit',
@@ -442,9 +442,9 @@ export const entityScreens = [
       headerLeft: () => <HeaderBackButton onPress={() => navigate('Entities')} />,
       headerRight: () => (
         <HeaderBackButton
-          label=" New "
-          onPress={() => navigate('FollowPageEdit', { id: undefined })}
-          backImage={(props) => <Ionicons name="md-add-circle-outline" size={32} color={props.tintColor} />}
+          label=' New '
+          onPress={() => navigate('FollowPageEdit', {id: undefined})}
+          backImage={(props) => <Ionicons name='md-add-circle-outline' size={32} color={props.tintColor} />}
         />
       ),
     },
@@ -453,7 +453,7 @@ export const entityScreens = [
     name: 'FollowPageDetail',
     route: 'follow-page/detail',
     component: FollowPageDetailScreen,
-    options: { title: 'View FollowPage', headerLeft: () => <HeaderBackButton onPress={() => navigate('FollowPage')} /> },
+    options: {title: 'View FollowPage', headerLeft: () => <HeaderBackButton onPress={() => navigate('FollowPage')} />},
   },
   {
     name: 'FollowPageEdit',
@@ -473,9 +473,9 @@ export const entityScreens = [
       headerLeft: () => <HeaderBackButton onPress={() => navigate('Entities')} />,
       headerRight: () => (
         <HeaderBackButton
-          label=" New "
-          onPress={() => navigate('FileInfoEdit', { id: undefined })}
-          backImage={(props) => <Ionicons name="md-add-circle-outline" size={32} color={props.tintColor} />}
+          label=' New '
+          onPress={() => navigate('FileInfoEdit', {id: undefined})}
+          backImage={(props) => <Ionicons name='md-add-circle-outline' size={32} color={props.tintColor} />}
         />
       ),
     },
@@ -484,7 +484,7 @@ export const entityScreens = [
     name: 'FileInfoDetail',
     route: 'file-info/detail',
     component: FileInfoDetailScreen,
-    options: { title: 'View FileInfo', headerLeft: () => <HeaderBackButton onPress={() => navigate('FileInfo')} /> },
+    options: {title: 'View FileInfo', headerLeft: () => <HeaderBackButton onPress={() => navigate('FileInfo')} />},
   },
   {
     name: 'FileInfoEdit',
@@ -504,9 +504,9 @@ export const entityScreens = [
       headerLeft: () => <HeaderBackButton onPress={() => navigate('Entities')} />,
       headerRight: () => (
         <HeaderBackButton
-          label=" New "
-          onPress={() => navigate('PagePostEdit', { id: undefined })}
-          backImage={(props) => <Ionicons name="md-add-circle-outline" size={32} color={props.tintColor} />}
+          label=' New '
+          onPress={() => navigate('PagePostEdit', {id: undefined})}
+          backImage={(props) => <Ionicons name='md-add-circle-outline' size={32} color={props.tintColor} />}
         />
       ),
     },
@@ -515,7 +515,7 @@ export const entityScreens = [
     name: 'PagePostDetail',
     route: 'page-post/detail',
     component: PagePostDetailScreen,
-    options: { title: 'View PagePost', headerLeft: () => <HeaderBackButton onPress={() => navigate('PagePost')} /> },
+    options: {title: 'View PagePost', headerLeft: () => <HeaderBackButton onPress={() => navigate('PagePost')} />},
   },
   {
     name: 'PagePostEdit',
@@ -535,9 +535,9 @@ export const entityScreens = [
       headerLeft: () => <HeaderBackButton onPress={() => navigate('Entities')} />,
       headerRight: () => (
         <HeaderBackButton
-          label=" New "
-          onPress={() => navigate('PageProfileEdit', { id: undefined })}
-          backImage={(props) => <Ionicons name="md-add-circle-outline" size={32} color={props.tintColor} />}
+          label=' New '
+          onPress={() => navigate('PageProfileEdit', {id: undefined})}
+          backImage={(props) => <Ionicons name='md-add-circle-outline' size={32} color={props.tintColor} />}
         />
       ),
     },
@@ -546,7 +546,7 @@ export const entityScreens = [
     name: 'PageProfileDetail',
     route: 'page-profile/detail',
     component: PageProfileDetailScreen,
-    options: { title: 'View PageProfile', headerLeft: () => <HeaderBackButton onPress={() => navigate('PageProfile')} /> },
+    options: {title: 'View PageProfile', headerLeft: () => <HeaderBackButton onPress={() => navigate('PageProfile')} />},
   },
   {
     name: 'PageProfileEdit',
@@ -566,9 +566,9 @@ export const entityScreens = [
       headerLeft: () => <HeaderBackButton onPress={() => navigate('Entities')} />,
       headerRight: () => (
         <HeaderBackButton
-          label=" New "
-          onPress={() => navigate('GroupPostEdit', { id: undefined })}
-          backImage={(props) => <Ionicons name="md-add-circle-outline" size={32} color={props.tintColor} />}
+          label=' New '
+          onPress={() => navigate('GroupPostEdit', {id: undefined})}
+          backImage={(props) => <Ionicons name='md-add-circle-outline' size={32} color={props.tintColor} />}
         />
       ),
     },
@@ -577,7 +577,7 @@ export const entityScreens = [
     name: 'GroupPostDetail',
     route: 'group-post/detail',
     component: GroupPostDetailScreen,
-    options: { title: 'View GroupPost', headerLeft: () => <HeaderBackButton onPress={() => navigate('GroupPost')} /> },
+    options: {title: 'View GroupPost', headerLeft: () => <HeaderBackButton onPress={() => navigate('GroupPost')} />},
   },
   {
     name: 'GroupPostEdit',
@@ -597,9 +597,9 @@ export const entityScreens = [
       headerLeft: () => <HeaderBackButton onPress={() => navigate('Entities')} />,
       headerRight: () => (
         <HeaderBackButton
-          label=" New "
-          onPress={() => navigate('PostEdit', { id: undefined })}
-          backImage={(props) => <Ionicons name="md-add-circle-outline" size={32} color={props.tintColor} />}
+          label=' New '
+          onPress={() => navigate('PostEdit', {id: undefined})}
+          backImage={(props) => <Ionicons name='md-add-circle-outline' size={32} color={props.tintColor} />}
         />
       ),
     },
@@ -608,13 +608,13 @@ export const entityScreens = [
     name: 'PostDetail',
     route: 'post/detail',
     component: PostDetailScreen,
-    options: { title: 'View Post', headerLeft: () => <HeaderBackButton onPress={() => navigate('Post')} /> },
+    options: {title: 'View Post', headerLeft: () => <HeaderBackButton onPress={() => navigate('Post')} />},
   },
   {
     name: 'PostEdit',
     route: 'post/edit',
     component: PostEditScreen,
-    options: { title: 'Edit Post', headerLeft: () => <HeaderBackButton onPress={() => goBackOrIfParamsOrDefault('PostDetail', 'Post')} /> },
+    options: {title: 'Edit Post', headerLeft: () => <HeaderBackButton onPress={() => goBackOrIfParamsOrDefault('PostDetail', 'Post')} />},
   },
   {
     name: 'PostComment',
@@ -625,9 +625,9 @@ export const entityScreens = [
       headerLeft: () => <HeaderBackButton onPress={() => navigate('Entities')} />,
       headerRight: () => (
         <HeaderBackButton
-          label=" New "
-          onPress={() => navigate('PostCommentEdit', { id: undefined })}
-          backImage={(props) => <Ionicons name="md-add-circle-outline" size={32} color={props.tintColor} />}
+          label=' New '
+          onPress={() => navigate('PostCommentEdit', {id: undefined})}
+          backImage={(props) => <Ionicons name='md-add-circle-outline' size={32} color={props.tintColor} />}
         />
       ),
     },
@@ -636,7 +636,7 @@ export const entityScreens = [
     name: 'PostCommentDetail',
     route: 'post-comment/detail',
     component: PostCommentDetailScreen,
-    options: { title: 'View PostComment', headerLeft: () => <HeaderBackButton onPress={() => navigate('PostComment')} /> },
+    options: {title: 'View PostComment', headerLeft: () => <HeaderBackButton onPress={() => navigate('PostComment')} />},
   },
   {
     name: 'PostCommentEdit',
@@ -656,9 +656,9 @@ export const entityScreens = [
       headerLeft: () => <HeaderBackButton onPress={() => navigate('Entities')} />,
       headerRight: () => (
         <HeaderBackButton
-          label=" New "
-          onPress={() => navigate('PostLikeEdit', { id: undefined })}
-          backImage={(props) => <Ionicons name="md-add-circle-outline" size={32} color={props.tintColor} />}
+          label=' New '
+          onPress={() => navigate('PostLikeEdit', {id: undefined})}
+          backImage={(props) => <Ionicons name='md-add-circle-outline' size={32} color={props.tintColor} />}
         />
       ),
     },
@@ -667,7 +667,7 @@ export const entityScreens = [
     name: 'PostLikeDetail',
     route: 'post-like/detail',
     component: PostLikeDetailScreen,
-    options: { title: 'View PostLike', headerLeft: () => <HeaderBackButton onPress={() => navigate('PostLike')} /> },
+    options: {title: 'View PostLike', headerLeft: () => <HeaderBackButton onPress={() => navigate('PostLike')} />},
   },
   {
     name: 'PostLikeEdit',
@@ -687,9 +687,9 @@ export const entityScreens = [
       headerLeft: () => <HeaderBackButton onPress={() => navigate('Entities')} />,
       headerRight: () => (
         <HeaderBackButton
-          label=" New "
-          onPress={() => navigate('GroupProfileEdit', { id: undefined })}
-          backImage={(props) => <Ionicons name="md-add-circle-outline" size={32} color={props.tintColor} />}
+          label=' New '
+          onPress={() => navigate('GroupProfileEdit', {id: undefined})}
+          backImage={(props) => <Ionicons name='md-add-circle-outline' size={32} color={props.tintColor} />}
         />
       ),
     },
@@ -698,7 +698,7 @@ export const entityScreens = [
     name: 'GroupProfileDetail',
     route: 'group-profile/detail',
     component: GroupProfileDetailScreen,
-    options: { title: 'View GroupProfile', headerLeft: () => <HeaderBackButton onPress={() => navigate('GroupProfile')} /> },
+    options: {title: 'View GroupProfile', headerLeft: () => <HeaderBackButton onPress={() => navigate('GroupProfile')} />},
   },
   {
     name: 'GroupProfileEdit',
@@ -718,9 +718,9 @@ export const entityScreens = [
       headerLeft: () => <HeaderBackButton onPress={() => navigate('Entities')} />,
       headerRight: () => (
         <HeaderBackButton
-          label=" New "
-          onPress={() => navigate('NewsFeedEdit', { id: undefined })}
-          backImage={(props) => <Ionicons name="md-add-circle-outline" size={32} color={props.tintColor} />}
+          label=' New '
+          onPress={() => navigate('NewsFeedEdit', {id: undefined})}
+          backImage={(props) => <Ionicons name='md-add-circle-outline' size={32} color={props.tintColor} />}
         />
       ),
     },
@@ -729,7 +729,7 @@ export const entityScreens = [
     name: 'NewsFeedDetail',
     route: 'news-feed/detail',
     component: NewsFeedDetailScreen,
-    options: { title: 'View NewsFeed', headerLeft: () => <HeaderBackButton onPress={() => navigate('NewsFeed')} /> },
+    options: {title: 'View NewsFeed', headerLeft: () => <HeaderBackButton onPress={() => navigate('NewsFeed')} />},
   },
   {
     name: 'NewsFeedEdit',
@@ -749,9 +749,9 @@ export const entityScreens = [
       headerLeft: () => <HeaderBackButton onPress={() => navigate('Entities')} />,
       headerRight: () => (
         <HeaderBackButton
-          label=" New "
-          onPress={() => navigate('RankUserEdit', { id: undefined })}
-          backImage={(props) => <Ionicons name="md-add-circle-outline" size={32} color={props.tintColor} />}
+          label=' New '
+          onPress={() => navigate('RankUserEdit', {id: undefined})}
+          backImage={(props) => <Ionicons name='md-add-circle-outline' size={32} color={props.tintColor} />}
         />
       ),
     },
@@ -760,7 +760,7 @@ export const entityScreens = [
     name: 'RankUserDetail',
     route: 'rank-user/detail',
     component: RankUserDetailScreen,
-    options: { title: 'View RankUser', headerLeft: () => <HeaderBackButton onPress={() => navigate('RankUser')} /> },
+    options: {title: 'View RankUser', headerLeft: () => <HeaderBackButton onPress={() => navigate('RankUser')} />},
   },
   {
     name: 'RankUserEdit',
@@ -780,9 +780,9 @@ export const entityScreens = [
       headerLeft: () => <HeaderBackButton onPress={() => navigate('Entities')} />,
       headerRight: () => (
         <HeaderBackButton
-          label=" New "
-          onPress={() => navigate('RankGroupEdit', { id: undefined })}
-          backImage={(props) => <Ionicons name="md-add-circle-outline" size={32} color={props.tintColor} />}
+          label=' New '
+          onPress={() => navigate('RankGroupEdit', {id: undefined})}
+          backImage={(props) => <Ionicons name='md-add-circle-outline' size={32} color={props.tintColor} />}
         />
       ),
     },
@@ -791,7 +791,7 @@ export const entityScreens = [
     name: 'RankGroupDetail',
     route: 'rank-group/detail',
     component: RankGroupDetailScreen,
-    options: { title: 'View RankGroup', headerLeft: () => <HeaderBackButton onPress={() => navigate('RankGroup')} /> },
+    options: {title: 'View RankGroup', headerLeft: () => <HeaderBackButton onPress={() => navigate('RankGroup')} />},
   },
   {
     name: 'RankGroupEdit',
@@ -811,9 +811,9 @@ export const entityScreens = [
       headerLeft: () => <HeaderBackButton onPress={() => navigate('Entities')} />,
       headerRight: () => (
         <HeaderBackButton
-          label=" New "
-          onPress={() => navigate('NotificationEdit', { id: undefined })}
-          backImage={(props) => <Ionicons name="md-add-circle-outline" size={32} color={props.tintColor} />}
+          label=' New '
+          onPress={() => navigate('NotificationEdit', {id: undefined})}
+          backImage={(props) => <Ionicons name='md-add-circle-outline' size={32} color={props.tintColor} />}
         />
       ),
     },
@@ -822,7 +822,7 @@ export const entityScreens = [
     name: 'NotificationDetail',
     route: 'notification/detail',
     component: NotificationDetailScreen,
-    options: { title: 'View Notification', headerLeft: () => <HeaderBackButton onPress={() => navigate('Notification')} /> },
+    options: {title: 'View Notification', headerLeft: () => <HeaderBackButton onPress={() => navigate('Notification')} />},
   },
   {
     name: 'NotificationEdit',
@@ -842,9 +842,9 @@ export const entityScreens = [
       headerLeft: () => <HeaderBackButton onPress={() => navigate('Entities')} />,
       headerRight: () => (
         <HeaderBackButton
-          label=" New "
-          onPress={() => navigate('AlbumEdit', { id: undefined })}
-          backImage={(props) => <Ionicons name="md-add-circle-outline" size={32} color={props.tintColor} />}
+          label=' New '
+          onPress={() => navigate('AlbumEdit', {id: undefined})}
+          backImage={(props) => <Ionicons name='md-add-circle-outline' size={32} color={props.tintColor} />}
         />
       ),
     },
@@ -853,7 +853,7 @@ export const entityScreens = [
     name: 'AlbumDetail',
     route: 'album/detail',
     component: AlbumDetailScreen,
-    options: { title: 'View Album', headerLeft: () => <HeaderBackButton onPress={() => navigate('Album')} /> },
+    options: {title: 'View Album', headerLeft: () => <HeaderBackButton onPress={() => navigate('Album')} />},
   },
   {
     name: 'AlbumEdit',
@@ -873,9 +873,9 @@ export const entityScreens = [
       headerLeft: () => <HeaderBackButton onPress={() => navigate('Entities')} />,
       headerRight: () => (
         <HeaderBackButton
-          label=" New "
-          onPress={() => navigate('VideoEdit', { id: undefined })}
-          backImage={(props) => <Ionicons name="md-add-circle-outline" size={32} color={props.tintColor} />}
+          label=' New '
+          onPress={() => navigate('VideoEdit', {id: undefined})}
+          backImage={(props) => <Ionicons name='md-add-circle-outline' size={32} color={props.tintColor} />}
         />
       ),
     },
@@ -884,7 +884,7 @@ export const entityScreens = [
     name: 'VideoDetail',
     route: 'video/detail',
     component: VideoDetailScreen,
-    options: { title: 'View Video', headerLeft: () => <HeaderBackButton onPress={() => navigate('Video')} /> },
+    options: {title: 'View Video', headerLeft: () => <HeaderBackButton onPress={() => navigate('Video')} />},
   },
   {
     name: 'VideoEdit',
@@ -904,9 +904,9 @@ export const entityScreens = [
       headerLeft: () => <HeaderBackButton onPress={() => navigate('Entities')} />,
       headerRight: () => (
         <HeaderBackButton
-          label=" New "
-          onPress={() => navigate('ImageEdit', { id: undefined })}
-          backImage={(props) => <Ionicons name="md-add-circle-outline" size={32} color={props.tintColor} />}
+          label=' New '
+          onPress={() => navigate('ImageEdit', {id: undefined})}
+          backImage={(props) => <Ionicons name='md-add-circle-outline' size={32} color={props.tintColor} />}
         />
       ),
     },
@@ -915,7 +915,7 @@ export const entityScreens = [
     name: 'ImageDetail',
     route: 'image/detail',
     component: ImageDetailScreen,
-    options: { title: 'View Image', headerLeft: () => <HeaderBackButton onPress={() => navigate('Image')} /> },
+    options: {title: 'View Image', headerLeft: () => <HeaderBackButton onPress={() => navigate('Image')} />},
   },
   {
     name: 'ImageEdit',
@@ -935,9 +935,9 @@ export const entityScreens = [
       headerLeft: () => <HeaderBackButton onPress={() => navigate('Entities')} />,
       headerRight: () => (
         <HeaderBackButton
-          label=" New "
-          onPress={() => navigate('VideoStreamEdit', { id: undefined })}
-          backImage={(props) => <Ionicons name="md-add-circle-outline" size={32} color={props.tintColor} />}
+          label=' New '
+          onPress={() => navigate('VideoStreamEdit', {id: undefined})}
+          backImage={(props) => <Ionicons name='md-add-circle-outline' size={32} color={props.tintColor} />}
         />
       ),
     },
@@ -946,7 +946,7 @@ export const entityScreens = [
     name: 'VideoStreamDetail',
     route: 'video-stream/detail',
     component: VideoStreamDetailScreen,
-    options: { title: 'View VideoStream', headerLeft: () => <HeaderBackButton onPress={() => navigate('VideoStream')} /> },
+    options: {title: 'View VideoStream', headerLeft: () => <HeaderBackButton onPress={() => navigate('VideoStream')} />},
   },
   {
     name: 'VideoStreamEdit',
@@ -966,9 +966,9 @@ export const entityScreens = [
       headerLeft: () => <HeaderBackButton onPress={() => navigate('Entities')} />,
       headerRight: () => (
         <HeaderBackButton
-          label=" New "
-          onPress={() => navigate('VideoLiveStreamBufferEdit', { id: undefined })}
-          backImage={(props) => <Ionicons name="md-add-circle-outline" size={32} color={props.tintColor} />}
+          label=' New '
+          onPress={() => navigate('VideoLiveStreamBufferEdit', {id: undefined})}
+          backImage={(props) => <Ionicons name='md-add-circle-outline' size={32} color={props.tintColor} />}
         />
       ),
     },
@@ -1002,9 +1002,9 @@ export const entityScreens = [
       headerLeft: () => <HeaderBackButton onPress={() => navigate('Entities')} />,
       headerRight: () => (
         <HeaderBackButton
-          label=" New "
-          onPress={() => navigate('TopicInterestEdit', { id: undefined })}
-          backImage={(props) => <Ionicons name="md-add-circle-outline" size={32} color={props.tintColor} />}
+          label=' New '
+          onPress={() => navigate('TopicInterestEdit', {id: undefined})}
+          backImage={(props) => <Ionicons name='md-add-circle-outline' size={32} color={props.tintColor} />}
         />
       ),
     },
@@ -1013,7 +1013,7 @@ export const entityScreens = [
     name: 'TopicInterestDetail',
     route: 'topic-interest/detail',
     component: TopicInterestDetailScreen,
-    options: { title: 'View TopicInterest', headerLeft: () => <HeaderBackButton onPress={() => navigate('TopicInterest')} /> },
+    options: {title: 'View TopicInterest', headerLeft: () => <HeaderBackButton onPress={() => navigate('TopicInterest')} />},
   },
   {
     name: 'TopicInterestEdit',
@@ -1033,9 +1033,9 @@ export const entityScreens = [
       headerLeft: () => <HeaderBackButton onPress={() => navigate('Entities')} />,
       headerRight: () => (
         <HeaderBackButton
-          label=" New "
-          onPress={() => navigate('TodoListEdit', { id: undefined })}
-          backImage={(props) => <Ionicons name="md-add-circle-outline" size={32} color={props.tintColor} />}
+          label=' New '
+          onPress={() => navigate('TodoListEdit', {id: undefined})}
+          backImage={(props) => <Ionicons name='md-add-circle-outline' size={32} color={props.tintColor} />}
         />
       ),
     },
@@ -1044,7 +1044,7 @@ export const entityScreens = [
     name: 'TodoListDetail',
     route: 'todo-list/detail',
     component: TodoListDetailScreen,
-    options: { title: 'View TodoList', headerLeft: () => <HeaderBackButton onPress={() => navigate('TodoList')} /> },
+    options: {title: 'View TodoList', headerLeft: () => <HeaderBackButton onPress={() => navigate('TodoList')} />},
   },
   {
     name: 'TodoListEdit',
@@ -1064,9 +1064,9 @@ export const entityScreens = [
       headerLeft: () => <HeaderBackButton onPress={() => navigate('Entities')} />,
       headerRight: () => (
         <HeaderBackButton
-          label=" New "
-          onPress={() => navigate('EventEdit', { id: undefined })}
-          backImage={(props) => <Ionicons name="md-add-circle-outline" size={32} color={props.tintColor} />}
+          label=' New '
+          onPress={() => navigate('EventEdit', {id: undefined})}
+          backImage={(props) => <Ionicons name='md-add-circle-outline' size={32} color={props.tintColor} />}
         />
       ),
     },
@@ -1075,7 +1075,7 @@ export const entityScreens = [
     name: 'EventDetail',
     route: 'event/detail',
     component: EventDetailScreen,
-    options: { title: 'View Event', headerLeft: () => <HeaderBackButton onPress={() => navigate('Event')} /> },
+    options: {title: 'View Event', headerLeft: () => <HeaderBackButton onPress={() => navigate('Event')} />},
   },
   {
     name: 'EventEdit',
@@ -1095,9 +1095,9 @@ export const entityScreens = [
       headerLeft: () => <HeaderBackButton onPress={() => navigate('Entities')} />,
       headerRight: () => (
         <HeaderBackButton
-          label=" New "
-          onPress={() => navigate('BaseInfoEdit', { id: undefined })}
-          backImage={(props) => <Ionicons name="md-add-circle-outline" size={32} color={props.tintColor} />}
+          label=' New '
+          onPress={() => navigate('BaseInfoEdit', {id: undefined})}
+          backImage={(props) => <Ionicons name='md-add-circle-outline' size={32} color={props.tintColor} />}
         />
       ),
     },
@@ -1106,7 +1106,7 @@ export const entityScreens = [
     name: 'BaseInfoDetail',
     route: 'base-info/detail',
     component: BaseInfoDetailScreen,
-    options: { title: 'View BaseInfo', headerLeft: () => <HeaderBackButton onPress={() => navigate('BaseInfo')} /> },
+    options: {title: 'View BaseInfo', headerLeft: () => <HeaderBackButton onPress={() => navigate('BaseInfo')} />},
   },
   {
     name: 'BaseInfoEdit',
@@ -1126,9 +1126,9 @@ export const entityScreens = [
       headerLeft: () => <HeaderBackButton onPress={() => navigate('Entities')} />,
       headerRight: () => (
         <HeaderBackButton
-          label=" New "
-          onPress={() => navigate('PermissionEdit', { id: undefined })}
-          backImage={(props) => <Ionicons name="md-add-circle-outline" size={32} color={props.tintColor} />}
+          label=' New '
+          onPress={() => navigate('PermissionEdit', {id: undefined})}
+          backImage={(props) => <Ionicons name='md-add-circle-outline' size={32} color={props.tintColor} />}
         />
       ),
     },
@@ -1137,7 +1137,7 @@ export const entityScreens = [
     name: 'PermissionDetail',
     route: 'permission/detail',
     component: PermissionDetailScreen,
-    options: { title: 'View Permission', headerLeft: () => <HeaderBackButton onPress={() => navigate('Permission')} /> },
+    options: {title: 'View Permission', headerLeft: () => <HeaderBackButton onPress={() => navigate('Permission')} />},
   },
   {
     name: 'PermissionEdit',
@@ -1157,9 +1157,9 @@ export const entityScreens = [
       headerLeft: () => <HeaderBackButton onPress={() => navigate('Entities')} />,
       headerRight: () => (
         <HeaderBackButton
-          label=" New "
-          onPress={() => navigate('ClassInfoEdit', { id: undefined })}
-          backImage={(props) => <Ionicons name="md-add-circle-outline" size={32} color={props.tintColor} />}
+          label=' New '
+          onPress={() => navigate('ClassInfoEdit', {id: undefined})}
+          backImage={(props) => <Ionicons name='md-add-circle-outline' size={32} color={props.tintColor} />}
         />
       ),
     },
@@ -1168,7 +1168,7 @@ export const entityScreens = [
     name: 'ClassInfoDetail',
     route: 'class-info/detail',
     component: ClassInfoDetailScreen,
-    options: { title: 'View ClassInfo', headerLeft: () => <HeaderBackButton onPress={() => navigate('ClassInfo')} /> },
+    options: {title: 'View ClassInfo', headerLeft: () => <HeaderBackButton onPress={() => navigate('ClassInfo')} />},
   },
   {
     name: 'ClassInfoEdit',
@@ -1188,9 +1188,9 @@ export const entityScreens = [
       headerLeft: () => <HeaderBackButton onPress={() => navigate('Entities')} />,
       headerRight: () => (
         <HeaderBackButton
-          label=" New "
-          onPress={() => navigate('HistoryUpdateEdit', { id: undefined })}
-          backImage={(props) => <Ionicons name="md-add-circle-outline" size={32} color={props.tintColor} />}
+          label=' New '
+          onPress={() => navigate('HistoryUpdateEdit', {id: undefined})}
+          backImage={(props) => <Ionicons name='md-add-circle-outline' size={32} color={props.tintColor} />}
         />
       ),
     },
@@ -1199,7 +1199,7 @@ export const entityScreens = [
     name: 'HistoryUpdateDetail',
     route: 'history-update/detail',
     component: HistoryUpdateDetailScreen,
-    options: { title: 'View HistoryUpdate', headerLeft: () => <HeaderBackButton onPress={() => navigate('HistoryUpdate')} /> },
+    options: {title: 'View HistoryUpdate', headerLeft: () => <HeaderBackButton onPress={() => navigate('HistoryUpdate')} />},
   },
   {
     name: 'HistoryUpdateEdit',
@@ -1213,9 +1213,11 @@ export const entityScreens = [
   // jhipster-react-native-navigation-declaration-needle
 ];
 
-export const getEntityRoutes = () => {
+export const getEntityRoutes = () =>
+{
   const routes = {};
-  entityScreens.forEach((screen) => {
+  entityScreens.forEach((screen) =>
+  {
     routes[screen.name] = screen.route;
   });
   return routes;
@@ -1223,10 +1225,12 @@ export const getEntityRoutes = () => {
 
 const EntityStack = createStackNavigator();
 
-export default function EntityStackScreen() {
+export default function EntityStackScreen()
+{
   return (
     <EntityStack.Navigator>
-      {entityScreens.map((screen, index) => {
+      {entityScreens.map((screen, index) =>
+      {
         return <EntityStack.Screen name={screen.name} component={screen.component} key={index} options={screen.options} />;
       })}
     </EntityStack.Navigator>

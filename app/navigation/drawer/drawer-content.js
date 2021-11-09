@@ -1,32 +1,36 @@
 import React from 'react';
-import { DrawerItem, DrawerItemList, DrawerContentScrollView } from '@react-navigation/drawer';
-import { connect } from 'react-redux';
+import {DrawerContentScrollView, DrawerItem, DrawerItemList} from '@react-navigation/drawer';
+import {connect} from 'react-redux';
 import LoginActions from '../../modules/login/login.reducer';
 
-function DrawerContent(props) {
-  const { loaded, account, logout, navigation } = props;
+function DrawerContent(props)
+{
+  const {loaded, account, logout, navigation} = props;
 
-  const logoutAndCloseDrawer = () => {
+  const logoutAndCloseDrawer = () =>
+  {
     logout();
     navigation.closeDrawer();
   };
 
   return !loaded ? null : (
-    <DrawerContentScrollView {...props} testID="drawerContentScrollView">
+    <DrawerContentScrollView {...props} testID='drawerContentScrollView'>
       <DrawerItemList {...props} />
-      {account && <DrawerItem label="Logout" onPress={logoutAndCloseDrawer} />}
+      {account && <DrawerItem label='Logout' onPress={logoutAndCloseDrawer} />}
     </DrawerContentScrollView>
   );
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state) =>
+{
   return {
     loaded: state.appState.rehydrationComplete,
     account: state.account.account,
   };
 };
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = (dispatch) =>
+{
   return {
     logout: () => dispatch(LoginActions.logoutRequest()),
   };

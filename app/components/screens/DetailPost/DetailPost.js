@@ -1,16 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { ScrollView, ActivityIndicator } from 'react-native';
-import { KeyboardAwareView } from 'react-native-keyboard-aware-view';
+import {ActivityIndicator, ScrollView} from 'react-native';
+import {KeyboardAwareView} from 'react-native-keyboard-aware-view';
 // import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
-import { useColorScheme } from 'react-native-appearance';
+import {useColorScheme} from 'react-native-appearance';
 import FeedItem from '../../FeedItem/FeedItem';
 import CommentItem from './CommentItem';
 import CommentInput from './CommentInput';
 import TNMediaViewerModal from '../../../Core/truly-native/TNMediaViewerModal';
 import dynamicStyles from './styles';
 
-function DetailPost(props) {
+function DetailPost(props)
+{
   const {
     feedItem,
     feedItems,
@@ -34,11 +35,13 @@ function DetailPost(props) {
   const colorScheme = useColorScheme();
   const styles = dynamicStyles(colorScheme);
 
-  const onCommentPress = () => {
+  const onCommentPress = () =>
+  {
     console.log('comment');
   };
 
-  const onTextFieldUserPress = (userInfo) => {
+  const onTextFieldUserPress = (userInfo) =>
+  {
     navigation.navigate('MainProfile', {
       user: userInfo,
       stackKeyTitle: 'MainProfile',
@@ -46,8 +49,9 @@ function DetailPost(props) {
     });
   };
 
-  const onTextFieldHashTagPress = (hashtag) => {
-    navigation.push('FeedSearch', { hashtag });
+  const onTextFieldHashTagPress = (hashtag) =>
+  {
+    navigation.push('FeedSearch', {hashtag});
   };
 
   return (
@@ -68,7 +72,7 @@ function DetailPost(props) {
           onTextFieldUserPress={onTextFieldUserPress}
         />
         {commentsLoading ? (
-          <ActivityIndicator style={{ marginVertical: 7 }} size="small" />
+          <ActivityIndicator style={{marginVertical: 7}} size='small' />
         ) : (
           commentItems && commentItems.map((comment) => <CommentItem item={comment} key={comment.id} />)
         )}

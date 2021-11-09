@@ -16,8 +16,10 @@ const initialState = {
   areChannelsSubcribed: false,
 };
 
-export const chat = (state = initialState, action) => {
-  switch (action.type) {
+export const chat = (state = initialState, action) =>
+{
+  switch (action.type)
+  {
     case SET_CHANNELS_SUBCRIBED:
       return {
         ...state,

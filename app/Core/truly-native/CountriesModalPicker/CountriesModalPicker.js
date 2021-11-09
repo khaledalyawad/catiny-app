@@ -1,9 +1,10 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { View, Modal, Text, ScrollView, TouchableOpacity } from 'react-native';
-import { useColorScheme } from 'react-native-appearance';
+import React, {useEffect, useRef, useState} from 'react';
+import {Modal, ScrollView, Text, TouchableOpacity, View} from 'react-native';
+import {useColorScheme} from 'react-native-appearance';
 import dynamicStyles from './style';
 
-const CountriesModalPicker = (props) => {
+const CountriesModalPicker = (props) =>
+{
   const colorScheme = useColorScheme();
   const styles = dynamicStyles(props.appStyles, colorScheme);
 
@@ -13,27 +14,31 @@ const CountriesModalPicker = (props) => {
   const [data, setData] = useState([]);
   const modal = useRef(null);
 
-  useEffect(() => {
+  useEffect(() =>
+  {
     setSelected(props.initValue);
     setData(props.data);
     setModalVisible(props.visible);
   });
 
-  const close = () => {
+  const close = () =>
+  {
     setModalVisible(false);
   };
 
-  const onChange = (item) => {
+  const onChange = (item) =>
+  {
     props.onChange(item);
     setSelected(item.label);
     props.onCancel();
   };
 
-  const renderOption = (option) => {
+  const renderOption = (option) =>
+  {
     return (
       <TouchableOpacity key={option.key} onPress={() => onChange(option)}>
         <View style={[styles.optionStyle, props.optionStyle]}>
-          <View style={{ flex: 1, alignItems: 'flex-start' }}>
+          <View style={{flex: 1, alignItems: 'flex-start'}}>
             <Text style={[styles.optionTextStyle, props.optionTextStyle]}>{option.label}</Text>
           </View>
           <Text style={[styles.optionTextStyle, props.optionTextStyle]}>{option.dialCode}</Text>
@@ -42,8 +47,10 @@ const CountriesModalPicker = (props) => {
     );
   };
 
-  const renderOptionList = () => {
-    const options = data.map((item) => {
+  const renderOptionList = () =>
+  {
+    const options = data.map((item) =>
+    {
       return renderOption(item);
     });
 
@@ -53,8 +60,8 @@ const CountriesModalPicker = (props) => {
         // key={`modalPicker${componentIndex++}`}
       >
         <View style={styles.optionContainer}>
-          <ScrollView keyboardShouldPersistTaps="always">
-            <View style={{ paddingHorizontal: 10 }}>{options}</View>
+          <ScrollView keyboardShouldPersistTaps='always'>
+            <View style={{paddingHorizontal: 10}}>{options}</View>
           </ScrollView>
         </View>
         <View style={styles.cancelContainer}>
@@ -79,7 +86,9 @@ const CountriesModalPicker = (props) => {
 
 CountriesModalPicker.defaultProps = {
   data: [],
-  onChange: () => {},
+  onChange: () =>
+  {
+  },
   initValue: 'Select me!',
   style: {},
   selectStyle: {},

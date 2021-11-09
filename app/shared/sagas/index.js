@@ -1,62 +1,59 @@
-import { takeLatest, all } from 'redux-saga/effects';
+import {all, takeLatest} from 'redux-saga/effects';
 import API from '../services/api';
 import FixtureAPI from '../services/fixture-api';
 import AppConfig from '../../config/app-config';
 
 /* ------------- Types ------------- */
-
-import { StartupTypes } from '../reducers/startup.reducer';
-import { LoginTypes } from '../../modules/login/login.reducer';
-import { AccountTypes } from '../../shared/reducers/account.reducer';
-import { RegisterTypes } from '../../modules/account/register/register.reducer';
-import { ForgotPasswordTypes } from '../../modules/account/password-reset/forgot-password.reducer';
-import { ChangePasswordTypes } from '../../modules/account/password/change-password.reducer';
-import { UserTypes } from '../../shared/reducers/user.reducer';
-import { MessageGroupTypes } from '../../modules/entities/message-group/message-group.reducer';
-import { MessageContentTypes } from '../../modules/entities/message-content/message-content.reducer';
-import { HanhChinhVNTypes } from '../../modules/entities/hanh-chinh-vn/hanh-chinh-vn.reducer';
-import { MasterUserTypes } from '../../modules/entities/master-user/master-user.reducer';
-import { UserProfileTypes } from '../../modules/entities/user-profile/user-profile.reducer';
-import { AccountStatusTypes } from '../../modules/entities/account-status/account-status.reducer';
-import { DeviceStatusTypes } from '../../modules/entities/device-status/device-status.reducer';
-import { FriendTypes } from '../../modules/entities/friend/friend.reducer';
-import { FollowUserTypes } from '../../modules/entities/follow-user/follow-user.reducer';
-import { FollowGroupTypes } from '../../modules/entities/follow-group/follow-group.reducer';
-import { FollowPageTypes } from '../../modules/entities/follow-page/follow-page.reducer';
-import { FileInfoTypes } from '../../modules/entities/file-info/file-info.reducer';
-import { PagePostTypes } from '../../modules/entities/page-post/page-post.reducer';
-import { PageProfileTypes } from '../../modules/entities/page-profile/page-profile.reducer';
-import { GroupPostTypes } from '../../modules/entities/group-post/group-post.reducer';
-import { PostTypes } from '../../modules/entities/post/post.reducer';
-import { PostCommentTypes } from '../../modules/entities/post-comment/post-comment.reducer';
-import { PostLikeTypes } from '../../modules/entities/post-like/post-like.reducer';
-import { GroupProfileTypes } from '../../modules/entities/group-profile/group-profile.reducer';
-import { NewsFeedTypes } from '../../modules/entities/news-feed/news-feed.reducer';
-import { RankUserTypes } from '../../modules/entities/rank-user/rank-user.reducer';
-import { RankGroupTypes } from '../../modules/entities/rank-group/rank-group.reducer';
-import { NotificationTypes } from '../../modules/entities/notification/notification.reducer';
-import { AlbumTypes } from '../../modules/entities/album/album.reducer';
-import { VideoTypes } from '../../modules/entities/video/video.reducer';
-import { ImageTypes } from '../../modules/entities/image/image.reducer';
-import { VideoStreamTypes } from '../../modules/entities/video-stream/video-stream.reducer';
-import { VideoLiveStreamBufferTypes } from '../../modules/entities/video-live-stream-buffer/video-live-stream-buffer.reducer';
-import { TopicInterestTypes } from '../../modules/entities/topic-interest/topic-interest.reducer';
-import { TodoListTypes } from '../../modules/entities/todo-list/todo-list.reducer';
-import { EventTypes } from '../../modules/entities/event/event.reducer';
-import { BaseInfoTypes } from '../../modules/entities/base-info/base-info.reducer';
-import { PermissionTypes } from '../../modules/entities/permission/permission.reducer';
-import { ClassInfoTypes } from '../../modules/entities/class-info/class-info.reducer';
-import { HistoryUpdateTypes } from '../../modules/entities/history-update/history-update.reducer';
+import {StartupTypes} from '../reducers/startup.reducer';
+import {LoginTypes} from '../../modules/login/login.reducer';
+import {AccountTypes} from '../../shared/reducers/account.reducer';
+import {RegisterTypes} from '../../modules/account/register/register.reducer';
+import {ForgotPasswordTypes} from '../../modules/account/password-reset/forgot-password.reducer';
+import {ChangePasswordTypes} from '../../modules/account/password/change-password.reducer';
+import {UserTypes} from '../../shared/reducers/user.reducer';
+import {MessageGroupTypes} from '../../modules/entities/message-group/message-group.reducer';
+import {MessageContentTypes} from '../../modules/entities/message-content/message-content.reducer';
+import {HanhChinhVNTypes} from '../../modules/entities/hanh-chinh-vn/hanh-chinh-vn.reducer';
+import {MasterUserTypes} from '../../modules/entities/master-user/master-user.reducer';
+import {UserProfileTypes} from '../../modules/entities/user-profile/user-profile.reducer';
+import {AccountStatusTypes} from '../../modules/entities/account-status/account-status.reducer';
+import {DeviceStatusTypes} from '../../modules/entities/device-status/device-status.reducer';
+import {FriendTypes} from '../../modules/entities/friend/friend.reducer';
+import {FollowUserTypes} from '../../modules/entities/follow-user/follow-user.reducer';
+import {FollowGroupTypes} from '../../modules/entities/follow-group/follow-group.reducer';
+import {FollowPageTypes} from '../../modules/entities/follow-page/follow-page.reducer';
+import {FileInfoTypes} from '../../modules/entities/file-info/file-info.reducer';
+import {PagePostTypes} from '../../modules/entities/page-post/page-post.reducer';
+import {PageProfileTypes} from '../../modules/entities/page-profile/page-profile.reducer';
+import {GroupPostTypes} from '../../modules/entities/group-post/group-post.reducer';
+import {PostTypes} from '../../modules/entities/post/post.reducer';
+import {PostCommentTypes} from '../../modules/entities/post-comment/post-comment.reducer';
+import {PostLikeTypes} from '../../modules/entities/post-like/post-like.reducer';
+import {GroupProfileTypes} from '../../modules/entities/group-profile/group-profile.reducer';
+import {NewsFeedTypes} from '../../modules/entities/news-feed/news-feed.reducer';
+import {RankUserTypes} from '../../modules/entities/rank-user/rank-user.reducer';
+import {RankGroupTypes} from '../../modules/entities/rank-group/rank-group.reducer';
+import {NotificationTypes} from '../../modules/entities/notification/notification.reducer';
+import {AlbumTypes} from '../../modules/entities/album/album.reducer';
+import {VideoTypes} from '../../modules/entities/video/video.reducer';
+import {ImageTypes} from '../../modules/entities/image/image.reducer';
+import {VideoStreamTypes} from '../../modules/entities/video-stream/video-stream.reducer';
+import {VideoLiveStreamBufferTypes} from '../../modules/entities/video-live-stream-buffer/video-live-stream-buffer.reducer';
+import {TopicInterestTypes} from '../../modules/entities/topic-interest/topic-interest.reducer';
+import {TodoListTypes} from '../../modules/entities/todo-list/todo-list.reducer';
+import {EventTypes} from '../../modules/entities/event/event.reducer';
+import {BaseInfoTypes} from '../../modules/entities/base-info/base-info.reducer';
+import {PermissionTypes} from '../../modules/entities/permission/permission.reducer';
+import {ClassInfoTypes} from '../../modules/entities/class-info/class-info.reducer';
+import {HistoryUpdateTypes} from '../../modules/entities/history-update/history-update.reducer';
 // jhipster-react-native-saga-redux-import-needle
-
 /* ------------- Sagas ------------- */
-
-import { startup } from './startup.saga';
-import { login, logout, loginLoad } from '../../modules/login/login.sagas';
-import { register } from '../../modules/account/register/register.sagas';
-import { forgotPassword } from '../../modules/account/password-reset/forgot-password.sagas';
-import { changePassword } from '../../modules/account/password/change-password.sagas';
-import { getAccount, updateAccount } from '../../shared/sagas/account.sagas';
+import {startup} from './startup.saga';
+import {login, loginLoad, logout} from '../../modules/login/login.sagas';
+import {register} from '../../modules/account/register/register.sagas';
+import {forgotPassword} from '../../modules/account/password-reset/forgot-password.sagas';
+import {changePassword} from '../../modules/account/password/change-password.sagas';
+import {getAccount, updateAccount} from '../../shared/sagas/account.sagas';
 import UserSagas from '../../shared/sagas/user.sagas';
 import MessageGroupSagas from '../../modules/entities/message-group/message-group.sagas';
 import MessageContentSagas from '../../modules/entities/message-content/message-content.sagas';
@@ -103,7 +100,8 @@ export const api = AppConfig.useFixtures ? FixtureAPI : API.create();
 
 /* ------------- Connect Types To Sagas ------------- */
 
-export default function* root() {
+export default function* root()
+{
   yield all([
     // some sagas only receive an action
     takeLatest(StartupTypes.STARTUP, startup),

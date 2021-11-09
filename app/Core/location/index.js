@@ -1,1 +1,1 @@
-export { getDistance } from './utils';
+export {getDistance} from './utils';

@@ -1,14 +1,14 @@
-import React, { useState, useRef, useEffect } from 'react';
-import { Image, View, TouchableOpacity, Text, Platform, NativeModules, TouchableWithoutFeedback } from 'react-native';
+import React, {useEffect, useRef, useState} from 'react';
+import {Image, NativeModules, Platform, Text, TouchableOpacity, TouchableWithoutFeedback, View} from 'react-native';
 import FastImage from 'react-native-fast-image';
 import ThreadMediaItem from './ThreadMediaItem';
-import { IMRichTextView } from '../../mentions';
+import {IMRichTextView} from '../../mentions';
 import FacePile from './FacePile';
 import dynamicStyles from './styles';
-import { useColorScheme } from 'react-native-appearance';
-import { IMLocalized } from '../../localization/IMLocalization';
+import {useColorScheme} from 'react-native-appearance';
+import {IMLocalized} from '../../localization/IMLocalization';
 
-const { VideoPlayerManager } = NativeModules;
+const {VideoPlayerManager} = NativeModules;
 
 const assets = {
   boederImgSend: require('../assets/borderImg1.png'),
@@ -18,8 +18,9 @@ const assets = {
   reply: require('../assets/reply-icon.png'),
 };
 
-function ThreadItem(props) {
-  const { item, user, onChatMediaPress, onSenderProfilePicturePress, onMessageLongPress, appStyles, isRecentItem } = props;
+function ThreadItem(props)
+{
+  const {item, user, onChatMediaPress, onSenderProfilePicturePress, onMessageLongPress, appStyles, isRecentItem} = props;
   const colorScheme = useColorScheme();
   const styles = dynamicStyles(appStyles, colorScheme);
   const senderProfilePictureURL = item.senderProfilePictureURL;
@@ -28,7 +29,8 @@ function ThreadItem(props) {
   const videoRef = useRef(null);
   const imagePath = useRef();
 
-  const updateItemImagePath = (path) => {
+  const updateItemImagePath = (path) =>
+  {
     imagePath.current = path;
   };
 
@@ -37,14 +39,18 @@ function ThreadItem(props) {
   const outBound = item.senderID === user.userID;
   const inBound = item.senderID !== user.userID;
 
-  useEffect(() => {
+  useEffect(() =>
+  {
     getReadFacePile();
   }, [item?.readUserIDs]);
 
-  const getReadFacePile = () => {
+  const getReadFacePile = () =>
+  {
     const facePile = [];
-    if (outBound && isRecentItem && item?.participantProfilePictureURLs && item?.readUserIDs) {
-      item?.readUserIDs.forEach((readUserID) => {
+    if (outBound && isRecentItem && item?.participantProfilePictureURLs && item?.readUserIDs)
+    {
+      item?.readUserIDs.forEach((readUserID) =>
+      {
         const userFace = item?.participantProfilePictureURLs.find((participant) => participant.participantId === readUserID);
 
         userFace && facePile.push(userFace);
@@ -53,60 +59,81 @@ function ThreadItem(props) {
     setReadFacePile(facePile);
   };
 
-  const didPressMediaChat = () => {
-    if (isAudio) {
+  const didPressMediaChat = () =>
+  {
+    if (isAudio)
+    {
       return;
     }
 
     const newLegacyItemURl = imagePath.current;
-    const newItemURl = { ...item.url, url: imagePath.current };
+    const newItemURl = {...item.url, url: imagePath.current};
     let ItemUrlToUse;
 
-    if (!item.url.url) {
+    if (!item.url.url)
+    {
       ItemUrlToUse = newLegacyItemURl;
-    } else {
+    }
+    else
+    {
       ItemUrlToUse = newItemURl;
     }
 
-    if (isVideo) {
-      if (Platform.OS === 'android') {
+    if (isVideo)
+    {
+      if (Platform.OS === 'android')
+      {
         VideoPlayerManager.showVideoPlayer(item.url.url);
-      } else {
-        if (videoRef.current) {
+      }
+      else
+      {
+        if (videoRef.current)
+        {
           videoRef.current.presentFullscreenPlayer();
         }
       }
-    } else {
-      onChatMediaPress({ ...item, senderProfilePictureURL, url: ItemUrlToUse });
+    }
+    else
+    {
+      onChatMediaPress({...item, senderProfilePictureURL, url: ItemUrlToUse});
     }
   };
 
-  const renderTextBoederImg = () => {
-    if (item.senderID === user.userID) {
+  const renderTextBoederImg = () =>
+  {
+    if (item.senderID === user.userID)
+    {
       return <Image source={assets.textBoederImgSend} style={styles.textBoederImgSend} />;
     }
 
-    if (item.senderID !== user.userID) {
+    if (item.senderID !== user.userID)
+    {
       return <Image source={assets.textBoederImgReceive} style={styles.textBoederImgReceive} />;
     }
   };
 
-  const renderBoederImg = () => {
-    if (isAudio) {
+  const renderBoederImg = () =>
+  {
+    if (isAudio)
+    {
       return renderTextBoederImg();
     }
-    if (item.senderID === user.userID) {
+    if (item.senderID === user.userID)
+    {
       return <Image source={assets.boederImgSend} style={styles.boederImgSend} />;
     }
 
-    if (item.senderID !== user.userID) {
+    if (item.senderID !== user.userID)
+    {
       return <Image source={assets.boederImgReceive} style={styles.boederImgReceive} />;
     }
   };
 
-  const renderInReplyToIfNeeded = (item, isMine) => {
+  const renderInReplyToIfNeeded = (item, isMine) =>
+  {
     const inReplyToItem = item.inReplyToItem;
-    if (inReplyToItem && inReplyToItem.content && inReplyToItem.content.length > 0) {
+    if (inReplyToItem && inReplyToItem.content && inReplyToItem.content.length > 0)
+    {
       return (
         <View style={isMine ? styles.inReplyToItemContainerView : styles.inReplyToTheirItemContainerView}>
           <View style={styles.inReplyToItemHeaderView}>
@@ -115,8 +142,8 @@ function ThreadItem(props) {
               {isMine
                 ? IMLocalized('You replied to ') + (inReplyToItem.senderFirstName || inReplyToItem.senderLastName)
                 : (item.senderFirstName || item.senderLastName) +
-                  IMLocalized(' replied to ') +
-                  (inReplyToItem.senderFirstName || inReplyToItem.senderLastName)}
+                IMLocalized(' replied to ') +
+                (inReplyToItem.senderFirstName || inReplyToItem.senderLastName)}
             </Text>
           </View>
           <View style={styles.inReplyToItemBubbleView}>
@@ -128,15 +155,21 @@ function ThreadItem(props) {
     return null;
   };
 
-  const handleOnPress = () => {};
+  const handleOnPress = () =>
+  {
+  };
 
-  const handleOnLongPress = () => {
-    if (!isAudio && !isVideo && !item.url) {
+  const handleOnLongPress = () =>
+  {
+    if (!isAudio && !isVideo && !item.url)
+    {
       onMessageLongPress && onMessageLongPress(item);
     }
   };
 
-  const handleOnPressOut = () => {};
+  const handleOnPressOut = () =>
+  {
+  };
 
   return (
     <TouchableWithoutFeedback onPress={handleOnPress} onLongPress={handleOnLongPress} onPressOut={handleOnPressOut}>
@@ -149,7 +182,7 @@ function ThreadItem(props) {
                 <TouchableOpacity
                   onPress={didPressMediaChat}
                   activeOpacity={0.9}
-                  style={[styles.itemContent, styles.sendItemContent, { padding: 0, marginRight: isAudio ? 8 : -1 }]}>
+                  style={[styles.itemContent, styles.sendItemContent, {padding: 0, marginRight: isAudio ? 8 : -1}]}>
                   <ThreadMediaItem
                     outBound={outBound}
                     updateItemImagePath={updateItemImagePath}
@@ -171,7 +204,7 @@ function ThreadItem(props) {
                 </View>
               )}
               <TouchableOpacity onPress={() => onSenderProfilePicturePress && onSenderProfilePicturePress(item)}>
-                <FastImage style={styles.userIcon} source={{ uri: senderProfilePictureURL }} />
+                <FastImage style={styles.userIcon} source={{uri: senderProfilePictureURL}} />
               </TouchableOpacity>
             </View>
             {isRecentItem && (
@@ -185,12 +218,12 @@ function ThreadItem(props) {
         {inBound && (
           <View style={styles.receiveItemContainer}>
             <TouchableOpacity onPress={() => onSenderProfilePicturePress && onSenderProfilePicturePress(item)}>
-              <FastImage style={styles.userIcon} source={{ uri: senderProfilePictureURL }} />
+              <FastImage style={styles.userIcon} source={{uri: senderProfilePictureURL}} />
             </TouchableOpacity>
             {item.url != null && item.url != '' && (
               <TouchableOpacity
                 activeOpacity={0.9}
-                style={[styles.itemContent, styles.receiveItemContent, { padding: 0, marginLeft: isAudio ? 8 : -1 }]}
+                style={[styles.itemContent, styles.receiveItemContent, {padding: 0, marginLeft: isAudio ? 8 : -1}]}
                 onPress={didPressMediaChat}>
                 <ThreadMediaItem
                   updateItemImagePath={updateItemImagePath}

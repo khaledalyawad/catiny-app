@@ -1,15 +1,16 @@
 import React from 'react';
-import { View, StyleSheet, TextInput, Text } from 'react-native';
+import {StyleSheet, Text, TextInput, View} from 'react-native';
 /* eslint-disable react-native/no-inline-styles */
 
-export default React.forwardRef((props, ref) => {
-  const { label, labelStyle, error, ...otherProps } = props;
+export default React.forwardRef((props, ref) =>
+{
+  const {label, labelStyle, error, ...otherProps} = props;
   return (
     <View style={styles.container}>
       {/* if there's a label, render it */}
       {label && <Text style={[styles.label, labelStyle]}>{label}</Text>}
       {/* render the text input */}
-      <TextInput ref={ref} style={[styles.input, { borderColor: error ? '#fc6d47' : '#c0cbd3' }]} {...otherProps} />
+      <TextInput ref={ref} style={[styles.input, {borderColor: error ? '#fc6d47' : '#c0cbd3'}]} {...otherProps} />
       {/* if there's an error, render it */}
       {!!error && !!error.message && <Text style={styles.textError}>{error && error.message}</Text>}
     </View>

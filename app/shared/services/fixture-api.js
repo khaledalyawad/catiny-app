@@ -2,1016 +2,1191 @@ export default {
   // Functions return fixtures
 
   // entity fixtures
-  updateMessageGroup: (messageGroup) => {
+  updateMessageGroup: (messageGroup) =>
+  {
     return {
       ok: true,
       data: require('../../shared/fixtures/update-message-group.json'),
     };
   },
-  getAllMessageGroups: () => {
+  getAllMessageGroups: () =>
+  {
     return {
       ok: true,
       data: require('../../shared/fixtures/get-all-message-groups.json'),
     };
   },
-  getMessageGroup: (messageGroupId) => {
+  getMessageGroup: (messageGroupId) =>
+  {
     return {
       ok: true,
       data: require('../../shared/fixtures/get-message-group.json'),
     };
   },
-  deleteMessageGroup: (messageGroupId) => {
+  deleteMessageGroup: (messageGroupId) =>
+  {
     return {
       ok: true,
     };
   },
-  searchMessageGroups: (query) => {
+  searchMessageGroups: (query) =>
+  {
     return {
       ok: true,
       data: require('../../shared/fixtures/search-message-groups.json'),
     };
   },
-  updateMessageContent: (messageContent) => {
+  updateMessageContent: (messageContent) =>
+  {
     return {
       ok: true,
       data: require('../../shared/fixtures/update-message-content.json'),
     };
   },
-  getAllMessageContents: () => {
+  getAllMessageContents: () =>
+  {
     return {
       ok: true,
       data: require('../../shared/fixtures/get-all-message-contents.json'),
     };
   },
-  getMessageContent: (messageContentId) => {
+  getMessageContent: (messageContentId) =>
+  {
     return {
       ok: true,
       data: require('../../shared/fixtures/get-message-content.json'),
     };
   },
-  deleteMessageContent: (messageContentId) => {
+  deleteMessageContent: (messageContentId) =>
+  {
     return {
       ok: true,
     };
   },
-  searchMessageContents: (query) => {
+  searchMessageContents: (query) =>
+  {
     return {
       ok: true,
       data: require('../../shared/fixtures/search-message-contents.json'),
     };
   },
-  updateHanhChinhVN: (hanhChinhVN) => {
+  updateHanhChinhVN: (hanhChinhVN) =>
+  {
     return {
       ok: true,
       data: require('../../shared/fixtures/update-hanh-chinh-vn.json'),
     };
   },
-  getAllHanhChinhVNS: () => {
+  getAllHanhChinhVNS: () =>
+  {
     return {
       ok: true,
       data: require('../../shared/fixtures/get-all-hanh-chinh-vns.json'),
     };
   },
-  getHanhChinhVN: (hanhChinhVNId) => {
+  getHanhChinhVN: (hanhChinhVNId) =>
+  {
     return {
       ok: true,
       data: require('../../shared/fixtures/get-hanh-chinh-vn.json'),
     };
   },
-  deleteHanhChinhVN: (hanhChinhVNId) => {
+  deleteHanhChinhVN: (hanhChinhVNId) =>
+  {
     return {
       ok: true,
     };
   },
-  searchHanhChinhVNS: (query) => {
+  searchHanhChinhVNS: (query) =>
+  {
     return {
       ok: true,
       data: require('../../shared/fixtures/search-hanh-chinh-vns.json'),
     };
   },
-  updateMasterUser: (masterUser) => {
+  updateMasterUser: (masterUser) =>
+  {
     return {
       ok: true,
       data: require('../../shared/fixtures/update-master-user.json'),
     };
   },
-  getAllMasterUsers: () => {
+  getAllMasterUsers: () =>
+  {
     return {
       ok: true,
       data: require('../../shared/fixtures/get-all-master-users.json'),
     };
   },
-  getMasterUser: (masterUserId) => {
+  getMasterUser: (masterUserId) =>
+  {
     return {
       ok: true,
       data: require('../../shared/fixtures/get-master-user.json'),
     };
   },
-  deleteMasterUser: (masterUserId) => {
+  deleteMasterUser: (masterUserId) =>
+  {
     return {
       ok: true,
     };
   },
-  searchMasterUsers: (query) => {
+  searchMasterUsers: (query) =>
+  {
     return {
       ok: true,
       data: require('../../shared/fixtures/search-master-users.json'),
     };
   },
-  updateUserProfile: (userProfile) => {
+  updateUserProfile: (userProfile) =>
+  {
     return {
       ok: true,
       data: require('../../shared/fixtures/update-user-profile.json'),
     };
   },
-  getAllUserProfiles: () => {
+  getAllUserProfiles: () =>
+  {
     return {
       ok: true,
       data: require('../../shared/fixtures/get-all-user-profiles.json'),
     };
   },
-  getUserProfile: (userProfileId) => {
+  getUserProfile: (userProfileId) =>
+  {
     return {
       ok: true,
       data: require('../../shared/fixtures/get-user-profile.json'),
     };
   },
-  deleteUserProfile: (userProfileId) => {
+  deleteUserProfile: (userProfileId) =>
+  {
     return {
       ok: true,
     };
   },
-  searchUserProfiles: (query) => {
+  searchUserProfiles: (query) =>
+  {
     return {
       ok: true,
       data: require('../../shared/fixtures/search-user-profiles.json'),
     };
   },
-  updateAccountStatus: (accountStatus) => {
+  updateAccountStatus: (accountStatus) =>
+  {
     return {
       ok: true,
       data: require('../../shared/fixtures/update-account-status.json'),
     };
   },
-  getAllAccountStatuses: () => {
+  getAllAccountStatuses: () =>
+  {
     return {
       ok: true,
       data: require('../../shared/fixtures/get-all-account-statuses.json'),
     };
   },
-  getAccountStatus: (accountStatusId) => {
+  getAccountStatus: (accountStatusId) =>
+  {
     return {
       ok: true,
       data: require('../../shared/fixtures/get-account-status.json'),
     };
   },
-  deleteAccountStatus: (accountStatusId) => {
+  deleteAccountStatus: (accountStatusId) =>
+  {
     return {
       ok: true,
     };
   },
-  searchAccountStatuses: (query) => {
+  searchAccountStatuses: (query) =>
+  {
     return {
       ok: true,
       data: require('../../shared/fixtures/search-account-statuses.json'),
     };
   },
-  updateDeviceStatus: (deviceStatus) => {
+  updateDeviceStatus: (deviceStatus) =>
+  {
     return {
       ok: true,
       data: require('../../shared/fixtures/update-device-status.json'),
     };
   },
-  getAllDeviceStatuses: () => {
+  getAllDeviceStatuses: () =>
+  {
     return {
       ok: true,
       data: require('../../shared/fixtures/get-all-device-statuses.json'),
     };
   },
-  getDeviceStatus: (deviceStatusId) => {
+  getDeviceStatus: (deviceStatusId) =>
+  {
     return {
       ok: true,
       data: require('../../shared/fixtures/get-device-status.json'),
     };
   },
-  deleteDeviceStatus: (deviceStatusId) => {
+  deleteDeviceStatus: (deviceStatusId) =>
+  {
     return {
       ok: true,
     };
   },
-  searchDeviceStatuses: (query) => {
+  searchDeviceStatuses: (query) =>
+  {
     return {
       ok: true,
       data: require('../../shared/fixtures/search-device-statuses.json'),
     };
   },
-  updateFriend: (friend) => {
+  updateFriend: (friend) =>
+  {
     return {
       ok: true,
       data: require('../../shared/fixtures/update-friend.json'),
     };
   },
-  getAllFriends: () => {
+  getAllFriends: () =>
+  {
     return {
       ok: true,
       data: require('../../shared/fixtures/get-all-friends.json'),
     };
   },
-  getFriend: (friendId) => {
+  getFriend: (friendId) =>
+  {
     return {
       ok: true,
       data: require('../../shared/fixtures/get-friend.json'),
     };
   },
-  deleteFriend: (friendId) => {
+  deleteFriend: (friendId) =>
+  {
     return {
       ok: true,
     };
   },
-  searchFriends: (query) => {
+  searchFriends: (query) =>
+  {
     return {
       ok: true,
       data: require('../../shared/fixtures/search-friends.json'),
     };
   },
-  updateFollowUser: (followUser) => {
+  updateFollowUser: (followUser) =>
+  {
     return {
       ok: true,
       data: require('../../shared/fixtures/update-follow-user.json'),
     };
   },
-  getAllFollowUsers: () => {
+  getAllFollowUsers: () =>
+  {
     return {
       ok: true,
       data: require('../../shared/fixtures/get-all-follow-users.json'),
     };
   },
-  getFollowUser: (followUserId) => {
+  getFollowUser: (followUserId) =>
+  {
     return {
       ok: true,
       data: require('../../shared/fixtures/get-follow-user.json'),
     };
   },
-  deleteFollowUser: (followUserId) => {
+  deleteFollowUser: (followUserId) =>
+  {
     return {
       ok: true,
     };
   },
-  searchFollowUsers: (query) => {
+  searchFollowUsers: (query) =>
+  {
     return {
       ok: true,
       data: require('../../shared/fixtures/search-follow-users.json'),
     };
   },
-  updateFollowGroup: (followGroup) => {
+  updateFollowGroup: (followGroup) =>
+  {
     return {
       ok: true,
       data: require('../../shared/fixtures/update-follow-group.json'),
     };
   },
-  getAllFollowGroups: () => {
+  getAllFollowGroups: () =>
+  {
     return {
       ok: true,
       data: require('../../shared/fixtures/get-all-follow-groups.json'),
     };
   },
-  getFollowGroup: (followGroupId) => {
+  getFollowGroup: (followGroupId) =>
+  {
     return {
       ok: true,
       data: require('../../shared/fixtures/get-follow-group.json'),
     };
   },
-  deleteFollowGroup: (followGroupId) => {
+  deleteFollowGroup: (followGroupId) =>
+  {
     return {
       ok: true,
     };
   },
-  searchFollowGroups: (query) => {
+  searchFollowGroups: (query) =>
+  {
     return {
       ok: true,
       data: require('../../shared/fixtures/search-follow-groups.json'),
     };
   },
-  updateFollowPage: (followPage) => {
+  updateFollowPage: (followPage) =>
+  {
     return {
       ok: true,
       data: require('../../shared/fixtures/update-follow-page.json'),
     };
   },
-  getAllFollowPages: () => {
+  getAllFollowPages: () =>
+  {
     return {
       ok: true,
       data: require('../../shared/fixtures/get-all-follow-pages.json'),
     };
   },
-  getFollowPage: (followPageId) => {
+  getFollowPage: (followPageId) =>
+  {
     return {
       ok: true,
       data: require('../../shared/fixtures/get-follow-page.json'),
     };
   },
-  deleteFollowPage: (followPageId) => {
+  deleteFollowPage: (followPageId) =>
+  {
     return {
       ok: true,
     };
   },
-  searchFollowPages: (query) => {
+  searchFollowPages: (query) =>
+  {
     return {
       ok: true,
       data: require('../../shared/fixtures/search-follow-pages.json'),
     };
   },
-  updateFileInfo: (fileInfo) => {
+  updateFileInfo: (fileInfo) =>
+  {
     return {
       ok: true,
       data: require('../../shared/fixtures/update-file-info.json'),
     };
   },
-  getAllFileInfos: () => {
+  getAllFileInfos: () =>
+  {
     return {
       ok: true,
       data: require('../../shared/fixtures/get-all-file-infos.json'),
     };
   },
-  getFileInfo: (fileInfoId) => {
+  getFileInfo: (fileInfoId) =>
+  {
     return {
       ok: true,
       data: require('../../shared/fixtures/get-file-info.json'),
     };
   },
-  deleteFileInfo: (fileInfoId) => {
+  deleteFileInfo: (fileInfoId) =>
+  {
     return {
       ok: true,
     };
   },
-  searchFileInfos: (query) => {
+  searchFileInfos: (query) =>
+  {
     return {
       ok: true,
       data: require('../../shared/fixtures/search-file-infos.json'),
     };
   },
-  updatePagePost: (pagePost) => {
+  updatePagePost: (pagePost) =>
+  {
     return {
       ok: true,
       data: require('../../shared/fixtures/update-page-post.json'),
     };
   },
-  getAllPagePosts: () => {
+  getAllPagePosts: () =>
+  {
     return {
       ok: true,
       data: require('../../shared/fixtures/get-all-page-posts.json'),
     };
   },
-  getPagePost: (pagePostId) => {
+  getPagePost: (pagePostId) =>
+  {
     return {
       ok: true,
       data: require('../../shared/fixtures/get-page-post.json'),
     };
   },
-  deletePagePost: (pagePostId) => {
+  deletePagePost: (pagePostId) =>
+  {
     return {
       ok: true,
     };
   },
-  searchPagePosts: (query) => {
+  searchPagePosts: (query) =>
+  {
     return {
       ok: true,
       data: require('../../shared/fixtures/search-page-posts.json'),
     };
   },
-  updatePageProfile: (pageProfile) => {
+  updatePageProfile: (pageProfile) =>
+  {
     return {
       ok: true,
       data: require('../../shared/fixtures/update-page-profile.json'),
     };
   },
-  getAllPageProfiles: () => {
+  getAllPageProfiles: () =>
+  {
     return {
       ok: true,
       data: require('../../shared/fixtures/get-all-page-profiles.json'),
     };
   },
-  getPageProfile: (pageProfileId) => {
+  getPageProfile: (pageProfileId) =>
+  {
     return {
       ok: true,
       data: require('../../shared/fixtures/get-page-profile.json'),
     };
   },
-  deletePageProfile: (pageProfileId) => {
+  deletePageProfile: (pageProfileId) =>
+  {
     return {
       ok: true,
     };
   },
-  searchPageProfiles: (query) => {
+  searchPageProfiles: (query) =>
+  {
     return {
       ok: true,
       data: require('../../shared/fixtures/search-page-profiles.json'),
     };
   },
-  updateGroupPost: (groupPost) => {
+  updateGroupPost: (groupPost) =>
+  {
     return {
       ok: true,
       data: require('../../shared/fixtures/update-group-post.json'),
     };
   },
-  getAllGroupPosts: () => {
+  getAllGroupPosts: () =>
+  {
     return {
       ok: true,
       data: require('../../shared/fixtures/get-all-group-posts.json'),
     };
   },
-  getGroupPost: (groupPostId) => {
+  getGroupPost: (groupPostId) =>
+  {
     return {
       ok: true,
       data: require('../../shared/fixtures/get-group-post.json'),
     };
   },
-  deleteGroupPost: (groupPostId) => {
+  deleteGroupPost: (groupPostId) =>
+  {
     return {
       ok: true,
     };
   },
-  searchGroupPosts: (query) => {
+  searchGroupPosts: (query) =>
+  {
     return {
       ok: true,
       data: require('../../shared/fixtures/search-group-posts.json'),
     };
   },
-  updatePost: (post) => {
+  updatePost: (post) =>
+  {
     return {
       ok: true,
       data: require('../../shared/fixtures/update-post.json'),
     };
   },
-  getAllPosts: () => {
+  getAllPosts: () =>
+  {
     return {
       ok: true,
       data: require('../../shared/fixtures/get-all-posts.json'),
     };
   },
-  getPost: (postId) => {
+  getPost: (postId) =>
+  {
     return {
       ok: true,
       data: require('../../shared/fixtures/get-post.json'),
     };
   },
-  deletePost: (postId) => {
+  deletePost: (postId) =>
+  {
     return {
       ok: true,
     };
   },
-  searchPosts: (query) => {
+  searchPosts: (query) =>
+  {
     return {
       ok: true,
       data: require('../../shared/fixtures/search-posts.json'),
     };
   },
-  updatePostComment: (postComment) => {
+  updatePostComment: (postComment) =>
+  {
     return {
       ok: true,
       data: require('../../shared/fixtures/update-post-comment.json'),
     };
   },
-  getAllPostComments: () => {
+  getAllPostComments: () =>
+  {
     return {
       ok: true,
       data: require('../../shared/fixtures/get-all-post-comments.json'),
     };
   },
-  getPostComment: (postCommentId) => {
+  getPostComment: (postCommentId) =>
+  {
     return {
       ok: true,
       data: require('../../shared/fixtures/get-post-comment.json'),
     };
   },
-  deletePostComment: (postCommentId) => {
+  deletePostComment: (postCommentId) =>
+  {
     return {
       ok: true,
     };
   },
-  searchPostComments: (query) => {
+  searchPostComments: (query) =>
+  {
     return {
       ok: true,
       data: require('../../shared/fixtures/search-post-comments.json'),
     };
   },
-  updatePostLike: (postLike) => {
+  updatePostLike: (postLike) =>
+  {
     return {
       ok: true,
       data: require('../../shared/fixtures/update-post-like.json'),
     };
   },
-  getAllPostLikes: () => {
+  getAllPostLikes: () =>
+  {
     return {
       ok: true,
       data: require('../../shared/fixtures/get-all-post-likes.json'),
     };
   },
-  getPostLike: (postLikeId) => {
+  getPostLike: (postLikeId) =>
+  {
     return {
       ok: true,
       data: require('../../shared/fixtures/get-post-like.json'),
     };
   },
-  deletePostLike: (postLikeId) => {
+  deletePostLike: (postLikeId) =>
+  {
     return {
       ok: true,
     };
   },
-  searchPostLikes: (query) => {
+  searchPostLikes: (query) =>
+  {
     return {
       ok: true,
       data: require('../../shared/fixtures/search-post-likes.json'),
     };
   },
-  updateGroupProfile: (groupProfile) => {
+  updateGroupProfile: (groupProfile) =>
+  {
     return {
       ok: true,
       data: require('../../shared/fixtures/update-group-profile.json'),
     };
   },
-  getAllGroupProfiles: () => {
+  getAllGroupProfiles: () =>
+  {
     return {
       ok: true,
       data: require('../../shared/fixtures/get-all-group-profiles.json'),
     };
   },
-  getGroupProfile: (groupProfileId) => {
+  getGroupProfile: (groupProfileId) =>
+  {
     return {
       ok: true,
       data: require('../../shared/fixtures/get-group-profile.json'),
     };
   },
-  deleteGroupProfile: (groupProfileId) => {
+  deleteGroupProfile: (groupProfileId) =>
+  {
     return {
       ok: true,
     };
   },
-  searchGroupProfiles: (query) => {
+  searchGroupProfiles: (query) =>
+  {
     return {
       ok: true,
       data: require('../../shared/fixtures/search-group-profiles.json'),
     };
   },
-  updateNewsFeed: (newsFeed) => {
+  updateNewsFeed: (newsFeed) =>
+  {
     return {
       ok: true,
       data: require('../../shared/fixtures/update-news-feed.json'),
     };
   },
-  getAllNewsFeeds: () => {
+  getAllNewsFeeds: () =>
+  {
     return {
       ok: true,
       data: require('../../shared/fixtures/get-all-news-feeds.json'),
     };
   },
-  getNewsFeed: (newsFeedId) => {
+  getNewsFeed: (newsFeedId) =>
+  {
     return {
       ok: true,
       data: require('../../shared/fixtures/get-news-feed.json'),
     };
   },
-  deleteNewsFeed: (newsFeedId) => {
+  deleteNewsFeed: (newsFeedId) =>
+  {
     return {
       ok: true,
     };
   },
-  searchNewsFeeds: (query) => {
+  searchNewsFeeds: (query) =>
+  {
     return {
       ok: true,
       data: require('../../shared/fixtures/search-news-feeds.json'),
     };
   },
-  updateRankUser: (rankUser) => {
+  updateRankUser: (rankUser) =>
+  {
     return {
       ok: true,
       data: require('../../shared/fixtures/update-rank-user.json'),
     };
   },
-  getAllRankUsers: () => {
+  getAllRankUsers: () =>
+  {
     return {
       ok: true,
       data: require('../../shared/fixtures/get-all-rank-users.json'),
     };
   },
-  getRankUser: (rankUserId) => {
+  getRankUser: (rankUserId) =>
+  {
     return {
       ok: true,
       data: require('../../shared/fixtures/get-rank-user.json'),
     };
   },
-  deleteRankUser: (rankUserId) => {
+  deleteRankUser: (rankUserId) =>
+  {
     return {
       ok: true,
     };
   },
-  searchRankUsers: (query) => {
+  searchRankUsers: (query) =>
+  {
     return {
       ok: true,
       data: require('../../shared/fixtures/search-rank-users.json'),
     };
   },
-  updateRankGroup: (rankGroup) => {
+  updateRankGroup: (rankGroup) =>
+  {
     return {
       ok: true,
       data: require('../../shared/fixtures/update-rank-group.json'),
     };
   },
-  getAllRankGroups: () => {
+  getAllRankGroups: () =>
+  {
     return {
       ok: true,
       data: require('../../shared/fixtures/get-all-rank-groups.json'),
     };
   },
-  getRankGroup: (rankGroupId) => {
+  getRankGroup: (rankGroupId) =>
+  {
     return {
       ok: true,
       data: require('../../shared/fixtures/get-rank-group.json'),
     };
   },
-  deleteRankGroup: (rankGroupId) => {
+  deleteRankGroup: (rankGroupId) =>
+  {
     return {
       ok: true,
     };
   },
-  searchRankGroups: (query) => {
+  searchRankGroups: (query) =>
+  {
     return {
       ok: true,
       data: require('../../shared/fixtures/search-rank-groups.json'),
     };
   },
-  updateNotification: (notification) => {
+  updateNotification: (notification) =>
+  {
     return {
       ok: true,
       data: require('../../shared/fixtures/update-notification.json'),
     };
   },
-  getAllNotifications: () => {
+  getAllNotifications: () =>
+  {
     return {
       ok: true,
       data: require('../../shared/fixtures/get-all-notifications.json'),
     };
   },
-  getNotification: (notificationId) => {
+  getNotification: (notificationId) =>
+  {
     return {
       ok: true,
       data: require('../../shared/fixtures/get-notification.json'),
     };
   },
-  deleteNotification: (notificationId) => {
+  deleteNotification: (notificationId) =>
+  {
     return {
       ok: true,
     };
   },
-  searchNotifications: (query) => {
+  searchNotifications: (query) =>
+  {
     return {
       ok: true,
       data: require('../../shared/fixtures/search-notifications.json'),
     };
   },
-  updateAlbum: (album) => {
+  updateAlbum: (album) =>
+  {
     return {
       ok: true,
       data: require('../../shared/fixtures/update-album.json'),
     };
   },
-  getAllAlbums: () => {
+  getAllAlbums: () =>
+  {
     return {
       ok: true,
       data: require('../../shared/fixtures/get-all-albums.json'),
     };
   },
-  getAlbum: (albumId) => {
+  getAlbum: (albumId) =>
+  {
     return {
       ok: true,
       data: require('../../shared/fixtures/get-album.json'),
     };
   },
-  deleteAlbum: (albumId) => {
+  deleteAlbum: (albumId) =>
+  {
     return {
       ok: true,
     };
   },
-  searchAlbums: (query) => {
+  searchAlbums: (query) =>
+  {
     return {
       ok: true,
       data: require('../../shared/fixtures/search-albums.json'),
     };
   },
-  updateVideo: (video) => {
+  updateVideo: (video) =>
+  {
     return {
       ok: true,
       data: require('../../shared/fixtures/update-video.json'),
     };
   },
-  getAllVideos: () => {
+  getAllVideos: () =>
+  {
     return {
       ok: true,
       data: require('../../shared/fixtures/get-all-videos.json'),
     };
   },
-  getVideo: (videoId) => {
+  getVideo: (videoId) =>
+  {
     return {
       ok: true,
       data: require('../../shared/fixtures/get-video.json'),
     };
   },
-  deleteVideo: (videoId) => {
+  deleteVideo: (videoId) =>
+  {
     return {
       ok: true,
     };
   },
-  searchVideos: (query) => {
+  searchVideos: (query) =>
+  {
     return {
       ok: true,
       data: require('../../shared/fixtures/search-videos.json'),
     };
   },
-  updateImage: (image) => {
+  updateImage: (image) =>
+  {
     return {
       ok: true,
       data: require('../../shared/fixtures/update-image.json'),
     };
   },
-  getAllImages: () => {
+  getAllImages: () =>
+  {
     return {
       ok: true,
       data: require('../../shared/fixtures/get-all-images.json'),
     };
   },
-  getImage: (imageId) => {
+  getImage: (imageId) =>
+  {
     return {
       ok: true,
       data: require('../../shared/fixtures/get-image.json'),
     };
   },
-  deleteImage: (imageId) => {
+  deleteImage: (imageId) =>
+  {
     return {
       ok: true,
     };
   },
-  searchImages: (query) => {
+  searchImages: (query) =>
+  {
     return {
       ok: true,
       data: require('../../shared/fixtures/search-images.json'),
     };
   },
-  updateVideoStream: (videoStream) => {
+  updateVideoStream: (videoStream) =>
+  {
     return {
       ok: true,
       data: require('../../shared/fixtures/update-video-stream.json'),
     };
   },
-  getAllVideoStreams: () => {
+  getAllVideoStreams: () =>
+  {
     return {
       ok: true,
       data: require('../../shared/fixtures/get-all-video-streams.json'),
     };
   },
-  getVideoStream: (videoStreamId) => {
+  getVideoStream: (videoStreamId) =>
+  {
     return {
       ok: true,
       data: require('../../shared/fixtures/get-video-stream.json'),
     };
   },
-  deleteVideoStream: (videoStreamId) => {
+  deleteVideoStream: (videoStreamId) =>
+  {
     return {
       ok: true,
     };
   },
-  searchVideoStreams: (query) => {
+  searchVideoStreams: (query) =>
+  {
     return {
       ok: true,
       data: require('../../shared/fixtures/search-video-streams.json'),
     };
   },
-  updateVideoLiveStreamBuffer: (videoLiveStreamBuffer) => {
+  updateVideoLiveStreamBuffer: (videoLiveStreamBuffer) =>
+  {
     return {
       ok: true,
       data: require('../../shared/fixtures/update-video-live-stream-buffer.json'),
     };
   },
-  getAllVideoLiveStreamBuffers: () => {
+  getAllVideoLiveStreamBuffers: () =>
+  {
     return {
       ok: true,
       data: require('../../shared/fixtures/get-all-video-live-stream-buffers.json'),
     };
   },
-  getVideoLiveStreamBuffer: (videoLiveStreamBufferId) => {
+  getVideoLiveStreamBuffer: (videoLiveStreamBufferId) =>
+  {
     return {
       ok: true,
       data: require('../../shared/fixtures/get-video-live-stream-buffer.json'),
     };
   },
-  deleteVideoLiveStreamBuffer: (videoLiveStreamBufferId) => {
+  deleteVideoLiveStreamBuffer: (videoLiveStreamBufferId) =>
+  {
     return {
       ok: true,
     };
   },
-  searchVideoLiveStreamBuffers: (query) => {
+  searchVideoLiveStreamBuffers: (query) =>
+  {
     return {
       ok: true,
       data: require('../../shared/fixtures/search-video-live-stream-buffers.json'),
     };
   },
-  updateTopicInterest: (topicInterest) => {
+  updateTopicInterest: (topicInterest) =>
+  {
     return {
       ok: true,
       data: require('../../shared/fixtures/update-topic-interest.json'),
     };
   },
-  getAllTopicInterests: () => {
+  getAllTopicInterests: () =>
+  {
     return {
       ok: true,
       data: require('../../shared/fixtures/get-all-topic-interests.json'),
     };
   },
-  getTopicInterest: (topicInterestId) => {
+  getTopicInterest: (topicInterestId) =>
+  {
     return {
       ok: true,
       data: require('../../shared/fixtures/get-topic-interest.json'),
     };
   },
-  deleteTopicInterest: (topicInterestId) => {
+  deleteTopicInterest: (topicInterestId) =>
+  {
     return {
       ok: true,
     };
   },
-  searchTopicInterests: (query) => {
+  searchTopicInterests: (query) =>
+  {
     return {
       ok: true,
       data: require('../../shared/fixtures/search-topic-interests.json'),
     };
   },
-  updateTodoList: (todoList) => {
+  updateTodoList: (todoList) =>
+  {
     return {
       ok: true,
       data: require('../../shared/fixtures/update-todo-list.json'),
     };
   },
-  getAllTodoLists: () => {
+  getAllTodoLists: () =>
+  {
     return {
       ok: true,
       data: require('../../shared/fixtures/get-all-todo-lists.json'),
     };
   },
-  getTodoList: (todoListId) => {
+  getTodoList: (todoListId) =>
+  {
     return {
       ok: true,
       data: require('../../shared/fixtures/get-todo-list.json'),
     };
   },
-  deleteTodoList: (todoListId) => {
+  deleteTodoList: (todoListId) =>
+  {
     return {
       ok: true,
     };
   },
-  searchTodoLists: (query) => {
+  searchTodoLists: (query) =>
+  {
     return {
       ok: true,
       data: require('../../shared/fixtures/search-todo-lists.json'),
     };
   },
-  updateEvent: (event) => {
+  updateEvent: (event) =>
+  {
     return {
       ok: true,
       data: require('../../shared/fixtures/update-event.json'),
     };
   },
-  getAllEvents: () => {
+  getAllEvents: () =>
+  {
     return {
       ok: true,
       data: require('../../shared/fixtures/get-all-events.json'),
     };
   },
-  getEvent: (eventId) => {
+  getEvent: (eventId) =>
+  {
     return {
       ok: true,
       data: require('../../shared/fixtures/get-event.json'),
     };
   },
-  deleteEvent: (eventId) => {
+  deleteEvent: (eventId) =>
+  {
     return {
       ok: true,
     };
   },
-  searchEvents: (query) => {
+  searchEvents: (query) =>
+  {
     return {
       ok: true,
       data: require('../../shared/fixtures/search-events.json'),
     };
   },
-  updateBaseInfo: (baseInfo) => {
+  updateBaseInfo: (baseInfo) =>
+  {
     return {
       ok: true,
       data: require('../../shared/fixtures/update-base-info.json'),
     };
   },
-  getAllBaseInfos: () => {
+  getAllBaseInfos: () =>
+  {
     return {
       ok: true,
       data: require('../../shared/fixtures/get-all-base-infos.json'),
     };
   },
-  getBaseInfo: (baseInfoId) => {
+  getBaseInfo: (baseInfoId) =>
+  {
     return {
       ok: true,
       data: require('../../shared/fixtures/get-base-info.json'),
     };
   },
-  deleteBaseInfo: (baseInfoId) => {
+  deleteBaseInfo: (baseInfoId) =>
+  {
     return {
       ok: true,
     };
   },
-  searchBaseInfos: (query) => {
+  searchBaseInfos: (query) =>
+  {
     return {
       ok: true,
       data: require('../../shared/fixtures/search-base-infos.json'),
     };
   },
-  updatePermission: (permission) => {
+  updatePermission: (permission) =>
+  {
     return {
       ok: true,
       data: require('../../shared/fixtures/update-permission.json'),
     };
   },
-  getAllPermissions: () => {
+  getAllPermissions: () =>
+  {
     return {
       ok: true,
       data: require('../../shared/fixtures/get-all-permissions.json'),
     };
   },
-  getPermission: (permissionId) => {
+  getPermission: (permissionId) =>
+  {
     return {
       ok: true,
       data: require('../../shared/fixtures/get-permission.json'),
     };
   },
-  deletePermission: (permissionId) => {
+  deletePermission: (permissionId) =>
+  {
     return {
       ok: true,
     };
   },
-  searchPermissions: (query) => {
+  searchPermissions: (query) =>
+  {
     return {
       ok: true,
       data: require('../../shared/fixtures/search-permissions.json'),
     };
   },
-  updateClassInfo: (classInfo) => {
+  updateClassInfo: (classInfo) =>
+  {
     return {
       ok: true,
       data: require('../../shared/fixtures/update-class-info.json'),
     };
   },
-  getAllClassInfos: () => {
+  getAllClassInfos: () =>
+  {
     return {
       ok: true,
       data: require('../../shared/fixtures/get-all-class-infos.json'),
     };
   },
-  getClassInfo: (classInfoId) => {
+  getClassInfo: (classInfoId) =>
+  {
     return {
       ok: true,
       data: require('../../shared/fixtures/get-class-info.json'),
     };
   },
-  deleteClassInfo: (classInfoId) => {
+  deleteClassInfo: (classInfoId) =>
+  {
     return {
       ok: true,
     };
   },
-  searchClassInfos: (query) => {
+  searchClassInfos: (query) =>
+  {
     return {
       ok: true,
       data: require('../../shared/fixtures/search-class-infos.json'),
     };
   },
-  updateHistoryUpdate: (historyUpdate) => {
+  updateHistoryUpdate: (historyUpdate) =>
+  {
     return {
       ok: true,
       data: require('../../shared/fixtures/update-history-update.json'),
     };
   },
-  getAllHistoryUpdates: () => {
+  getAllHistoryUpdates: () =>
+  {
     return {
       ok: true,
       data: require('../../shared/fixtures/get-all-history-updates.json'),
     };
   },
-  getHistoryUpdate: (historyUpdateId) => {
+  getHistoryUpdate: (historyUpdateId) =>
+  {
     return {
       ok: true,
       data: require('../../shared/fixtures/get-history-update.json'),
     };
   },
-  deleteHistoryUpdate: (historyUpdateId) => {
+  deleteHistoryUpdate: (historyUpdateId) =>
+  {
     return {
       ok: true,
     };
   },
-  searchHistoryUpdates: (query) => {
+  searchHistoryUpdates: (query) =>
+  {
     return {
       ok: true,
       data: require('../../shared/fixtures/search-history-updates.json'),
@@ -1020,39 +1195,51 @@ export default {
   // jhipster-react-native-api-fixture-needle
 
   // user fixtures
-  updateUser: (user) => {
+  updateUser: (user) =>
+  {
     return {
       ok: true,
       data: require('../fixtures/update-user.json'),
     };
   },
-  getAllUsers: () => {
+  getAllUsers: () =>
+  {
     return {
       ok: true,
       data: require('../fixtures/get-users.json'),
     };
   },
-  getUser: (userId) => {
+  getUser: (userId) =>
+  {
     return {
       ok: true,
       data: require('../fixtures/get-user.json'),
     };
   },
-  deleteUser: (userId) => {
+  deleteUser: (userId) =>
+  {
     return {
       ok: true,
     };
   },
   // auth fixtures
-  setAuthToken: () => {},
-  removeAuthToken: () => {},
-  login: (authObj) => {
-    if (authObj.username === 'user' && authObj.password === 'user') {
+  setAuthToken: () =>
+  {
+  },
+  removeAuthToken: () =>
+  {
+  },
+  login: (authObj) =>
+  {
+    if (authObj.username === 'user' && authObj.password === 'user')
+    {
       return {
         ok: true,
         data: require('../fixtures/login.json'),
       };
-    } else {
+    }
+    else
+    {
       return {
         ok: false,
         status: 400,
@@ -1060,12 +1247,16 @@ export default {
       };
     }
   },
-  register: ({ user }) => {
-    if (user === 'user') {
+  register: ({user}) =>
+  {
+    if (user === 'user')
+    {
       return {
         ok: true,
       };
-    } else {
+    }
+    else
+    {
       return {
         ok: false,
         data: {
@@ -1074,19 +1265,24 @@ export default {
       };
     }
   },
-  forgotPassword: ({ email }) => {
-    if (email === 'valid@gmail.com') {
+  forgotPassword: ({email}) =>
+  {
+    if (email === 'valid@gmail.com')
+    {
       return {
         ok: true,
       };
-    } else {
+    }
+    else
+    {
       return {
         ok: false,
         data: 'Invalid email',
       };
     }
   },
-  getAccount: () => {
+  getAccount: () =>
+  {
     return {
       ok: true,
       status: 200,
@@ -1096,17 +1292,22 @@ export default {
       data: require('../fixtures/get-account.json'),
     };
   },
-  updateAccount: () => {
+  updateAccount: () =>
+  {
     return {
       ok: true,
     };
   },
-  changePassword: ({ currentPassword }) => {
-    if (currentPassword === 'valid-password') {
+  changePassword: ({currentPassword}) =>
+  {
+    if (currentPassword === 'valid-password')
+    {
       return {
         ok: true,
       };
-    } else {
+    }
+    else
+    {
       return {
         ok: false,
         data: 'Password error',

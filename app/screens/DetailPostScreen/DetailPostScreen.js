@@ -1,14 +1,15 @@
-import React, { useState, useEffect, useRef, useLayoutEffect } from 'react';
-import { useSelector } from 'react-redux';
-import { BackHandler, Share } from 'react-native';
-import { DetailPost } from '../../components';
-import { commentAPIManager, postAPIManager } from '../../Core/socialgraph/feed/api';
+import React, {useEffect, useLayoutEffect, useRef, useState} from 'react';
+import {useSelector} from 'react-redux';
+import {Share} from 'react-native';
+import {DetailPost} from '../../components';
+import {commentAPIManager, postAPIManager} from '../../Core/socialgraph/feed/api';
 import AppStyles from '../../AppStyles';
-import { IMLocalized } from '../../Core/localization/IMLocalization';
-import { reportingManager } from '../../Core/user-reporting';
-import { Appearance } from 'react-native-appearance';
+import {IMLocalized} from '../../Core/localization/IMLocalization';
+import {reportingManager} from '../../Core/user-reporting';
+import {Appearance} from 'react-native-appearance';
 
-const DetailScreen = (props) => {
+const DetailScreen = (props) =>
+{
   const colorScheme = Appearance.getColorScheme();
   let currentTheme = AppStyles.navThemeConstants[colorScheme];
 
@@ -30,7 +31,8 @@ const DetailScreen = (props) => {
   const myReactions = useSelector((state) => state.feed.feedPostReactions);
   const currentUser = useSelector((state) => state.auth.user);
 
-  useLayoutEffect(() => {
+  useLayoutEffect(() =>
+  {
     props.navigation.setOptions({
       headerTitle: IMLocalized('Post'),
       headerStyle: {
@@ -41,36 +43,46 @@ const DetailScreen = (props) => {
     });
   }, []);
 
-  useEffect(() => {
-    if (!item?.id) {
+  useEffect(() =>
+  {
+    if (!item?.id)
+    {
       return;
     }
     unsubscribeSinglePost.current = postAPIManager.subscribeToSinglePost(item.id, onFeedItemUpdate);
     unsubscribeComments.current = commentAPIManager.subscribeComments(item.id, onCommentsUpdate);
   }, [item?.id]);
 
-  useEffect(() => {
-    return () => {
+  useEffect(() =>
+  {
+    return () =>
+    {
       unsubscribeComments.current && unsubscribeComments.current();
       unsubscribeSinglePost.current && unsubscribeSinglePost.current();
     };
   }, []);
 
-  const onFeedItemUpdate = (feedItem) => {
+  const onFeedItemUpdate = (feedItem) =>
+  {
     const myReaction = myReactions?.find((reaction) => reaction.postID == feedItem.id);
-    if (myReaction) {
-      setFeedItem({ ...feedItem, myReaction: myReaction.reaction });
-    } else {
-      setFeedItem({ ...feedItem, myReaction: null });
+    if (myReaction)
+    {
+      setFeedItem({...feedItem, myReaction: myReaction.reaction});
+    }
+    else
+    {
+      setFeedItem({...feedItem, myReaction: null});
     }
   };
 
-  const onCommentsUpdate = (comments) => {
+  const onCommentsUpdate = (comments) =>
+  {
     setComments(comments);
     setCommentsLoading(false);
   };
 
-  const onCommentSend = async (value) => {
+  const onCommentSend = async (value) =>
+  {
     const commentObject = {
       postID: feedItem.id,
       commentText: value,
@@ -79,27 +91,34 @@ const DetailScreen = (props) => {
     commentAPIManager.addComment(commentObject, currentUser, feedItem, false);
   };
 
-  const onReaction = async (reaction, item) => {
+  const onReaction = async (reaction, item) =>
+  {
     await commentAPIManager.handleReaction(reaction, currentUser, item, false);
   };
 
-  const onMediaPress = (media, mediaIndex) => {
+  const onMediaPress = (media, mediaIndex) =>
+  {
     setSelectedMediaIndex(mediaIndex);
     setSelectedFeedItems(media);
     setIsMediaViewerOpen(true);
   };
 
-  const onMediaClose = () => {
+  const onMediaClose = () =>
+  {
     setIsMediaViewerOpen(false);
   };
 
-  const onFeedUserItemPress = async (item) => {
-    if (item.id === currentUser.id) {
+  const onFeedUserItemPress = async (item) =>
+  {
+    if (item.id === currentUser.id)
+    {
       props.navigation.navigate(profileScreenTitle, {
         stackKeyTitle: profileScreenTitle,
         lastScreenTitle: lastScreenTitle,
       });
-    } else {
+    }
+    else
+    {
       props.navigation.navigate(profileScreenTitle, {
         user: item,
         stackKeyTitle: profileScreenTitle,
@@ -108,12 +127,15 @@ const DetailScreen = (props) => {
     }
   };
 
-  const onSharePost = async (item) => {
+  const onSharePost = async (item) =>
+  {
     let url = '';
-    if (item.postMedia?.length > 0) {
+    if (item.postMedia?.length > 0)
+    {
       url = item.postMedia[0]?.url || item.postMedia[0];
     }
-    try {
+    try
+    {
       const result = await Share.share(
         {
           title: 'Share SocialNetwork post.',
@@ -124,21 +146,28 @@ const DetailScreen = (props) => {
           dialogTitle: 'Share SocialNetwork post.',
         },
       );
-    } catch (error) {
+    }
+    catch (error)
+    {
       alert(error.message);
     }
   };
 
-  const onDeletePost = async (item) => {
+  const onDeletePost = async (item) =>
+  {
     const res = await postAPIManager.deletePost(item, true);
-    if (res.error) {
+    if (res.error)
+    {
       alert(res.error);
-    } else {
+    }
+    else
+    {
       props.navigation.goBack();
     }
   };
 
-  const onUserReport = async (item, type) => {
+  const onUserReport = async (item, type) =>
+  {
     await reportingManager.markAbuse(currentUser.id, item.authorID, type);
     props.navigation.goBack();
   };

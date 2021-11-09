@@ -1,7 +1,9 @@
-import { StyleSheet, Dimensions, Platform } from 'react-native';
+import {Dimensions, Platform, StyleSheet} from 'react-native';
+
 const width = Dimensions.get('window').width;
 
-const dynamicStyles = (colorScheme, appStyles) => {
+const dynamicStyles = (colorScheme, appStyles) =>
+{
   return new StyleSheet.create({
     container: {
       width: width,

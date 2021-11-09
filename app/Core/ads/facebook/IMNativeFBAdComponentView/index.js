@@ -1,13 +1,14 @@
-import React, { useState } from 'react';
+import React from 'react';
 import * as FacebookAds from 'expo-ads-facebook';
-const { AdIconView, AdMediaView, AdTriggerView } = FacebookAds;
 import TruncateText from 'react-native-view-more-text';
-import { Image, View, Text } from 'react-native';
-import PropTypes from 'prop-types';
+import {Text, View} from 'react-native';
 import styles from './styles';
 
-function IMNativeFBAdComponentView(props) {
-  const { nativeAd } = props;
+const {AdIconView, AdMediaView, AdTriggerView} = FacebookAds;
+
+function IMNativeFBAdComponentView(props)
+{
+  const {nativeAd} = props;
   /*
     The nativeAd object can contain the following properties:
         // advertiserName - The name of the Facebook Page or mobile app that represents the business running each ad.

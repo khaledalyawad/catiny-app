@@ -1,5 +1,6 @@
-import { StyleSheet, Dimensions } from 'react-native';
-import { ifIphoneX } from 'react-native-iphone-x-helper';
+import {Dimensions, StyleSheet} from 'react-native';
+import {ifIphoneX} from 'react-native-iphone-x-helper';
+
 const WINDOW_WIDTH = Dimensions.get('window').width;
 const WINDOW_HEIGHT = Dimensions.get('window').height;
 
@@ -103,7 +104,6 @@ const styles = StyleSheet.create({
     bottom: controlBottomPosition * 4.3,
     height: 50,
     width: '80%',
-    flexDirection: 'row',
     alignSelf: 'center',
     alignItems: 'center',
     justifyContent: 'center',

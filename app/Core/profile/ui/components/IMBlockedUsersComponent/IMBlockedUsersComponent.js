@@ -1,20 +1,22 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, FlatList, Image } from 'react-native';
-import { useColorScheme } from 'react-native-appearance';
+import {FlatList, Image, Text, TouchableOpacity, View} from 'react-native';
+import {useColorScheme} from 'react-native-appearance';
 import dynamicStyles from './styles';
-import { TNActivityIndicator, TNEmptyStateView } from '../../../../truly-native';
+import {TNActivityIndicator, TNEmptyStateView} from '../../../../truly-native';
 
-const IMBlockedUsersComponent = (props) => {
-  const { appStyles, blockedUsers, onUserUnblock, isLoading, emptyStateConfig } = props;
+const IMBlockedUsersComponent = (props) =>
+{
+  const {appStyles, blockedUsers, onUserUnblock, isLoading, emptyStateConfig} = props;
   const colorScheme = useColorScheme();
   const styles = dynamicStyles(appStyles, colorScheme);
   const defaultProfilePhotoURL = 'https://www.iosapptemplates.com/wp-content/uploads/2019/06/empty-avatar.jpg';
 
-  const renderItemView = ({ item }) => {
+  const renderItemView = ({item}) =>
+  {
     const profilePicture = item.profilePictureURL ? item.profilePictureURL : defaultProfilePhotoURL;
     return (
       <View style={styles.listItem}>
-        <Image source={{ uri: profilePicture }} style={styles.profilePicture} />
+        <Image source={{uri: profilePicture}} style={styles.profilePicture} />
         <View style={styles.centerItem}>
           <Text style={styles.text}>
             {item.firstName} {item.lastName}

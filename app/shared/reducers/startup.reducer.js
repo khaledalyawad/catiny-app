@@ -1,8 +1,8 @@
-import { createActions } from 'reduxsauce';
+import {createActions} from 'reduxsauce';
 
 /* ------------- Types and Action Creators ------------- */
 
-const { Types, Creators } = createActions({
+const {Types, Creators} = createActions({
   startup: null,
 });
 

@@ -1,14 +1,15 @@
-import React, { PureComponent, Fragment, useRef, useState, useEffect } from 'react';
+import React, {Fragment, useEffect, useRef, useState} from 'react';
 import PropTypes from 'prop-types';
-import { Modal } from 'react-native';
+import {Modal} from 'react-native';
 // import Modal from 'react-native-modalbox';
 import * as ImagePicker from 'expo-image-picker';
-import { Camera } from 'expo-camera';
+import {Camera} from 'expo-camera';
 import IMPreCamera from './IMPreCamera';
 import IMPostCamera from './IMPostCamera';
 import styles from './styles';
 
-export default function IMCameraModal(props) {
+export default function IMCameraModal(props)
+{
   const [cameraType, setCameraType] = useState(Camera.Constants.Type.back);
   const [flashMode, setFlashMode] = useState(Camera.Constants.FlashMode.off);
   const [isCameraPlay, setIsCameraPlay] = useState(true);
@@ -17,19 +18,24 @@ export default function IMCameraModal(props) {
 
   const cameraRef = useRef(null);
 
-  useEffect(() => {
-    if (imageSource?.uri) {
+  useEffect(() =>
+  {
+    if (imageSource?.uri)
+    {
       toggleCameraPlay();
     }
   }, [imageSource]);
 
-  const toggleCameraPlay = () => {
+  const toggleCameraPlay = () =>
+  {
     setIsCameraPlay((prevIsCameraPlay) => !prevIsCameraPlay);
   };
 
-  const onMediaFileAvailable = (mediaFile) => {
-    const { uri, type } = mediaFile;
-    if (props.muteRecord) {
+  const onMediaFileAvailable = (mediaFile) =>
+  {
+    const {uri, type} = mediaFile;
+    if (props.muteRecord)
+    {
       toggleCameraPlay();
       props.onStopRecordingVideo(mediaFile, videoRate);
       return;
@@ -42,54 +48,69 @@ export default function IMCameraModal(props) {
     });
   };
 
-  const takePicture = async () => {
-    if (props.useExternalSound) {
+  const takePicture = async () =>
+  {
+    if (props.useExternalSound)
+    {
       return;
     }
-    if (cameraRef.current) {
-      const options = { quality: 0.5, base64: true, pauseAfterCapture: true };
+    if (cameraRef.current)
+    {
+      const options = {quality: 0.5, base64: true, pauseAfterCapture: true};
       const file = await cameraRef.current.takePictureAsync(options);
       const uri = file.uri;
       console.log('takePicture', file);
-      if (uri) {
-        onMediaFileAvailable({ uri, type: 'image' });
+      if (uri)
+      {
+        onMediaFileAvailable({uri, type: 'image'});
       }
     }
   };
 
-  const recordVideo = async () => {
-    if (cameraRef.current) {
-      try {
+  const recordVideo = async () =>
+  {
+    if (cameraRef.current)
+    {
+      try
+      {
         props.onStartRecordingVideo && props.onStartRecordingVideo();
         const videoRecordPromise = cameraRef.current.recordAsync({
           mute: props.muteRecord,
           quality: '720p',
         });
 
-        if (videoRecordPromise) {
+        if (videoRecordPromise)
+        {
           const file = await videoRecordPromise;
           const uri = file.uri;
-          if (uri) {
-            onMediaFileAvailable({ uri, type: 'video' });
+          if (uri)
+          {
+            onMediaFileAvailable({uri, type: 'video'});
           }
         }
-      } catch (error) {
+      }
+      catch (error)
+      {
         console.error(error);
       }
     }
   };
 
-  const stopVideoRecording = () => {
-    if (cameraRef.current) {
+  const stopVideoRecording = () =>
+  {
+    if (cameraRef.current)
+    {
       cameraRef.current.stopRecording();
     }
   };
 
-  const onOpenPhotos = async () => {
+  const onOpenPhotos = async () =>
+  {
     const pickerMediaType = ImagePicker.MediaTypeOptions[props.pickerMediaType] ?? ImagePicker.MediaTypeOptions.All;
     let permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync(false);
 
-    if (permissionResult.granted === false) {
+    if (permissionResult.granted === false)
+    {
       return;
     }
 
@@ -97,48 +118,58 @@ export default function IMCameraModal(props) {
       mediaTypes: pickerMediaType,
     });
 
-    if (mediaFile.uri) {
+    if (mediaFile.uri)
+    {
       onMediaFileAvailable(mediaFile);
     }
   };
 
-  const onFlashToggle = () => {
+  const onFlashToggle = () =>
+  {
     let newFlashMode = Camera.Constants.FlashMode.torch;
 
-    if (flashMode === newFlashMode) {
+    if (flashMode === newFlashMode)
+    {
       newFlashMode = Camera.Constants.FlashMode.off;
     }
 
-    if (flashMode === Camera.Constants.FlashMode.off) {
+    if (flashMode === Camera.Constants.FlashMode.off)
+    {
       newFlashMode = Camera.Constants.FlashMode.torch;
     }
 
     setFlashMode(newFlashMode);
   };
 
-  const onCameraFlip = () => {
+  const onCameraFlip = () =>
+  {
     setCameraType(cameraType === Camera.Constants.Type.back ? Camera.Constants.Type.front : Camera.Constants.Type.back);
   };
 
-  const onCancelPostCamera = () => {
+  const onCancelPostCamera = () =>
+  {
     cameraRef.current.resumePreview();
     toggleCameraPlay();
     setImageSource('');
     props.onCancelPost && props.onCancelPost();
   };
 
-  const onPost = () => {
+  const onPost = () =>
+  {
     props.onImagePost(imageSource);
     toggleCameraPlay();
   };
 
-  const onVideoSpeedChange = (newSpeed) => {
+  const onVideoSpeedChange = (newSpeed) =>
+  {
     setVideoRate(newSpeed);
   };
 
-  const onVideoLoadStart = () => {};
+  const onVideoLoadStart = () =>
+  {
+  };
 
-  const { isCameraOpen, onCameraClose } = props;
+  const {isCameraOpen, onCameraClose} = props;
   const Container = props.wrapInModal ? Modal : Fragment;
   const modalProps = {
     style: styles.container,
