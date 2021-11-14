@@ -6,6 +6,7 @@ module.exports = {
   extends: ['@react-native-community', 'prettier', 'plugin:editorconfig/all'],
   rules: {
     'editorconfig/eol-last': 'off',
+    'editorconfig/indent': 'off',
     'prettier/prettier': 'off',
     'react-hooks/exhaustive-deps': "off",
   },

@@ -5,6 +5,7 @@
 import {mockData} from '../../onboarding/utils/api/local/localData';
 import LoginActions from '../../../modules/login/login.reducer';
 import configureStore from '../../../shared/reducers';
+import {ErrorCode} from "../../onboarding/utils/ErrorCode";
 
 const store = configureStore();
 
@@ -131,18 +132,21 @@ export const register = (userDetails, appIdentifier) =>
  * @param {String} email the email of current user
  * @param {String} password the password of current user
  */
-export const loginWithEmailAndPassword = async (email, password) =>
+export const loginWithEmailAndPassword = (email, password) =>
 {
   return new Promise(function (resolve, reject)
   {
-    store.dispatch(LoginActions.loginRequest(email, password));
-    // log into the app
-    // if success call
-    // resolve({ user: newUserData });
-    // or
-    // resolve({ error: ErrorCode.[the correct error code] });
-    // resolve({user: mockData})
-    resolve({user: mockData});
+    store.dispatch(LoginActions.loginRequest(email, password))
+    const unsubscribe = store.subscribe(listener =>
+    {
+      if (!store.getState().login.fetching)
+      {
+        store.getState().login.error ?
+          reject({error: ErrorCode.invalidPassword}) :
+          resolve({user: {...store.getState().account.masterUser}});
+        unsubscribe();
+      }
+    })
   });
 };
 

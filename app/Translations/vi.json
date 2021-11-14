@@ -68,7 +68,7 @@
   "The given password is invalid": "Mật khẩu đã cho không hợp lệ",
   "The email address is already in use by another account": "Địa chỉ email đã được một tài khoản khác sử dụng",
   "The password is invalid or the user does not have a password": "Mật khẩu không hợp lệ hoặc người dùng không có mật khẩu",
-  "There is no user record corresponding to this identifier": "Không có hồ sơ người dùng tương ứng với số nhận dạng này",
+  "There is no user record corresponding to this identifier. The user may have been deleted.": "Tài khoản này không tồn tại hoặc đã bị xóa.",
   "Something went wrong": "Đã xảy ra sự cố",
   "Too many unsuccessful login attempts": "Quá nhiều lần đăng nhập không thành công",
   "Confirm action": "Xác nhận hành động",

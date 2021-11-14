@@ -10,6 +10,10 @@ const {Types, Creators} = createActions({
   accountUpdateSuccess: [],
   accountUpdateFailure: ['error'],
   accountReset: [],
+
+  accountMasterUserRequest: [],
+  accountMasterUserSuccess: ['masterUser'],
+  accountMasterUserFailure: ['error'],
 });
 
 export const AccountTypes = Types;
@@ -22,6 +26,7 @@ export const INITIAL_STATE = Immutable({
   error: null,
   fetching: false,
   updating: false,
+  masterUser: null,
 });
 
 /* ------------- Reducers ------------- */
@@ -38,6 +43,10 @@ export const success = (state, data) =>
 
 // we've had a problem getting the account
 export const failure = (state, {error}) => state.merge({fetching: false, updating: false, account: null, error});
+
+export const accountMasterUserRequest = (state) => state.merge();
+export const accountMasterUserSuccess = (state, data) => state.merge({masterUser: data.masterUser});
+export const accountMasterUserFailure = (state, {error}) => state;
 
 // we're attempting to updating account settings
 export const updateRequest = (state) => state.merge({updating: true});
@@ -61,6 +70,9 @@ export const reducer = createReducer(INITIAL_STATE, {
   [Types.ACCOUNT_UPDATE_SUCCESS]: updateSuccess,
   [Types.ACCOUNT_UPDATE_FAILURE]: updateFailure,
   [Types.ACCOUNT_RESET]: reset,
+  [Types.ACCOUNT_MASTER_USER_REQUEST]: accountMasterUserRequest,
+  [Types.ACCOUNT_MASTER_USER_SUCCESS]: accountMasterUserSuccess,
+  [Types.ACCOUNT_MASTER_USER_FAILURE]: accountMasterUserFailure,
 });
 
 /* ------------- Selectors ------------- */

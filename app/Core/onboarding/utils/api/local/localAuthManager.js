@@ -5,7 +5,6 @@
 import {mockData} from './localData';
 import configureStore from '../../../../../shared/reducers';
 import LoginActions from '../../../../../modules/login/login.reducer';
-import api from '../../../../../shared/services';
 import ForgotPasswordActions from '../../../../../modules/account/password-reset/forgot-password.reducer';
 import {imageUrl} from '../../../../../shared/util/image-tools-util';
 import {authAPI} from '../../../../api';
@@ -23,52 +22,28 @@ const store = configureStore();
  **/
 const loginWithEmailAndPassword = (email, password) =>
 {
-  return new Promise(async function (resolve, reject)
+  return new Promise(function (resolve, reject)
   {
-    api.getCurrentMasterUser().then((response) =>
-    {
-      if (!response.error)
+    authAPI.loginWithEmailAndPassword(email, password)
+      .then((masterUser) =>
       {
-        const masterUser = response?.data;
-        resolve({
-          user: {
-            ...mockData,
-            id: masterUser.uuid,
-            userID: masterUser.uuid,
-            firstName: masterUser.user.firstName,
-            lastName: masterUser.user.lastName,
-            email: masterUser.user.email,
-            profilePictureURL: imageUrl(masterUser.avatar),
-          },
+        const user = {
+          id: masterUser.uuid,
+          userID: masterUser.uuid,
+          firstName: masterUser.user.firstName,
+          lastName: masterUser.user.lastName,
+          email: masterUser.user.email,
+          profilePictureURL: imageUrl(masterUser.avatar),
+          // stripeCustomerID,
+          // phone,
+          masterUser,
+        }
+        handleSuccessfulLogin(user, false).then((res) =>
+        {
+          resolve({user});
         });
-      }
-      else
-      {
-        store.dispatch(LoginActions.loginFailure(response));
-        resolve({error: response.error});
-      }
-    });
-
-    // authAPI.loginWithEmailAndPassword(email, password).then((response) => {
-    //   if (!response.error) {
-    //     handleSuccessfulLogin({ ...response.user }, false).then((res) => {
-    //       // Login successful, push token stored, login credential persisted, so we log the user in.
-    //       resolve({ user: res.user });
-    //     });
-    //   } else resolve({ error: response.error });
-    // });
-    // morkData takes the format of:
-    // const mockData = {
-    //   id,
-    //   userID,
-    //   stripeCustomerID,
-    //   phone,
-    //   email,
-    //   firstName,
-    //   lastName,
-    //   profilePictureURL,
-    // };
-    // resolve({ user: mockData });
+      })
+      .catch((error) => resolve({error: error.error}));
   });
 };
 
@@ -282,7 +257,7 @@ const handleSuccessfulLogin = (user, accountCreated) =>
 {
   // After a successful login, we fetch & store the device token for push notifications, location, online status, etc.
   // we don't wait for fetching & updating the location or push token, for performance reasons (especially on Android)
-  fetchAndStoreExtraInfoUponLogin(user, accountCreated);
+  // fetchAndStoreExtraInfoUponLogin(user, accountCreated);
 
   return new Promise((resolve) =>
   {

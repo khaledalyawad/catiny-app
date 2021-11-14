@@ -19,6 +19,12 @@ export function* getAccount(api)
     console.log('Account - FAIL');
     yield put(AccountActions.accountFailure((response.data && response.data.detail) || 'Failed to get account'));
   }
+
+  const masterUserResponse = yield call(api.getCurrentMasterUser)
+  if (masterUserResponse.ok)
+    yield put(AccountActions.accountMasterUserSuccess(response.data));
+  else
+    yield put(AccountActions.accountMasterUserFailure((response.data && response.data.detail) || 'Failed to get MasterUser'));
 }
 
 // attempts to update account settings
