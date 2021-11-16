@@ -19,12 +19,7 @@ export function* getAccount(api)
     console.log('Account - FAIL');
     yield put(AccountActions.accountFailure((response.data && response.data.detail) || 'Failed to get account'));
   }
-
-  const masterUserResponse = yield call(api.getCurrentMasterUser)
-  if (masterUserResponse.ok)
-    yield put(AccountActions.accountMasterUserSuccess(response.data));
-  else
-    yield put(AccountActions.accountMasterUserFailure((response.data && response.data.detail) || 'Failed to get MasterUser'));
+  yield getCurrentMasterUser(api);
 }
 
 // attempts to update account settings
@@ -45,4 +40,13 @@ export function* updateAccount(api, action)
     console.log('AccountUpdate - FAIL');
     yield put(AccountActions.accountUpdateFailure((response.data && response.data.detail) || 'Failed to update account'));
   }
+}
+
+export function* getCurrentMasterUser(api)
+{
+  const masterUserResponse = yield call(api.getCurrentMasterUser)
+  if (masterUserResponse.ok)
+    yield put(AccountActions.accountMasterUserSuccess(masterUserResponse.data));
+  else
+    yield put(AccountActions.accountMasterUserFailure((masterUserResponse.data && masterUserResponse.data.detail) || 'Failed to get MasterUser'));
 }

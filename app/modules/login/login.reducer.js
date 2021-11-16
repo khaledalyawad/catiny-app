@@ -10,6 +10,7 @@ const {Types, Creators} = createActions({
   logoutSuccess: null,
   loginLoad: [],
   loginLoadSuccess: [],
+  loginLoaded: [],
 });
 
 export const LoginTypes = Types;
@@ -23,6 +24,7 @@ export const INITIAL_STATE = Immutable({
   error: null,
   fetching: false,
   loading: false,
+  loaded: false,
 });
 
 /* ------------- Reducers ------------- */
@@ -45,6 +47,8 @@ export const load = (state) => state.merge({loading: true});
 
 export const loadSuccess = (state) => state.merge({loading: false});
 
+export const loginLoaded = (state) => state.merge({loaded: true});
+
 // we need to logout, meaning clear access tokens and account
 export const logoutRequest = (state) => state;
 
@@ -61,6 +65,7 @@ export const reducer = createReducer(INITIAL_STATE, {
   [Types.LOGIN_LOAD_SUCCESS]: loadSuccess,
   [Types.LOGOUT_REQUEST]: logoutRequest,
   [Types.LOGOUT_SUCCESS]: logoutSuccess,
+  [Types.LOGIN_LOADED]: loginLoaded,
 });
 
 /* ------------- Selectors ------------- */

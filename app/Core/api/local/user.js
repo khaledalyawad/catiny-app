@@ -3,6 +3,8 @@
  */
 
 import {mockData} from '../../onboarding/utils/api/local/localData';
+import {getMasterUser} from "../../../graphql/user.query";
+import {imageUrl} from "../../../shared/util/image-tools-util";
 
 /**Get user data
  *
@@ -17,7 +19,29 @@ export const getUserData = async (userId) =>
   //   error: 'Oops! an error occurred. Please try again',
   //   success: false,
   // };
-  return {data: mockData, success: true};
+  return getMasterUser(userId)
+    .then(({data}) =>
+    {
+      const masterUser = data.data.masterUser;
+      return {
+        data: {
+          id: masterUser.uuid,
+          userID: masterUser.uuid,
+          firstName: masterUser.user.firstName,
+          lastName: masterUser.user.lastName,
+          email: masterUser.user.email,
+          profilePictureURL: imageUrl(masterUser.avatar),
+          // stripeCustomerID,
+          // phone,
+          masterUser,
+        },
+        success: true
+      };
+    })
+    .catch(error => ({
+      error: 'Oops! an error occurred. Please try again',
+      success: false,
+    }));
 };
 
 /**

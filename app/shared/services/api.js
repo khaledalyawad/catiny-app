@@ -307,7 +307,16 @@ const create = (baseURL = AppConfig.apiUrl) =>
   const deleteHistoryUpdate = (historyUpdateId) => api.delete('api/history-updates/' + historyUpdateId);
   const searchHistoryUpdates = (query) => api.get('api/_search/history-updates', {query: query});
   // jhipster-react-native-api-method-needle
-  const graphqlQuery = (query) => api.post('/graphql', {query}, {headers: {'Content-Type': 'application/json'}});
+  const graphqlQuery = (query) =>
+  {
+    return new Promise((resolve, reject) =>
+    {
+      api.post('/graphql', {query}, {headers: {'Content-Type': 'application/json'}})
+        .then(response => response.data.errors ?
+          reject(response.data) :
+          resolve(response.data));
+    })
+  };
   const getCurrentMasterUser = () => api.get('/api/o/users');
   // ------
   // STEP 3

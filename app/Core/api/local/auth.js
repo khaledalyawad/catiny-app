@@ -6,6 +6,9 @@ import {mockData} from '../../onboarding/utils/api/local/localData';
 import LoginActions from '../../../modules/login/login.reducer';
 import configureStore from '../../../shared/reducers';
 import {ErrorCode} from "../../onboarding/utils/ErrorCode";
+import {UserUtils} from "../../../shared/util/user-utils";
+import {getMasterUser} from "../../../graphql/user.query";
+import ForgotPasswordActions from "../../../modules/account/password-reset/forgot-password.reducer";
 
 const store = configureStore();
 
@@ -29,7 +32,15 @@ const handleUserFromAuthStateChanged = (user, resolve) =>
 {
   //if user is in our database in call resolve({ ...userData, id: user.uid, userID: user.uid });
   //if user object is null or the user is not logged in then resolve(null)
-  resolve({user: mockData});
+  if (!user)
+    resolve(null);
+  getMasterUser(user.uid)
+    .then(masterUser =>
+    {
+      const user = UserUtils.masterUser2user(masterUser);
+      resolve({...user});
+    })
+    .catch(error => resolve(null));
 };
 
 /**
@@ -50,7 +61,6 @@ export const tryAlternatePersistedAuthUserRetriever = (resolve) =>
  */
 export const retrievePersistedAuthUser = () =>
 {
-  // return a promise
   return new Promise((resolve) =>
   {
     // retrieve saved user from local storage and verify that the user....
@@ -58,7 +68,18 @@ export const retrievePersistedAuthUser = () =>
     // if success call resolve({ ...userData, id: user.uid, userID: user.uid });
     // if error call resolve(null)
     // resolve(mockData);
-    resolve(null);
+    const unsubscribe = store.subscribe(l =>
+    {
+      if (store.getState().login.loaded && store.getState().account.masterUser)
+      {
+        const user = UserUtils.masterUser2user(store.getState().account.masterUser);
+        resolve({user});
+        unsubscribe();
+      }
+      else if (store.getState().login.loaded && !store.getState().login.authToken || store.getState().login.error)
+        resolve(null);
+    });
+    setTimeout(resolve, 5000);
   });
 };
 
@@ -69,7 +90,7 @@ export const retrievePersistedAuthUser = () =>
  */
 export const sendPasswordResetEmail = (email) =>
 {
-  //send password reset email
+  store.dispatch(ForgotPasswordActions.forgotPasswordRequest(email));
 };
 
 /**
@@ -141,10 +162,11 @@ export const loginWithEmailAndPassword = (email, password) =>
     {
       if (!store.getState().login.fetching)
       {
-        store.getState().login.error ?
-          reject({error: ErrorCode.invalidPassword}) :
-          resolve({user: {...store.getState().account.masterUser}});
-        unsubscribe();
+        const masterUser = store.getState().account.masterUser;
+        const user = UserUtils.masterUser2user(masterUser);
+        store.getState().login.error
+          ? reject({error: ErrorCode.invalidPassword})
+          : (masterUser && resolve({user}) && unsubscribe());
       }
     })
   });
@@ -210,7 +232,11 @@ export const loginWithFacebook = (accessToken, appIdentifier) =>
  */
 export const logout = () =>
 {
-  // sign out of app for all auth providers
+  return new Promise((resolve) =>
+  {
+    store.dispatch(LoginActions.logoutRequest());
+    resolve(null);
+  });
 };
 
 /**
@@ -392,7 +418,15 @@ export const getUserByID = async (userID) =>
    *    profilePictureURL,
    *  };
    */
-  return mockData;
+  if (!userID)
+    return null;
+  await getMasterUser(userID)
+    .then(masterUser =>
+    {
+      const user = UserUtils.masterUser2user(masterUser);
+      return {...user};
+    })
+    .catch(error => null);
 };
 /**This function irreversibly removes the user from the database and auth table
  *

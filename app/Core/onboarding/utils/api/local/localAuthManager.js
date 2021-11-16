@@ -4,9 +4,6 @@
 
 import {mockData} from './localData';
 import configureStore from '../../../../../shared/reducers';
-import LoginActions from '../../../../../modules/login/login.reducer';
-import ForgotPasswordActions from '../../../../../modules/account/password-reset/forgot-password.reducer';
-import {imageUrl} from '../../../../../shared/util/image-tools-util';
 import {authAPI} from '../../../../api';
 import Geolocation from '@react-native-community/geolocation';
 import * as Location from 'expo-location';
@@ -25,19 +22,8 @@ const loginWithEmailAndPassword = (email, password) =>
   return new Promise(function (resolve, reject)
   {
     authAPI.loginWithEmailAndPassword(email, password)
-      .then((masterUser) =>
+      .then(({user}) =>
       {
-        const user = {
-          id: masterUser.uuid,
-          userID: masterUser.uuid,
-          firstName: masterUser.user.firstName,
-          lastName: masterUser.user.lastName,
-          email: masterUser.user.email,
-          profilePictureURL: imageUrl(masterUser.avatar),
-          // stripeCustomerID,
-          // phone,
-          masterUser,
-        }
         handleSuccessfulLogin(user, false).then((res) =>
         {
           resolve({user});
@@ -81,6 +67,7 @@ const createAccountWithEmailAndPassword = (userDetails, appConfig) =>
 {
   return new Promise(function (resolve, _reject)
   {
+
     resolve({user: mockData});
     // morkData takes the format of:
     // const mockData = {
@@ -178,10 +165,10 @@ const sendPasswordResetEmail = (email) =>
 {
   return new Promise(function (resolve, reject)
   {
-    store.dispatch(ForgotPasswordActions.forgotPasswordRequest(email));
-    resolve({});
     // if (store.getState().forgotPassword.response) resolve({ data: store.getState().forgotPassword.response });
     // reject({ data: store.getState().forgotPassword.error });
+    authAPI.sendPasswordResetEmail(email)
+    resolve();
   });
 };
 
@@ -209,16 +196,16 @@ const loginWithSMSCode = () =>
   });
 };
 
-/*
- ** Logout out of the app
- **
- ** returns a promise that resolves to user data
- */
+/**
+ * Logout out of the app
+ *
+ * returns a promise that resolves to user data
+ **/
 const logout = () =>
 {
   return new Promise((resolve) =>
   {
-    store.dispatch(LoginActions.logoutRequest());
+    authAPI.logout();
     resolve(null);
   });
 };
@@ -227,8 +214,7 @@ const retrievePersistedAuthUser = () =>
 {
   return new Promise((resolve) =>
   {
-    console.log(store.getState().account);
-    resolve(null);
+    authAPI.retrievePersistedAuthUser().then(resolve);
   });
 };
 

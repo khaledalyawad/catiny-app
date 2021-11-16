@@ -3,6 +3,7 @@ import {call, put, select} from 'redux-saga/effects';
 import LoginActions from './login.reducer';
 import AccountActions from '../../shared/reducers/account.reducer';
 import WebsocketService from '../../shared/websockets/websocket.service';
+import {getCurrentMasterUser} from "../../shared/sagas/account.sagas";
 
 export const selectAuthToken = (state) => state.login.authToken;
 
@@ -45,6 +46,7 @@ export function* logout(api)
   yield put(AccountActions.accountRequest());
   yield put(LoginActions.logoutSuccess());
   yield put({type: 'RELOGIN_ABORT'});
+  yield put(LoginActions.loginLoaded());
 }
 
 // loads the login
@@ -56,6 +58,8 @@ export function* loginLoad(api)
   {
     yield call(api.setAuthToken, authToken);
     WebsocketService.setToken(authToken);
+    yield getCurrentMasterUser(api);
   }
   yield put(LoginActions.loginLoadSuccess());
+  yield put(LoginActions.loginLoaded());
 }
