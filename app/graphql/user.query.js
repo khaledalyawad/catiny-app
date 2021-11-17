@@ -1,4 +1,4 @@
-import API from "../shared/services/api";
+import GraphQL from "./GraphQL";
 
 export function getMasterUser(referenceUserId)
 {
@@ -20,5 +20,5 @@ export function getMasterUser(referenceUserId)
     }
   }
   `
-  return API.graphqlQuery(query).then(response => response.data);
+  return GraphQL.query(query);
 }

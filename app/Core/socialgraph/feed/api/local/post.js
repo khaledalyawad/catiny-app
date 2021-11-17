@@ -3,6 +3,8 @@
  */
 
 import {mockPostsData} from './localData';
+import PostQuery from "../../../../../graphql/PostQuery";
+import {post2PostIM} from "../../../../../mapper";
 
 // Mock data format:
 // [
@@ -61,7 +63,12 @@ export const subscribeToMainFeedPosts = (userID, callback) =>
   // every time there are changes in hashtags server side, we call the callback, e.g.
   // callback(feedPosts)
   // return postref
-  callback(mockPostsData);
+  PostQuery.allPost().then((data) =>
+  {
+    const posts = data.allPost.map(post2PostIM);
+    callback(posts);
+  });
+
   return postRef;
 };
 

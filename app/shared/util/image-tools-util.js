@@ -19,7 +19,10 @@ export const imageUrl = (jsonOrUrl) =>
     let jsonParsed;
     try
     {
-      jsonParsed = JSON.parse(jsonOrUrl);
+      if (typeof jsonOrUrl === "object")
+        jsonParsed = jsonOrUrl;
+      else
+        jsonParsed = JSON.parse(jsonOrUrl);
     }
     catch (e)
     {

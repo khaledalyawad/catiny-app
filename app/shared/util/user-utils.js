@@ -9,9 +9,9 @@ export class UserUtils
     return {
       id: masterUser.uuid,
       userID: masterUser.uuid,
-      firstName: masterUser.user.firstName,
-      lastName: masterUser.user.lastName,
-      email: masterUser.user.email,
+      firstName: masterUser.user?.firstName,
+      lastName: masterUser.user?.lastName,
+      email: masterUser.user?.email,
       profilePictureURL: imageUrl(masterUser.avatar),
       // stripeCustomerID,
       // phone,
