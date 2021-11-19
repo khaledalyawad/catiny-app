@@ -1,32 +1,24 @@
 import {UserUtils} from "../shared/util/user-utils";
 import {imageUrl} from "../shared/util/image-tools-util";
-import AppConfig from "../config/app-config"
+import {staticUrl} from "../shared/util/url-utils";
 
 
 export const post2PostIM = (post) =>
 {
-  const author = UserUtils.masterUser2user(post.info.owner);
+  const author = UserUtils.masterUser2user(post.info?.owner);
   const content = JSON.parse(post.content);
   const postText = content?.content;
-  const images = content?.images?.map(url =>
-  {
-    const ru = imageUrl(url);
-    const staticUrl = (ru.includes("http://") || ru.includes("https://"))
-      ? ru
-      : (AppConfig.apiUrl + ru);
-
-    return ({mime: 'image/jpeg', url: staticUrl})
-  });
-  // const videos = content?.videos?.map(url => ({mime:'video/mp4',url}));
-  const postMedia = images;
+  const images = content?.images?.map(url => ({mime: 'image/jpeg', url: imageUrl(url)}));
+  const videos = content?.videos?.map(url => ({mime: 'video/mp4', url: staticUrl(url)}));
+  const postMedia = images.concat(videos);
   return {
     author: {...author},
     authorID: post.info?.owner?.uuid,
-    commentCount: 0,
+    commentCount: post.commentsCount,
     createdAt: post.info?.createdDate,
     id: post.uuid,
     hashtags: [],
-    location: 'Miami, FL.',
+    location: 'Việt nam',
     postMedia,
     // postMedia: [
     //   {

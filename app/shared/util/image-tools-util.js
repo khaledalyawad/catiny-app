@@ -1,4 +1,5 @@
 import APP_CONFIG from '../../config/app-config';
+import {staticUrl} from "./url-utils";
 
 const DEFAULT_IMAGE = APP_CONFIG.apiUrl + '/content/images/logo/Catiny-logo-250x250.png';
 const DEFAULT_IMAGE_X3 = [DEFAULT_IMAGE, DEFAULT_IMAGE, DEFAULT_IMAGE];
@@ -14,27 +15,10 @@ const DEFAULT_IMAGE_X3 = [DEFAULT_IMAGE, DEFAULT_IMAGE, DEFAULT_IMAGE];
  */
 export const imageUrl = (jsonOrUrl) =>
 {
-  if (jsonOrUrl)
-  {
-    let jsonParsed;
-    try
-    {
-      if (typeof jsonOrUrl === "object")
-        jsonParsed = jsonOrUrl;
-      else
-        jsonParsed = JSON.parse(jsonOrUrl);
-    }
-    catch (e)
-    {
-      return jsonOrUrl;
-    }
-
-    if (!jsonParsed) return jsonOrUrl;
-    else if (jsonParsed)
-      if (jsonParsed.link) return jsonParsed.link;
-      else if (jsonParsed.url) return jsonParsed.url;
-  }
-  return DEFAULT_IMAGE;
+  const su = staticUrl(jsonOrUrl);
+  return su === "" || !su
+    ? DEFAULT_IMAGE
+    : su;
 };
 /**
  * ít nhất 3 ảnh

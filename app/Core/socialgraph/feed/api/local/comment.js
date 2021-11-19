@@ -2,6 +2,10 @@
  * Implement These Methods If You Are Adding Your Own Custom Backend
  */
 
+import PostQuery from "../../../../../graphql/PostQuery";
+import {imageUrl} from "../../../../../shared/util/image-tools-util";
+import api from "../../../../../shared/services";
+
 /**
  * Removes post from all friends timeline
  *
@@ -61,17 +65,37 @@ export const subscribeComments = (postId, callback) =>
 
   // initialise commentsRef
   const commentRef = null;
-  const comment = {
-    authorID: 'baXRjw3lIihmEOyqcXmN7mwuw0J2',
-    commentID: '0BUYKSyKGykvtigzU0ER',
-    commentText: 'Asik bgt Ni bangunan ',
-    createdAt: 'April 14, 2020 at 5:47:32 AM UTC+1',
-    id: '0BUYKSyKGykvtigzU0ER',
-    postID: 'SJIi6v1mzXd8PxRumMk9',
-    profilePictureURL: 'https://i.pinimg.com/originals/fb/d7/2a/fbd72a1440f9b17f09d1fb9cc5ffcef6.jpg',
-    firstName: 'Florian Marcu',
-  };
-  callback([comment]);
+  // const comment = {
+  //   authorID: 'baXRjw3lIihmEOyqcXmN7mwuw0J2',
+  //   commentID: '0BUYKSyKGykvtigzU0ER',
+  //   commentText: 'Asik bgt Ni bangunan ',
+  //   createdAt: 'April 14, 2020 at 5:47:32 AM UTC+1',
+  //   id: '0BUYKSyKGykvtigzU0ER',
+  //   postID: 'SJIi6v1mzXd8PxRumMk9',
+  //   profilePictureURL: 'https://i.pinimg.com/originals/fb/d7/2a/fbd72a1440f9b17f09d1fb9cc5ffcef6.jpg',
+  //   firstName: 'Florian Marcu',
+  // };
+  // callback([comment]);
+
+  PostQuery.postIncludesComments(postId).then(({post}) =>
+  {
+    const comments = post?.comments.map(comment =>
+    {
+      return {
+        authorID: comment?.info?.owner?.uuid,
+        commentID: comment?.uuid,
+        commentText: comment?.content,
+        createdAt: comment?.info?.createdDate,
+        id: comment?.uuid,
+        postID: postId,
+        profilePictureURL: imageUrl(comment?.info?.owner?.avatar),
+        firstName: comment?.info?.owner?.fullName,
+      }
+    });
+
+    callback(comments);
+  })
+
   return commentRef;
 };
 
@@ -179,7 +203,8 @@ export const addComment = async (comment, commentAuthor, post, followEnabled) =>
   // send out notification
   // update timeline
   // return { success: true, id: ref.id } or return { error, success: false };
-  return {error, success: false};
+  await api.uploadComment(comment?.commentText, post.id, null);
+  return {success: true};
 };
 
 /**

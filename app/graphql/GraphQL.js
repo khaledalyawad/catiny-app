@@ -15,7 +15,7 @@ export default class GraphQL
 
   static addInfo()
   {
-    return `\n
+    return `
     info
     {
       createdDate
@@ -34,8 +34,23 @@ export default class GraphQL
           email
         }
       }
-    }\n
+    }
     `
+  }
 
+  static withPageable(pageable)
+  {
+    if (!pageable)
+      return "";
+    const {page, size, sort} = pageable;
+    if (page || size || sort)
+      return `pageable: { ${page && "page: " + page},${size && "size: " + size},${sort && "sort: " + sort} }`
+    else
+      return "";
+  }
+
+  static onlyPageable(pageable)
+  {
+    return pageable ? `( ${GraphQL.withPageable(pageable)} )` : "";
   }
 }

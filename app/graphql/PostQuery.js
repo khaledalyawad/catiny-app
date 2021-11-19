@@ -3,7 +3,7 @@ import GraphQL from "./GraphQL";
 
 export default class PostQuery
 {
-  static allPost = () =>
+  static allPost = (pageable) =>
   {
     const query = `
     {
@@ -12,16 +12,49 @@ export default class PostQuery
         uuid
         content
         likesCount
+        commentsCount
         ${GraphQL.addInfo()}
       }
     }`
     return GraphQL.query(query);
   }
 
-  post2IMPost(post)
+  static postIncludesComments = (postId, pageable) =>
   {
-
+    const query = `
+    {
+      post(uuid: "${postId}")
+      {
+        uuid
+        content
+        commentsCount
+        comments${GraphQL.onlyPageable(pageable)}
+        {
+          uuid
+          content
+          ${GraphQL.addInfo()}
+        }
+        ${GraphQL.addInfo()}
+      }
+    }
+    `
+    return GraphQL.query(query);
   }
 
-
+  static postById(postId)
+  {
+    const query = `
+    {
+      post(uuid: "${postId}")
+      {
+        uuid
+        content
+        likesCount
+        commentsCount
+        ${GraphQL.addInfo()}
+      }
+    }
+    `
+    return GraphQL.query(query);
+  }
 }

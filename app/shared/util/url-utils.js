@@ -19,6 +19,8 @@
  * From: https://github.com/jhipster/react-jhipster/blob/1bf7272cc48c9b23c8daa6eb3a8bb5b7c957d245/src/util/url-utils.ts
  */
 
+import AppConfig from "../../config/app-config";
+
 /**
  * Parse the header link element and return all links inside.
  * @param header header of link
@@ -60,4 +62,44 @@ export const parseHeaderForLinks = (header) =>
     links[name] = page;
   });
   return links;
+};
+
+export const staticUrl = (jsonOrUrl) =>
+{
+  const HTTP = "http://";
+  const HTTPS = "https://";
+
+  let resultUrl = getUrl(jsonOrUrl);
+  resultUrl = resultUrl.startsWith("/") && resultUrl.slice(1);
+  if (resultUrl === "" || !resultUrl)
+    return resultUrl;
+  return (resultUrl.includes(HTTP) || resultUrl.includes(HTTPS))
+    ? resultUrl
+    : AppConfig.apiUrl.concat("/" + resultUrl);
+};
+
+export const getUrl = (jsonOrUrl) =>
+{
+  if (jsonOrUrl)
+  {
+    let jsonParsed;
+    try
+    {
+      if (typeof jsonOrUrl === "object")
+        jsonParsed = jsonOrUrl;
+      else
+        jsonParsed = JSON.parse(jsonOrUrl);
+    }
+    catch (e)
+    {
+      return jsonOrUrl;
+    }
+
+    if (!jsonParsed)
+      return jsonOrUrl;
+    else if (jsonParsed)
+      if (jsonParsed.link) return jsonParsed.link;
+      else if (jsonParsed.url) return jsonParsed.url;
+  }
+  return "";
 };

@@ -318,6 +318,14 @@ const create = (baseURL = AppConfig.apiUrl) =>
     })
   };
   const getCurrentMasterUser = () => api.get('/api/o/users');
+  const uploadComment = (content, postId, parentId) =>
+  {
+    const formData = new FormData();
+    formData.append("content", content);
+    formData.append("postId", postId);
+    parentId && formData.append("parentId", parentId);
+    return api.post('api/o/comments', formData);
+  }
   // ------
   // STEP 3
   // ------
@@ -593,6 +601,7 @@ const create = (baseURL = AppConfig.apiUrl) =>
     changePassword,
     graphqlQuery,
     getCurrentMasterUser,
+    uploadComment,
   };
 };
 

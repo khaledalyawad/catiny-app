@@ -138,16 +138,19 @@ export const subscribeToProfileFeedPosts = (userID, callback) =>
  **/
 export const subscribeToSinglePost = (postID, callback) =>
 {
-  // if (!postID) {
-  //   alert('No post ID in subscribeToSinglePost. Please try again');
-  //   return;
-  // }
+  if (!postID)
+  {
+    // alert('No post ID in subscribeToSinglePost. Please try again');
+    return;
+  }
   // subscribe to posts and get post object with same Id as postID
   //
   // call callback(post)
   //
   // call callback(null) if no post is returned
-  callback(mockPostsData[2]);
+  // callback(mockPostsData[2]);
+  PostQuery.postById(postID).then(({post}) => post2PostIM(post)).then(callback);
+
 };
 
 /**
